@@ -43,8 +43,9 @@ class Positions extends Component {
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ edit: true });
-        this.setState({ id });
+        this.setState({ edit: true, id });
+        setRules(rules,false);
+
         let data = await find(id);
         $('.modal').find('.modal-title').text('Editar cargo');
         $('.modal').find('#name').val(data.name);
@@ -53,8 +54,9 @@ class Positions extends Component {
     }
 
     handleModal() {
-        this.setState({ edit: false });
+        $('#form').trigger('reset');
         setRules(rules);
+
         this.setState({ message: 'Te recomendamos actualizar antes de agregar' , edit: false});
         $('.modal').find('.modal-title').text('Agregar cargo');
         $('.modal').modal('toggle');

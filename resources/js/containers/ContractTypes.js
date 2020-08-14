@@ -48,7 +48,6 @@ export const update = async (form, id) => {
         let fd = new FormData(form);
         fd.append('_token', token);
         fd.append('_method', 'PUT');
-        console.log(id);
         let res = await fetch(`/contract-types/${id}`, {
             method:'POST',
             body:fd
@@ -70,7 +69,6 @@ export const storeMass = async () => {
             }
         });
         let data = await res.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
