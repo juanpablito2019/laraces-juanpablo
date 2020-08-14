@@ -10,7 +10,7 @@ class CommitteeParameter extends Model
         'id',
         'name',
         'content',
-        'comitte_session_state_id'
+        'committee_session_state_id'
     ];
 
     public function committeeSessionState()

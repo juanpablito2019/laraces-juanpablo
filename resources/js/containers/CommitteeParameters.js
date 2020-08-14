@@ -51,7 +51,7 @@ export const update = async (form, id) => {
         let res = await fetch(`/committee-parameters/${id}`, {
             method:'POST',
             body:fd,
-            header:{
+            headers:{
                 accept :'application/json'
             }
         });
@@ -78,18 +78,20 @@ export const rules = {
         type: 'text',
         message: '',
         required: true,
-        min: 5,
         isEmpty: true,
-        isInvalid: true
+        isInvalid: true,
+        min:5
     },
     content: {
         type: 'text',
         name: 'contenido',
         message: '',
         required: true,
+        isEmpty: true,
+        isInvalid: true,
         min:5
     },
-    comitte_session_state_id:{
+    committee_session_state_id:{
         name:'Estado de comite',
         type:'numeric',
         message:'',

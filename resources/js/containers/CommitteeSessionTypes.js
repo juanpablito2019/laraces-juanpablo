@@ -51,7 +51,7 @@ export const update = async (form, id) => {
         let res = await fetch(`/committee-session-types/${id}`, {
             method:'POST',
             body:fd,
-            header:{
+            headers:{
                 accept :'application/json'
             }
         });

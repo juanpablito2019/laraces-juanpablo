@@ -25,7 +25,7 @@ class FormativeMeasureRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'min:6', 'unique:formative_measures']
         ];
 
@@ -39,6 +39,7 @@ class FormativeMeasureRequest extends FormRequest
             ];
 
         }
+        return $rules;
     }
 
     public function response(array $errors)

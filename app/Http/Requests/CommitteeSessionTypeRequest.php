@@ -37,8 +37,7 @@ class CommitteeSessionTypeRequest extends FormRequest
                 Rule::unique('committee_session_types')->ignore($committee_session_type)
             ];
         }
-
-    return $rules;
+        return $rules;
     }
 
     public function response(array $errors)
