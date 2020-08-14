@@ -99663,33 +99663,32 @@ var update = /*#__PURE__*/function () {
             fd = new FormData(form);
             fd.append('_token', token);
             fd.append('_method', 'PUT');
-            console.log(id);
-            _context4.next = 7;
+            _context4.next = 6;
             return fetch("/contract-types/".concat(id), {
               method: 'POST',
               body: fd
             });
 
-          case 7:
+          case 6:
             res = _context4.sent;
-            _context4.next = 10;
+            _context4.next = 9;
             return res.json();
 
-          case 10:
+          case 9:
             data = _context4.sent;
             return _context4.abrupt("return", data);
 
-          case 14:
-            _context4.prev = 14;
+          case 13:
+            _context4.prev = 13;
             _context4.t0 = _context4["catch"](0);
             console.log(_context4.t0);
 
-          case 17:
+          case 16:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[0, 14]]);
+    }, _callee4, null, [[0, 13]]);
   }));
 
   return function update(_x3, _x4) {
@@ -99720,20 +99719,19 @@ var storeMass = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
-            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 11:
-            _context5.prev = 11;
+          case 10:
+            _context5.prev = 10;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 14:
+          case 13:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 11]]);
+    }, _callee5, null, [[0, 10]]);
   }));
 
   return function storeMass() {
@@ -102636,20 +102634,19 @@ var storeMass = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
-            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 11:
-            _context5.prev = 11;
+          case 10:
+            _context5.prev = 10;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 14:
+          case 13:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 11]]);
+    }, _callee5, null, [[0, 10]]);
   }));
 
   return function storeMass() {
@@ -102804,20 +102801,19 @@ var store = /*#__PURE__*/function () {
 
           case 8:
             data = _context2.sent;
-            console.log(data);
             return _context2.abrupt("return", data);
 
-          case 13:
-            _context2.prev = 13;
+          case 12:
+            _context2.prev = 12;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
 
-          case 16:
+          case 15:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 13]]);
+    }, _callee2, null, [[0, 12]]);
   }));
 
   return function store(_x) {
@@ -102937,20 +102933,19 @@ var storeMass = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
-            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 11:
-            _context5.prev = 11;
+          case 10:
+            _context5.prev = 10;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 14:
+          case 13:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 11]]);
+    }, _callee5, null, [[0, 10]]);
   }));
 
   return function storeMass() {
@@ -105178,11 +105173,10 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
               case 0:
                 id = $(e.target).data('id');
                 this.setState({
-                  edit: true
-                });
-                this.setState({
+                  edit: true,
                   id: id
                 });
+                Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_3__["setRules"])(_containers_ContractTypes__WEBPACK_IMPORTED_MODULE_2__["rules"], false);
                 _context2.next = 5;
                 return Object(_containers_ContractTypes__WEBPACK_IMPORTED_MODULE_2__["find"])(id);
 
@@ -105209,9 +105203,7 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleModal",
     value: function handleModal() {
-      this.setState({
-        edit: false
-      });
+      $('#form').trigger('reset');
       Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_3__["setRules"])(_containers_ContractTypes__WEBPACK_IMPORTED_MODULE_2__["rules"]);
       this.setState({
         message: 'Te recomendamos actualizar antes de agregar',
@@ -110312,11 +110304,10 @@ var Positions = /*#__PURE__*/function (_Component) {
               case 0:
                 id = $(e.target).data('id');
                 this.setState({
-                  edit: true
-                });
-                this.setState({
+                  edit: true,
                   id: id
                 });
+                Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_3__["setRules"])(_containers_Positions__WEBPACK_IMPORTED_MODULE_2__["rules"], false);
                 _context2.next = 5;
                 return Object(_containers_Positions__WEBPACK_IMPORTED_MODULE_2__["find"])(id);
 
@@ -110344,9 +110335,7 @@ var Positions = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleModal",
     value: function handleModal() {
-      this.setState({
-        edit: false
-      });
+      $('#form').trigger('reset');
       Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_3__["setRules"])(_containers_Positions__WEBPACK_IMPORTED_MODULE_2__["rules"]);
       this.setState({
         message: 'Te recomendamos actualizar antes de agregar',

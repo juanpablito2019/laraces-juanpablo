@@ -69,7 +69,6 @@ export const storeMass = async () => {
             }
         });
         let data = await res.json();
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);

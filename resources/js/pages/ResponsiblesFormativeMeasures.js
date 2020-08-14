@@ -100,6 +100,7 @@ class ResponsiblesFormativeMeasures extends Component {
         let id = $(e.target).data('id');
         this.setState({ edit: true, id });
         setRules(rules,false);
+
         let data = await find(id);
         $('.modal').find('.modal-title').text('Editar responsable');
         $('.modal').find('#username').val(data.username);
