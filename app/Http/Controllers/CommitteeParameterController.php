@@ -29,7 +29,7 @@ class CommitteeParameterController extends Controller
         CommitteeParameter::create([
             'name' => $request->get('name'),
             'content' => $request->get('content'),
-            'comitte_session_state_id' => $request->get('comitte_session_state_id')
+            'committee_session_state_id' => $request->get('committee_session_state_id')
         ]);
         return response()->json([
             'success'=>true,
@@ -60,7 +60,7 @@ class CommitteeParameterController extends Controller
     {
         $committeeParameter->name = $request->get('name');
         $committeeParameter->content = $request->get('content');
-        $committeeParameter->comitte_session_state_id = $request->get('comitte_session_state_id');
+        $committeeParameter->committee_session_state_id = $request->get('committee_session_state_id');
         $committeeParameter->save();
         return response()->json([
             'success'=>true,

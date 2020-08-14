@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SanctionSeeder::class,
             CommitteeSessionTypeSeeder::class,
-            FormativeMeasureSeeder::class  
+            FormativeMeasureSeeder::class,
+            CommitteeSessionState::class 
         ]);
     }
 }

@@ -3,7 +3,6 @@ import { get, store, find, update, destroy, rules } from '../containers/Committe
 import { get as getCommitteeSessionStates } from '../containers/CommitteeSessionStates';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
-import Editor from '../components/Ckeditor';
 
 class CommitteeParameters extends Component {
     constructor(props) {
@@ -43,13 +42,15 @@ class CommitteeParameters extends Component {
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        setRules(rules, false);
         this.setState({ id, edit: true, message: null });
-        let data = await find(id);
-        $('.modal').find('.modal-title').text('Editar parametro de comite');
-        $('.modal').find('#name').val(data.name);
-        $('.modal').find('#type').val(data.type);
-        $('.modal').modal('toggle');
+        setRules(rules, false);
+        find(id).then(data => {
+            $('#name').val(data.name);
+            $('#content').val(data.content);
+            $('#committee_session_state_id').val(data.committee_session_state_id);
+            $('.modal').find('.modal-title').text('Editar programa de formacion');
+            $('.modal').modal('toggle');
+        })
     }
     search(e) {
         let { value } = e.target;
@@ -71,6 +72,8 @@ class CommitteeParameters extends Component {
                     if (data.success) {
                         this.getCommitteeParameters();
                         $('.modal').modal('toggle');
+                    }else{
+                        this.setState({ message: data.errors.name })
                     }
                 })
             } else {
@@ -78,13 +81,12 @@ class CommitteeParameters extends Component {
                     if (data.success) {
                         this.getCommitteeParameters();
                         $('.modal').modal('toggle');
+                    }else{
+                        this.setState({ message: data.errors.name })
                     }
                 });
             }
         } else {
-            console.log(rules.name);
-            console.log(rules.content);
-            console.log(rules.comitte_session_state_id);
             this.setState({ message: 'Por favor completa el formulario' })
         }
     }
@@ -119,9 +121,9 @@ class CommitteeParameters extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Parametros comite</h3>
-                        <a href="#" onClick={this.handleModal}>Agregar nuevo parametro</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parametro</a>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 d-none d-sm-block">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">Buscar</button>
@@ -133,7 +135,7 @@ class CommitteeParameters extends Component {
 
                 <div className="row mt-3">
                     <div className="col">
-                        <table className="table table-striped display nowrap" id="tabla">
+                        <table className="table table-striped display nowrap table-responsive-sm" id="tabla">
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
@@ -186,8 +188,8 @@ class CommitteeParameters extends Component {
                                         )}
                                     <div className="form-group">
                                         <div className="form-row">
-                                            <div className="col">
-                                            <label htmlFor="name">Nombre <span className="text-danger">*</span></label>
+                                            <div className="col-12">
+                                                <label htmlFor="">Nombre <span className="text-danger">*</span></label>
                                                 <input
                                                     type="text"
                                                     name="name"
@@ -199,24 +201,29 @@ class CommitteeParameters extends Component {
                                                     {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
                                                 </div>
                                             </div>
-                                            <div className="col">
-                                                <label htmlFor="comitte_session_state_id">Nombre sesión comite <span className="text-danger">*</span></label>
-                                                <select 
-                                                    name="comitte_session_state_id" 
-                                                    id="comitte_session_state_id" 
-                                                    className={rules.comitte_session_state_id.isInvalid && rules.comitte_session_state_id.message != ''?'form-control is-invalid':'form-control'}
-                                                    onInput={this.handleInput}>
-                                                    <option value="">Selecciona uno</option>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <div className="form-row">
+                                            <div className="col-12">
+                                                <label htmlFor="committee_session_state_id">Nombre estado comite <span className="text-danger">*</span></label>
+                                                <select
+                                                    name="committee_session_state_id"
+                                                    id="committee_session_state_id"
+                                                    className={rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != ''?'form-control is-invalid':'form-control'}
+                                                    onInput={this.handleInput}
+                                                >
+                                                    <option value="">Seleccion uno</option>
                                                     {this.state.committeeSessionStates.length>0?(
                                                         this.state.committeeSessionStates.map(committeeSessionState => (
                                                             <option key={committeeSessionState.id} value={committeeSessionState.id}>{committeeSessionState.name}</option>
                                                         ))
                                                     ):(
-                                                        <option value="">No hay parametros</option>
+                                                        <option value="">No hay tipos de programas</option>
                                                     )}
                                                 </select>
                                                 <div className="invalid-feedback">
-                                                    {rules.comitte_session_state_id.isInvalid && rules.comitte_session_state_id.message != '' ? rules.comitte_session_state_id.message : ''}
+                                                    {rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != '' ? rules.comitte_session_state_id.message : ''}
                                                 </div>
                                             </div>
                                         </div>
@@ -225,7 +232,14 @@ class CommitteeParameters extends Component {
                                         <div className="form-row">
                                             <div className="col">
                                                 <label htmlFor="content">Contenido <span className="text-danger">*</span></label>
-                                                <Editor/>
+                                                <textarea 
+                                                    className="form-control" 
+                                                    name="content"
+                                                    onInput={this.handleInput}
+                                                />
+                                                 <div className="invalid-feedback">
+                                                    {rules.content.isInvalid && rules.content.message != '' ? rules.content.message : ''}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
