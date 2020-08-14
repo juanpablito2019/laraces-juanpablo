@@ -105422,7 +105422,7 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
         type: "button",
         className: "btn btn-secondary",
         "data-dismiss": "modal"
-      }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      }, "Cancelar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         type: "submit",
         form: "form",
         className: "btn btn-primary"
@@ -110574,7 +110574,7 @@ var Positions = /*#__PURE__*/function (_Component) {
         type: "button",
         className: "btn btn-secondary",
         "data-dismiss": "modal"
-      }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      }, "Cancelar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         type: "submit",
         form: "form",
         className: "btn btn-primary"
@@ -111025,16 +111025,16 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fa fa-plus",
         "aria-hidden": "true"
-      }), " Agregar nuevo responsable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+      }), " Agregar ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "d-none d-md-inline "
+      }, "nuevo responsable")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleUpdate,
         className: "ml-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fa fa-download",
         "aria-hidden": "true"
-      }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
-        className: "d-none d-md-inline "
-      }, "Actualizar"), " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }), " Actualizar ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "d-6 d-lg-3 mr-3 ml-3 mt-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
