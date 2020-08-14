@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InfringementTypeResquest;
+use App\InfringementType;
 use Illuminate\Http\Request;
 
 class InfringementTypeController extends Controller
@@ -13,7 +15,7 @@ class InfringementTypeController extends Controller
      */
     public function index()
     {
-        return view('infringement_types.index');
+        return InfringementType::all();
     }
 
     /**
@@ -22,9 +24,16 @@ class InfringementTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InfringementTypeResquest $request)
     {
-        //
+        InfringementType::create([
+            'name' => $request->get('name')
+        ]);
+        return response()->json([
+            'status'=>201,
+            'success'=>true,
+            'message'=>'Tipo de infracción agregada exitosamente'
+        ]);
     }
 
     /**
@@ -33,9 +42,9 @@ class InfringementTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(InfringementType $infringementType)
     {
-        //
+        return $infringementType;
     }
 
     /**
@@ -45,9 +54,15 @@ class InfringementTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InfringementTypeResquest $request, InfringementType $infringementType)
     {
-        //
+        $infringementType->name = $request->get('name');
+        $infringementType->save();
+        return response()->json([
+            'status' => 200,
+            'success'=>true,
+            'message'=>'Tipo de infracción actualizada exitosamente'
+        ]);
     }
 
     /**
@@ -56,8 +71,13 @@ class InfringementTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(InfringementType $infringementType)
     {
-        //
+        $infringementType->delete();
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Tipo de infracción eliminada exitosamente'
+        ]);
     }
 }
