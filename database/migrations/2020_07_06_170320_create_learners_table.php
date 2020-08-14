@@ -22,7 +22,7 @@ class CreateLearnersTable extends Migration
             $table->string('email');
             $table->foreignId('group_id')->references('id')->on('groups');
             $table->date('birthdate')->nullable();
-            $table->string('status');
+            $table->string('status')->default('EN FORMACION');
             $table->string('photo')->nullable();
             $table->timestamps();
         });

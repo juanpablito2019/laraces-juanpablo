@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Committee;
 use Illuminate\Http\Request;
 
 class CommitteeController extends Controller
@@ -13,7 +14,7 @@ class CommitteeController extends Controller
      */
     public function index()
     {
-        return view('committees.index');
+        return Committee::all();
     }
 
     /**

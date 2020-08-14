@@ -11,6 +11,7 @@ import ContractTypes from "./pages/ContractTypes";
 import ResponsiblesFormativeMeasures from "./pages/ResponsiblesFormativeMeasures";
 import Modalities from "./pages/Modalities";
 import Groups from "./pages/Groups";
+import Committees from "./pages/Committees";
 import InfringementTypes from "./pages/InfringementTypes";
 import InfringementClassifications from "./pages/InfringementClassifications";
 import NoveltyTypes from "./pages/NoveltyTypes";
@@ -108,7 +109,7 @@ export default [
     {
         name: 'Comités',
         path: '/committees',
-        component: Learners
+        component: Committees
     },
 
     {
