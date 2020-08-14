@@ -103672,9 +103672,7 @@ var CommitteeParameters = /*#__PURE__*/function (_Component) {
         }, committeeSessionState.name);
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
         value: ""
-      }, "No hay tipos de programas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "invalid-feedback"
-      }, _containers_CommitteeParameters__WEBPACK_IMPORTED_MODULE_2__["rules"].committee_session_state_id.isInvalid && _containers_CommitteeParameters__WEBPACK_IMPORTED_MODULE_2__["rules"].committee_session_state_id.message != '' ? _containers_CommitteeParameters__WEBPACK_IMPORTED_MODULE_2__["rules"].comitte_session_state_id.message : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "No hay tipos de programas"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-row"
