@@ -222,9 +222,6 @@ class CommitteeParameters extends Component {
                                                         <option value="">No hay tipos de programas</option>
                                                     )}
                                                 </select>
-                                                <div className="invalid-feedback">
-                                                    {rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != '' ? rules.comitte_session_state_id.message : ''}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

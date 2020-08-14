@@ -104215,9 +104215,7 @@ var CommitteeParameters = /*#__PURE__*/function (_Component) {
         }, committeeSessionState.name);
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
         value: ""
-      }, "No hay tipos de programas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "invalid-feedback"
-      }, _containers_CommitteeParameters__WEBPACK_IMPORTED_MODULE_2__["rules"].committee_session_state_id.isInvalid && _containers_CommitteeParameters__WEBPACK_IMPORTED_MODULE_2__["rules"].committee_session_state_id.message != '' ? _containers_CommitteeParameters__WEBPACK_IMPORTED_MODULE_2__["rules"].comitte_session_state_id.message : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, "No hay tipos de programas"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-row"
@@ -107546,7 +107544,8 @@ var InfringementClassifications = /*#__PURE__*/function (_Component) {
               case 9:
                 Object(_containers_InfringementClassifications__WEBPACK_IMPORTED_MODULE_2__["store"])(e.target).then(function (data) {
                   if (data.success) {
-                    _this2.getInfringementClassification;
+                    _this2.getInfringementClassification();
+
                     $('.modal').modal('toggle');
                   } else {
                     _this2.setState({
@@ -107601,7 +107600,10 @@ var InfringementClassifications = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Clasificaci\xF3n de las Faltas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleModal
-      }, "Agregar nueva clasificaci\xF3n de infracci\xF3n")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-plus",
+        "aria-hidden": "true"
+      }), " Agregar nueva clasificaci\xF3n de infracci\xF3n")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
@@ -108039,7 +108041,10 @@ var InfringementTypes = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Tipos de Faltas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleModal
-      }, "Agregar nuevo tipo de infracci\xF3n")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-plus",
+        "aria-hidden": "true"
+      }), " Agregar nuevo tipo de infracci\xF3n")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
@@ -109868,7 +109873,10 @@ var NoveltyTypes = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Tipos de Novedades"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleModal
-      }, "Agregar nuevo tipo de Novedad")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-plus",
+        "aria-hidden": "true"
+      }), " Agregar nuevo tipo de Novedad")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "input-group mb-3"
