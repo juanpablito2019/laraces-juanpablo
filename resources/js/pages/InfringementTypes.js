@@ -114,7 +114,7 @@ class InfringementTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de Faltas</h3>
-                        <a href="#" onClick={this.handleModal}>Agregar nuevo tipo de infracción</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de infracción</a>
                     </div>
                     <div className="col-3">
                         <div className="input-group mb-3">
