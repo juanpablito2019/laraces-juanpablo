@@ -6,7 +6,7 @@ use App\ContractType;
 use App\Http\Requests\ContractTypeStoreRequest;
 use App\Http\Requests\ContractTypeUpdateRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Http;
 
 class ContractTypeController extends Controller
 {
@@ -85,6 +85,28 @@ class ContractTypeController extends Controller
 
     public function mass()
     {
-
+        $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
+            'misena_email'=>"consulta@misena.edu.co",
+            'password'=> "123456789110",
+        ]);
+        $token = $response->json()['token'];
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])->get('https://cronode.herokuapp.com/api/ces/contractTypes');
+        $data = $response->json()['contractTypes'];
+        for ($i=0; $i < count($data); $i++) {
+            $ContractTypes = ContractType::all();
+            if(!$ContractTypes->find($data[$i]['id'])){
+                ContractType::create([
+                    'id'=>$data[$i]['id'],
+                    'name'=>$data[$i]['name'],
+                ]);
+            }
+        }
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Tipos de contratos actualizados'
+        ]);
     }
 }

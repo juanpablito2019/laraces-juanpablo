@@ -29,12 +29,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('committee-session-types', 'CommitteeSessionTypeController');
     Route::resource('complainers', 'ComplainerController');
     Route::resource('contract-types', 'ContractTypeController');
+    Route::post('/contract-types/mass', 'ContractTypeController@mass');
     Route::resource('formation-programs', 'FormationProgramController');
     Route::post('formation-programs/mass/', 'FormationProgramController@mass');
     Route::resource('formation-program-types', 'FormationProgramTypeController');
     Route::post('formation-program-types/mass/', 'FormationProgramTypeController@mass');
     Route::resource('formative-measures', 'FormativeMeasureController');
     Route::resource('formative-measure-responsibles', 'FormativeMeasureResponsibleController');
+    Route::post('/formative-measure-responsibles/mass', 'FormativeMeasureResponsibleController@mass');
     Route::resource('groups', 'GroupController');
     Route::post('groups/mass', 'GroupController@mass');
     Route::get('groups/get-by-formation-program/{id}', 'GroupController@getByFormationProgram');
@@ -47,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('modalities/mass', 'ModalityController@mass');
     Route::resource('novelty-types', 'NoveltyTypeController');
     Route::resource('positions', 'PositionController');
+    Route::post('/positions/mass', 'PositionController@mass');
     Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
     Route::resource('stimulus', 'StimulusController');

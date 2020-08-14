@@ -26,6 +26,8 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^21.0.0",
         "@ckeditor/ckeditor5-react": "^2.1.0",
+        "composer": "^4.1.0",
+        "install": "^0.13.0",
         "jquery": "^3.5.1",
         "moment": "^2.27.0",
         "react-router-dom": "^5.2.0",

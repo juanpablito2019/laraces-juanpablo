@@ -22,4 +22,14 @@ class FormativeMeasureResponsible extends Model
         'photo',
         'state'
     ];
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function contractType()
+    {
+        return $this->belongsTo(ContractType::class);
+    }
 }

@@ -99506,7 +99506,7 @@ var get = /*#__PURE__*/function () {
 /*!**************************************************!*\
   !*** ./resources/js/containers/ContractTypes.js ***!
   \**************************************************/
-/*! exports provided: get, store, destroy, update, find, rules */
+/*! exports provided: get, store, destroy, update, storeMass, find, rules */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99515,6 +99515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeMass", function() { return storeMass; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rules", function() { return rules; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -99695,8 +99696,8 @@ var update = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var find = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+var storeMass = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
     var res, data;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
@@ -99704,7 +99705,13 @@ var find = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return fetch("/contract-types/".concat(id));
+            return fetch('/contract-types/mass', {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'X-CSRF-TOKEN': token
+              }
+            });
 
           case 3:
             res = _context5.sent;
@@ -99713,23 +99720,61 @@ var find = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
+            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 10:
-            _context5.prev = 10;
+          case 11:
+            _context5.prev = 11;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 11]]);
+  }));
+
+  return function storeMass() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+var find = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(id) {
+    var res, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return fetch("/contract-types/".concat(id));
+
+          case 3:
+            res = _context6.sent;
+            _context6.next = 6;
+            return res.json();
+
+          case 6:
+            data = _context6.sent;
+            return _context6.abrupt("return", data);
+
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
+
+          case 13:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 10]]);
   }));
 
   return function find(_x5) {
-    return _ref5.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 var rules = {
@@ -102378,7 +102423,7 @@ var rules = {
 /*!**********************************************!*\
   !*** ./resources/js/containers/Positions.js ***!
   \**********************************************/
-/*! exports provided: get, store, destroy, update, find, rules */
+/*! exports provided: get, store, destroy, update, storeMass, find, rules */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102387,6 +102432,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeMass", function() { return storeMass; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rules", function() { return rules; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -102566,8 +102612,8 @@ var update = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var find = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+var storeMass = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
     var res, data;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
@@ -102575,7 +102621,13 @@ var find = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return fetch("/positions/".concat(id));
+            return fetch('/positions/mass', {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'X-CSRF-TOKEN': token
+              }
+            });
 
           case 3:
             res = _context5.sent;
@@ -102584,23 +102636,61 @@ var find = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
+            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 10:
-            _context5.prev = 10;
+          case 11:
+            _context5.prev = 11;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 11]]);
+  }));
+
+  return function storeMass() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+var find = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(id) {
+    var res, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return fetch("/positions/".concat(id));
+
+          case 3:
+            res = _context6.sent;
+            _context6.next = 6;
+            return res.json();
+
+          case 6:
+            data = _context6.sent;
+            return _context6.abrupt("return", data);
+
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
+
+          case 13:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 10]]);
   }));
 
   return function find(_x5) {
-    return _ref5.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 var rules = {
@@ -102630,7 +102720,7 @@ var rules = {
 /*!******************************************************************!*\
   !*** ./resources/js/containers/ResponsiblesFormativeMeasures.js ***!
   \******************************************************************/
-/*! exports provided: get, store, destroy, update, find, rules */
+/*! exports provided: get, store, destroy, update, storeMass, find, rules */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102639,6 +102729,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeMass", function() { return storeMass; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rules", function() { return rules; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -102713,19 +102804,20 @@ var store = /*#__PURE__*/function () {
 
           case 8:
             data = _context2.sent;
+            console.log(data);
             return _context2.abrupt("return", data);
 
-          case 12:
-            _context2.prev = 12;
+          case 13:
+            _context2.prev = 13;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
 
-          case 15:
+          case 16:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 12]]);
+    }, _callee2, null, [[0, 13]]);
   }));
 
   return function store(_x) {
@@ -102789,7 +102881,10 @@ var update = /*#__PURE__*/function () {
             _context4.next = 6;
             return fetch("/formative-measure-responsibles/".concat(id), {
               method: 'POST',
-              body: fd
+              body: fd,
+              headers: {
+                'accept': 'application/json'
+              }
             });
 
           case 6:
@@ -102818,8 +102913,8 @@ var update = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var find = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+var storeMass = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
     var res, data;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
@@ -102827,7 +102922,13 @@ var find = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return fetch("/formative-measure-responsibles/".concat(id));
+            return fetch('/formative-measure-responsibles/mass', {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'X-CSRF-TOKEN': token
+              }
+            });
 
           case 3:
             res = _context5.sent;
@@ -102836,23 +102937,61 @@ var find = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
+            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 10:
-            _context5.prev = 10;
+          case 11:
+            _context5.prev = 11;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 11]]);
+  }));
+
+  return function storeMass() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+var find = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(id) {
+    var res, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return fetch("/formative-measure-responsibles/".concat(id));
+
+          case 3:
+            res = _context6.sent;
+            _context6.next = 6;
+            return res.json();
+
+          case 6:
+            data = _context6.sent;
+            return _context6.abrupt("return", data);
+
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
+
+          case 13:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 10]]);
   }));
 
   return function find(_x5) {
-    return _ref5.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 var rules = {
@@ -102861,6 +103000,7 @@ var rules = {
     name: 'Nombre',
     type: 'text',
     message: '',
+    min: 6,
     // Rules
     required: true,
     isEmpty: true,
@@ -102885,6 +103025,7 @@ var rules = {
   document_type: {
     name: 'tipo de documento',
     type: 'text',
+    max: 3,
     required: true,
     message: '',
     isEmpty: true,
@@ -102899,9 +103040,8 @@ var rules = {
     isInvalid: true
   },
   birthdate: {
-    name: 'cumpleaños',
+    name: 'Fecha de nacimiento',
     type: 'date',
-    required: true,
     message: '',
     isEmpty: true,
     isInvalid: true
@@ -102932,7 +103072,7 @@ var rules = {
   },
   position_id: {
     name: 'cargo',
-    type: 'text',
+    type: 'numeric',
     required: true,
     message: '',
     isEmpty: true,
@@ -102940,7 +103080,7 @@ var rules = {
   },
   contract_type_id: {
     name: 'tipo de contrato',
-    type: 'text',
+    type: 'numeric',
     required: true,
     message: '',
     isEmpty: true,
@@ -102948,14 +103088,6 @@ var rules = {
   },
   type: {
     name: 'tipo',
-    type: 'text',
-    required: true,
-    message: '',
-    isEmpty: true,
-    isInvalid: true
-  },
-  photo: {
-    name: 'foto',
     type: 'text',
     required: true,
     message: '',
@@ -104974,6 +105106,7 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.handleUpdate = _this.handleUpdate.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105009,6 +105142,20 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
 
       return getContractTypes;
     }()
+  }, {
+    key: "handleUpdate",
+    value: function handleUpdate() {
+      var _this2 = this;
+
+      this.setState({
+        contractTypes: null
+      });
+      Object(_containers_ContractTypes__WEBPACK_IMPORTED_MODULE_2__["storeMass"])().then(function (data) {
+        if (data.success) {
+          _this2.getContractTypes();
+        }
+      });
+    }
   }, {
     key: "handleInput",
     value: function handleInput(e) {
@@ -105203,7 +105350,7 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var rules = this.state.rules;
 
@@ -105218,7 +105365,19 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Tipos de contratos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleModal
-      }, "Agregar nuevo contrato"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-plus",
+        "aria-hidden": "true"
+      }), "Agregar nuevo contrato"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "#",
+        onClick: this.handleUpdate,
+        className: "ml-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-download",
+        "aria-hidden": "true"
+      }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "d-none d-md-inline "
+      }, "Actualizar"), " "))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row mt-3"
       }, this.state.contractTypes.length > 0 ? this.state.contractTypes.map(function (contractType) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -105235,11 +105394,11 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", null, contractType.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": contractType.id,
-          onClick: _this2.handleEdit
+          onClick: _this3.handleEdit
         }, "Editar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": contractType.id,
-          onClick: _this2.handleDelete,
+          onClick: _this3.handleDelete,
           className: "text-danger ml-3"
         }, "Eliminar"))))));
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -110027,6 +110186,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -110079,6 +110240,7 @@ var Positions = /*#__PURE__*/function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.handleUpdate = _this.handleUpdate.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -110114,6 +110276,20 @@ var Positions = /*#__PURE__*/function (_Component) {
 
       return getPositions;
     }()
+  }, {
+    key: "handleUpdate",
+    value: function handleUpdate() {
+      var _this2 = this;
+
+      this.setState({
+        positions: null
+      });
+      Object(_containers_Positions__WEBPACK_IMPORTED_MODULE_2__["storeMass"])().then(function (data) {
+        if (data.success) {
+          _this2.getPositions();
+        }
+      });
+    }
   }, {
     key: "handleInput",
     value: function handleInput(e) {
@@ -110315,7 +110491,7 @@ var Positions = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var rules = this.state.rules;
 
@@ -110330,13 +110506,25 @@ var Positions = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Cargos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleModal
-      }, "Agregar nuevo cargo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-plus",
+        "aria-hidden": "true"
+      }), "Agregar nuevo cargo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "#",
+        onClick: this.handleUpdate,
+        className: "ml-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-download",
+        "aria-hidden": "true"
+      }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "d-none d-md-inline "
+      }, "Actualizar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row mt-3"
       }, this.state.positions.length > 0 ? this.state.positions.map(function (position) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-          className: "col-12 col-md-6 col-lg-4 mb-2",
-          key: position.id
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", _defineProperty({
+          key: position.id,
+          className: "col-12 col-md-6 col-lg-4 mb-2"
+        }, "key", position.id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "card"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "card-body"
@@ -110351,11 +110539,11 @@ var Positions = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, position.type))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": position.id,
-          onClick: _this2.handleEdit
+          onClick: _this3.handleEdit
         }, "Editar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": position.id,
-          onClick: _this2.handleDelete,
+          onClick: _this3.handleDelete,
           className: "text-danger ml-3"
         }, "Eliminar"))));
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -110453,6 +110641,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _containers_Positions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../containers/Positions */ "./resources/js/containers/Positions.js");
 /* harmony import */ var _containers_Validator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../containers/Validator */ "./resources/js/containers/Validator.js");
 /* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Loader */ "./resources/js/components/Loader.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.browser.esm.js");
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -110488,6 +110677,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
   _inherits(ResponsiblesFormativeMeasures, _Component);
 
@@ -110505,28 +110695,21 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
       id: null,
       rules: _containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"],
       message: null,
-      columns: [{
-        title: 'Nombre',
-        data: 'username'
-      }, {
-        title: 'Correo Misena',
-        data: 'misena_email'
-      }, {
-        title: 'Documento',
-        data: 'document'
-      }, {
-        title: 'Telefono',
-        data: 'phone'
-      }, {
-        title: 'Acciones',
-        data: 'actions'
-      }]
+      positionId: 0,
+      optionsPositions: null,
+      contractTypes: null
     };
     _this.handleEdit = _this.handleEdit.bind(_assertThisInitialized(_this));
     _this.handleModal = _this.handleModal.bind(_assertThisInitialized(_this));
+    _this.handleUpdate = _this.handleUpdate.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.selectPosition = _this.selectPosition.bind(_assertThisInitialized(_this));
+    _this.selectContractType = _this.selectContractType.bind(_assertThisInitialized(_this));
+    _this.search = _this.search.bind(_assertThisInitialized(_this));
+    _this.getPositions = _this.getPositions.bind(_assertThisInitialized(_this));
+    _this.getContractTypes = _this.getContractTypes.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -110563,6 +110746,87 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
       return getResponsibles;
     }()
   }, {
+    key: "handleUpdate",
+    value: function handleUpdate() {
+      var _this2 = this;
+
+      this.setState({
+        responsibles: null
+      });
+      Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["storeMass"])().then(function (data) {
+        if (data.success) {
+          _this2.getResponsibles();
+        }
+      });
+    }
+  }, {
+    key: "getPositions",
+    value: function getPositions() {
+      var _this3 = this;
+
+      Object(_containers_Positions__WEBPACK_IMPORTED_MODULE_4__["get"])().then(function (data) {
+        var d = [];
+
+        for (var i = 0; i < data.length; i++) {
+          d.push({
+            label: data[i].name,
+            value: data[i].id
+          });
+        }
+
+        _this3.setState({
+          optionsPositions: d
+        });
+      });
+    }
+  }, {
+    key: "getContractTypes",
+    value: function getContractTypes() {
+      var _this4 = this;
+
+      Object(_containers_ContractTypes__WEBPACK_IMPORTED_MODULE_3__["get"])().then(function (data) {
+        _this4.setState({
+          contractTypes: data
+        });
+      });
+    }
+  }, {
+    key: "handleClick",
+    value: function handleClick() {
+      console.log('click');
+    }
+  }, {
+    key: "selectPosition",
+    value: function selectPosition(value) {
+      this.setState({
+        positionId: value
+      });
+      _containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"].position_id.isInvalid = false;
+    }
+  }, {
+    key: "selectContractType",
+    value: function selectContractType(value) {
+      _containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"].contract_type_id.isInvalid = false;
+      this.setState({
+        contracTypeId: value
+      });
+    }
+  }, {
+    key: "selectPhoto",
+    value: function selectPhoto(e) {
+      var input = e.target;
+
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('.img').attr('src', e.target.result).hide().fadeIn(1000);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  }, {
     key: "handleInput",
     value: function handleInput(e) {
       var _e$target = e.target,
@@ -110584,11 +110848,10 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
               case 0:
                 id = $(e.target).data('id');
                 this.setState({
-                  edit: true
-                });
-                this.setState({
+                  edit: true,
                   id: id
                 });
+                Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_5__["setRules"])(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"], false);
                 _context2.next = 5;
                 return Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["find"])(id);
 
@@ -110607,11 +110870,22 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
                 $('.modal').find('#position_id').val(data.position_id);
                 $('.modal').find('#contract_type_id').val(data.contract_type_id);
                 $('.modal').find('#type').val(data.type);
-                $('.modal').find('#photo').val(data.photo);
                 $('.modal').find('#state').val(data.state);
+
+                if (data.photo) {
+                  $('#modal').find('#temp').attr('src', "/storage/".concat(data.photo));
+                } else {
+                  $('#modal').find('.img').attr('src', "/img/no-photo.png");
+                }
+
+                this.setState({
+                  positionId: this.state.optionsPositions.find(function (o) {
+                    return o.value === data.position_id;
+                  })
+                });
                 $('.modal').modal('toggle');
 
-              case 22:
+              case 23:
               case "end":
                 return _context2.stop();
             }
@@ -110628,10 +110902,15 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleModal",
     value: function handleModal() {
+      $('#form').trigger('reset');
+      $('#temp').attr('src', '/img/no-photo.png');
+      Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_5__["setRules"])(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"]);
       this.setState({
-        edit: false
+        message: 'Te recomendamos importar antes de agregar uno nuevo',
+        edit: false,
+        positionId: null
       });
-      $('.modal').find('.modal-title').text('Agregar responsable');
+      $('.modal').find('.modal-title').text('Agregar responsable de medida formativa');
       $('.modal').modal('toggle');
     }
   }, {
@@ -110676,7 +110955,7 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
     key: "handleSubmit",
     value: function () {
       var _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(e) {
-        var data, _data;
+        var _this5 = this;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
@@ -110684,57 +110963,39 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
               case 0:
                 e.preventDefault();
 
-                if (!this.state.edit) {
-                  _context4.next = 12;
-                  break;
-                }
+                if (Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_5__["formValid"])(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"])) {
+                  if (this.state.edit) {
+                    Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["update"])(e.target, this.state.id).then(function (data) {
+                      if (data.success) {
+                        _this5.getResponsibles();
 
-                _context4.next = 4;
-                return Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["update"])(e.target, this.state.id);
+                        $('.modal').modal('toggle');
+                      } else {
+                        _this5.setState({
+                          message: data.errors.name
+                        });
+                      }
+                    });
+                  } else {
+                    Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["store"])(e.target).then(function (data) {
+                      if (data.success) {
+                        _this5.getResponsibles();
 
-              case 4:
-                data = _context4.sent;
-                console.log(data);
-                $('.modal').modal('toggle');
-                _context4.next = 9;
-                return this.getResponsibles();
-
-              case 9:
-                this.setState({
-                  edit: false
-                });
-                _context4.next = 20;
-                break;
-
-              case 12:
-                _context4.next = 14;
-                return Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["store"])(e.target);
-
-              case 14:
-                _data = _context4.sent;
-
-                if (_data.errors) {
-                  if (_data.errors.name) {
-                    $('input#name').addClass('is-invalid');
-                    $('#errorName').text(_data.errors.name);
+                        $('.modal').modal('hide');
+                      } else {
+                        _this5.setState({
+                          message: data.errors.name
+                        });
+                      }
+                    });
                   }
-
-                  if (_data.errors.type) {
-                    $('input#type').addClass('is-invalid');
-                    $('#errorType').text(_data.errors.type);
-                  }
+                } else {
+                  this.setState({
+                    message: 'Por favor completa el formulario'
+                  });
                 }
 
-                if (!_data.success) {
-                  _context4.next = 20;
-                  break;
-                }
-
-                $('.modal').modal('toggle');
-                _context4.next = 20;
-                return this.getPositions();
-
-              case 20:
+              case 2:
               case "end":
                 return _context4.stop();
             }
@@ -110749,16 +111010,42 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
       return handleSubmit;
     }()
   }, {
+    key: "tooltip",
+    value: function tooltip(e) {
+      $(e.target).tooltip();
+    }
+  }, {
+    key: "search",
+    value: function search(e) {
+      var value = e.target.value;
+      var matchs = this.state.responsibles.filter(function (responsible) {
+        var rgex = new RegExp("^".concat(value), 'gi');
+        return responsible.document.match(rgex) || responsible.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").match(rgex);
+      });
+
+      if (value.length === 0) {
+        this.getResponsibles();
+      }
+
+      this.setState({
+        responsibles: matchs
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.getResponsibles();
+      this.getPositions();
+      this.getContractTypes();
     }
   }, {
     key: "render",
     value: function render() {
+      var _this6 = this;
+
       var rules = this.state.rules;
 
-      if (!this.state.responsibles) {
+      if (!this.state.responsibles || !this.state.contractTypes) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_Loader__WEBPACK_IMPORTED_MODULE_6__["default"], null);
       }
 
@@ -110766,15 +111053,81 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Responsables"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Responsables de medidas formativas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         href: "#",
         onClick: this.handleModal
-      }, "Agregar nuevo responsable"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-plus",
+        "aria-hidden": "true"
+      }), " Agregar nuevo responsable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "#",
+        onClick: this.handleUpdate,
+        className: "ml-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-download",
+        "aria-hidden": "true"
+      }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "d-none d-md-inline "
+      }, "Actualizar"), " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "d-6 d-lg-3 mr-3 ml-3 mt-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group mb-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "input-group-prepend"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn btn-outline-primary",
+        type: "button",
+        id: "button-addon1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-search",
+        "aria-hidden": "true"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        onInput: this.search
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row mt-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("table", {
+        className: "table"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", {
+        className: "d-none d-lg-table-cell"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", {
+        className: "d-none d-md-table-cell"
+      }, "telefono"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", {
+        className: "d-none d-lg-table-cell"
+      }, "Cargo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "Acciones"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tbody", null, this.state.responsibles.length > 0 ? this.state.responsibles.map(function (responsible) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
+          key: responsible.id
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, responsible.document_type, " ", responsible.document), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, responsible.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
+          className: "d-none d-lg-table-cell"
+        }, responsible.misena_email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
+          className: "d-none d-md-table-cell"
+        }, responsible.phone), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
+          className: "d-none d-lg-table-cell"
+        }, responsible.position.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "btn-group",
+          role: "responsible",
+          "aria-label": "Basic example"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+          "data-id": responsible.id,
+          onClick: _this6.handleEdit,
+          className: "btn btn-sm btn-outline-primary"
+        }, "Editar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+          "data-id": responsible.id,
+          className: "btn btn-sm btn-outline-primary"
+        }, "Detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+          "data-id": responsible.id,
+          onClick: _this6.handleDelete,
+          className: "btn btn-sm btn-outline-danger"
+        }, "Eliminar"))));
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", {
+        colSpan: "6",
+        className: "text-center"
+      }, "No hay datos disponibles")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal",
+        id: "modal",
         tabIndex: "-1",
         role: "dialog"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -110795,9 +111148,72 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
       }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-body"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
-        id: "form",
-        onSubmit: this.handleSubmit
+        onSubmit: this.handleSubmit,
+        id: "form"
+      }, this.state.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "alert alert-info",
+        role: "alert"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-info-circle",
+        "aria-hidden": "true"
+      }), " ", this.state.message)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+        className: "nav nav-tabs",
+        id: "myTab",
+        role: "tablist"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item",
+        role: "presentation"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link active",
+        id: "home-tab",
+        "data-toggle": "tab",
+        href: "#personal",
+        role: "tab",
+        "aria-controls": "home",
+        "aria-selected": "true"
+      }, "Datos personales")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item",
+        role: "presentation"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link",
+        id: "profile-tab",
+        "data-toggle": "tab",
+        href: "#formation",
+        role: "tab",
+        "aria-controls": "profile",
+        "aria-selected": "false"
+      }, "Mas datos"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-content",
+        id: "myTabContent"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-pane fade show active mt-1",
+        id: "personal",
+        role: "tabpanel",
+        "aria-labelledby": "home-tab"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-4 mx-auto text-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "file",
+        name: "photo",
+        id: "photo",
+        className: "d-none",
+        onChange: this.selectPhoto
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "photo"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        src: "/img/no-photo.png",
+        alt: "no-photo",
+        className: "img-thumbnail img",
+        "data-toggle": "tooltip",
+        "data-placement": "left",
+        title: "Subir foto",
+        id: "temp",
+        onMouseOver: this.tooltip
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: ""
@@ -110809,13 +111225,199 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
         onInput: this.handleInput
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "invalid-feedback"
-      }, rules.username.isInvalid && rules.username.message != '' ? rules.username.message : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, rules.username.isInvalid && rules.username.message != '' ? rules.username.message : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Tipo de documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        name: "document_type",
+        id: "document_type",
+        className: rules.document_type.isInvalid && rules.document_type.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }, "Selecciona uno"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "CC"
+      }, "Cedula de ciudadania"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "TI"
+      }, "Tarjeta de identidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "CE"
+      }, "Cedula extranjera")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.document_type.isInvalid && rules.document_type.message != '' ? rules.document_type.message : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Numero de documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        name: "document",
+        id: "document",
+        className: rules.document.isInvalid && rules.document.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.document.isInvalid && rules.document.message != '' ? rules.document.message : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Correo mi Sena"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "email",
+        name: "misena_email",
+        id: "misena_email",
+        className: rules.misena_email.isInvalid && rules.misena_email.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.misena_email.isInvalid && rules.misena_email.message != '' ? rules.misena_email.message : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Correo institucional"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "email",
+        name: "institutional_email",
+        id: "institutional_email",
+        className: rules.institutional_email.isInvalid && rules.institutional_email.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.institutional_email.isInvalid && rules.institutional_email.message != '' ? rules.institutional_email.message : ''))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-pane fade mt-3",
+        id: "formation",
+        role: "tabpanel",
+        "aria-labelledby": "profile-tab"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "position_id"
+      }, "Cargo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_select__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        defaultValue: this.state.positionId,
+        value: this.state.positionId,
+        name: "position_id",
+        id: "position_id",
+        options: this.state.optionsPositions,
+        onChange: function onChange(value) {
+          return _this6.selectPosition(value);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback d-block"
+      }, rules.position_id.isInvalid && rules.position_id.message != '' ? rules.position_id.message : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Tipo contrato"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        className: rules.contract_type_id.isInvalid && rules.contract_type_id.message != '' ? 'form-control is-invalid' : 'form-control',
+        name: "contract_type_id",
+        id: "contract_type_id",
+        onInput: this.handleInput
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }, "Seleccione uno"), this.state.contractTypes.length > 0 ? this.state.contractTypes.map(function (contractType) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+          key: contractType.id,
+          value: contractType.id
+        }, contractType.name);
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", null, "No hay tipos de contratos")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.contract_type_id.isInvalid && rules.contract_type_id.message != '' ? rules.contract_type_id.message : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Celular"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        name: "phone",
+        id: "phone",
+        className: rules.phone.isInvalid && rules.phone.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.phone.isInvalid && rules.phone.message != '' ? rules.phone.message : 'form-control')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Telefono"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        name: "phone_ip",
+        id: "phone_ip",
+        className: rules.phone_ip.isInvalid && rules.phone_ip.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.phone_ip.isInvalid && rules.phone_ip.message != '' ? rules.phone_ip.message : 'form-control')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Fecha de nacimiento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "date",
+        name: "birthdate",
+        id: "birthdate",
+        className: rules.birthdate.isInvalid && rules.birthdate.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.birthdate.isInvalid && rules.birthdate.message != '' ? rules.birthdate.message : '')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Genero"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        name: "gender",
+        id: "gender",
+        className: rules.gender.isInvalid && rules.gender.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }, "Selecciona uno"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "M"
+      }, "Masculino"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "F"
+      }, "Femenino")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.gender.isInvalid && rules.gender.message != '' ? rules.gender.message : '')))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "type",
+        id: "type",
+        className: rules.type.isInvalid && rules.type.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.type.isInvalid && rules.type.message != '' ? rules.type.message : 'form-control')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "state",
+        id: "state",
+        className: rules.state.isInvalid && rules.state.message != '' ? 'form-control is-invalid' : 'form-control',
+        onInput: this.handleInput
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback"
+      }, rules.state.isInvalid && rules.state.message != '' ? rules.state.message : 'form-control')))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         type: "button",
         className: "btn btn-secondary",
         "data-dismiss": "modal"
-      }, "Close"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+      }, "Cancelar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         type: "submit",
         form: "form",
         className: "btn btn-primary"

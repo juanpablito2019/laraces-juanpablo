@@ -17,12 +17,12 @@ class CreateFormativeMeasureResponsiblesTable extends Migration
             $table->id();
             $table->string('username')->unique();
             $table->string('misena_email')->unique();
-            $table->string('institutional_email')->unique();
+            $table->string('institutional_email')->unique()->nullable();
             $table->string('document_type');
             $table->string('document');
             $table->date('birthdate');
             $table->string('phone')->unique();
-            $table->string('phone_ip');
+            $table->string('phone_ip')->nullable();
             $table->enum('gender', ['M', 'F']);
             $table->foreignId('position_id')->references('id')->on('positions');
             $table->foreignId('contract_type_id')->references('id')->on('contract_types');

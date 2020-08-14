@@ -59,6 +59,23 @@ export const update = async (form, id) => {
     }
 }
 
+export const storeMass = async () => {
+    try {
+        let res = await fetch('/positions/mass', {
+            method:'POST',
+            headers:{
+                'accept':'application/json',
+                'X-CSRF-TOKEN': token
+            }
+        });
+        let data = await res.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const find = async (id) => {
     try {
         let res = await fetch(`/positions/${id}`);
