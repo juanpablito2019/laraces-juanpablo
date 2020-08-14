@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { get, store, find, update, destroy, rules } from '../containers/Positions';
+import { get, store, find, update, destroy, rules,storeMass } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
 
@@ -18,11 +18,21 @@ class Positions extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
     }
 
     async getPositions() {
         let data = await get();
         this.setState({ positions: data });
+    }
+
+    handleUpdate() {
+        this.setState({ positions: null });
+        storeMass().then(data => {
+            if(data.success){
+                this.getPositions();
+            }
+        })
     }
 
     handleInput(e) {
@@ -108,6 +118,7 @@ class Positions extends Component {
                     <div className="col">
                         <h3>Cargos</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i>Agregar nuevo cargo</a>
+                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> <span className="d-none d-md-inline ">Actualizar</span></a>
                     </div>
                 </div>
                 <div className="row mt-3">

@@ -99506,7 +99506,7 @@ var get = /*#__PURE__*/function () {
 /*!**************************************************!*\
   !*** ./resources/js/containers/ContractTypes.js ***!
   \**************************************************/
-/*! exports provided: get, store, destroy, update, find, rules */
+/*! exports provided: get, store, destroy, update, storeMass, find, rules */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99515,6 +99515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeMass", function() { return storeMass; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rules", function() { return rules; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -99695,8 +99696,8 @@ var update = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var find = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+var storeMass = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
     var res, data;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
@@ -99704,7 +99705,13 @@ var find = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return fetch("/contract-types/".concat(id));
+            return fetch('/contract-types/mass', {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'X-CSRF-TOKEN': token
+              }
+            });
 
           case 3:
             res = _context5.sent;
@@ -99713,23 +99720,61 @@ var find = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
+            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 10:
-            _context5.prev = 10;
+          case 11:
+            _context5.prev = 11;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 11]]);
+  }));
+
+  return function storeMass() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+var find = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(id) {
+    var res, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return fetch("/contract-types/".concat(id));
+
+          case 3:
+            res = _context6.sent;
+            _context6.next = 6;
+            return res.json();
+
+          case 6:
+            data = _context6.sent;
+            return _context6.abrupt("return", data);
+
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
+
+          case 13:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 10]]);
   }));
 
   return function find(_x5) {
-    return _ref5.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 var rules = {
@@ -102378,7 +102423,7 @@ var rules = {
 /*!**********************************************!*\
   !*** ./resources/js/containers/Positions.js ***!
   \**********************************************/
-/*! exports provided: get, store, destroy, update, find, rules */
+/*! exports provided: get, store, destroy, update, storeMass, find, rules */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -102387,6 +102432,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "store", function() { return store; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destroy", function() { return destroy; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "update", function() { return update; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storeMass", function() { return storeMass; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "find", function() { return find; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rules", function() { return rules; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -102566,8 +102612,8 @@ var update = /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }();
-var find = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(id) {
+var storeMass = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
     var res, data;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
       while (1) {
@@ -102575,7 +102621,13 @@ var find = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return fetch("/positions/".concat(id));
+            return fetch('/positions/mass', {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'X-CSRF-TOKEN': token
+              }
+            });
 
           case 3:
             res = _context5.sent;
@@ -102584,23 +102636,61 @@ var find = /*#__PURE__*/function () {
 
           case 6:
             data = _context5.sent;
+            console.log(data);
             return _context5.abrupt("return", data);
 
-          case 10:
-            _context5.prev = 10;
+          case 11:
+            _context5.prev = 11;
             _context5.t0 = _context5["catch"](0);
             console.log(_context5.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 10]]);
+    }, _callee5, null, [[0, 11]]);
+  }));
+
+  return function storeMass() {
+    return _ref5.apply(this, arguments);
+  };
+}();
+var find = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(id) {
+    var res, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            _context6.next = 3;
+            return fetch("/positions/".concat(id));
+
+          case 3:
+            res = _context6.sent;
+            _context6.next = 6;
+            return res.json();
+
+          case 6:
+            data = _context6.sent;
+            return _context6.abrupt("return", data);
+
+          case 10:
+            _context6.prev = 10;
+            _context6.t0 = _context6["catch"](0);
+            console.log(_context6.t0);
+
+          case 13:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 10]]);
   }));
 
   return function find(_x5) {
-    return _ref5.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 var rules = {
@@ -104995,6 +105085,7 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.handleUpdate = _this.handleUpdate.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -105030,6 +105121,20 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
 
       return getContractTypes;
     }()
+  }, {
+    key: "handleUpdate",
+    value: function handleUpdate() {
+      var _this2 = this;
+
+      this.setState({
+        contractTypes: null
+      });
+      Object(_containers_ContractTypes__WEBPACK_IMPORTED_MODULE_2__["storeMass"])().then(function (data) {
+        if (data.success) {
+          _this2.getContractTypes();
+        }
+      });
+    }
   }, {
     key: "handleInput",
     value: function handleInput(e) {
@@ -105224,7 +105329,7 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var rules = this.state.rules;
 
@@ -105242,7 +105347,16 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fa fa-plus",
         "aria-hidden": "true"
-      }), "Agregar nuevo contrato"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }), "Agregar nuevo contrato"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "#",
+        onClick: this.handleUpdate,
+        className: "ml-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-download",
+        "aria-hidden": "true"
+      }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "d-none d-md-inline "
+      }, "Actualizar"), " "))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row mt-3"
       }, this.state.contractTypes.length > 0 ? this.state.contractTypes.map(function (contractType) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -105259,11 +105373,11 @@ var ContractTypes = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", null, contractType.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": contractType.id,
-          onClick: _this2.handleEdit
+          onClick: _this3.handleEdit
         }, "Editar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": contractType.id,
-          onClick: _this2.handleDelete,
+          onClick: _this3.handleDelete,
           className: "text-danger ml-3"
         }, "Eliminar"))))));
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -110103,6 +110217,7 @@ var Positions = /*#__PURE__*/function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.handleUpdate = _this.handleUpdate.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -110138,6 +110253,20 @@ var Positions = /*#__PURE__*/function (_Component) {
 
       return getPositions;
     }()
+  }, {
+    key: "handleUpdate",
+    value: function handleUpdate() {
+      var _this2 = this;
+
+      this.setState({
+        positions: null
+      });
+      Object(_containers_Positions__WEBPACK_IMPORTED_MODULE_2__["storeMass"])().then(function (data) {
+        if (data.success) {
+          _this2.getPositions();
+        }
+      });
+    }
   }, {
     key: "handleInput",
     value: function handleInput(e) {
@@ -110339,7 +110468,7 @@ var Positions = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var rules = this.state.rules;
 
@@ -110357,7 +110486,16 @@ var Positions = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
         className: "fa fa-plus",
         "aria-hidden": "true"
-      }), "Agregar nuevo cargo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }), "Agregar nuevo cargo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        href: "#",
+        onClick: this.handleUpdate,
+        className: "ml-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("i", {
+        className: "fa fa-download",
+        "aria-hidden": "true"
+      }), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        className: "d-none d-md-inline "
+      }, "Actualizar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row mt-3"
       }, this.state.positions.length > 0 ? this.state.positions.map(function (position) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -110378,11 +110516,11 @@ var Positions = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, position.type))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": position.id,
-          onClick: _this2.handleEdit
+          onClick: _this3.handleEdit
         }, "Editar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: "#",
           "data-id": position.id,
-          onClick: _this2.handleDelete,
+          onClick: _this3.handleDelete,
           className: "text-danger ml-3"
         }, "Eliminar"))));
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -112092,8 +112230,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/santiagobedoya/Documents/laravel/laraces/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/santiagobedoya/Documents/laravel/laraces/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\laraces\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\laraces\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

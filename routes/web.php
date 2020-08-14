@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('committee-session-types', 'CommitteeSessionTypeController');
     Route::resource('complainers', 'ComplainerController');
     Route::resource('contract-types', 'ContractTypeController');
+    Route::post('/contract-types/mass', 'ContractTypeController@mass');
     Route::resource('formation-programs', 'FormationProgramController');
     Route::post('formation-programs/mass/', 'FormationProgramController@mass');
     Route::resource('formation-program-types', 'FormationProgramTypeController');
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('modalities/mass', 'ModalityController@mass');
     Route::resource('novelty-types', 'NoveltyTypeController');
     Route::resource('positions', 'PositionController');
+    Route::post('/positions/mass', 'PositionController@mass');
     Route::resource('rols', 'RolController');
     Route::resource('sanctions', 'SanctionController');
     Route::resource('stimulus', 'StimulusController');

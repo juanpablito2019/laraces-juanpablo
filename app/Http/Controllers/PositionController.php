@@ -6,6 +6,7 @@ use App\Http\Requests\PositionStoreRequest;
 use App\Http\Requests\PositionUpdateRequest;
 use App\Position;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PositionController extends Controller
 {
@@ -81,6 +82,34 @@ class PositionController extends Controller
             'status'=>200,
             'success'=>true,
             'message'=>'Cargo eliminado exitosamente'
+        ]);
+    }
+
+    public function mass()
+    {
+        $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
+            'misena_email'=>"consulta@misena.edu.co",
+            'password'=> "123456789110",
+        ]);
+        $token = $response->json()['token'];
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$token
+        ])->get('https://cronode.herokuapp.com/api/ces/positions');
+        $data = $response->json()['positions'];
+        for ($i=0; $i < count($data); $i++) {
+            $Positions = Position::all();
+            if(!$Positions->find($data[$i]['id'])){
+                Position::create([
+                    'id'=>$data[$i]['id'],
+                    'name'=>$data[$i]['name'],
+                    'type'=>$data[$i]['type']
+                ]);
+            }
+        }
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Cargos actualizados'
         ]);
     }
 }

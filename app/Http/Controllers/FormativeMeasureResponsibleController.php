@@ -149,32 +149,33 @@ class FormativeMeasureResponsibleController extends Controller
             'Authorization' => 'Bearer '.$token
         ])->get('https://cronode.herokuapp.com/api/ces/instructors');
         $data = $response->json()['instructors'];
-        // for ($i=0; $i < count($data); $i++) {
-        //     $FormativeMeasureResponsibles = FormativeMeasureResponsible::all();
-        //     if(!$FormativeMeasureResponsibles->find($data[$i]['id'])){
-        //         $elective_start_date = date_parse($data[$i]['electiveStartDate']);
-        //         $elective_end_date = date_parse($data[$i]['electiveEndDate']);
-        //         $practice_start_date = date_parse($data[$i]['practiceStartDate']);
-        //         $practice_end_date = date_parse($data[$i]['practiceEndDate']);
-        //         FormativeMeasureResponsible::create([
-        //             'id'=>$data[$i]['id'],
-        //             'code_tab'=>$data[$i]['codeTab'],
-        //             'modality_id'=>$data[$i]['modalityId'],
-        //             'formation_program_id'=>$data[$i]['formationProgramId'],
-        //             'quantity_learners'=>$data[$i]['quantityLearners'],
-        //             'active_learners'=>$data[$i]['activeLearners'],
-        //             'elective_start_date'=>$elective_start_date['year']."-".$elective_start_date['month']."-".$elective_start_date['day'],
-        //             'elective_end_date'=>$elective_end_date['year']."-".$elective_end_date['month']."-".$elective_end_date['day'],
-        //             'practice_start_date'=>$practice_start_date['year']."-".$practice_start_date['month']."-".$practice_start_date['day'],
-        //             'practice_end_date'=>$practice_end_date['year']."-".$practice_end_date['month']."-".$practice_end_date['day'],
-        //         ]);
-        //     }
-        // }
+        for ($i=0; $i < count($data); $i++) {
+            $FormativeMeasureResponsibles = FormativeMeasureResponsible::all();
+            if(!$FormativeMeasureResponsibles->find($data[$i]['id'])){
+                $birthdate = date_parse($data[$i]['birthdate']);
+                FormativeMeasureResponsible::create([
+                    'id'=>$data[$i]['id'],
+                    'username'=>$data[$i]['username'],
+                    'misena_email'=>$data[$i]['misena_email'],
+                    'institutional_email'=>$data[$i]['institutional_email'],
+                    'document_type'=>'CC',
+                    'document'=>$data[$i]['document'],
+                    'phone'=>$data[$i]['phone'],
+                    'phone_ip'=>$data[$i]['phone_ip'],
+                    'gender'=>$data[$i]['gender'],
+                    'position_id'=>$data[$i]['positionId'],
+                    'contract_type_id'=>$data[$i]['contractTypeId'],
+                    'type'=>'Instructor',
+                    'state'=>$data[$i]['state'],
+                    'birthdate'=>$birthdate['year']."-".$birthdate['month']."-".$birthdate['day']
+                ]);
+            }
+        }
         return response()->json([
             'status'=>200,
             'success'=>true,
             'message'=>'Responsables de medidas formativas actualizados',
-            'FormativeMeasureResponsibles'=> $data
+            'FormativeMeasureResponsibles'=>$data
         ]);
     }
 }
