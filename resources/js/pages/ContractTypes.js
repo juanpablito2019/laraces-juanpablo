@@ -177,7 +177,7 @@ class ContractTypes extends Component {
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                 <button type="submit" form="form" className="btn btn-primary">Guardar</button>
                             </div>
                         </div>
