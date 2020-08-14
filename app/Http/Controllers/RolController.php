@@ -13,13 +13,9 @@ class RolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $rols = Rol::all();
-        if($request->wantsJson()){
-            return response()->json(compact('rols'));
-        }
-        return view('rols.index');
+        return Rol::all();
     }
 
     /**
