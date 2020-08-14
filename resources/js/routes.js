@@ -11,6 +11,9 @@ import ContractTypes from "./pages/ContractTypes";
 import ResponsiblesFormativeMeasures from "./pages/ResponsiblesFormativeMeasures";
 import Modalities from "./pages/Modalities";
 import Groups from "./pages/Groups";
+import InfringementTypes from "./pages/InfringementTypes";
+import InfringementClassifications from "./pages/InfringementClassifications";
+import NoveltyTypes from "./pages/NoveltyTypes";
 export default [
     {
         name: 'Home',
@@ -39,17 +42,17 @@ export default [
             {
                 name: 'Clasificacion de las faltas',
                 path: '/infringement-classifications',
-                component: Learners
+                component: InfringementClassifications
             },
             {
                 name: 'Tipos de faltas',
                 path: '/infringement-types',
-                component: Learners
+                component: InfringementTypes
             },
             {
                 name: 'Tipos de novedades',
                 path: '/novelty-types',
-                component: Learners
+                component: NoveltyTypes
             },
             {
                 name: 'Tipos de casos',

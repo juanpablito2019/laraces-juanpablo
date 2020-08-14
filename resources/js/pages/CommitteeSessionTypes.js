@@ -77,6 +77,8 @@ class CommitteeSessionTypes extends Component {
                     if (data.success) {
                         this.getCommitteeSessionTypes();
                         $('.modal').modal('toggle');
+                    }else{
+                        this.setState({ message: data.errors.name })
                     }
                 })
             } else {
@@ -113,7 +115,7 @@ class CommitteeSessionTypes extends Component {
                         <h3>Tipos de casos</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de caso</a>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 d-none d-sm-block">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -127,14 +129,14 @@ class CommitteeSessionTypes extends Component {
                 <div className="row mt-3">
                     {this.state.committeeSessionTypes.length > 0 ? (
                         this.state.committeeSessionTypes.map(committeeSessionType => (
-                            <div className="col-12 col-md-6 col-lg-6 mb-2" key={committeeSessionType.id}>
+                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={committeeSessionType.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-3">
+                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
                                                 <i className="fas fa-id-card-alt fa-5x text-secondary mt-2"></i>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
                                                 <h5 className="mb-4">{committeeSessionType.name}</h5>
                                                 <a href="#" data-id={committeeSessionType.id} onClick={this.handleEdit}>Editar</a>
                                                 <a href="#" data-id={committeeSessionType.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>

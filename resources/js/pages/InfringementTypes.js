@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { get, store, find, update, destroy, rules } from '../containers/FormativeMeasures';
-import { formValid, validate, setRules } from '../containers/Validator';
+import { get, store, find, update, destroy, rules } from '../containers/InfringementTypes';
+import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
 
-class FormativeMeasures extends Component {
+class InfringementTypes extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            formativeMeasures: null,
+            infringementTypes: null,
             edit: false,
             id: null,
+            message:null,
             rules: rules
         }
         this.handleEdit = this.handleEdit.bind(this);
@@ -20,35 +21,15 @@ class FormativeMeasures extends Component {
         this.search = this.search.bind(this);
     }
 
-    async getFormativeMeasures() {
+    async getInfringementTypes() {
         let data = await get();
-        this.setState({ formativeMeasures: data });
+        this.setState({ infringementTypes: data });
     }
 
     handleInput(e) {
         let { name, value } = e.target;
-        let newRules = validate(name, value, rules)
+        let newRules = validate(name, value, rules);
         this.setState({ rules: newRules });
-    }
-
-    search(e) {
-        let { value } = e.target;
-        let matches = this.state.formativeMeasures.filter(formativeMeasure => {
-            const rgex = new RegExp(`^${value}`, 'gi');
-            return formativeMeasure.name.match(rgex);
-        });
-        if (value.length === 0) {
-            this.getFormativeMeasures();
-        }
-        this.setState({ formativeMeasures: matches });
-    }
-
-    handleModal() {
-        setRules(rules);
-        $('#form').trigger('reset');
-        this.setState({ message: '', edit: false });
-        $('.modal').find('.modal-title').text('Agregar medida formativa');
-        $('.modal').modal('toggle');
     }
 
     async handleEdit(e) {
@@ -56,54 +37,74 @@ class FormativeMeasures extends Component {
         setRules(rules, false);
         this.setState({ id, edit: true, message: null });
         let data = await find(id);
-        $('.modal').find('.modal-title').text('Editar medida formativa');
+        $('.modal').find('.modal-title').text('Editar Tipo de Infracción');
         $('.modal').find('#name').val(data.name);
         $('.modal').modal('toggle');
     }
-    
+
+    handleModal() {
+        this.setState({ edit: false });
+        setRules(rules);
+        this.setState({ message: false, edit: false });
+        $('#form').trigger('reset');
+        $('.modal').find('.modal-title').text('Agregar Tipo de Infracción');
+        $('.modal').modal('toggle');
+    }
+
     async handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar esta medida formativa?');
+        let res = confirm('¿Estás seguro de eliminar este Tipo de Falta?');
         if (res) {
             let data = await destroy(id);
-            this.getFormativeMeasures();
+            this.getInfringementTypes();
         }
     }
 
-    handleSubmit(e) {
+    search(e) {
+        let { value } = e.target;
+        let matches = this.state.infringementTypes.filter(infringementType => {
+            const rgex = new RegExp(`^${value}`, 'gi');
+            return infringementType.name.match(rgex);
+        });
+        if (value.length === 0) {
+            this.getInfringementTypes();
+        }
+        this.setState({ infringementTypes: matches });
+    }
+
+    async handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
             if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
-                    if (data.success) {
-                        this.getFormativeMeasures();
-                        $('.modal').modal('toggle');
-                    }else{
-                        this.setState({ message: data.errors.name })
-                    }
-                })
+                let data = await update(e.target, this.state.id);
+                if (data.success) {
+                    this.getInfringementTypes();
+                    $('.modal').modal('toggle');
+                } else {
+                    this.setState({ message: data.errors.name })
+                }
             } else {
                 store(e.target).then(data => {
                     if (data.success) {
-                        this.getFormativeMeasures();
+                        this.getInfringementTypes();
                         $('.modal').modal('toggle');
-                    }else{
+                    } else {
                         this.setState({ message: data.errors.name })
                     }
-                });
+                })
             }
         } else {
-            this.setState({ message: 'Por favor completa el formulario' })
+            this.setState({ message: 'Por favor completa el formulario' });
         }
     }
 
     componentDidMount() {
-        this.getFormativeMeasures();
+        this.getInfringementTypes();
     }
-
+    
     render() {
         const { rules } = this.state;
-        if (!this.state.formativeMeasures) {
+        if (!this.state.infringementTypes) {
             return (
                 <Loader />
             )
@@ -112,10 +113,10 @@ class FormativeMeasures extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Medida formativa</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva medida formativa</a>
+                        <h3>Tipos de Faltas</h3>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de infracción</a>
                     </div>
-                    <div className="col-3 d-none d-sm-block">
+                    <div className="col-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -127,19 +128,16 @@ class FormativeMeasures extends Component {
                     </div>
                 </div>
                 <div className="row mt-3">
-                    {this.state.formativeMeasures.length > 0 ? (
-                        this.state.formativeMeasures.map(formativeMeasure => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={formativeMeasure.id}>
+                    {this.state.infringementTypes.length > 0 ? (
+                        this.state.infringementTypes.map(infringementType => (
+                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={infringementType.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
-                                                <i className="fas fa-calendar-check fa-5x text-secondary mt-2"></i>
-                                            </div>
-                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
-                                                <h5 className="mb-4">{formativeMeasure.name}</h5>
-                                                <a href="#" data-id={formativeMeasure.id} onClick={this.handleEdit}>Editar</a>
-                                                <a href="#" data-id={formativeMeasure.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                            <div className="col">
+                                                <h5>{infringementType.name}</h5>
+                                                <a  href="#" data-id={infringementType.id} onClick={this.handleEdit} >Editar</a>
+                                                <a  href="#" data-id={infringementType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
                                             </div>
                                         </div>
                                     </div>
@@ -152,6 +150,7 @@ class FormativeMeasures extends Component {
                             </div>
                         )}
                 </div>
+                {/* Modal Create */}
                 <div className="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -162,16 +161,17 @@ class FormativeMeasures extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <form id="form" onSubmit={this.handleSubmit}>
+                                <form id="form" onSubmit={this.handleSubmit} autoComplete="off">
                                     {this.state.message ? (
                                         <div className="alert alert-info" role="alert">
                                             <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
                                         </div>
-                                    ) : (
-                                            <div className=""></div>
+                                        ):(
+                                            <div></div>
                                         )}
+
                                     <div className="form-group">
-                                        <label htmlFor="">Nombre <span className="text-danger">*</span></label>
+                                        <label htmlFor="name">Nombre<span className="text-danger">*</span></label>
                                         <input
                                             type="text"
                                             name="name"
@@ -195,6 +195,7 @@ class FormativeMeasures extends Component {
             </>
         );
     }
+
 }
 
-export default FormativeMeasures;
+export default InfringementTypes;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
-class FormativeMeasureRequest extends FormRequest
+class InfringementTypeResquest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,26 +26,26 @@ class FormativeMeasureRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => ['required', 'string', 'min:6', 'unique:formative_measures']
+            'name' => ['required','string','min:5','unique:infringement_types']
         ];
 
-        if(in_array($this->method(), ['PUT', 'PATCH'])) {
-            $formative_measure = $this->route()->parameter('formative_measure');
+        if (in_array($this->method(), ['PUT','PATCH'])) {
+            $infringement_type = $this->route()->parameter('infringement_type');
             $rules['name'] = [
                 'required',
                 'string',
-                'min:6',
-                Rule::unique('formative_measures')->ignore($formative_measure)
+                'min:5',
+                Rule::unique('infringement_types')->ignore($infringement_type)
             ];
-
         }
+
         return $rules;
     }
 
     public function response(array $errors)
     {
-        if ($this->forceJsonResponse || $this->ajax() || $this->wantsJson()) {
-            return new JsonResponse($errors);
+        if ($this->expectsJson()) {
+            return new JsonResponse($errors, 422);
         }
     }
 }

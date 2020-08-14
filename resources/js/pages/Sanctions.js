@@ -76,6 +76,8 @@ class Sanctions extends Component {
                     if (data.success) {
                         this.getSanctions();
                         $('.modal').modal('toggle');
+                    }else{
+                        this.setState({ message: data.errors.name })
                     }
                 })
             } else {
@@ -110,7 +112,7 @@ class Sanctions extends Component {
                         <h3>Sanciones</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva sancion</a>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 d-none d-sm-block">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -124,14 +126,14 @@ class Sanctions extends Component {
                 <div className="row mt-3">
                     {this.state.sanctions.length > 0 ? (
                         this.state.sanctions.map(sanction => (
-                            <div className="col-12 col-md-6 col-lg-6 mb-2" key={sanction.id}>
+                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={sanction.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-3">
-                                                <i className="fas fa-balance-scale fa-5x text-secondary mt-2 mb-2"></i>
+                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                                <i className="fas fa-gavel fa-5x text-secondary mt-2 mb-2"></i>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
                                                 <h5 className="mb-4">{sanction.name}</h5>
                                                 <a href="#" data-id={sanction.id} onClick={this.handleEdit}>Editar</a>
                                                 <a href="#" data-id={sanction.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CommitteeParameterRequest extends FormRequest
 {
@@ -24,11 +25,27 @@ class CommitteeParameterRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'min:5', 'unique:committee_parameters'],
             'content' => ['required', 'string', 'min:5'],
-            'comitte_session_state_id' => ['required','integer', 'exists:comitte_session_state,id'],
+            'committee_session_state_id' => ['required','integer', 'exists:committee_session_states,id'],
         ];
+        if(in_array($this->method(), ['PUT', 'PATCH'])) {
+            $committee_parameter  = $this->route()->parameter('committee_parameter');
+            $rules['name'] = [
+                'required',
+                'string',
+                'min:5',
+                Rule::unique('committee_parameters')->ignore($committee_parameter)
+            ];
+            $rules['content'] = [
+                'required',
+                'string',
+                'min:5',
+                Rule::unique('committee_parameters')->ignore($committee_parameter)
+            ];
+        }
+        return $rules;
     }
 
     public function response(array $errors)

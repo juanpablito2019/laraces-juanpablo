@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InfringementClassificationRequest;
+use App\InfringementClassification;
 use Illuminate\Http\Request;
 
 class InfringementClassificationController extends Controller
@@ -13,7 +15,7 @@ class InfringementClassificationController extends Controller
      */
     public function index()
     {
-        return view('infringement_classifications.index');
+        return InfringementClassification::all();
     }
 
     /**
@@ -22,9 +24,16 @@ class InfringementClassificationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InfringementClassificationRequest $request)
     {
-        //
+        InfringementClassification::create([
+            'name' => $request->get('name')
+        ]);
+        return response()->json([
+            'status'=>201,
+            'success'=>true,
+            'message'=>'Clasificación de la infracción agregada exitosamente'
+        ]);
     }
 
     /**
@@ -33,9 +42,9 @@ class InfringementClassificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(InfringementClassification $infringementClassification)
     {
-        //
+        return $infringementClassification;
     }
 
     /**
@@ -45,9 +54,15 @@ class InfringementClassificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(InfringementClassificationRequest $request, InfringementClassification $infringementClassification)
     {
-        //
+        $infringementClassification->name = $request->get('name');
+        $infringementClassification->save();
+        return response()->json([
+            'status' => 200,
+            'success'=>true,
+            'message'=>'Clasificación de la infracción actualizada exitosamente'
+        ]);
     }
 
     /**
@@ -56,8 +71,13 @@ class InfringementClassificationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(InfringementClassification $infringementClassification)
     {
-        //
+        $infringementClassification->delete();
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Clasificación de la infracción eliminada exitosamente'
+        ]);
     }
 }

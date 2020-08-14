@@ -1,7 +1,8 @@
 const token = document.getElementById('token').content;
+
 export const get = async ()=>{
     try {
-        let res = await fetch('/committee-parameters');
+        let res = await fetch('/infringement-types');
         let data = await res.json();
         return data;
     } catch (error) {
@@ -9,11 +10,11 @@ export const get = async ()=>{
     }
 }
 
-export const store = async (form) => {
+export const store = async (form)=>{
     try {
         let fd = new FormData(form);
         fd.append('_token', token);
-        let res = await fetch('/committee-parameters', {
+        let res = await fetch('/infringement-types', {
             method:'POST',
             body:fd,
             headers:{
@@ -27,12 +28,12 @@ export const store = async (form) => {
     }
 }
 
-export const destroy = async (id) => {
+export const destroy = async (id)=>{
     try {
         let fd = new FormData();
         fd.append('_token', token);
         fd.append('_method', 'DELETE');
-        let res = await fetch(`/committee-parameters/${id}`, {
+        let res = await fetch(`/infringement-types/${id}`, {
             method:'POST',
             body:fd
         });
@@ -43,16 +44,16 @@ export const destroy = async (id) => {
     }
 }
 
-export const update = async (form, id) => {
+export const update = async (form, id)=>{
     try {
         let fd = new FormData(form);
         fd.append('_token', token);
         fd.append('_method', 'PUT');
-        let res = await fetch(`/committee-parameters/${id}`, {
+        let res = await fetch(`/infringement-types/${id}`, {
             method:'POST',
             body:fd,
             headers:{
-                accept :'application/json'
+                'accept':'application/json'
             }
         });
         let data = await res.json();
@@ -62,9 +63,9 @@ export const update = async (form, id) => {
     }
 }
 
-export const find = async (id) => {
+export const find = async (id)=>{
     try {
-        let res = await fetch(`/committee-parameters/${id}`);
+        let res = await fetch(`/infringement-types/${id}`);
         let data = await res.json();
         return data;
     } catch (error) {
@@ -73,32 +74,15 @@ export const find = async (id) => {
 }
 
 export const rules = {
-    name: {
-        name: 'nombre',
-        type: 'text',
-        message: '',
-        required: true,
-        isEmpty: true,
-        isInvalid: true,
-        min:5
-    },
-    content: {
-        type: 'text',
-        name: 'contenido',
-        message: '',
-        required: true,
-        isEmpty: true,
-        isInvalid: true,
-        min:5
-    },
-    committee_session_state_id:{
-        name:'Estado de comite',
-        type:'numeric',
+    name:{
+        // Propiedades de la tales
+        name:'nombre',
+        type:'text',
         message:'',
+        min:5,
+        // Reglas para validar
         required:true,
-        isEmpty: true,
+        isEmpty:true,
         isInvalid:true
     }
-};
-
-
+}
