@@ -10,6 +10,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import routes from './routes';
+import Rols from './pages/Rols';
+import Users from './pages/Users';
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -46,8 +48,8 @@ function App() {
                         {routes.map((route, index) => (
                             route.type == 'menu' ? (
                                 <li key={index}>
-                                    <a href={"#submenu"+index} data-toggle="collapse" aria-expanded="false">+ {route.name}</a>
-                                    <ul className="collapse list-unstyled" id={"submenu"+index}>
+                                    <a href={"#submenu" + index} data-toggle="collapse" aria-expanded="false">+ {route.name}</a>
+                                    <ul className="collapse list-unstyled" id={"submenu" + index}>
                                         {route.routes.map((subroute, index) => (
                                             <li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''}>
                                                 <Link to={prefix + subroute.path}>- {subroute.name}</Link>
@@ -79,9 +81,11 @@ function App() {
                                 <ul className="navbar-nav ml-auto">
                                     <li className="nav-item dropdown">
                                         <a className="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {authUsername}
+                                            {authUsername} <i className="fa fa-angle-down" aria-hidden="true"></i>
                                         </a>
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                            <Link className="dropdown-item" to={prefix + "/rols"}>Roles</Link>
+                                            <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
                                             <a className="dropdown-item" href="#">Cerrar session</a>
                                         </div>
                                     </li>
@@ -89,6 +93,16 @@ function App() {
                             </div>
                         </div>
                     </nav>
+                    <Route
+                        path={prefix + "/rols"}
+                        exact
+                        component={Rols}
+                    />
+                    <Route
+                        path={prefix + "/users"}
+                        exact
+                        component={Users}
+                    />
                     {routes.map((route, index) => (
                         route.type == 'menu' ? (
                             route.routes.map((subroute, index) => (
