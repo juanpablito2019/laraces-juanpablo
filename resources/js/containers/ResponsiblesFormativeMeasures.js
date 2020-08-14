@@ -21,6 +21,7 @@ export const store = async (form) => {
             }
         });
         let data = await res.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -50,9 +51,29 @@ export const update = async (form, id) => {
         fd.append('_method', 'PUT');
         let res = await fetch(`/formative-measure-responsibles/${id}`, {
             method:'POST',
-            body:fd
+            body:fd,
+            headers:{
+                'accept':'application/json'
+            }
         });
         let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const storeMass = async () => {
+    try {
+        let res = await fetch('/formative-measure-responsibles/mass', {
+            method:'POST',
+            headers:{
+                'accept':'application/json',
+                'X-CSRF-TOKEN': token
+            }
+        });
+        let data = await res.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -75,6 +96,7 @@ export const rules = {
         name: 'Nombre',
         type: 'text',
         message: '',
+        min:6,
         // Rules
         required: true,
         isEmpty: true,
@@ -99,6 +121,7 @@ export const rules = {
     document_type:{
         name:'tipo de documento',
         type:'text',
+        max:3,
         required:true,
         message:'',
         isEmpty: true,
@@ -113,9 +136,8 @@ export const rules = {
         isInvalid:true
     },
     birthdate:{
-        name:'cumpleaños',
+        name:'Fecha de nacimiento',
         type:'date',
-        required:true,
         message:'',
         isEmpty: true,
         isInvalid:true
@@ -146,7 +168,7 @@ export const rules = {
     },
     position_id:{
         name:'cargo',
-        type:'text',
+        type:'numeric',
         required:true,
         message:'',
         isEmpty: true,
@@ -154,7 +176,7 @@ export const rules = {
     },
     contract_type_id:{
         name:'tipo de contrato',
-        type:'text',
+        type:'numeric',
         required:true,
         message:'',
         isEmpty: true,
@@ -162,14 +184,6 @@ export const rules = {
     },
     type:{
         name:'tipo',
-        type:'text',
-        required:true,
-        message:'',
-        isEmpty: true,
-        isInvalid:true
-    },
-    photo:{
-        name:'foto',
         type:'text',
         required:true,
         message:'',

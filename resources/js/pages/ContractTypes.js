@@ -101,7 +101,7 @@ class ContractTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
-                        <a href="#" onClick={this.handleModal}>Agregar nuevo contrato</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i>Agregar nuevo contrato</a>
                     </div>
                 </div>
                 <div className="row mt-3">
