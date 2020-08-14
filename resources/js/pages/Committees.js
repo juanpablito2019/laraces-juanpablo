@@ -16,7 +16,7 @@ class Committees extends Component {
         this.setState({ committes: data });
     }
 
-    async handleModal(){
+    async handleModal() {
         $('.modal').find('.modal-title').text('Agregar comité');
         $('.modal').modal('toggle');
     }
@@ -80,8 +80,20 @@ class Committees extends Component {
                             <div className="modal-body">
                                 <form>
                                     <div className="form-group">
-                                        <label htmlFor="">Numero de acta</label>
-                                        <input type="text" name="record_number" id="record_number" className="form-control"/>
+                                        <div className="form-row">
+                                            <div className="col">
+                                                <label htmlFor="">Numero de acta</label>
+                                                <input type="text" name="record_number" id="record_number" className="form-control" />
+                                            </div>
+                                            <div className="col">
+                                                <label htmlFor="">Fecha</label>
+                                                <input type="text" name="date" id="date" className="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="">Asistentes</label>
+                                        <textarea name="assistants" id="assistants" className="form-control"></textarea>
                                     </div>
                                 </form>
                             </div>

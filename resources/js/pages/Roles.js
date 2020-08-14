@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 
-import {get} from '../containers/Rols';
+import {get} from '../containers/Roles';
 
-class Rols extends Component {
+class Roles extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -38,13 +38,16 @@ class Rols extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{rol.name}</h5>
-                                        <h6>{rol.description}</h6>
                                     </div>
                                 </div>
                             </div>
                         ))
                     ):(
-                        <p>No hay datos disponibles</p>
+                        <div className="row">
+                            <div className="col">
+                                <p>No hay datos disponibles</p>
+                            </div>
+                        </div>
                     )}
                 </div>
             </>
@@ -52,4 +55,4 @@ class Rols extends Component {
     }
 }
 
-export default Rols;
+export default Roles;

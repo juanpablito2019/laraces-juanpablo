@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
-import {get} from '../containers/User';
+import { get } from '../containers/User';
 
-class Users extends Component{
-    constructor(props){
+class Users extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             users: null
         }
     }
-    async getUsers(){
+    async getUsers() {
         let data = await get();
-        this.setState({users: data});
+        this.setState({ users: data });
     }
-    componentDidMount(){
+    componentDidMount() {
         this.getUsers();
     }
-    render(){
-        if(!this.state.users){
+    render() {
+        if (!this.state.users) {
             return <Loader />
         }
         return (
@@ -28,14 +28,23 @@ class Users extends Component{
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-2">
-                        <div className="card">
-                            <img src="/img/no-photo.png" alt="no-photo" className="card-img-top"/>
-                            <div className="card-body">
-                                <h5></h5>
+                    {this.state.users.length > 0 ? (
+                        this.state.users.map(user => (
+                            <div className="col-4">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5>{user.name}</h5>
+                                        <h6 className="text-muted">{user.email}</h6>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        ))
+                    ) : (
+                            <div className="col">
+                                <p>No hay datos disponibles</p>
+                            </div>
+                        )}
+
                 </div>
             </>
         )

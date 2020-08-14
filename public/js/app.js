@@ -98640,7 +98640,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var _pages_Rols__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Rols */ "./resources/js/pages/Rols.js");
+/* harmony import */ var _pages_Roles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Roles */ "./resources/js/pages/Roles.js");
 /* harmony import */ var _pages_Users__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Users */ "./resources/js/pages/Users.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -98760,7 +98760,7 @@ function App() {
     "aria-labelledby": "navbarDropdown"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     className: "dropdown-item",
-    to: prefix + "/rols"
+    to: prefix + "/roles"
   }, "Roles"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
     className: "dropdown-item",
     to: prefix + "/users"
@@ -98768,9 +98768,9 @@ function App() {
     className: "dropdown-item",
     href: "#"
   }, "Cerrar session"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-    path: prefix + "/rols",
+    path: prefix + "/roles",
     exact: true,
-    component: _pages_Rols__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _pages_Roles__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: prefix + "/users",
     exact: true,
@@ -102974,10 +102974,10 @@ var rules = {
 
 /***/ }),
 
-/***/ "./resources/js/containers/Rols.js":
-/*!*****************************************!*\
-  !*** ./resources/js/containers/Rols.js ***!
-  \*****************************************/
+/***/ "./resources/js/containers/Roles.js":
+/*!******************************************!*\
+  !*** ./resources/js/containers/Roles.js ***!
+  \******************************************/
 /*! exports provided: get, store, update, destroy, find */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -103006,7 +103006,7 @@ var get = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return fetch('/rols', {
+            return fetch('/roles', {
               headers: {
                 'accept': 'application/json'
               }
@@ -103049,7 +103049,7 @@ var store = /*#__PURE__*/function () {
             fd = new FormData(form);
             fd.append('_token', token);
             _context2.next = 5;
-            return fetch('/rols', {
+            return fetch('/roles', {
               method: 'POST',
               body: fd
             });
@@ -103092,7 +103092,7 @@ var update = /*#__PURE__*/function () {
             fd.append('_token', token);
             fd.append('_method', 'PUT');
             _context3.next = 6;
-            return fetch('/rols/' + id, {
+            return fetch('/roles/' + id, {
               method: 'POST',
               body: fd
             });
@@ -103135,7 +103135,7 @@ var destroy = /*#__PURE__*/function () {
             fd.append('_token', token);
             fd.append('_method', 'DELETE');
             _context4.next = 6;
-            return fetch('/rols/' + id, {
+            return fetch('/roles/' + id, {
               method: 'POST',
               body: fd
             });
@@ -103175,7 +103175,7 @@ var find = /*#__PURE__*/function () {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return fetch('/rols/' + id);
+            return fetch('/roles/' + id);
 
           case 3:
             res = _context5.sent;
@@ -104854,12 +104854,33 @@ var Committees = /*#__PURE__*/function (_Component) {
         className: "modal-body"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: ""
       }, "Numero de acta"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
         name: "record_number",
         id: "record_number",
+        className: "form-control"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Fecha"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "date",
+        id: "date",
+        className: "form-control"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Asistentes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        name: "assistants",
+        id: "assistants",
         className: "form-control"
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "modal-footer"
@@ -110809,10 +110830,10 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
-/***/ "./resources/js/pages/Rols.js":
-/*!************************************!*\
-  !*** ./resources/js/pages/Rols.js ***!
-  \************************************/
+/***/ "./resources/js/pages/Roles.js":
+/*!*************************************!*\
+  !*** ./resources/js/pages/Roles.js ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -110823,7 +110844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_Loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Loader */ "./resources/js/components/Loader.js");
-/* harmony import */ var _containers_Rols__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../containers/Rols */ "./resources/js/containers/Rols.js");
+/* harmony import */ var _containers_Roles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../containers/Roles */ "./resources/js/containers/Roles.js");
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -110856,15 +110877,15 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var Rols = /*#__PURE__*/function (_Component) {
-  _inherits(Rols, _Component);
+var Roles = /*#__PURE__*/function (_Component) {
+  _inherits(Roles, _Component);
 
-  var _super = _createSuper(Rols);
+  var _super = _createSuper(Roles);
 
-  function Rols(props) {
+  function Roles(props) {
     var _this;
 
-    _classCallCheck(this, Rols);
+    _classCallCheck(this, Roles);
 
     _this = _super.call(this, props);
     _this.state = {
@@ -110873,7 +110894,7 @@ var Rols = /*#__PURE__*/function (_Component) {
     return _this;
   }
 
-  _createClass(Rols, [{
+  _createClass(Roles, [{
     key: "getRols",
     value: function () {
       var _getRols = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -110883,7 +110904,7 @@ var Rols = /*#__PURE__*/function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Object(_containers_Rols__WEBPACK_IMPORTED_MODULE_3__["get"])();
+                return Object(_containers_Roles__WEBPACK_IMPORTED_MODULE_3__["get"])();
 
               case 2:
                 data = _context.sent;
@@ -110933,15 +110954,19 @@ var Rols = /*#__PURE__*/function (_Component) {
           className: "card-body"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
           className: "text-primary"
-        }, rol.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, rol.description))));
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "No hay datos disponibles")));
+        }, rol.name))));
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "No hay datos disponibles")))));
     }
   }]);
 
-  return Rols;
+  return Roles;
 }(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Rols);
+/* harmony default export */ __webpack_exports__["default"] = (Roles);
 
 /***/ }),
 
@@ -111464,17 +111489,19 @@ var Users = /*#__PURE__*/function (_Component) {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h3", null, "Usuarios"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "card"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
-        src: "/img/no-photo.png",
-        alt: "no-photo",
-        className: "card-img-top"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "card-body"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", null))))));
+      }, this.state.users.length > 0 ? this.state.users.map(function (user) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "col-4"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "card"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "card-body"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", null, user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+          className: "text-muted"
+        }, user.email))));
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "No hay datos disponibles"))));
     }
   }]);
 

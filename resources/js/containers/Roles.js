@@ -2,7 +2,7 @@ const token = document.getElementById('token').content;
 
 export const get = async function(){
     try {
-        let res = await fetch('/rols', {
+        let res = await fetch('/roles', {
             headers:{
                 'accept':'application/json'
             }
@@ -18,7 +18,7 @@ export const store = async function(form){
     try {
         let fd = new FormData(form)
         fd.append('_token', token);
-        let res = await fetch('/rols', {
+        let res = await fetch('/roles', {
             method:'POST',
             body: fd
         });
@@ -34,7 +34,7 @@ export const update = async function(form, id){
         let fd = new FormData(form)
         fd.append('_token', token);
         fd.append('_method', 'PUT');
-        let res = await fetch('/rols/'+id, {
+        let res = await fetch('/roles/'+id, {
             method:'POST',
             body: fd
         });
@@ -50,7 +50,7 @@ export const destroy = async function(id){
         let fd = new FormData()
         fd.append('_token', token);
         fd.append('_method', 'DELETE')
-        let res = await fetch('/rols/'+id, {
+        let res = await fetch('/roles/'+id, {
             method:'POST',
             body: fd
         });
@@ -63,7 +63,7 @@ export const destroy = async function(id){
 
 export const find = async function(id){
     try {
-        let res = await fetch('/rols/'+id);
+        let res = await fetch('/roles/'+id);
         let data = await res.json();
         return data;
     } catch (error) {

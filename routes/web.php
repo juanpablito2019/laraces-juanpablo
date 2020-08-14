@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('modalities/mass', 'ModalityController@mass');
     Route::resource('novelty-types', 'NoveltyTypeController');
     Route::resource('positions', 'PositionController');
-    Route::resource('rols', 'RolController');
+    Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
     Route::resource('stimulus', 'StimulusController');
     Route::resource('users', 'UserController');
