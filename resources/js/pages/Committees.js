@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { get } from '../containers/Committees';
+import { get, store } from '../containers/Committees';
 import Loader from '../components/Loader';
+import Ckeditor from '../components/Ckeditor';
 
 class Committees extends Component {
     constructor(props) {
@@ -19,6 +20,12 @@ class Committees extends Component {
     async handleModal() {
         $('.modal').find('.modal-title').text('Agregar comité');
         $('.modal').modal('toggle');
+    }
+
+    async handleSubmit(e){
+        e.preventDefault();
+        let data = await store(e.target);
+        console.log(data);
     }
 
     componentDidMount() {
@@ -78,7 +85,7 @@ class Committees extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                                <form onSubmit={this.handleSubmit} id="form">
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col">
@@ -93,13 +100,16 @@ class Committees extends Component {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="">Asistentes</label>
-                                        <textarea name="assistants" id="assistants" className="form-control"></textarea>
+                                        <Ckeditor 
+                                            name="assistants"
+                                            id="assistants"
+                                        />
                                     </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" className="btn btn-primary">Guardar</button>
+                                <button form="form" className="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                     </div>
