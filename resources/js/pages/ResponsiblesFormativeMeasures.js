@@ -25,6 +25,7 @@ class ResponsiblesFormativeMeasures extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.handleDetail = this.handleDetail.bind(this);
         this.selectPosition = this.selectPosition.bind(this);
         this.selectContractType = this.selectContractType.bind(this);
         this.search = this.search.bind(this);
@@ -44,6 +45,26 @@ class ResponsiblesFormativeMeasures extends Component {
                 this.getResponsibles();
             }
         })
+    }
+
+    async handleDetail(e) {
+        let id = $(e.target).data('id');
+        let data = await find(id);
+        $('#detail').find('.modal-title').text(`Informacion de ${data.username}`);
+        $('#detail').find('#username').text(data.username);
+        $('#detail').find('#document').text(`${data.document_type} ${data.document}`);
+        $('#detail').find('#misena_email').text(data.misena_email);
+        $('#detail').find('#institutional_email').text(data.institutional_email);
+        $('#detail').find('#birthdate').text(data.birthdate);
+        $('#detail').find('#phone').text(data.phone);
+        $('#detail').find('#gender').text(data.gender);
+        $('#detail').find('#position_id').text(data.position_id);
+        $('#detail').find('#contract_type_id').text(data.contract_type_id);
+        $('#detail').find('#type').text(data.type);
+        $('#detail').find('#state').text(data.state);
+        $('#detail').find('#photo').attr('src', data.photo ? "/storage/" + data.photo : '/img/no-photo.png');
+        $('#detail').modal('toggle');
+
     }
 
     getPositions() {
@@ -250,7 +271,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                             <td>
                                                 <div className="btn-group" role="responsible" aria-label="Basic example">
                                                     <button data-id={responsible.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                    <button data-id={responsible.id} className="btn btn-sm btn-outline-primary">Detalle</button>
+                                                    <button data-id={responsible.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary">Detalle</button>
                                                     <button data-id={responsible.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
                                                 </div>
                                             </td>
@@ -543,6 +564,110 @@ class ResponsiblesFormativeMeasures extends Component {
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                 <button type="submit" form="form" className="btn btn-primary">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="modal" id="detail" tabIndex="-1">
+                    <div className="modal-dialog modal-xl">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Modal title</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row">
+                                    <div className="col-3">
+                                        <div className="row">
+                                            <div className="col mx-auto">
+                                                <div className="card">
+                                                    <img src="" id="photo" className="card-img-top" alt="photo" />
+                                                    <div className="card-body">
+                                                        <h5 className="card-title" id="name">
+                                                        </h5>
+                                                        <div className="card-subtitle text-muted" id="username">
+                                                        </div>
+                                                        <div className="card-subtitle text-muted" id="document">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col">
+                                        <ul className="nav nav-tabs" id="myTab" role="tablist">
+                                            <li className="nav-item" role="presentation">
+                                                <a className="nav-link active" id="home-tab" data-toggle="tab" href="#information" role="tab" aria-controls="home" aria-selected="true">Informacion</a>
+                                            </li>
+                                            {/* <li className="nav-item" role="presentation">
+                                                <a className="nav-link" id="profile-tab" data-toggle="tab" href="#stimuli" role="tab" aria-controls="profile" aria-selected="false">Estimulos</a>
+                                            </li>
+                                            <li className="nav-item" role="presentation">
+                                                <a className="nav-link" id="contact-tab" data-toggle="tab" href="#history" role="tab" aria-controls="contact" aria-selected="false">Historial</a>
+                                            </li> */}
+                                        </ul>
+                                        <div className="tab-content" id="myTabContent">
+                                            <div className="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="home-tab">
+                                                <div className="row mt-3">
+                                                    <div className="col-6">
+                                                        <h6>Correo Mi Sena</h6>
+                                                        <h6 className="text-muted" id="misena_email"></h6>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <h6>Correo Institucional</h6>
+                                                        <h6 className="text-muted" id="institutional_email"></h6>
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Fecha nacimiento</h6>
+                                                        <h6 className="text-muted" id="birthdate"></h6>
+                                                    </div>
+                                                    <div className="col">
+                                                        <h6>Celular</h6>
+                                                        <h6 className="text-muted" id="phone"></h6>
+                                                    </div>
+                                                    <div className="col">
+                                                        <h6>Telefono</h6>
+                                                        <h6 className="text-muted" id="phone_ip"></h6>
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Cargo</h6>
+                                                        <h6 className="text-muted" id="position_id"></h6>
+                                                    </div>
+                                                    <div className="col">
+                                                        <h6>Tipo de contrato</h6>
+                                                        <h6 className="text-muted" id="contract_type_id"></h6>
+                                                    </div>
+                                                    <div className="col">
+                                                        <h6>Estado</h6>
+                                                        <h6 className="text-muted" id="state"></h6>
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Genero</h6>
+                                                        <h6 className="text-muted ml-3" id="gender"></h6>
+                                                    </div>
+                                                    <div className="col">
+                                                        <h6>Tipo</h6>
+                                                        <h6 className="text-muted" id="type"></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                                            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>

@@ -110671,6 +110671,7 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.handleDetail = _this.handleDetail.bind(_assertThisInitialized(_this));
     _this.selectPosition = _this.selectPosition.bind(_assertThisInitialized(_this));
     _this.selectContractType = _this.selectContractType.bind(_assertThisInitialized(_this));
     _this.search = _this.search.bind(_assertThisInitialized(_this));
@@ -110725,6 +110726,50 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
         }
       });
     }
+  }, {
+    key: "handleDetail",
+    value: function () {
+      var _handleDetail = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
+        var id, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                id = $(e.target).data('id');
+                _context2.next = 3;
+                return Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["find"])(id);
+
+              case 3:
+                data = _context2.sent;
+                $('#detail').find('.modal-title').text("Informacion de ".concat(data.username));
+                $('#detail').find('#username').text(data.username);
+                $('#detail').find('#document').text("".concat(data.document_type, " ").concat(data.document));
+                $('#detail').find('#misena_email').text(data.misena_email);
+                $('#detail').find('#institutional_email').text(data.institutional_email);
+                $('#detail').find('#birthdate').text(data.birthdate);
+                $('#detail').find('#phone').text(data.phone);
+                $('#detail').find('#gender').text(data.gender);
+                $('#detail').find('#position_id').text(data.position_id);
+                $('#detail').find('#contract_type_id').text(data.contract_type_id);
+                $('#detail').find('#type').text(data.type);
+                $('#detail').find('#state').text(data.state);
+                $('#detail').find('#photo').attr('src', data.photo ? "/storage/" + data.photo : '/img/no-photo.png');
+                $('#detail').modal('toggle');
+
+              case 18:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function handleDetail(_x) {
+        return _handleDetail.apply(this, arguments);
+      }
+
+      return handleDetail;
+    }()
   }, {
     key: "getPositions",
     value: function getPositions() {
@@ -110806,11 +110851,11 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleEdit",
     value: function () {
-      var _handleEdit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
+      var _handleEdit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
         var id, data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 id = $(e.target).data('id');
                 this.setState({
@@ -110818,11 +110863,11 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
                   id: id
                 });
                 Object(_containers_Validator__WEBPACK_IMPORTED_MODULE_5__["setRules"])(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["rules"], false);
-                _context2.next = 5;
+                _context3.next = 5;
                 return Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["find"])(id);
 
               case 5:
-                data = _context2.sent;
+                data = _context3.sent;
                 $('.modal').find('.modal-title').text('Editar responsable');
                 $('.modal').find('#username').val(data.username);
                 $('.modal').find('#misena_email').val(data.misena_email);
@@ -110853,13 +110898,13 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
 
               case 23:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
-      function handleEdit(_x) {
+      function handleEdit(_x2) {
         return _handleEdit.apply(this, arguments);
       }
 
@@ -110882,36 +110927,36 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleDelete",
     value: function () {
-      var _handleDelete = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(e) {
+      var _handleDelete = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(e) {
         var id, res, data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 id = $(e.target).data('id');
                 res = confirm('¿Estas seguro de eliminar este responsable?');
 
                 if (!res) {
-                  _context3.next = 7;
+                  _context4.next = 7;
                   break;
                 }
 
-                _context3.next = 5;
+                _context4.next = 5;
                 return Object(_containers_ResponsiblesFormativeMeasures__WEBPACK_IMPORTED_MODULE_2__["destroy"])(id);
 
               case 5:
-                data = _context3.sent;
+                data = _context4.sent;
                 this.getResponsibles();
 
               case 7:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function handleDelete(_x2) {
+      function handleDelete(_x3) {
         return _handleDelete.apply(this, arguments);
       }
 
@@ -110920,12 +110965,12 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function () {
-      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(e) {
+      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(e) {
         var _this5 = this;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 e.preventDefault();
 
@@ -110963,13 +111008,13 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
-      function handleSubmit(_x3) {
+      function handleSubmit(_x4) {
         return _handleSubmit.apply(this, arguments);
       }
 
@@ -111082,6 +111127,7 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
           className: "btn btn-sm btn-outline-primary"
         }, "Editar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
           "data-id": responsible.id,
+          onClick: _this6.handleDetail,
           className: "btn btn-sm btn-outline-primary"
         }, "Detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
           "data-id": responsible.id,
@@ -111387,7 +111433,153 @@ var ResponsiblesFormativeMeasures = /*#__PURE__*/function (_Component) {
         type: "submit",
         form: "form",
         className: "btn btn-primary"
-      }, "Guardar"))))));
+      }, "Guardar"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "modal",
+        id: "detail",
+        tabIndex: "-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "modal-dialog modal-xl"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "modal-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
+        className: "modal-title"
+      }, "Modal title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        type: "button",
+        className: "close",
+        "data-dismiss": "modal",
+        "aria-label": "Close"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+        "aria-hidden": "true"
+      }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "modal-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col mx-auto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("img", {
+        src: "",
+        id: "photo",
+        className: "card-img-top",
+        alt: "photo"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
+        className: "card-title",
+        id: "name"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-subtitle text-muted",
+        id: "username"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-subtitle text-muted",
+        id: "document"
+      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", {
+        className: "nav nav-tabs",
+        id: "myTab",
+        role: "tablist"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
+        className: "nav-item",
+        role: "presentation"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        className: "nav-link active",
+        id: "home-tab",
+        "data-toggle": "tab",
+        href: "#information",
+        role: "tab",
+        "aria-controls": "home",
+        "aria-selected": "true"
+      }, "Informacion"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-content",
+        id: "myTabContent"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-pane fade show active",
+        id: "information",
+        role: "tabpanel",
+        "aria-labelledby": "home-tab"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row mt-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Correo Mi Sena"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "misena_email"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Correo Institucional"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "institutional_email"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row mt-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Fecha nacimiento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "birthdate"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Celular"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "phone"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Telefono"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "phone_ip"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row mt-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Cargo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "position_id"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Tipo de contrato"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "contract_type_id"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "state"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row mt-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Genero"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted ml-3",
+        id: "gender"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", null, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
+        className: "text-muted",
+        id: "type"
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-pane fade",
+        id: "stimuli",
+        role: "tabpanel",
+        "aria-labelledby": "profile-tab"
+      }, "..."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "tab-pane fade",
+        id: "history",
+        role: "tabpanel",
+        "aria-labelledby": "contact-tab"
+      }, "..."))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "modal-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        type: "button",
+        className: "btn btn-secondary",
+        "data-dismiss": "modal"
+      }, "Cerrar"))))));
     }
   }]);
 
