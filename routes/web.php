@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('novelty-types', 'NoveltyTypeController');
     Route::resource('positions', 'PositionController');
     Route::post('/positions/mass', 'PositionController@mass');
-    Route::resource('rols', 'RolController');
+    Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
     Route::resource('stimulus', 'StimulusController');
     Route::resource('users', 'UserController');

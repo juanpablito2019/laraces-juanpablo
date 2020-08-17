@@ -10,7 +10,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import routes from './routes';
-import Rols from './pages/Rols';
+import Roles from './pages/Roles';
 import Users from './pages/Users';
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -84,7 +84,7 @@ function App() {
                                             {authUsername} <i className="fa fa-angle-down" aria-hidden="true"></i>
                                         </a>
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                            <Link className="dropdown-item" to={prefix + "/rols"}>Roles</Link>
+                                            <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
                                             <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
                                             <a className="dropdown-item" href="#">Cerrar session</a>
                                         </div>
@@ -94,9 +94,9 @@ function App() {
                         </div>
                     </nav>
                     <Route
-                        path={prefix + "/rols"}
+                        path={prefix + "/roles"}
                         exact
-                        component={Rols}
+                        component={Roles}
                     />
                     <Route
                         path={prefix + "/users"}

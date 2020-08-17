@@ -12,19 +12,16 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('rols')->insert([
+        DB::table('roles')->insert([
             [
                 'id'=>1,
                 'name'=>'Administrador',
-                'description'=>'Tiene acceso a todo'
             ],[
                 'id'=>2,
                 'name'=>'Coordinador',
-                'description'=>'Tiene acceso a menos cosas que el admin'
             ],[
                 'id'=>3,
                 'name'=>'Subdirector',
-                'description'=>'Tiene acceso a menos cosas que el coordinador'
             ]
         ]);
     }

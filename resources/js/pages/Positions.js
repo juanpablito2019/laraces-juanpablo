@@ -126,7 +126,7 @@ class Positions extends Component {
                 <div className="row mt-3">
                     {this.state.positions.length > 0 ? (
                         this.state.positions.map(position => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={position.id}>
+                            <div key={position.id} className="col-12 col-md-6 col-lg-4 mb-2" key={position.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">

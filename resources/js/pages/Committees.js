@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { get } from '../containers/Committees';
+import { get, store } from '../containers/Committees';
 import Loader from '../components/Loader';
+import Ckeditor from '../components/Ckeditor';
 
 class Committees extends Component {
     constructor(props) {
@@ -16,9 +17,15 @@ class Committees extends Component {
         this.setState({ committes: data });
     }
 
-    async handleModal(){
+    async handleModal() {
         $('.modal').find('.modal-title').text('Agregar comité');
         $('.modal').modal('toggle');
+    }
+
+    async handleSubmit(e){
+        e.preventDefault();
+        let data = await store(e.target);
+        console.log(data);
     }
 
     componentDidMount() {
@@ -78,16 +85,31 @@ class Committees extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                                <form onSubmit={this.handleSubmit} id="form">
                                     <div className="form-group">
-                                        <label htmlFor="">Numero de acta</label>
-                                        <input type="text" name="record_number" id="record_number" className="form-control"/>
+                                        <div className="form-row">
+                                            <div className="col">
+                                                <label htmlFor="">Numero de acta</label>
+                                                <input type="text" name="record_number" id="record_number" className="form-control" />
+                                            </div>
+                                            <div className="col">
+                                                <label htmlFor="">Fecha</label>
+                                                <input type="text" name="date" id="date" className="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="">Asistentes</label>
+                                        <Ckeditor 
+                                            name="assistants"
+                                            id="assistants"
+                                        />
                                     </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <button type="button" className="btn btn-primary">Guardar</button>
+                                <button form="form" className="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                     </div>

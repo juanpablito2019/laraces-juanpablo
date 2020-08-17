@@ -3,6 +3,7 @@ import { get, store, find, update, destroy, rules } from '../containers/Committe
 import { get as getCommitteeSessionStates } from '../containers/CommitteeSessionStates';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
+import Ckeditor from '../components/Ckeditor';
 
 class CommitteeParameters extends Component {
     constructor(props) {
@@ -229,14 +230,10 @@ class CommitteeParameters extends Component {
                                         <div className="form-row">
                                             <div className="col">
                                                 <label htmlFor="content">Contenido <span className="text-danger">*</span></label>
-                                                <textarea 
-                                                    className="form-control" 
+                                                <Ckeditor 
                                                     name="content"
-                                                    onInput={this.handleInput}
+                                                    id="content"
                                                 />
-                                                 <div className="invalid-feedback">
-                                                    {rules.content.isInvalid && rules.content.message != '' ? rules.content.message : ''}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -15,7 +15,7 @@ class CreateFormativeMeasureResponsiblesTable extends Migration
     {
         Schema::create('formative_measure_responsibles', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique();
+            $table->string('username');
             $table->string('misena_email')->unique();
             $table->string('institutional_email')->unique()->nullable();
             $table->string('document_type');
