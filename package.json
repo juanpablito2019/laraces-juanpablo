@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^21.0.0",
+        "@ckeditor/ckeditor5-essentials": "^21.0.0",
         "@ckeditor/ckeditor5-react": "^2.1.0",
         "composer": "^4.1.0",
         "install": "^0.13.0",

@@ -3,6 +3,22 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 
+const editorConfiguration = {
+    removePlugins: [
+    'Essentials', // deshacer, rehacer
+    'MediaEmbed', // Subir video
+    'Table', // Tabla
+    'ImageUpload', // Subir imagen
+    'Bold', // Negrita
+    'Italic', // Cursiva
+    'Heading', // Encabezado
+    'BulletedList',
+    'Link', // Enlace
+    'List', // Lista de puntos, Lista numerada
+    'Paragraph' // Deshabilita comillas
+    ]
+};
+
 
 class Ckeditor extends Component {
     constructor(props) {
@@ -17,15 +33,16 @@ class Ckeditor extends Component {
             <>
                 <CKEditor
                     editor={ClassicEditor}
+                    config={{
+                        language: 'es',
+                    },
+                    editorConfiguration}
                     onInit={editor => {
                         this.setState({ editor })
                     }}
                     onChange={(e, editor) => {
                         const data = editor.getData();
                         this.setState({data});
-                    }}
-                    config={{
-                        language: 'es'
                     }}
                 />
                 <textarea 
