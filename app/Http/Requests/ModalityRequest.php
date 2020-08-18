@@ -29,15 +29,15 @@ class ModalityRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'unique:modalities']
         ];
 
-        // if(in_array($this->method(), ['PUT', 'PATCH'])){
-        //     $modality = $this->route()->parameter('modality');
-        //     $rules['name'] = [
-        //         'required', 
-        //         'string',
-        //         'min:3',
-        //         Rule::unique('modalities')->ignore($modality)
-        //     ];
-        // }
+        if(in_array($this->method(), ['PUT', 'PATCH'])){
+            $modality = $this->route()->parameter('modality');
+            $rules['name'] = [
+                'required', 
+                'string',
+                'min:3',
+                Rule::unique('modalities')->ignore($modality)
+            ];
+        }
 
         return $rules;
     }

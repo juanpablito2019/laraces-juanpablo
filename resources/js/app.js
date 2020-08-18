@@ -59,9 +59,13 @@ function App() {
                                     </ul>
                                 </li>
                             ) : (
-                                    < li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''} >
-                                        <Link to={prefix + route.path}>- {route.name}</Link>
-                                    </li>
+                                    route.visible ? (
+                                        < li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''} >
+                                            <Link to={prefix + route.path}>- {route.name}</Link>
+                                        </li>
+                                    ):(
+                                        <div key={index} className=""></div>
+                                    )
                                 )
                         ))}
                     </ul>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Committee;
+use App\Http\Requests\CommitteeRequest;
 use Illuminate\Http\Request;
 
 class CommitteeController extends Controller
@@ -23,9 +24,25 @@ class CommitteeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommitteeRequest $request)
     {
-        return $request->all();
+        Committee::create([
+            'record_number' => $request->get('record_number'),
+            'date' => $request->get('date'),
+            'start_hour' => $request->get('start_hour'),
+            'end_hour' => $request->get('end_hour'),
+            'place' => $request->get('place'),
+            'formation_center' => $request->get('formation_center'),
+            'assistants'=>$request->get('assistants'),
+            'subdirector_name' => $request->get('subdirector_name'),
+            'qourum' => $request->get('qourum')
+        ]);
+
+        return response()->json([
+            'status'=>201,
+            'success'=>true,
+            'message'=>'Comité agregado con exito'
+        ]);
     }
 
     /**
@@ -34,9 +51,10 @@ class CommitteeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Committee $committee)
     {
-        //
+        $committee->committeeSessions;
+        return $committee;
     }
 
     /**
@@ -46,9 +64,23 @@ class CommitteeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CommitteeRequest $request, Committee $committee)
     {
-        //
+        $committee->record_number = $request->get('record_number');
+        $committee->date = $request->get('date');
+        $committee->start_hour = $request->get('start_hour');
+        $committee->end_hour = $request->get('end_hour');
+        $committee->place = $request->get('place');
+        $committee->formation_center = $request->get('formation_center');
+        $committee->assistants = $request->get('assistants');
+        $committee->subdirector_name = $request->get('subdirector_name');
+        $committee->qourum = $request->get('qourum');
+        $committee->save();
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Comité actualizado correctamente'
+        ]);
     }
 
     /**
@@ -57,8 +89,13 @@ class CommitteeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Committee $committee)
     {
-        //
+        $committee->delete();
+        return response()->json([
+            'status'=>201,
+            'success'=>true,
+            'message'=>'Comité eliminado con exito'
+        ]);
     }
 }

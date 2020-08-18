@@ -8,17 +8,27 @@ class Ckeditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editor: null,
             data: ""
         }
     }
+
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.data!=''){
+            this.setState({data: nextProps.data});
+        }
+        if(nextProps.reset){
+            this.setState({data: ""});
+        }
+    }
     render() {
+        
         return (
             <>
                 <CKEditor
                     editor={ClassicEditor}
+                    data={this.state.data}
                     onInit={editor => {
-                        this.setState({ editor })
+                        // 
                     }}
                     onChange={(e, editor) => {
                         const data = editor.getData();
