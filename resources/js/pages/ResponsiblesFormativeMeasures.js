@@ -123,20 +123,20 @@ class ResponsiblesFormativeMeasures extends Component {
         setRules(rules,false);
 
         let data = await find(id);
-        $('.modal').find('.modal-title').text('Editar responsable');
-        $('.modal').find('#username').val(data.username);
-        $('.modal').find('#misena_email').val(data.misena_email);
-        $('.modal').find('#institutional_email').val(data.institutional_email);
-        $('.modal').find('#document_type').val(data.document_type);
-        $('.modal').find('#document').val(data.document);
-        $('.modal').find('#birthdate').val(data.birthdate);
-        $('.modal').find('#phone').val(data.phone);
-        $('.modal').find('#phone_ip').val(data.phone_ip);
-        $('.modal').find('#gender').val(data.gender);
-        $('.modal').find('#position_id').val(data.position_id);
-        $('.modal').find('#contract_type_id').val(data.contract_type_id);
-        $('.modal').find('#type').val(data.type);
-        $('.modal').find('#state').val(data.state);
+        $('#modal').find('#modal-title').text('Editar responsable');
+        $('#modal').find('#username').val(data.username);
+        $('#modal').find('#misena_email').val(data.misena_email);
+        $('#modal').find('#institutional_email').val(data.institutional_email);
+        $('#modal').find('#document_type').val(data.document_type);
+        $('#modal').find('#document').val(data.document);
+        $('#modal').find('#birthdate').val(data.birthdate);
+        $('#modal').find('#phone').val(data.phone);
+        $('#modal').find('#phone_ip').val(data.phone_ip);
+        $('#modal').find('#gender').val(data.gender);
+        $('#modal').find('#position_id').val(data.position_id);
+        $('#modal').find('#contract_type_id').val(data.contract_type_id);
+        $('#modal').find('#type').val(data.type);
+        $('#modal').find('#state').val(data.state);
 
         if (data.photo) {
             $('#modal').find('#temp').attr('src', `/storage/${data.photo}`);
@@ -144,7 +144,7 @@ class ResponsiblesFormativeMeasures extends Component {
             $('#modal').find('.img').attr('src', `/img/no-photo.png`);
         }
         this.setState({ positionId: this.state.optionsPositions.find(o => o.value === data.position_id) })
-        $('.modal').modal('toggle');
+        $('#modal').modal('toggle');
     }
 
     handleModal() {
@@ -156,8 +156,8 @@ class ResponsiblesFormativeMeasures extends Component {
             edit: false,
             positionId: null
         });
-        $('.modal').find('.modal-title').text('Agregar responsable de medida formativa');
-        $('.modal').modal('toggle');
+        $('#modal').find('.modal-title').text('Agregar responsable de medida formativa');
+        $('#modal').modal('toggle');
     }
 
     async handleDelete(e) {
@@ -204,7 +204,7 @@ class ResponsiblesFormativeMeasures extends Component {
         let { value } = e.target;
         let matchs = this.state.responsibles.filter(responsible => {
             const rgex = new RegExp(`^${value}`, 'gi');
-            return responsible.document.match(rgex) || responsible.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").match(rgex)
+            return responsible.document.match(rgex) || responsible.username.normalize('NFD').replace(/[\u0300-\u036f]/g, "").match(rgex)
         });
         if (value.length === 0) {
             this.getResponsibles();
@@ -288,7 +288,7 @@ class ResponsiblesFormativeMeasures extends Component {
                 </div>
 
 
-                <div className="modal" id="modal" tabIndex="-1" role="dialog">
+                <div className="modal fade" data-backdrop="static" id="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -569,7 +569,7 @@ class ResponsiblesFormativeMeasures extends Component {
                     </div>
                 </div>
 
-                <div className="modal" id="detail" tabIndex="-1">
+                <div className="modal fade" data-backdrop="static" id="detail" tabIndex="-1">
                     <div className="modal-dialog modal-xl">
                         <div className="modal-content">
                             <div className="modal-header">
