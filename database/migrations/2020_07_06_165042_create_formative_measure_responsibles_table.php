@@ -21,7 +21,7 @@ class CreateFormativeMeasureResponsiblesTable extends Migration
             $table->string('document_type');
             $table->string('document');
             $table->date('birthdate');
-            $table->string('phone')->unique();
+            $table->string('phone')->unique()->nullable();
             $table->string('phone_ip')->nullable();
             $table->enum('gender', ['M', 'F']);
             $table->foreignId('position_id')->references('id')->on('positions');
