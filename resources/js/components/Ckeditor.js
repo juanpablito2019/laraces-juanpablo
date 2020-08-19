@@ -3,45 +3,80 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 
+/* 
+    "selectAll",
+    "undo",
+    "redo",
+    "bold",
+    "italic",
+    "blockQuote",
+    "ckfinder",
+    "imageTextAlternative",
+    "imageUpload",
+    "heading",
+    "imageStyle:full",
+    "imageStyle:side",
+    "indent",
+    "outdent",
+    "link",
+    "numberedList",
+    "bulletedList",
+    "mediaEmbed",
+    "insertTable",
+    "tableColumn",
+    "tableRow",
+    "mergeTableCells",
+*/
+
+
 
 class Ckeditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: ""
+            data: "",
+            config: {
+                language: 'es'
+            },
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if(nextProps.data!=''){
-            this.setState({data: nextProps.data});
+    UNSAFE_componentWillMount() {
+        if (this.props.options) {
+            let newConfig = this.state.config;
+            newConfig.toolbar = this.props.options;
+            this.setState({ config: newConfig });
         }
-        if(nextProps.reset){
-            this.setState({data: ""});
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.data != '') {
+            this.setState({ data: nextProps.data });
+        }
+        if (nextProps.reset) {
+            this.setState({ data: "" });
         }
     }
     render() {
-        
+
         return (
             <>
                 <CKEditor
                     editor={ClassicEditor}
                     data={this.state.data}
                     onInit={editor => {
-                        // 
+                        // console.log(Array.from(editor.ui.componentFactory.names()))
                     }}
+                    config={this.state.config}
                     onChange={(e, editor) => {
                         const data = editor.getData();
-                        this.setState({data});
-                    }}
-                    config={{
-                        language: 'es'
+                        this.setState({ data });
                     }}
                 />
-                <textarea 
-                    className="d-none" 
-                    name={this.props.name} 
-                    id={this.props.id} 
+                <textarea
+                    className="d-none"
+                    name={this.props.name}
+                    id={this.props.id}
                     defaultValue={this.state.data}
                 ></textarea>
             </>

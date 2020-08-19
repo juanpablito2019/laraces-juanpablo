@@ -152,7 +152,7 @@ class CommitteeSessionTypes extends Component {
                             </div>
                         )}
                 </div>
-                <div className="modal" tabIndex="-1" role="dialog">
+                <div className="modal" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">

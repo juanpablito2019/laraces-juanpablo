@@ -533,6 +533,7 @@ class Committees extends Component {
                                                     id="assistants"
                                                     data={this.state.ckdata}
                                                     reset={this.state.ckreset}
+                                                    options={['bulletedList','numberedList', 'undo', 'redo']}
                                                 />
                                             </div>
                                         </div>

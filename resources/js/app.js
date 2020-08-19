@@ -39,8 +39,15 @@ function App() {
         <Router>
             <div className="wrapper">
                 <nav id="sidebar">
-                    <div className="sidebar-header">
-                        <h3>CES</h3>
+                    <div className="sidebar-header text-center">
+                        <div className="row">
+                            <div className="col-2 p-2 ml-5">
+                                <img src="/img/logo.svg" className="d-block" style={{width: '50px'}} alt=""/>
+                            </div>
+                            <div className="col p-3 mr-3 text-left">
+                                <h3 className="d-inline">CES</h3>
+                            </div>
+                        </div>
                     </div>
 
                     <ul className="list-unstyled components">
