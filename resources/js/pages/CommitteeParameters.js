@@ -103,6 +103,7 @@ class CommitteeParameters extends Component {
 
     handleInput(e) {
         let { name, value } = e.target;
+        console.log(value);
         let newRules = validate(name, value, rules)
         this.setState({ rules: newRules });
     }
@@ -229,7 +230,7 @@ class CommitteeParameters extends Component {
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col">
-                                                <label htmlFor="content">Contenido <span className="text-danger">*</span></label>
+                                                <label htmlFor="">Contenido <span className="text-danger">*</span></label>
                                                 <Ckeditor 
                                                     name="content"
                                                     id="content"

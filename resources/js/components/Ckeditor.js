@@ -35,8 +35,7 @@ class Ckeditor extends Component {
                     editor={ClassicEditor}
                     config={{
                         language: 'es',
-                    },
-                    editorConfiguration}
+                    }}
                     onInit={editor => {
                         this.setState({ editor })
                     }}
