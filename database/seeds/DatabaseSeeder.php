@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CommitteeSessionTypeSeeder::class,
             FormativeMeasureSeeder::class,
             CommitteeSessionStateSeeder::class,
+            NoveltyTypeSeeder::class,
         ]);
     }
 }
