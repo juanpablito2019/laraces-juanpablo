@@ -26,3 +26,30 @@ export const store = async (form) => {
         console.log(error);
     }
 }
+
+export const rules = {
+    learner_id: {
+        name: 'aprendiz',
+        required: true,
+        type: 'numeric',
+        message:'',
+        isEmpty: true,
+        isInvalid: true
+    },
+    stimulus:{
+        name: 'estimulo',
+        required:true,
+        type: 'text',
+        message:'',
+        isEmpty: true,
+        isInvalid: true
+    },
+    justification:{
+        name: 'justificacion',
+        required: true,
+        type:'text',
+        message:'',
+        isEmpty: true,
+        isInvalid: true
+    }
+}

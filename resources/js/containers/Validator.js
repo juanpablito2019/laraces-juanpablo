@@ -43,7 +43,6 @@ export const formValid = (rules) => {
 
 export const validate = (name, value, rules) => {
 	value = trim(value);
-	const inputNames = Object.keys(rules[name]);
 	if (rules[name].type === 'text') {
 		if (rules[name].required && value.length === 0) {
 			rules[name].isEmpty = true;

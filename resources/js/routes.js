@@ -1,7 +1,6 @@
 import Learners from "./pages/Learners";
 import Sanctions from './pages/Sanctions';
 import CommitteeParameters from "./pages/CommitteeParameters";
-import CommitteeSessionTypes from './pages/CommitteeSessionTypes';
 import FormativeMeasures from './pages/FormativeMeasures';
 import Home from "./pages/Home";
 import Positions from "./pages/Positions";
@@ -56,11 +55,6 @@ export default [
                 name: 'Tipos de novedades',
                 path: '/novelty-types',
                 component: NoveltyTypes
-            },
-            {
-                name: 'Tipos de casos',
-                path: '/committee-session-types',
-                component: CommitteeSessionTypes
             },
         ]
     },
