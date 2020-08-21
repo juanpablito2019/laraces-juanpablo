@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/positions/mass', 'PositionController@mass');
     Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
-    Route::resource('stimulus', 'StimulusController');
     Route::resource('users', 'UserController');
+
+    Route::get('/stimuli/{committee}', 'StimulusController@index');
+    // Route::resource('stimuli', 'StimulusController');
 });

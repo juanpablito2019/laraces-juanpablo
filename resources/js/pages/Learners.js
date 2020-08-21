@@ -4,6 +4,7 @@ import { get as getFormationPrograms } from '../containers/FormationPrograms';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Select from 'react-select';
+import DataTable from '../components/DataTable';
 
 class Learners extends Component {
     constructor(props) {
@@ -29,13 +30,12 @@ class Learners extends Component {
         this.handleImport = this.handleImport.bind(this);
         this.handleImportSubmit = this.handleImportSubmit.bind(this);
         this.getFormationPrograms = this.getFormationPrograms.bind(this);
-        this.search = this.search.bind(this);
     }
 
-    getLearners() {
-        get().then(data => {
-            this.setState({ learners: data });
-        })
+    async getLearners() {
+        this.setState({learners: null});
+        let data = await get();
+        this.setState({ learners: data });
     }
 
     getFormationPrograms() {
@@ -90,20 +90,21 @@ class Learners extends Component {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
                 if (data.success) {
-                    this.getLearners();
+                    await this.getLearners();
                     $('#modal').modal('toggle');
                 } else {
                     this.setState({ message: data.errors.name || data.errors.document_type || data.errors.document })
                 }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getLearners();
-                        $('#modal').modal('hide');
-                    } else {
-                        this.setState({ message: data.errors.name })
-                    }
-                });
+                let data = await store(e.target);
+                if (data.success) {
+                    $('#modal').modal('hide');
+                    setTimeout(async () => {
+                        await this.getLearners();
+                    }, 100);
+                } else {
+                    this.setState({ message: data.errors.name })
+                }
             }
         } else {
             this.setState({ message: 'Por favor completa el formulario' })
@@ -180,12 +181,12 @@ class Learners extends Component {
         $('#detail').modal('toggle');
     }
 
-    async handleImportSubmit(e){
+    async handleImportSubmit(e) {
         e.preventDefault();
         let data = await importLearners(e.target);
-        if(data.status === 200){
+        if (data.status === 200) {
             await this.getLearners();
-            $('#import').modal('toggle');    
+            $('#import').modal('toggle');
         }
     }
 
@@ -199,18 +200,6 @@ class Learners extends Component {
 
     tooltip(e) {
         $(e.target).tooltip();
-    }
-
-    search(e) {
-        let { value } = e.target;
-        let matchs = this.state.learners.filter(learner => {
-            const rgex = new RegExp(`^${value}`, 'gi');
-            return learner.document_type.match(rgex) || learner.document.match(rgex) || learner.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").match(rgex)
-        });
-        if (value.length === 0) {
-            this.getLearners();
-        }
-        this.setState({ learners: matchs });
     }
 
     componentDidMount() {
@@ -233,18 +222,10 @@ class Learners extends Component {
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar aprendiz</a>
                         <a href="#" onClick={this.handleImport} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Importar</a>
                     </div>
-                    <div className="col-3">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">Buscar</button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} />
-                        </div>
-                    </div>
                 </div>
                 <div className="row mt-3">
                     <div className="col">
-                        <table className="table">
+                        <DataTable>
                             <thead>
                                 <tr>
                                     <th>Documento</th>
@@ -256,32 +237,26 @@ class Learners extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.learners.length > 0 ? (
-                                    this.state.learners.map(learner => (
-                                        <tr key={learner.id}>
-                                            <td>{learner.document_type} {learner.document}</td>
-                                            <td>{learner.name}</td>
-                                            <td>{learner.email}</td>
-                                            <td>{learner.group.code_tab}</td>
-                                            <td>{learner.group.formation_program.name.split('-')[1]}</td>
-                                            <td>
-                                                <div className="btn-group" role="group" aria-label="Basic example">
-                                                    <button data-id={learner.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                    <button data-id={learner.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary">Detalle</button>
-                                                    <button data-id={learner.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                        <tr>
-                                            <td colSpan="6" className="text-center">No hay datos disponibles</td>
-                                        </tr>
-                                    )}
+                                {this.state.learners.map(learner => (
+                                    <tr key={learner.id}>
+                                        <td>{learner.document_type} {learner.document}</td>
+                                        <td>{learner.name}</td>
+                                        <td>{learner.email}</td>
+                                        <td>{learner.group.code_tab}</td>
+                                        <td>{learner.group.formation_program.name.split('-')[1]}</td>
+                                        <td>
+                                            <div className="btn-group" role="group" aria-label="Basic example">
+                                                <button data-id={learner.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+                                                <button data-id={learner.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary">Detalle</button>
+                                                <button data-id={learner.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
-                        </table>
+                        </DataTable>
                     </div>
-                </div>
+                </div >
                 <div className="modal" id="import" tabIndex="-1">
                     <div className="modal-dialog">
                         <div className="modal-content">

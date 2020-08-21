@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { find } from '../containers/Committees';
 import { get } from '../containers/CommitteeSessionTypes';
+import { store as storeStimulus, get as fetchStimuli } from '../containers/Stimuli';
 import Loader from '../components/Loader';
 import moment from 'moment';
-import StimuliForm from '../components/Committee/StimuliForm';
-import NoveltyForm from '../components/Committee/NoveltyForm';
-import AcademicForm from '../components/Committee/AcademicForm';
+import StimuliForm from '../forms/Committee/StimuliForm';
+import NoveltyForm from '../forms/Committee/NoveltyForm';
+import AcademicForm from '../forms/Committee/AcademicForm';
+import DataTable from '../components/DataTable';
 
 class Committee extends Component {
     constructor(props) {
@@ -15,10 +17,12 @@ class Committee extends Component {
             committee: null,
             committee_session_types: null,
             committee_session_type: null,
+            cases: null
         }
 
         this.handleCommitteeSessionType = this.handleCommitteeSessionType.bind(this);
         this.handleModal = this.handleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async getCommittee() {
@@ -29,36 +33,49 @@ class Committee extends Component {
         let data = await get();
         this.setState({ committee_session_types: data });
     }
+    async getStimuli() {
+        let data = await fetchStimuli(this.state.id);
+        data.forEach(d => {
+            d.case_type = 'Estimulos e incentivos'
+        });
+        this.setState({ cases: data });
+    }
 
-    handleCommitteeSessionType(e){
-        let {value} = e.target;
-        this.setState({committee_session_type: value});
+    handleCommitteeSessionType(e) {
+        let { value } = e.target;
+        this.setState({ committee_session_type: value });
     }
 
     handleModal() {
-        this.setState({committee_session_type: null});
+        this.setState({ committee_session_type: null });
         $('.modal').find('.modal-title').text('Agregar caso');
         $('.modal').modal('toggle');
     }
 
-    handleSubmit(e){
+    async handleSubmit(e) {
         e.preventDefault();
-        if(this.state.committee_session_type==1){
-
-        }else if(this.state.committee_session_type==2){
-
-        }else{
-
+        if (this.state.committee_session_type == 1) {
+            let data = await storeStimulus(e.target);
+            if (data.success) {
+                $('.modal').modal('toggle');
+            } else {
+                console.log(data);
+            }
+        } else if (this.state.committee_session_type == 2) {
+            console.log('Creando novedad');
+        } else {
+            console.log('Creando academico');
         }
     }
 
     componentDidMount() {
         this.getCommittee();
         this.getCommitteeSessionTypes();
+        this.getStimuli();
     }
 
     render() {
-        if (!this.state.committee || !this.state.committee_session_types) {
+        if (!this.state.committee || !this.state.committee_session_types || !this.state.cases) {
             return <Loader />
         }
         return (
@@ -75,7 +92,7 @@ class Committee extends Component {
                                 <a className="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="home" aria-selected="true">Detalle</a>
                             </li>
                             <li className="nav-item" role="presentation">
-                                <a className="nav-link" id="profile-tab" data-toggle="tab" href="#committee_sessions" role="tab" aria-controls="profile" aria-selected="false">Casos a tratar <span className="badge badge-light">{this.state.committee.committee_sessions.length}</span></a>
+                                <a className="nav-link" id="profile-tab" data-toggle="tab" href="#committee_sessions" role="tab" aria-controls="profile" aria-selected="false">Casos a tratar <span className="badge badge-light">{this.state.cases.length}</span></a>
                             </li>
                         </ul>
                         <div className="tab-content" id="myTabContent">
@@ -106,21 +123,25 @@ class Committee extends Component {
                                     </div>
                                 </div>
                                 <div className="row mt-3">
-                                    {this.state.committee.committee_sessions.length > 0 ? (
-                                        this.state.committee.committee_sessions.map((committee_session, i) => (
-                                            <div key={i} className="col-4">
-                                                <div className="card">
-                                                    <div className="card-body">
-                                                        <h6>Santiago Bedoya Arcila</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))
-                                    ) : (
-                                            <div className="col">
-                                                <p>No hay casos a tratar en este comité</p>
-                                            </div>
-                                        )}
+                                    <div className="col">
+                                        <DataTable>
+                                            <thead>
+                                                <tr>
+                                                    <th>Aprendiz</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {this.state.cases.map((data, i) => (
+                                                    <tr key={i}>
+                                                        <td>{data.learner.name}</td>
+                                                        <td>perras</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </DataTable>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -139,37 +160,38 @@ class Committee extends Component {
                                 {this.state.committee_session_types.length > 0 ? (
                                     this.state.committee_session_types.map((committee_session_type, i) => (
                                         <div key={i} className="form-check form-check-inline">
-                                            <input className="form-check-input" onClick={this.handleCommitteeSessionType} type="radio" name="inlineRadioOptions" id={"radio"+i} value={committee_session_type.id} />
-                                            <label className="form-check-label" htmlFor={"radio"+i}>{committee_session_type.name}</label>
+                                            <input className="form-check-input" onClick={this.handleCommitteeSessionType} type="radio" name="inlineRadioOptions" id={"radio" + i} value={committee_session_type.id} />
+                                            <label className="form-check-label" htmlFor={"radio" + i}>{committee_session_type.name}</label>
                                         </div>
                                     ))
                                 ) : (
                                         <p>No hay tipos de casos disponibles</p>
                                     )}
 
-                                {this.state.committee_session_type?(
+                                {this.state.committee_session_type ? (
                                     <div className="row mt-2">
                                         <div className="col">
-                                            {this.state.committee_session_type==1?(
-                                                <StimuliForm 
+                                            {this.state.committee_session_type == 1 ? (
+                                                <StimuliForm
                                                     onSubmit={this.handleSubmit}
+                                                    committee={this.state.id}
                                                 />
-                                            ):(
-                                                this.state.committee_session_type==2?(
-                                                    <NoveltyForm 
-                                                        onSubmit={this.handleSubmit}
-                                                    />
-                                                ):(
-                                                    <AcademicForm 
-                                                        onSubmit={this.handleSubmit}
-                                                    />
-                                                )
-                                            )}
+                                            ) : (
+                                                    this.state.committee_session_type == 2 ? (
+                                                        <NoveltyForm
+                                                            onSubmit={this.handleSubmit}
+                                                        />
+                                                    ) : (
+                                                            <AcademicForm
+                                                                onSubmit={this.handleSubmit}
+                                                            />
+                                                        )
+                                                )}
                                         </div>
                                     </div>
-                                ):(
-                                    <div></div>
-                                )}
+                                ) : (
+                                        <div></div>
+                                    )}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>

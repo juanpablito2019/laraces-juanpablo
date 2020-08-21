@@ -12,4 +12,9 @@ class Stimulus extends Model
         'stimulus',
         'justification'
     ];
+
+    public function learner()
+    {
+        return $this->belongsTo(Learner::class);
+    }
 }
