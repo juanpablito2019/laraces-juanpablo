@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Committee;
+use App\Http\Requests\LearnerNoveltyRequest;
+use App\LearnerNovelty;
 use Illuminate\Http\Request;
 
 class LearnerNoveltyController extends Controller
@@ -11,9 +14,9 @@ class LearnerNoveltyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Committee $committee)
     {
-        return view('learner_novelties.index');
+        return LearnerNovelty::with('learner', 'committee', 'noveltyType')->where('committee_id', $committee->id)->get();
     }
 
     /**
@@ -22,9 +25,20 @@ class LearnerNoveltyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(LearnerNoveltyRequest $request)
     {
-        //
+        LearnerNovelty::create([
+            'committee_id'    => $request->get('committee_id'),
+            'learner_id'      => $request->get('learner_id'),
+            'novelty_type_id' => $request->get('novelty_type_id'),
+            'justification'   => $request->get('justification')
+        ]);
+
+        return response()->json([
+            'message'=>'Novedad agregada con exito',
+            'success'=>true,
+            'status'=>201
+        ]);
     }
 
     /**

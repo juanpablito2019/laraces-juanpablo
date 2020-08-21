@@ -24,14 +24,13 @@ class StimulusRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        return [
             'learner_id' => ['required', 'integer', 'exists:learners,id'],
             'committee_id' => ['required', 'integer', 'exists:committees,id'],
             'stimulus'=>['required', 'string'],
             'justification' => ['required', 'string']
         ];
 
-        return $rules;
     }
 
     public function response(array $errors)

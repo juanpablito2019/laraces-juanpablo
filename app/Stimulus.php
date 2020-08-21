@@ -17,4 +17,9 @@ class Stimulus extends Model
     {
         return $this->belongsTo(Learner::class);
     }
+
+    public function committee()
+    {
+        return $this->belongsTo(Committee::class);
+    }
 }

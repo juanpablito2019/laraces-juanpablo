@@ -50,7 +50,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('infringement-types', 'InfringementTypeController');
     Route::resource('learners', 'LearnerController');
     Route::post('learners/import', 'LearnerController@import');
-    Route::resource('learner-novelties', 'LearnerNoveltyController');
     Route::resource('modalities', 'ModalityController');
     Route::post('modalities/mass', 'ModalityController@mass');
     Route::resource('novelty-types', 'NoveltyTypeController');
@@ -61,5 +60,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UserController');
 
     Route::get('/stimuli/{committee}', 'StimulusController@index');
-    // Route::resource('stimuli', 'StimulusController');
+    Route::post('/stimuli', 'StimulusController@store');
+
+    Route::get('/learner-novelties/{committee}', 'LearnerNoveltyController@index');
+    Route::post('/learner-novelties', 'LearnerNoveltyController@store');
 });

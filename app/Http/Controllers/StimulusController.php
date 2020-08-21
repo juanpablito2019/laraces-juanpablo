@@ -16,7 +16,7 @@ class StimulusController extends Controller
      */
     public function index(Committee $committee)
     {
-        return Stimulus::with('learner')->where('committee_id', $committee->id)->get();
+        return Stimulus::with('learner', 'committee')->where('committee_id', $committee->id)->get();
     }
 
     /**
