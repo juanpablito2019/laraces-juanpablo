@@ -4,6 +4,7 @@ import { get as getCommitteeSessionStates } from '../containers/CommitteeSession
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Ckeditor from '../components/Ckeditor';
+import DataTable from '../components/DataTable';
 
 class CommitteeParameters extends Component {
     constructor(props) {
@@ -20,13 +21,12 @@ class CommitteeParameters extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
-        this.search = this.search.bind(this);
     }
 
-    getCommitteeParameters() {
-        get().then(data => {
-            this.setState({ committeeParameters: data })
-        })
+    async getCommitteeParameters() {
+        this.setState({ committeeParameters: null })
+        let data = await get();
+        this.setState({ committeeParameters: data })
     }
 
     getCommitteeSessionStates() {
@@ -56,17 +56,6 @@ class CommitteeParameters extends Component {
             $('.modal').modal('toggle');
         })
     }
-    search(e) {
-        let { value } = e.target;
-        let matchs = this.state.committeeParameters.filter(committeeParameter => {
-            const rgex = new RegExp(`^${value}`, 'gi');
-            return committeeParameter.name.match(rgex) || committeeParameter.committee_session_state.name.match(rgex)
-        });
-        if (value.length === 0) {
-            this.getCommitteeParameters();
-        }
-        this.setState({ committeeParameters: matchs });
-    }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -83,8 +72,10 @@ class CommitteeParameters extends Component {
             } else {
                 store(e.target).then(data => {
                     if (data.success) {
-                        this.getCommitteeParameters();
-                        $('.modal').modal('toggle');
+                        $('#modal').modal('hide');
+                        setTimeout(async () => {
+                            await this.getCommitteeParameters();
+                        }, 100);
                     }else{
                         this.setState({ message: data.errors.name || data.errors.content })
                     }
@@ -127,19 +118,11 @@ class CommitteeParameters extends Component {
                         <h3>Parametros comite</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parametro</a>
                     </div>
-                    <div className="col-3 d-none d-sm-block">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">Buscar</button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} />
-                        </div>
-                    </div>
                 </div>
 
                 <div className="row mt-3">
-                    <div className="col">
-                        <table className="table table-striped display nowrap table-responsive-sm" id="tabla">
+                    <div className="col">   
+                        <DataTable>
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
@@ -149,26 +132,21 @@ class CommitteeParameters extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            {this.state.committeeParameters.length > 0 ? (
-                                this.state.committeeParameters.map(committeeParameter => (
-                                    <tr key={committeeParameter.id}>
-                                        <td>{committeeParameter.name}</td>
-                                        <td>{committeeParameter.content}</td>
-                                        <td>{committeeParameter.committee_session_state.name}</td>
-                                        <td>
-                                        <button type="button" data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-link">Editar</button>
-                                        <button type="button" data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-link text-danger">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                    
-                                ))
-                            ) : (
-                                    <tr>
-                                        <td colSpan="4" className="text-center">No hay datos disponibles</td>
-                                    </tr>
-                                )}
-                                </tbody>
-                        </table>
+                            {this.state.committeeParameters.map(committeeParameter => (
+                                <tr key={committeeParameter.id}>
+                                    <td>{committeeParameter.name}</td>
+                                    <td>{committeeParameter.content}</td>
+                                    <td>{committeeParameter.committee_session_state.name}</td>
+                                    <td>
+                                        <div className="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-link">Editar</button>
+                                            <button type="button" data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-link text-danger">Eliminar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </DataTable>
                     </div>
                 </div>
 

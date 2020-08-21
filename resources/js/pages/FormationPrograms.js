@@ -40,7 +40,12 @@ class FormationPrograms extends Component {
     handleUpdate() {
         this.setState({formationPrograms: null});
         storeMass().then(data => {
-            this.getFormationPrograms();
+            if(data.success){
+                this.getFormationPrograms();
+            }else{
+                alert(data.message)
+                this.getFormationPrograms();
+            }
         })
     }
 
