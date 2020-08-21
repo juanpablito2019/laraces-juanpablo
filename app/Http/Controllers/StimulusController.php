@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Committee;
 use App\Http\Requests\StimulusRequest;
 use App\Stimulus;
 use Illuminate\Http\Request;
@@ -13,9 +14,9 @@ class StimulusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Committee $committee)
     {
-        return Stimulus::all();
+        return Stimulus::with('learner')->where('committee_id', $committee->id)->get();
     }
 
     /**

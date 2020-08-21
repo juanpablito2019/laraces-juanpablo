@@ -151,7 +151,7 @@ class InfringementTypes extends Component {
                         )}
                 </div>
                 {/* Modal Create */}
-                <div className="modal" tabIndex="-1" role="dialog">
+                <div className="modal fade" tabIndex="-1" role="dialog" data-backdrop="static">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -171,7 +171,7 @@ class InfringementTypes extends Component {
                                         )}
 
                                     <div className="form-group">
-                                        <label htmlFor="name">Nombre<span className="text-danger">*</span></label>
+                                        <label htmlFor="name">Nombre <span className="text-danger">*</span></label>
                                         <input
                                             type="text"
                                             name="name"
