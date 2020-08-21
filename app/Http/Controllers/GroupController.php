@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
-use App\Http\Requests\GroupStoreRequest;
-use App\Http\Requests\GroupUpdateRequest;
-use DateTime;
-use Illuminate\Http\Request;
+use App\Http\Requests\GroupRequest;
 use Illuminate\Support\Facades\Http;
 
 class GroupController extends Controller
@@ -27,7 +24,7 @@ class GroupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GroupStoreRequest $request)
+    public function store(GroupRequest $request)
     {
         Group::create([
             'code_tab' => $request->get('code_tab'),
@@ -73,7 +70,7 @@ class GroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GroupUpdateRequest $request, Group $group)
+    public function update(GroupRequest $request, Group $group)
     {
         $group->code_tab = $request->get('code_tab');
         $group->modality_id = $request->get('modality_id');

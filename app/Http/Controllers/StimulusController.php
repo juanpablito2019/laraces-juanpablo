@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StimulusRequest;
+use App\Stimulus;
 use Illuminate\Http\Request;
 
 class StimulusController extends Controller
@@ -13,7 +15,7 @@ class StimulusController extends Controller
      */
     public function index()
     {
-        return view('stimuli.index');
+        return Stimulus::all();
     }
 
     /**
@@ -22,9 +24,19 @@ class StimulusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StimulusRequest $request)
     {
-        //
+        Stimulus::create([
+            'learner_id' => $request->get('learner_id'),
+            'committee_id' => $request->get('committee_id'),
+            'stimulus' => $request->get('stimulus'),
+            'justification' => $request->get('justification'),
+        ]);
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Estimulo agregado con exito'
+        ]);
     }
 
     /**

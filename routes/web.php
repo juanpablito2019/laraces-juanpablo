@@ -21,7 +21,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::view('/app/{app?}', 'react');
+    Route::get('/app/{path?}', [
+        'uses' => function(){
+            return view('react');
+        },
+        'as' => 'react',
+        'where' => ['path' => '.*']
+    ]);
     Route::resource('committees', 'CommitteeController');
     Route::resource('committee-parameters', 'CommitteeParameterController');
     Route::resource('committee-sessions', 'CommitteeSessionController');

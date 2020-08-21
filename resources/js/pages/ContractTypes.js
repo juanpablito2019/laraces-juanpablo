@@ -19,11 +19,24 @@ class ContractTypes extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
+        this.search = this.search.bind(this);
     }
 
     async getContractTypes() {
         let data = await get();
         this.setState({ contractTypes: data });
+    }
+
+    search(e) {
+        let { value } = e.target;
+        let matchs = this.state.contractTypes.filter(contractType => {
+            const rgex = new RegExp(`^${value}`, 'gi');
+            return contractType.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").match(rgex)
+        });
+        if (value.length === 0) {
+            this.getContractTypes();
+        }
+        this.setState({ contractTypes: matchs });
     }
 
     handleUpdate() {
@@ -115,8 +128,18 @@ class ContractTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i>Agregar nuevo contrato</a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> <span className="d-none d-md-inline ">Actualizar</span> </a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
+                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+                    </div>
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
+                        <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
+                                    <i className="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <input type="text" className="form-control" onInput={this.search} />
+                        </div>
                     </div>
                 </div>
                 <div className="row mt-3">
@@ -126,6 +149,9 @@ class ContractTypes extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
+                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                                <i className="fa fa-list-alt fa-5x text-secondary mt-2"></i>
+                                            </div>
                                             <div className="col">
                                                 <h5>{contractType.name}</h5>
                                                 <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
@@ -142,7 +168,7 @@ class ContractTypes extends Component {
                             </div>
                         )}
                 </div>
-                <div className="modal" tabIndex="-1" role="dialog">
+                <div className="modal fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">

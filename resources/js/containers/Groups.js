@@ -50,7 +50,10 @@ export const update = async (form, id) => {
         fd.append('_method', 'PUT');
         let res = await fetch(`/groups/${id}`, {
             method:'POST',
-            body:fd
+            body:fd,
+            headers:{
+                accept: 'application/json'
+            }
         });
         let data = await res.json();
         return data;

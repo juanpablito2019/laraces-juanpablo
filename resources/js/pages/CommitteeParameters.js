@@ -11,7 +11,9 @@ class CommitteeParameters extends Component {
         this.state = {
             committeeParameters: null,
             committeeSessionStates: null,
-            edit: false
+            edit: false,
+            ckdata: "",
+            ckreset: false
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleModal = this.handleModal.bind(this);
@@ -36,14 +38,15 @@ class CommitteeParameters extends Component {
     handleModal(){
         $('#form').trigger('reset');
         setRules(rules);
-        this.setState({ message: null, edit: false });
+        this.setState({ ckreset: true, ckdata: "",message: null, edit: false });
         $('.modal').find('.modal-title').text('Crear parametro de comite');
         $('.modal').modal('toggle');
     }
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ id, edit: true, message: null });
+        let data = await find(id);
+        this.setState({ ckdata: data.content, ckreset: false,id, edit: true, message: null });
         setRules(rules, false);
         find(id).then(data => {
             $('#name').val(data.name);
@@ -83,7 +86,7 @@ class CommitteeParameters extends Component {
                         this.getCommitteeParameters();
                         $('.modal').modal('toggle');
                     }else{
-                        this.setState({ message: data.errors.name })
+                        this.setState({ message: data.errors.name || data.errors.content })
                     }
                 });
             }
@@ -103,7 +106,6 @@ class CommitteeParameters extends Component {
 
     handleInput(e) {
         let { name, value } = e.target;
-        console.log(value);
         let newRules = validate(name, value, rules)
         this.setState({ rules: newRules });
     }
@@ -230,10 +232,17 @@ class CommitteeParameters extends Component {
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col">
-                                                <label htmlFor="">Contenido <span className="text-danger">*</span></label>
-                                                <Ckeditor 
+                                                <label htmlFor="">Contenido
+                                                    <span className="text-danger">
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <Ckeditor
                                                     name="content"
                                                     id="content"
+                                                    data={this.state.ckdata}
+                                                    reset={this.state.ckreset}
+                                                    options={['heading','bold','italic','blockQuote','bulletedList','numberedList','undo','redo']}
                                                 />
                                             </div>
                                         </div>
