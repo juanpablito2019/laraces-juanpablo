@@ -113,7 +113,7 @@ class NoveltyTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de Novedades</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de Novedad</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de Novedad</a>
                     </div>
                     <div className="col-3">
                         <div className="input-group mb-3">

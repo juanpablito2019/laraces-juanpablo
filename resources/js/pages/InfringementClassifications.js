@@ -113,7 +113,7 @@ class InfringementClassifications extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Clasificación de las Faltas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva clasificación de infracción</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar clasificación de infracción</a>
                     </div>
                     <div className="col-3">
                         <div className="input-group mb-3">

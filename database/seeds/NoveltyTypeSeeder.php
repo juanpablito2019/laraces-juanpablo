@@ -15,7 +15,7 @@ class NoveltyTypeSeeder extends Seeder
         DB::table('novelty_types')->insert([
             [
                 'id'=>1,
-                'name'=>'APLZAMIENTO DE MATRICULA'
+                'name'=>'APLAZAMIENTO DE MATRICULA'
             ],[
                 'id'=>2,
                 'name'=>'RETIRO VOLUNTARIO'
