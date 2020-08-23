@@ -3,17 +3,27 @@ import { find } from "../containers/Committees";
 import {
     store as storeStimulus,
     get as fetchStimuli,
+    find as fetchStimulus,
     rules as stimuliRules,
+    destroy as destroyStimulus,
+    update as updateStimulus
 } from "../containers/Stimuli";
 import {
     rules as noveltiesRules,
     store as storeNovelty,
     get as fetchLearnerNovelties,
+    find as fetchLearnerNovelty,
+    destroy as destroyLearnerNovelty,
+    update as updateLearnerNovelty
 } from "../containers/LearnerNovelties";
 import {
     rules as academicsRules,
     store as storeAcademic,
+    find as fetchAcademic,
+    destroy as destroyAcademic,
+    update as updateAcademic
 } from "../containers/CommitteeSessions";
+
 import Loader from "../components/Loader";
 import moment from "moment";
 import StimuliForm from "../forms/Committee/StimuliForm";
@@ -35,6 +45,9 @@ class Committee extends Component {
             stimuliRules,
             noveltiesRules,
             academicsRules,
+            stimulus: null,
+            learnerNovelty: null,
+            academic: null
         };
 
         this.handleCommitteeSessionType = this.handleCommitteeSessionType.bind(
@@ -44,9 +57,23 @@ class Committee extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.selectLearner = this.selectLearner.bind(this);
+        this.handleDeleteAcademic = this.handleDeleteAcademic.bind(this);
+        this.handleDeleteLearnerNovelty = this.handleDeleteLearnerNovelty.bind(this);
+        this.handleDeleteStimulus = this.handleDeleteStimulus.bind(this);
+        this.handleEditStimulus = this.handleEditStimulus.bind(this);
+        this.handleUpdateStimulus = this.handleUpdateStimulus.bind(this);
+        this.handleInputStimulus = this.handleInputStimulus.bind(this);
+        this.handleEditLearnerNovelty = this.handleEditLearnerNovelty.bind(this);
+        this.handleUpdateLearnerNovelty = this.handleUpdateLearnerNovelty.bind(this);
+        this.handleInputLearnerNovelty = this.handleInputLearnerNovelty.bind(this);
+        this.handleEditAcademic = this.handleEditAcademic.bind(this);
+        this.handleUpdateAcademic = this.handleUpdateAcademic.bind(this);
+        this.handleInputAcademic = this.handleInputAcademic.bind(this);
+
     }
 
     async getCommittee() {
+        this.setState({ committee: null });
         let data = await find(this.state.id);
         this.setState({ committee: data });
     }
@@ -69,11 +96,163 @@ class Committee extends Component {
     handleModal() {
         setRules(stimuliRules);
         this.setState({ committee_session_type: null });
-        $(".modal")
+        $("#modal-add")
             .find(".modal-title")
             .text("Agregar caso");
-        $(".modal").modal("toggle");
+        $("#modal-add").modal("toggle");
     }
+
+    async handleModalStimuli(e) {
+        let id = $(e.target).data('id');
+        let data = await fetchStimulus(id);
+        $('#modal-stimuli-novelty').find('.modal-title').text('Detalle del estimulo');
+        $('#modal-stimuli-novelty').find('#learner_name').text(data.learner.name);
+        if (data.learner.photo) {
+            $('#learner_photo').attr('src', "/storage/" + data.learner.photo);
+        }
+        $('#modal-stimuli-novelty').find('#learner_email').text(data.learner.email);
+        $('#modal-stimuli-novelty').find('#learner_document').text(`${data.learner.document_type} ${data.learner.document}`);
+        $('#modal-stimuli-novelty').find('#learner_group').text(`Grupo: ${data.learner.group.code_tab}`);
+        $('#modal-stimuli-novelty').find('#learner_formation_program').text(data.learner.group.formation_program.name);
+        $('#modal-stimuli-novelty').find('#case_type').text('Estimulo');
+        $('#modal-stimuli-novelty').find('#case_type_text').text(data.stimulus);
+        $('#modal-stimuli-novelty').find('#justification').text(data.justification);
+        $('#modal-stimuli-novelty').modal('toggle');
+    }
+    async handleDeleteStimulus(e) {
+        let id = $(e.target).data('id');
+        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        if (res) {
+            let data = await destroyStimulus(id);
+            if (data.success) {
+                await this.getStimuli();
+            }
+        }
+    }
+
+    async handleEditStimulus(e) {
+        let id = $(e.target).data('id');
+        let data = await fetchStimulus(id);
+        this.setState({ stimulus: data });
+        setRules(stimuliRules, false);
+        $('#stimulus-edit').modal('toggle');
+    }
+
+    async handleUpdateStimulus(e) {
+        e.preventDefault();
+        if (formValid(stimuliRules)) {
+            let data = await updateStimulus(e.target, this.state.stimulus.id);
+            if (data.success) {
+                $('#stimulus-edit').modal('toggle');
+                await this.getStimuli();
+            } else {
+                console.log(data);
+            }
+        } else {
+            this.setState({ message: 'Por favor completa el formulario' });
+        }
+    }
+
+    async handleModalNovelty(e) {
+        let id = $(e.target).data('id');
+        let data = await fetchLearnerNovelty(id);
+        $('#modal-stimuli-novelty').find('.modal-title').text('Detalle del estimulo');
+        $('#modal-stimuli-novelty').find('#learner_name').text(data.learner.name);
+        if (data.learner.photo) {
+            $('#learner_photo').attr('src', "/storage/" + data.learner.photo);
+        }
+        $('#modal-stimuli-novelty').find('#learner_email').text(data.learner.email);
+        $('#modal-stimuli-novelty').find('#learner_document').text(`${data.learner.document_type} ${data.learner.document}`);
+        $('#modal-stimuli-novelty').find('#learner_group').text(`Grupo: ${data.learner.group.code_tab}`);
+        $('#modal-stimuli-novelty').find('#learner_formation_program').text(data.learner.group.formation_program.name);
+        $('#modal-stimuli-novelty').find('#case_type').text('Tipo de novedad');
+        $('#modal-stimuli-novelty').find('#case_type_text').text(data.novelty_type.name);
+        $('#modal-stimuli-novelty').find('#justification').text(data.justification);
+        $('#modal-stimuli-novelty').modal('toggle');
+    }
+    async handleDeleteLearnerNovelty(e) {
+        let id = $(e.target).data('id');
+        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        if (res) {
+            let data = await destroyLearnerNovelty(id);
+            if (data.success) {
+                await this.getLearnerNovelties();
+            }
+        }
+    }
+
+    async handleEditLearnerNovelty(e) {
+        let id = $(e.target).data('id');
+        let data = await fetchLearnerNovelty(id);
+        this.setState({ learnerNovelty: data });
+        setRules(noveltiesRules, false);
+        $('#learner-novelty-edit').modal('toggle');
+    }
+
+    async handleUpdateLearnerNovelty(e) {
+        e.preventDefault();
+        if (formValid(noveltiesRules)) {
+            let data = await updateLearnerNovelty(e.target, this.state.learnerNovelty.id);
+            if (data.success) {
+                $('#learner-novelty-edit').modal('toggle');
+                await this.getLearnerNovelties();
+            } else {
+                console.log(data);
+            }
+        } else {
+            this.setState({ message: 'Por favor completa el formulario' });
+        }
+    }
+
+    async handleModalAcademic(e) {
+        let id = $(e.target).data('id');
+        let data = await fetchAcademic(id);
+        $('#modal-academic').find('#learner_name').text(data.learner.name);
+        if (data.learner.photo) {
+            $('#learner_photo').attr('src', "/storage/" + data.learner.photo);
+        }
+        $('#modal-academic').find('#learner_email').text(data.learner.email);
+        $('#modal-academic').find('#learner_document').text(`${data.learner.document_type} ${data.learner.document}`);
+        $('#modal-academic').find('#learner_group').text(`Grupo: ${data.learner.group.code_tab}`);
+        $('#modal-academic').find('#learner_formation_program').text(data.learner.group.formation_program.name);
+        $('#modal-academic').find('#infringement_type').text(data.infringement_type.name);
+        $('#modal-academic').modal('toggle');
+    }
+
+    async handleDeleteAcademic(e) {
+        let id = $(e.target).data('id');
+        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        if (res) {
+            let data = await destroyAcademic(id);
+            if (data.success) {
+                await this.getCommittee();
+            }
+        }
+    }
+    async handleEditAcademic(e) {
+        this.setState({academic: null});
+        let id = $(e.target).data('id');
+        let data = await fetchAcademic(id);
+        this.setState({ academic: data });
+        setRules(academicsRules, false);
+        $('#academic-edit').modal('toggle');
+    }
+
+    async handleUpdateAcademic(e) {
+        e.preventDefault();
+        if (formValid(academicsRules)) {
+            let data = await updateAcademic(e.target, this.state.academic.id);
+            if (data.success) {
+                $('#academic-edit').modal('toggle');
+                await this.getCommittee();
+            } else {
+                console.log(data);
+            }
+        } else {
+            this.setState({ message: 'Por favor completa el formulario' });
+        }
+    }
+
 
     selectLearner(value) {
         if (this.state.committee_session_type == 1) {
@@ -81,7 +260,24 @@ class Committee extends Component {
         } else if (this.state.committee_session_type == 2) {
             noveltiesRules.learner_id.isInvalid = false;
         } else {
+            academicsRules.learner_id.isInvalid = false;
         }
+    }
+
+    handleInputStimulus(e) {
+        let { name, value } = e.target;
+        let nextRules = validate(name, value, stimuliRules);
+        this.setState({ stimuliRules: nextRules });
+    }
+    handleInputLearnerNovelty(e) {
+        let { name, value } = e.target;
+        let nextRules = validate(name, value, noveltiesRules);
+        this.setState({ noveltiesRules: nextRules });
+    }
+    handleInputAcademic(e) {
+        let { name, value } = e.target;
+        let nextRules = validate(name, value, academicsRules);
+        this.setState({ academicsRules: nextRules });
     }
 
     handleInput(e) {
@@ -104,7 +300,7 @@ class Committee extends Component {
             if (formValid(stimuliRules)) {
                 let data = await storeStimulus(e.target);
                 if (data.success) {
-                    $(".modal").modal("toggle");
+                    $("#modal-add").modal("toggle");
                     await this.getStimuli();
                 } else {
                     console.log(data);
@@ -116,7 +312,7 @@ class Committee extends Component {
             if (formValid(noveltiesRules)) {
                 let data = await storeNovelty(e.target);
                 if (data.success) {
-                    $(".modal").modal("toggle");
+                    $("#modal-add").modal("toggle");
                     await this.getLearnerNovelties();
                 } else {
                     console.log(data);
@@ -127,7 +323,14 @@ class Committee extends Component {
         } else {
             if (formValid(academicsRules)) {
                 let data = await storeAcademic(e.target);
-                console.log(data);
+                if (data.success) {
+                    $("#modal-add").modal('toggle');
+                    await this.getCommittee();
+                } else {
+                    this.setState({ message: data.errors.learners });
+                }
+            } else {
+                this.setState({ message: 'Por favor complete el formulario' });
             }
         }
     }
@@ -183,8 +386,11 @@ class Committee extends Component {
                                 >
                                     Casos a tratar{" "}
                                     <span className="badge badge-primary">
-                                        {this.state.stimuli.length +
-                                            this.state.learnerNovelties.length}
+                                        {
+                                            this.state.stimuli.length +
+                                            this.state.learnerNovelties.length +
+                                            this.state.committee.committee_sessions.length
+                                        }
                                     </span>
                                 </a>
                             </li>
@@ -297,8 +503,7 @@ class Committee extends Component {
                                                                 }
                                                             </td>
                                                             <td>
-                                                                Estimulos e
-                                                                incentivos
+                                                                <span className="badge badge-success" style={{ width: '125px' }}>Estimulos e incentivos</span>
                                                             </td>
                                                             <td>
                                                                 <div
@@ -311,6 +516,7 @@ class Committee extends Component {
                                                                             stimulus.id
                                                                         }
                                                                         className="btn btn-sm btn-outline-primary"
+                                                                        onClick={this.handleEditStimulus}
                                                                     >
                                                                         Editar
                                                                     </button>
@@ -319,6 +525,7 @@ class Committee extends Component {
                                                                             stimulus.id
                                                                         }
                                                                         className="btn btn-sm btn-outline-primary"
+                                                                        onClick={this.handleModalStimuli}
                                                                     >
                                                                         Detalle
                                                                     </button>
@@ -327,6 +534,7 @@ class Committee extends Component {
                                                                             stimulus.id
                                                                         }
                                                                         className="btn btn-sm btn-outline-danger"
+                                                                        onClick={this.handleDeleteStimulus}
                                                                     >
                                                                         Eliminar
                                                                     </button>
@@ -358,8 +566,9 @@ class Committee extends Component {
                                                                 }
                                                             </td>
                                                             <td>
-                                                                Novedades del
-                                                                aprendiz
+                                                                <span className="badge badge-secondary">
+                                                                    Novedades del aprendiz
+                                                                </span>
                                                             </td>
                                                             <td>
                                                                 <div
@@ -372,6 +581,7 @@ class Committee extends Component {
                                                                             learnerNovelty.id
                                                                         }
                                                                         className="btn btn-sm btn-outline-primary"
+                                                                        onClick={this.handleEditLearnerNovelty}
                                                                     >
                                                                         Editar
                                                                     </button>
@@ -380,6 +590,7 @@ class Committee extends Component {
                                                                             learnerNovelty.id
                                                                         }
                                                                         className="btn btn-sm btn-outline-primary"
+                                                                        onClick={this.handleModalNovelty}
                                                                     >
                                                                         Detalle
                                                                     </button>
@@ -388,6 +599,7 @@ class Committee extends Component {
                                                                             learnerNovelty.id
                                                                         }
                                                                         className="btn btn-sm btn-outline-danger"
+                                                                        onClick={this.handleDeleteLearnerNovelty}
                                                                     >
                                                                         Eliminar
                                                                     </button>
@@ -396,6 +608,48 @@ class Committee extends Component {
                                                         </tr>
                                                     )
                                                 )}
+                                                {this.state.committee.committee_sessions.map((committee_session, i) => (
+                                                    <tr key={i}>
+                                                        <td>{committee_session.learner.document_type} {committee_session.learner.document}</td>
+                                                        <td>{committee_session.learner.name}</td>
+                                                        <td><span className="badge badge-primary">Academico disciplinarios</span></td>
+                                                        <td>
+                                                            <div
+                                                                className="btn-group"
+                                                                role="group"
+                                                                aria-label="Basic example"
+                                                            >
+                                                                <button
+                                                                    data-id={
+                                                                        committee_session.id
+                                                                    }
+                                                                    className="btn btn-sm btn-outline-primary"
+                                                                    onClick={this.handleEditAcademic}
+                                                                >
+                                                                    Editar
+                                                                    </button>
+                                                                <button
+                                                                    data-id={
+                                                                        committee_session.id
+                                                                    }
+                                                                    className="btn btn-sm btn-outline-primary"
+                                                                    onClick={this.handleModalAcademic}
+                                                                >
+                                                                    Detalle
+                                                                    </button>
+                                                                <button
+                                                                    data-id={
+                                                                        committee_session.id
+                                                                    }
+                                                                    className="btn btn-sm btn-outline-danger"
+                                                                    onClick={this.handleDeleteAcademic}
+                                                                >
+                                                                    Eliminar
+                                                                    </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </DataTable>
                                     </div>
@@ -404,11 +658,269 @@ class Committee extends Component {
                         </div>
                     </div>
                 </div>
-                <div
-                    className="modal fade"
-                    tabIndex="-1"
-                    data-backdrop="static"
-                >
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="stimulus-edit">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Editar estimulo</h5>
+                            </div>
+                            <div className="modal-body">
+                                {this.state.message ? (
+                                    <div
+                                        className="alert alert-info"
+                                        role="alert"
+                                    >
+                                        <span>
+                                            <i
+                                                className="fa fa-info-circle"
+                                                aria-hidden="true"
+                                            ></i>{" "}
+                                            {this.state.message}
+                                        </span>
+                                    </div>
+                                ) : (
+                                        <div className=""></div>
+                                    )}
+                                {this.state.stimulus ? (
+                                    <StimuliForm
+                                        onSubmit={this.handleUpdateStimulus}
+                                        committee={this.state.id}
+                                        id="stimulusForm"
+                                        rules={
+                                            this.state.stimuliRules
+                                        }
+                                        handleInput={
+                                            this.handleInputStimulus
+                                        }
+                                        handleSelect={
+                                            this.selectLearner
+                                        }
+                                        data={this.state.stimulus}
+                                    />
+                                ) : (
+                                        <div className="">Cargando...</div>
+                                    )}
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    data-dismiss="modal"
+                                >
+                                    Cerrar
+                                </button>
+                                <button form="form" className="btn btn-primary">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="learner-novelty-edit">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Editar novedad del aprendiz</h5>
+                            </div>
+                            <div className="modal-body">
+                                {this.state.message ? (
+                                    <div
+                                        className="alert alert-info"
+                                        role="alert"
+                                    >
+                                        <span>
+                                            <i
+                                                className="fa fa-info-circle"
+                                                aria-hidden="true"
+                                            ></i>{" "}
+                                            {this.state.message}
+                                        </span>
+                                    </div>
+                                ) : (
+                                        <div className=""></div>
+                                    )}
+                                {this.state.learnerNovelty ? (
+                                    <NoveltyForm
+                                        onSubmit={this.handleUpdateLearnerNovelty}
+                                        committee={this.state.id}
+                                        rules={
+                                            this.state
+                                                .noveltiesRules
+                                        }
+                                        handleInput={
+                                            this.handleInputLearnerNovelty
+                                        }
+                                        handleSelect={
+                                            this.selectLearner
+                                        }
+                                        data={this.state.learnerNovelty}
+                                    />
+                                ) : (
+                                        <div className=""></div>
+                                    )}
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    data-dismiss="modal"
+                                >
+                                    Cerrar
+                                </button>
+                                <button form="form" className="btn btn-primary">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="academic-edit">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Editar caso academico disciplinario</h5>
+                            </div>
+                            <div className="modal-body">
+                                {this.state.message ? (
+                                    <div
+                                        className="alert alert-info"
+                                        role="alert"
+                                    >
+                                        <span>
+                                            <i
+                                                className="fa fa-info-circle"
+                                                aria-hidden="true"
+                                            ></i>{" "}
+                                            {this.state.message}
+                                        </span>
+                                    </div>
+                                ) : (
+                                        <div className=""></div>
+                                    )}
+                                {this.state.academic ? (
+                                    <AcademicForm
+                                        onSubmit={this.handleUpdateAcademic}
+                                        committee={this.state.id}
+                                        rules={
+                                            this.state.academicsRules
+                                        }
+                                        handleInput={
+                                            this.handleInputAcademic
+                                        }
+                                        handleSelect={
+                                            this.selectLearner
+                                        }
+                                        data={this.state.academic}
+                                    />
+                                ) : (
+                                        <div className=""></div>
+                                    )}
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    data-dismiss="modal"
+                                >
+                                    Cerrar
+                                </button>
+                                <button form="form" className="btn btn-primary">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="modal-academic">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Detalle de caso</h5>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row">
+                                    <div className="col-3">
+                                        <img id="learner_photo" src="/img/no-photo.png" alt="learner-img" className="img-thumbnail img-fluid" />
+                                    </div>
+                                    <div className="col">
+                                        <h5 className="text-primary mb-3" id="learner_name"></h5>
+                                        <h6 id="learner_email"></h6>
+                                        <h6 id="learner_document"></h6>
+                                        <hr />
+                                        <h6 id="learner_group"></h6>
+                                        <h6 id="learner_formation_program"></h6>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row">
+                                    <div className="col">
+                                        <h5 className="text-primary">Tipo de falta</h5>
+                                        <h6 id="infringement_type"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="modal-stimuli-novelty">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Modal-title</h5>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row">
+                                    <div className="col-3">
+                                        <img id="learner_photo" src="/img/no-photo.png" alt="learner-img" className="img-thumbnail img-fluid" />
+                                    </div>
+                                    <div className="col">
+                                        <h5 className="text-primary mb-3" id="learner_name"></h5>
+                                        <h6 id="learner_email"></h6>
+                                        <h6 id="learner_document"></h6>
+                                        <hr />
+                                        <h6 id="learner_group"></h6>
+                                        <h6 id="learner_formation_program"></h6>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div className="row mt-3">
+                                    <div className="col">
+                                        <h5 id="case_type" className="text-primary"></h5>
+                                        <h6 id="case_type_text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laboriosam, doloribus!</h6>
+                                        <h5 className="mt-3 text-primary">Justificacion</h5>
+                                        <h6 id="justification">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptas?</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    data-dismiss="modal"
+                                >
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="modal-add">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -495,50 +1007,60 @@ class Committee extends Component {
                                                     </span>
                                                 </div>
                                             ) : (
-                                                <div className=""></div>
-                                            )}
+                                                    <div className=""></div>
+                                                )}
                                             {this.state
                                                 .committee_session_type == 1 ? (
-                                                <StimuliForm
-                                                    onSubmit={this.handleSubmit}
-                                                    committee={this.state.id}
-                                                    rules={
-                                                        this.state.stimuliRules
-                                                    }
-                                                    handleInput={
-                                                        this.handleInput
-                                                    }
-                                                    handleSelect={
-                                                        this.selectLearner
-                                                    }
-                                                />
-                                            ) : this.state
-                                                  .committee_session_type ==
-                                              2 ? (
-                                                <NoveltyForm
-                                                    onSubmit={this.handleSubmit}
-                                                    committee={this.state.id}
-                                                    rules={
-                                                        this.state
-                                                            .noveltiesRules
-                                                    }
-                                                    handleInput={
-                                                        this.handleInput
-                                                    }
-                                                    handleSelect={
-                                                        this.selectLearner
-                                                    }
-                                                />
-                                            ) : (
-                                                <AcademicForm
-                                                    onSubmit={this.handleSubmit}
-                                                />
-                                            )}
+                                                    <StimuliForm
+                                                        onSubmit={this.handleSubmit}
+                                                        committee={this.state.id}
+                                                        rules={
+                                                            this.state.stimuliRules
+                                                        }
+                                                        handleInput={
+                                                            this.handleInput
+                                                        }
+                                                        handleSelect={
+                                                            this.selectLearner
+                                                        }
+                                                    />
+                                                ) : this.state
+                                                    .committee_session_type ==
+                                                    2 ? (
+                                                        <NoveltyForm
+                                                            onSubmit={this.handleSubmit}
+                                                            committee={this.state.id}
+                                                            rules={
+                                                                this.state
+                                                                    .noveltiesRules
+                                                            }
+                                                            handleInput={
+                                                                this.handleInput
+                                                            }
+                                                            handleSelect={
+                                                                this.selectLearner
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <AcademicForm
+                                                            onSubmit={this.handleSubmit}
+                                                            committee={this.state.id}
+                                                            rules={
+                                                                this.state.academicsRules
+                                                            }
+                                                            handleInput={
+                                                                this.handleInput
+                                                            }
+                                                            handleSelect={
+                                                                this.selectLearner
+                                                            }
+                                                        />
+                                                    )}
                                         </div>
                                     </div>
                                 ) : (
-                                    <div></div>
-                                )}
+                                        <div></div>
+                                    )}
                             </div>
                             <div className="modal-footer">
                                 <button

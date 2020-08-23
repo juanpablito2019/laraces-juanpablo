@@ -42,6 +42,14 @@ class InfringementTypeResquest extends FormRequest
         return $rules;
     }
 
+    public function attributes()
+    {
+        return [
+            'name' => 'nombre',
+            'type' => 'tipo'
+        ];
+    }
+
     public function response(array $errors)
     {
         if ($this->expectsJson()) {
