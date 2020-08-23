@@ -61,6 +61,9 @@ class Groups extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getGroups();
+            }else{
+                alert(data.message)
+                this.getGroups();
             }
         })
     }

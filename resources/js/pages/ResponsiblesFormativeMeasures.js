@@ -43,6 +43,9 @@ class ResponsiblesFormativeMeasures extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getResponsibles();
+            }else{
+                alert(data.message)
+                this.getResponsibles();
             }
         })
     }
