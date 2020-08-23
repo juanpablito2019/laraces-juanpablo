@@ -32,7 +32,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('committee-parameters', 'CommitteeParameterController');
     Route::resource('committee-sessions', 'CommitteeSessionController');
     Route::resource('committee-session-states', 'CommitteeSessionStateController');
-    Route::resource('committee-session-types', 'CommitteeSessionTypeController');
     Route::resource('complainers', 'ComplainerController');
     Route::resource('contract-types', 'ContractTypeController');
     Route::post('/contract-types/mass', 'ContractTypeController@mass');
@@ -61,7 +60,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/stimuli/{committee}', 'StimulusController@index');
     Route::post('/stimuli', 'StimulusController@store');
+    Route::get('/stimuli/show/{stimulus}', 'StimulusController@show');
+    Route::delete('/stimuli/delete/{stimulus}', 'StimulusController@destroy');
+    Route::put('/stimuli/update/{stimulus}', 'StimulusController@update');
 
     Route::get('/learner-novelties/{committee}', 'LearnerNoveltyController@index');
     Route::post('/learner-novelties', 'LearnerNoveltyController@store');
+    Route::get('/learner-novelties/show/{learner_novelty}', 'LearnerNoveltyController@show');
+    Route::delete('/learner-novelties/delete/{learner_novelty}', 'LearnerNoveltyController@destroy');
+    Route::put('/learner-novelties/update/{learner_novelty}', 'LearnerNoveltyController@update');
 });

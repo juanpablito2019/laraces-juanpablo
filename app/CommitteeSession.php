@@ -49,5 +49,15 @@ class CommitteeSession extends Model
     public function committee()
     {
         return $this->belongsTo(Committee::class);
-    }
+	}
+	
+	public function learner()
+	{
+		return $this->belongsTo(Learner::class);
+	}
+
+	public function infringementType()
+	{
+		return $this->belongsTo(InfringementType::class);
+	}
 }

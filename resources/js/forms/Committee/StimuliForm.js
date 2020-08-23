@@ -8,6 +8,7 @@ class StimuliForm extends Component {
         super(props);
         this.state = {
             learners: null,
+            selectValue: ''
         }
     }
 
@@ -26,7 +27,7 @@ class StimuliForm extends Component {
     }
 
     render() {
-        let { onSubmit, handleInput, handleSelect, committee, rules } = this.props;
+        let { onSubmit, handleInput, handleSelect, committee, rules, data=null } = this.props;
         if (!this.state.learners) {
             return <Loader />
         }
@@ -40,6 +41,7 @@ class StimuliForm extends Component {
                         id="learner_id"
                         options={this.state.learners}
                         onChange={(value) => handleSelect(value)}
+                        defaultValue={data?{label: `${data.learner.name}(${data.learner.document})`, value: data.learner.id}:''}
                     />
                     <small id="helpId" className="text-muted">Nombre o numero de documento</small>
                 </div>
@@ -51,6 +53,7 @@ class StimuliForm extends Component {
                         id="stimulus"
                         className={rules.stimulus.isInvalid && rules.stimulus.message != '' ? 'form-control is-invalid' : 'form-control'}
                         onInput={handleInput}
+                        defaultValue={data?data.stimulus:''}
                     />
                     <div className="invalid-feedback">
                         {rules.stimulus.isInvalid && rules.stimulus.message != '' ? rules.stimulus.message : ''}
@@ -63,6 +66,7 @@ class StimuliForm extends Component {
                         id="justification"
                         className={rules.justification.isInvalid && rules.justification.message != '' ? 'form-control is-invalid' : 'form-control'}
                         onInput={handleInput}
+                        defaultValue={data?data.justification:''}
                     >
                     </textarea>
                     <div className="invalid-feedback">

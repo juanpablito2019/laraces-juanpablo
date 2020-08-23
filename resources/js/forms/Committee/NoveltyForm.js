@@ -36,7 +36,7 @@ class NoveltyForm extends Component {
     }
 
     render() {
-        let {onSubmit, handleSelect, handleInput, rules, committee} = this.props;
+        let {onSubmit, handleSelect, handleInput, rules, committee, data=null} = this.props;
         if(!this.state.learners || !this.state.noveltyTypes){
             return <Loader />
         }
@@ -50,6 +50,7 @@ class NoveltyForm extends Component {
                         id="learner_id"
                         options={this.state.learners}
                         onChange={(value) => handleSelect(value)}
+                        defaultValue={data?{label: `${data.learner.name}(${data.learner.document})`, value: data.learner.id}:''}
                     />
                     <small id="helpId" className="text-muted">
                         Nombre o numero de documento
@@ -67,6 +68,7 @@ class NoveltyForm extends Component {
                                 : "form-control"
                         }
                         onInput={handleInput}
+                        defaultValue={data?data.novelty_type_id:''}
                     >
                         <option value="">Seleccione uno</option>
                         {this.state.noveltyTypes.length > 0 ? (
@@ -92,6 +94,7 @@ class NoveltyForm extends Component {
                         id="justification"
                         className={rules.justification.isInvalid && rules.justification.message != '' ? 'form-control is-invalid':'form-control'}
                         onInput={handleInput}
+                        defaultValue={data?data.justification:''}
                     ></textarea>
                     <div className="invalid-feedback">
                         {rules.justification.isInvalid && rules.justification.message != '' ? rules.justification.message : ''}

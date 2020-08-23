@@ -46,9 +46,10 @@ class StimulusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Stimulus $stimulus)
     {
-        //
+        $stimulus->learner->group->formationProgram;
+        return $stimulus;
     }
 
     /**
@@ -58,9 +59,17 @@ class StimulusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StimulusRequest $request, Stimulus $stimulus)
     {
-        //
+        $stimulus->learner_id = $request->get('learner_id');
+        $stimulus->stimulus = $request->get('stimulus');
+        $stimulus->justification = $request->get('justification');
+        $stimulus->save();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Estimulo actualizado con exito'
+        ]);
     }
 
     /**
@@ -69,8 +78,13 @@ class StimulusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Stimulus $stimulus)
     {
-        //
+        $stimulus->delete();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Estimulo agregado con exito'
+        ]);
     }
 }
