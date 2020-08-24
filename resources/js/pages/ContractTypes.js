@@ -86,26 +86,25 @@ class ContractTypes extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        if (formValid(rules)){
+        if (formValid(rules)) {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
-                $('.modal').modal('toggle');
-                await this.getContractTypes();
-                this.setState({ edit: false });
-            } else {
-                let data = await store(e.target);
-                if (data.errors) {
-                    if (data.errors.name) {
-                        $('input#name').addClass('is-invalid');
-                        $('#errorName').text(data.errors.name);
-                    }
-                }
                 if (data.success) {
+                    this.getContractTypes();
                     $('.modal').modal('toggle');
-                    await this.getContractTypes();
+                }else{
+                    this.setState({message: data.errors.name})
                 }
+            } else {
+                store(e.target).then(data => {
+                    if (data.success) {
+                        this.getContractTypes();
+                        $('.modal').modal('toggle');
+                    }else{
+                        this.setState({message: data.errors.name})
+                    }
+                });
             }
-
         }else{
             this.setState({message:'Por favor completa el formulario'});
         }
@@ -179,12 +178,12 @@ class ContractTypes extends Component {
                             </div>
                             <div className="modal-body">
                                 <form id="form" onSubmit={this.handleSubmit}>
-                                    {this.state.message ? (
+                                {this.state.message ? (
                                         <div className="alert alert-info" role="alert">
                                             <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
                                         </div>
-                                        ):(
-                                            <div></div>
+                                    ) : (
+                                            <div className=""></div>
                                         )}
 
                                     <div className="form-group">

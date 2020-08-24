@@ -172,31 +172,32 @@ class ResponsiblesFormativeMeasures extends Component {
     async handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
-            if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
+            if (formValid(rules)) {
+                if (this.state.edit) {
+                    let data = await update(e.target, this.state.id);
                     if (data.success) {
                         this.getResponsibles();
                         $('.modal').modal('toggle');
-                    } else {
-                        this.setState({ message: data.errors.name })
+                    }else{
+                        this.setState({message: data.errors.name})
                     }
-                })
+                } else {
+                    store(e.target).then(data => {
+                        if (data.success) {
+                            this.getResponsibles();
+                            $('.modal').modal('toggle');
+                        }else{
+                            this.setState({message:  data.errors.document  || data.errors.misena_email || data.errors.institutional_email || data.errors.phone || data.errors.phone_ip  })
+                        }
+                    });
+                }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getResponsibles();
-                        $('.modal').modal('hide');
-                    } else {
-                        this.setState({ message: data.errors.name })
-                    }
-                });
-            }
-        } else {
             this.setState({ message: 'Por favor completa el formulario' })
+             }
         }
     }
 
-    tooltip(e) {
+    tooltip(e){
         $(e.target).tooltip();
     }
 
@@ -300,12 +301,13 @@ class ResponsiblesFormativeMeasures extends Component {
                             <div className="modal-body">
                                 <form onSubmit={this.handleSubmit} id="form">
                                     {this.state.message ? (
-                                        <div className="alert alert-info" role="alert">
-                                            <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
-                                        </div>
-                                    ) : (
-                                            <div className=""></div>
-                                        )}
+
+                                    <div className="alert alert-info" role="alert">
+                                        <span><i className="fa fa-info-circle" aria-hidden="true"></i>{this.state.message}</span>
+                                    </div>
+                                    ):(
+                                        <div></div>
+                                    )}
                                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                                         <li className="nav-item" role="presentation">
                                             <a className="nav-link active" id="home-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="home" aria-selected="true">Datos personales</a>

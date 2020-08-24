@@ -94,6 +94,7 @@ export const rules = {
         // Rules
         required: true,
         isEmpty: true,
-        isInvalid: true
+        isInvalid: true,
+        min5: 5
     }
 };
