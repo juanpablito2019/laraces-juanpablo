@@ -3,6 +3,7 @@ import { get, rules, store, find, update, destroy, storeMass } from '../containe
 import {get as getFormationProgramTypes} from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
+import toastr from 'toastr';
 
 class FormationPrograms extends Component {
     constructor(props) {
@@ -40,7 +41,14 @@ class FormationPrograms extends Component {
     handleUpdate() {
         this.setState({formationPrograms: null});
         storeMass().then(data => {
-            this.getFormationPrograms();
+            if(data.success){
+                this.getFormationPrograms();
+            }else{
+                this.getFormationPrograms();
+                toastr.error('', data.message, {
+                    closeButton: true
+                });
+            }
         })
     }
 

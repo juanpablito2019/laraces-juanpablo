@@ -108,40 +108,51 @@ class GroupController extends Controller
 
     public function mass()
     {
-        $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
-            'misena_email'=>"consulta@misena.edu.co",
-            'password'=> "123456789110",
-        ]);
-        $token = $response->json()['token'];
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
-        ])->get('https://cronode.herokuapp.com/api/ces/groups');
-        $data = $response->json()['groups'];
-        for ($i=0; $i < count($data); $i++) {
-            $groups = Group::all();
-            if(!$groups->find($data[$i]['id'])){
-                $elective_start_date = date_parse($data[$i]['electiveStartDate']);
-                $elective_end_date = date_parse($data[$i]['electiveEndDate']);
-                $practice_start_date = date_parse($data[$i]['practiceStartDate']);
-                $practice_end_date = date_parse($data[$i]['practiceEndDate']);
-                Group::create([
-                    'id'=>$data[$i]['id'],
-                    'code_tab'=>$data[$i]['codeTab'],
-                    'modality_id'=>$data[$i]['modalityId'],
-                    'formation_program_id'=>$data[$i]['formationProgramId'],
-                    'quantity_learners'=>$data[$i]['quantityLearners'],
-                    'active_learners'=>$data[$i]['activeLearners'],
-                    'elective_start_date'=>$elective_start_date['year']."-".$elective_start_date['month']."-".$elective_start_date['day'],
-                    'elective_end_date'=>$elective_end_date['year']."-".$elective_end_date['month']."-".$elective_end_date['day'],
-                    'practice_start_date'=>$practice_start_date['year']."-".$practice_start_date['month']."-".$practice_start_date['day'],
-                    'practice_end_date'=>$practice_end_date['year']."-".$practice_end_date['month']."-".$practice_end_date['day'],
+        try {
+            $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
+                'misena_email'=>"consulta@misena.edu.co",
+                'password'=> "123456789110",
+            ]);
+            $token = $response->json()['token'];
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.$token
+            ])->get('https://cronode.herokuapp.com/api/ces/groups');
+            $data = $response->json()['groups'];
+            for ($i=0; $i < count($data); $i++) {
+                $groups = Group::all();
+                if(!$groups->find($data[$i]['id'])){
+                    $elective_start_date = date_parse($data[$i]['electiveStartDate']);
+                    $elective_end_date = date_parse($data[$i]['electiveEndDate']);
+                    $practice_start_date = date_parse($data[$i]['practiceStartDate']);
+                    $practice_end_date = date_parse($data[$i]['practiceEndDate']);
+                    Group::create([
+                        'id'=>$data[$i]['id'],
+                        'code_tab'=>$data[$i]['codeTab'],
+                        'modality_id'=>$data[$i]['modalityId'],
+                        'formation_program_id'=>$data[$i]['formationProgramId'],
+                        'quantity_learners'=>$data[$i]['quantityLearners'],
+                        'active_learners'=>$data[$i]['activeLearners'],
+                        'elective_start_date'=>$elective_start_date['year']."-".$elective_start_date['month']."-".$elective_start_date['day'],
+                        'elective_end_date'=>$elective_end_date['year']."-".$elective_end_date['month']."-".$elective_end_date['day'],
+                        'practice_start_date'=>$practice_start_date['year']."-".$practice_start_date['month']."-".$practice_start_date['day'],
+                        'practice_end_date'=>$practice_end_date['year']."-".$practice_end_date['month']."-".$practice_end_date['day'],
+                    ]);
+                }
+            }
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Tipos de programas de formacion actualizados'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1452"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'Actualizar modalidades(Parametros Generales) y/o programa formacion(Parametros Generales) correspondientes'
                 ]);
             }
         }
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Tipos de programas de formacion actualizados'
-        ]);
     }
 }

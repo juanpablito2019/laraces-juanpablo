@@ -82,15 +82,6 @@ export const rules = {
         isInvalid: true,
         min:5
     },
-    content: {
-        type: 'text',
-        name: 'contenido',
-        message: '',
-        required: true,
-        isEmpty: true,
-        isInvalid: true,
-        min:5
-    },
     committee_session_state_id:{
         name:'Estado de comite',
         type:'numeric',

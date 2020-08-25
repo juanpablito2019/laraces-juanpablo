@@ -6,6 +6,7 @@ import { validate, formValid, setRules } from '../containers/Validator';
 import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 import Select from 'react-select';
+import toastr from 'toastr';
 
 class ResponsiblesFormativeMeasures extends Component {
     constructor(props) {
@@ -45,6 +46,11 @@ class ResponsiblesFormativeMeasures extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getResponsibles();
+            }else{
+                this.getResponsibles();
+                toastr.error('', data.message, {
+                    closeButton: true
+                });
             }
         })
     }

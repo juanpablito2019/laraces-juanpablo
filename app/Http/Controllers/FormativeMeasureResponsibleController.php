@@ -140,42 +140,53 @@ class FormativeMeasureResponsibleController extends Controller
 
     public function mass()
     {
-        $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
-            'misena_email'=>"consulta@misena.edu.co",
-            'password'=> "123456789110",
-        ]);
-        $token = $response->json()['token'];
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
-        ])->get('https://cronode.herokuapp.com/api/ces/instructors');
-        $data = $response->json()['instructors'];
-        for ($i=0; $i < count($data); $i++) {
-            $FormativeMeasureResponsibles = FormativeMeasureResponsible::all();
-            if(!$FormativeMeasureResponsibles->find($data[$i]['id'])){
-                $birthdate = date_parse($data[$i]['birthdate']);
-                FormativeMeasureResponsible::create([
-                    'id'=>$data[$i]['id'],
-                    'username'=>$data[$i]['username'],
-                    'misena_email'=>$data[$i]['misena_email'],
-                    'institutional_email'=>$data[$i]['institutional_email'],
-                    'document_type'=>'CC',
-                    'document'=>$data[$i]['document'],
-                    'phone'=>$data[$i]['phone'],
-                    'phone_ip'=>$data[$i]['phone_ip'],
-                    'gender'=>$data[$i]['gender'],
-                    'position_id'=>$data[$i]['positionId'],
-                    'contract_type_id'=>$data[$i]['contractTypeId'],
-                    'type'=>'Instructor',
-                    'state'=>$data[$i]['state'],
-                    'birthdate'=>$birthdate['year']."-".$birthdate['month']."-".$birthdate['day']
+        try {
+            $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
+                'misena_email'=>"consulta@misena.edu.co",
+                'password'=> "123456789110",
+            ]);
+            $token = $response->json()['token'];
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.$token
+            ])->get('https://cronode.herokuapp.com/api/ces/instructors');
+            $data = $response->json()['instructors'];
+            for ($i=0; $i < count($data); $i++) {
+                $FormativeMeasureResponsibles = FormativeMeasureResponsible::all();
+                if(!$FormativeMeasureResponsibles->find($data[$i]['id'])){
+                    $birthdate = date_parse($data[$i]['birthdate']);
+                    FormativeMeasureResponsible::create([
+                        'id'=>$data[$i]['id'],
+                        'username'=>$data[$i]['username'],
+                        'misena_email'=>$data[$i]['misena_email'],
+                        'institutional_email'=>$data[$i]['institutional_email'],
+                        'document_type'=>'CC',
+                        'document'=>$data[$i]['document'],
+                        'phone'=>$data[$i]['phone'],
+                        'phone_ip'=>$data[$i]['phone_ip'],
+                        'gender'=>$data[$i]['gender'],
+                        'position_id'=>$data[$i]['positionId'],
+                        'contract_type_id'=>$data[$i]['contractTypeId'],
+                        'type'=>'Instructor',
+                        'state'=>$data[$i]['state'],
+                        'birthdate'=>$birthdate['year']."-".$birthdate['month']."-".$birthdate['day']
+                    ]);
+                }
+            }
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Responsables de medidas formativas actualizados',
+                'FormativeMeasureResponsibles'=>$data
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1452"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'Actualizar tipo de contrato(Parametros generales) y/o cargos(Parametros generales)'
                 ]);
             }
         }
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Responsables de medidas formativas actualizados',
-            'FormativeMeasureResponsibles'=>$data
-        ]);
     }
 }

@@ -63,6 +63,9 @@ class Ckeditor extends Component {
             <>
                 <CKEditor
                     editor={ClassicEditor}
+                    config={{
+                        language: 'es',
+                    }}
                     data={this.state.data}
                     onInit={editor => {
                         // console.log(Array.from(editor.ui.componentFactory.names()))

@@ -4,6 +4,7 @@ import { get as getCommitteeSessionStates } from '../containers/CommitteeSession
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Ckeditor from '../components/Ckeditor';
+import DataTable from '../components/DataTable';
 
 class CommitteeParameters extends Component {
     constructor(props) {
@@ -11,20 +12,21 @@ class CommitteeParameters extends Component {
         this.state = {
             committeeParameters: null,
             committeeSessionStates: null,
-            edit: false
+            edit: false,
+            ckdata: "",
+            ckreset: false
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleModal = this.handleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
-        this.search = this.search.bind(this);
     }
 
-    getCommitteeParameters() {
-        get().then(data => {
-            this.setState({ committeeParameters: data })
-        })
+    async getCommitteeParameters() {
+        this.setState({ committeeParameters: null })
+        let data = await get();
+        this.setState({ committeeParameters: data })
     }
 
     getCommitteeSessionStates() {
@@ -36,14 +38,15 @@ class CommitteeParameters extends Component {
     handleModal(){
         $('#form').trigger('reset');
         setRules(rules);
-        this.setState({ message: null, edit: false });
+        this.setState({ ckreset: true, ckdata: "",message: null, edit: false });
         $('.modal').find('.modal-title').text('Crear parametro de comite');
         $('.modal').modal('toggle');
     }
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ id, edit: true, message: null });
+        let data = await find(id);
+        this.setState({ ckdata: data.content, ckreset: false,id, edit: true, message: null });
         setRules(rules, false);
         find(id).then(data => {
             $('#name').val(data.name);
@@ -53,39 +56,30 @@ class CommitteeParameters extends Component {
             $('.modal').modal('toggle');
         })
     }
-    search(e) {
-        let { value } = e.target;
-        let matchs = this.state.committeeParameters.filter(committeeParameter => {
-            const rgex = new RegExp(`^${value}`, 'gi');
-            return committeeParameter.name.match(rgex) || committeeParameter.committee_session_state.name.match(rgex)
-        });
-        if (value.length === 0) {
-            this.getCommitteeParameters();
-        }
-        this.setState({ committeeParameters: matchs });
-    }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
             if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
-                    if (data.success) {
-                        this.getCommitteeParameters();
-                        $('.modal').modal('toggle');
-                    }else{
-                        this.setState({ message: data.errors.name })
-                    }
-                })
+                let data = await update(e.target, this.state.id);
+                if (data.success) {
+                    $('#modal').modal('hide');
+                    setTimeout(async () => {
+                        await this.getCommitteeParameters();
+                    }, 100);
+                } else {
+                    this.setState({ message: data.errors.name })
+                }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getCommitteeParameters();
-                        $('.modal').modal('toggle');
-                    }else{
-                        this.setState({ message: data.errors.name })
-                    }
-                });
+                let data = await store(e.target);
+                if (data.success) {
+                    $('#modal').modal('hide');
+                    setTimeout(async () => {
+                        await this.getCommitteeParameters();
+                    }, 100);
+                } else {
+                    this.setState({ message: data.errors.name || data.errors.content })
+                }
             }
         } else {
             this.setState({ message: 'Por favor completa el formulario' })
@@ -121,55 +115,42 @@ class CommitteeParameters extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Parametros comite</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parametro</a>
-                    </div>
-                    <div className="col-3 d-none d-sm-block">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">Buscar</button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} />
-                        </div>
+                        <h3>Parámetros comite</h3>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parámetro</a>
                     </div>
                 </div>
 
                 <div className="row mt-3">
-                    <div className="col">
-                        <table className="table table-striped display nowrap table-responsive-sm" id="tabla">
+                    <div className="col">   
+                        <DataTable>
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Contenido</th>
-                                    <th scope="col">Nombre de la seccion de comite</th>
+                                    <th scope="col">Nombre del acta</th>
                                     <th scope="col">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {this.state.committeeParameters.length > 0 ? (
-                                this.state.committeeParameters.map(committeeParameter => (
-                                    <tr key={committeeParameter.id}>
-                                        <td>{committeeParameter.name}</td>
-                                        <td>{committeeParameter.content}</td>
-                                        <td>{committeeParameter.committee_session_state.name}</td>
-                                        <td>
-                                        <button type="button" data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-link">Editar</button>
-                                        <button type="button" data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-link text-danger">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                    
-                                ))
-                            ) : (
-                                    <tr>
-                                        <td colSpan="4" className="text-center">No hay datos disponibles</td>
-                                    </tr>
-                                )}
-                                </tbody>
-                        </table>
+                            {this.state.committeeParameters.map(committeeParameter => (
+                                <tr key={committeeParameter.id}>
+                                    <td>{committeeParameter.name}</td>
+                                    <td>{committeeParameter.content}</td>
+                                    <td>{committeeParameter.committee_session_state.name}</td>
+                                    <td>
+                                        <div className="btn-group" role="group" aria-label="Basic example">
+                                            <button data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+                                            <button data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </DataTable>
                     </div>
                 </div>
 
-                <div className="modal" tabIndex="-1" role="dialog">
+                <div className="modal" id="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -207,7 +188,7 @@ class CommitteeParameters extends Component {
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col-12">
-                                                <label htmlFor="committee_session_state_id">Nombre estado comite <span className="text-danger">*</span></label>
+                                                <label htmlFor="committee_session_state_id">Nombre acta <span className="text-danger">*</span></label>
                                                 <select
                                                     name="committee_session_state_id"
                                                     id="committee_session_state_id"
@@ -229,10 +210,17 @@ class CommitteeParameters extends Component {
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col">
-                                                <label htmlFor="content">Contenido <span className="text-danger">*</span></label>
-                                                <Ckeditor 
+                                                <label htmlFor="">Contenido
+                                                    <span className="text-danger">
+                                                        *
+                                                    </span>
+                                                </label>
+                                                <Ckeditor
                                                     name="content"
                                                     id="content"
+                                                    data={this.state.ckdata}
+                                                    reset={this.state.ckreset}
+                                                    options={['heading','bold','italic','blockQuote','bulletedList','numberedList','undo','redo']}
                                                 />
                                             </div>
                                         </div>
