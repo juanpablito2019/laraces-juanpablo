@@ -101,18 +101,18 @@ class Groups extends Component {
                 update(e.target, this.state.id).then(data => {
                     if (data.success) {
                         this.getGroups();
-                        $('.modal').modal('toggle');
+                        $('#modal').modal('toggle');
                     } else {
-                        this.setState({ message: data.errors.name })
+                        this.setState({ message: data.errors.code_tab })
                     }
                 })
             } else {
                 store(e.target).then(data => {
                     if (data.success) {
                         this.getGroups();
-                        $('.modal').modal('toggle');
+                        $('#modal').modal('toggle');
                     } else {
-                        this.setState({ message: data.errors.name })
+                        this.setState({ message: data.errors.code_tab })
                     }
                 });
             }

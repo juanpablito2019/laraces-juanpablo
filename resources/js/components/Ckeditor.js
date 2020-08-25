@@ -3,52 +3,80 @@ import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import '@ckeditor/ckeditor5-build-classic/build/translations/es';
 
-const editorConfiguration = {
-    removePlugins: [
-    'Essentials', // deshacer, rehacer
-    'MediaEmbed', // Subir video
-    'Table', // Tabla
-    'ImageUpload', // Subir imagen
-    'Bold', // Negrita
-    'Italic', // Cursiva
-    'Heading', // Encabezado
-    'BulletedList',
-    'Link', // Enlace
-    'List', // Lista de puntos, Lista numerada
-    'Paragraph' // Deshabilita comillas
-    ]
-};
+/* 
+    "selectAll",
+    "undo",
+    "redo",
+    "bold",
+    "italic",
+    "blockQuote",
+    "ckfinder",
+    "imageTextAlternative",
+    "imageUpload",
+    "heading",
+    "imageStyle:full",
+    "imageStyle:side",
+    "indent",
+    "outdent",
+    "link",
+    "numberedList",
+    "bulletedList",
+    "mediaEmbed",
+    "insertTable",
+    "tableColumn",
+    "tableRow",
+    "mergeTableCells",
+*/
+
 
 
 class Ckeditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editor: null,
-            data: ""
+            data: "",
+            config: {
+                language: 'es'
+            },
+        }
+    }
+
+    UNSAFE_componentWillMount() {
+        if (this.props.options) {
+            let newConfig = this.state.config;
+            newConfig.toolbar = this.props.options;
+            this.setState({ config: newConfig });
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.data != '') {
+            this.setState({ data: nextProps.data });
+        }
+        if (nextProps.reset) {
+            this.setState({ data: "" });
         }
     }
     render() {
+
         return (
             <>
                 <CKEditor
                     editor={ClassicEditor}
-                    config={{
-                        language: 'es',
-                    },
-                    editorConfiguration}
+                    data={this.state.data}
                     onInit={editor => {
-                        this.setState({ editor })
+                        // console.log(Array.from(editor.ui.componentFactory.names()))
                     }}
+                    config={this.state.config}
                     onChange={(e, editor) => {
                         const data = editor.getData();
-                        this.setState({data});
+                        this.setState({ data });
                     }}
                 />
-                <textarea 
-                    className="d-none" 
-                    name={this.props.name} 
-                    id={this.props.id} 
+                <textarea
+                    className="d-none"
+                    name={this.props.name}
+                    id={this.props.id}
                     defaultValue={this.state.data}
                 ></textarea>
             </>

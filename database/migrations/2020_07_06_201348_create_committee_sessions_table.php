@@ -17,7 +17,6 @@ class CreateCommitteeSessionsTable extends Migration
             $table->id();
             $table->foreignId('complainer_id')->nullable()->references('id')->on('complainers');
             $table->foreignId('committee_id')->nullable()->references('id')->on('committees');
-            $table->foreignId('committee_session_type_id')->nullable()->references('id')->on('committee_session_states');
             $table->foreignId('committee_session_state_id')->nullable()->references('id')->on('committee_session_states');
             $table->foreignId('learner_id')->references('id')->on('learners');
             $table->foreignId('infringement_type_id')->nullable()->references('id')->on('infringement_types');

@@ -3,6 +3,7 @@ import { get, store, find, update, destroy, rules,storeMass } from '../container
 import { get as getContractTypes } from '../containers/ContractTypes';
 import { get as getPositions } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
+import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 import Select from 'react-select';
 
@@ -34,6 +35,7 @@ class ResponsiblesFormativeMeasures extends Component {
     }
 
     async getResponsibles() {
+        this.setState({ responsibles: null });
         let data = await get();
         this.setState({ responsibles: data });
     }
@@ -184,8 +186,10 @@ class ResponsiblesFormativeMeasures extends Component {
                 } else {
                     store(e.target).then(data => {
                         if (data.success) {
-                            this.getResponsibles();
-                            $('.modal').modal('toggle');
+                            $('#modal').modal('hide');
+                            setTimeout(async () => {
+                                await this.getResponsibles();
+                            }, 100);
                         }else{
                             this.setState({message:  data.errors.document  || data.errors.misena_email || data.errors.institutional_email || data.errors.phone || data.errors.phone_ip  })
                         }
@@ -236,20 +240,10 @@ class ResponsiblesFormativeMeasures extends Component {
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo responsable</span></a>
                         <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} />
-                        </div>
-                    </div>
                 </div>
                 <div className="row mt-3">
                     <div className="col">
-                        <table className="table">
+                        <DataTable>
                             <thead>
                                 <tr>
                                     <th>Documento</th>
@@ -261,8 +255,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.responsibles.length > 0 ? (
-                                    this.state.responsibles.map(responsible => (
+                                    {this.state.responsibles.map(responsible => (
                                         <tr key={responsible.id}>
                                             <td>{responsible.document_type} {responsible.document}</td>
                                             <td>{responsible.username}</td>
@@ -277,14 +270,10 @@ class ResponsiblesFormativeMeasures extends Component {
                                                 </div>
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                        <tr>
-                                            <td colSpan="6" className="text-center">No hay datos disponibles</td>
-                                        </tr>
-                                    )}
+                                    ))}
+
                             </tbody>
-                        </table>
+                        </DataTable>
                     </div>
                 </div>
 

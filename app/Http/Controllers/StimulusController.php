@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Committee;
+use App\Http\Requests\StimulusRequest;
+use App\Stimulus;
 use Illuminate\Http\Request;
 
 class StimulusController extends Controller
@@ -11,9 +14,9 @@ class StimulusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Committee $committee)
     {
-        return view('stimuli.index');
+        return Stimulus::with('learner', 'committee')->where('committee_id', $committee->id)->get();
     }
 
     /**
@@ -22,9 +25,19 @@ class StimulusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StimulusRequest $request)
     {
-        //
+        Stimulus::create([
+            'learner_id' => $request->get('learner_id'),
+            'committee_id' => $request->get('committee_id'),
+            'stimulus' => $request->get('stimulus'),
+            'justification' => $request->get('justification'),
+        ]);
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Estimulo agregado con exito'
+        ]);
     }
 
     /**
@@ -33,9 +46,10 @@ class StimulusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Stimulus $stimulus)
     {
-        //
+        $stimulus->learner->group->formationProgram;
+        return $stimulus;
     }
 
     /**
@@ -45,9 +59,17 @@ class StimulusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StimulusRequest $request, Stimulus $stimulus)
     {
-        //
+        $stimulus->learner_id = $request->get('learner_id');
+        $stimulus->stimulus = $request->get('stimulus');
+        $stimulus->justification = $request->get('justification');
+        $stimulus->save();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Estimulo actualizado con exito'
+        ]);
     }
 
     /**
@@ -56,8 +78,13 @@ class StimulusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Stimulus $stimulus)
     {
-        //
+        $stimulus->delete();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Estimulo agregado con exito'
+        ]);
     }
 }

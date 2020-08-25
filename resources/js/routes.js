@@ -1,7 +1,6 @@
 import Learners from "./pages/Learners";
 import Sanctions from './pages/Sanctions';
 import CommitteeParameters from "./pages/CommitteeParameters";
-import CommitteeSessionTypes from './pages/CommitteeSessionTypes';
 import FormativeMeasures from './pages/FormativeMeasures';
 import Home from "./pages/Home";
 import Positions from "./pages/Positions";
@@ -12,6 +11,7 @@ import ResponsiblesFormativeMeasures from "./pages/ResponsiblesFormativeMeasures
 import Modalities from "./pages/Modalities";
 import Groups from "./pages/Groups";
 import Committees from "./pages/Committees";
+import Committee from "./pages/Committee";
 import InfringementTypes from "./pages/InfringementTypes";
 import InfringementClassifications from "./pages/InfringementClassifications";
 import NoveltyTypes from "./pages/NoveltyTypes";
@@ -19,6 +19,7 @@ export default [
     {
         name: 'Home',
         path: '/',
+        visible: true,
         component: Home
     },
     {
@@ -54,11 +55,6 @@ export default [
                 name: 'Tipos de novedades',
                 path: '/novelty-types',
                 component: NoveltyTypes
-            },
-            {
-                name: 'Tipos de casos',
-                path: '/committee-session-types',
-                component: CommitteeSessionTypes
             },
         ]
     },
@@ -96,31 +92,37 @@ export default [
     {
         name: 'Aprendices',
         path: '/learners',
+        visible: true,
         component: Learners
     },
-
     {
         name: 'Grupos',
         path: '/groups',
+        visible: true,
         component: Groups
     },
-
-
     {
         name: 'Comités',
         path: '/committees',
+        visible: true,
         component: Committees
     },
-
+    {
+        name: 'Committee',
+        path: '/committees/:id',
+        visible: false,
+        component: Committee
+    },
     {
         name: 'Novedades del aprendiz',
         path: '/learner-novelties',
+        visible: true,
         component: Learners
     },
-
     {
         name: 'Responsables de medida formativa',
         path: '/formative-measure-responsibles',
+        visible: true,
         component: ResponsiblesFormativeMeasures
     },
 ]
