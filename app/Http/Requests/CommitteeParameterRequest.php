@@ -27,7 +27,7 @@ class CommitteeParameterRequest extends FormRequest
     {
         $rules = [
             'name' => ['required', 'string', 'min:5', 'unique:committee_parameters'],
-            'content' => ['required', 'string', 'min:5'],
+            'content' => ['required', 'string'],
             'committee_session_state_id' => ['required','integer', 'exists:committee_session_states,id'],
         ];
         if(in_array($this->method(), ['PUT', 'PATCH'])) {
@@ -38,14 +38,16 @@ class CommitteeParameterRequest extends FormRequest
                 'min:5',
                 Rule::unique('committee_parameters')->ignore($committee_parameter)
             ];
-            $rules['content'] = [
-                'required',
-                'string',
-                'min:5',
-                Rule::unique('committee_parameters')->ignore($committee_parameter)
-            ];
         }
         return $rules;
+    }
+
+    public function attributes(){
+        return  [
+            'name' => 'nombre',
+            'content' => 'contenido',
+            'committee_session_state_id' => 'nombre del acta de comite'
+        ];
     }
 
     public function response(array $errors)
