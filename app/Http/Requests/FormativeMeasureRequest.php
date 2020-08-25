@@ -42,6 +42,12 @@ class FormativeMeasureRequest extends FormRequest
         return $rules;
     }
 
+    public function attributes(){
+        return  [
+            'name' => 'nombre'
+        ];
+    }
+
     public function response(array $errors)
     {
         if ($this->forceJsonResponse || $this->ajax() || $this->wantsJson()) {

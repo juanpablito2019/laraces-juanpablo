@@ -57,29 +57,29 @@ class CommitteeParameters extends Component {
         })
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
             if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
-                    if (data.success) {
-                        this.getCommitteeParameters();
-                        $('.modal').modal('toggle');
-                    }else{
-                        this.setState({ message: data.errors.name })
-                    }
-                })
+                let data = await update(e.target, this.state.id);
+                if (data.success) {
+                    $('#modal').modal('hide');
+                    setTimeout(async () => {
+                        await this.getCommitteeParameters();
+                    }, 100);
+                } else {
+                    this.setState({ message: data.errors.name })
+                }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        $('#modal').modal('hide');
-                        setTimeout(async () => {
-                            await this.getCommitteeParameters();
-                        }, 100);
-                    }else{
-                        this.setState({ message: data.errors.name || data.errors.content })
-                    }
-                });
+                let data = await store(e.target);
+                if (data.success) {
+                    $('#modal').modal('hide');
+                    setTimeout(async () => {
+                        await this.getCommitteeParameters();
+                    }, 100);
+                } else {
+                    this.setState({ message: data.errors.name || data.errors.content })
+                }
             }
         } else {
             this.setState({ message: 'Por favor completa el formulario' })
@@ -115,8 +115,8 @@ class CommitteeParameters extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Parametros comite</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parametro</a>
+                        <h3>Parámetros comite</h3>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parámetro</a>
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@ class CommitteeParameters extends Component {
                                 <tr>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Contenido</th>
-                                    <th scope="col">Nombre de la seccion de comite</th>
+                                    <th scope="col">Nombre del acta</th>
                                     <th scope="col">Opciones</th>
                                 </tr>
                             </thead>
@@ -139,8 +139,8 @@ class CommitteeParameters extends Component {
                                     <td>{committeeParameter.committee_session_state.name}</td>
                                     <td>
                                         <div className="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-link">Editar</button>
-                                            <button type="button" data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-link text-danger">Eliminar</button>
+                                            <button data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+                                            <button data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -150,7 +150,7 @@ class CommitteeParameters extends Component {
                     </div>
                 </div>
 
-                <div className="modal" tabIndex="-1" role="dialog">
+                <div className="modal" id="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -188,7 +188,7 @@ class CommitteeParameters extends Component {
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col-12">
-                                                <label htmlFor="committee_session_state_id">Nombre estado comite <span className="text-danger">*</span></label>
+                                                <label htmlFor="committee_session_state_id">Nombre acta <span className="text-danger">*</span></label>
                                                 <select
                                                     name="committee_session_state_id"
                                                     id="committee_session_state_id"

@@ -5,6 +5,7 @@ import { get as getPositions } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
 import Select from 'react-select';
+import toastr from 'toastr';
 
 class ResponsiblesFormativeMeasures extends Component {
     constructor(props) {
@@ -44,8 +45,10 @@ class ResponsiblesFormativeMeasures extends Component {
             if(data.success){
                 this.getResponsibles();
             }else{
-                alert(data.message)
                 this.getResponsibles();
+                toastr.error('', data.message, {
+                    closeButton: true
+                });
             }
         })
     }

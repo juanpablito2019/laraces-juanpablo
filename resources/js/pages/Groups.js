@@ -7,6 +7,8 @@ import { get as getModalities } from '../containers/Modalities';
 import { get as getFormationPrograms } from '../containers/FormationPrograms';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
+import { Link } from "react-router-dom";
+import toastr from 'toastr';
 
 class Groups extends Component {
     constructor(props) {
@@ -62,8 +64,10 @@ class Groups extends Component {
             if(data.success){
                 this.getGroups();
             }else{
-                alert(data.message)
                 this.getGroups();
+                toastr.error('', data.message, {
+                    closeButton: true
+                });
             }
         })
     }

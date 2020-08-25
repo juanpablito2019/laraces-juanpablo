@@ -42,6 +42,14 @@ class CommitteeParameterRequest extends FormRequest
         return $rules;
     }
 
+    public function attributes(){
+        return  [
+            'name' => 'nombre',
+            'content' => 'contenido',
+            'committee_session_state_id' => 'nombre del acta de comite'
+        ];
+    }
+
     public function response(array $errors)
     {
         if ($this->forceJsonResponse || $this->ajax() || $this->wantsJson()) {
