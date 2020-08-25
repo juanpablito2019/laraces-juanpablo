@@ -15,7 +15,7 @@ class CreateCommitteesTable extends Migration
     {
         Schema::create('committees', function (Blueprint $table) {
             $table->id();
-            $table->string('record_number')->unique();
+            $table->string('record_number',150)->unique();
             $table->date('date');
             $table->longText('assistants');
             $table->string('subdirector_name');

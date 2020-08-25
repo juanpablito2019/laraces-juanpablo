@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Learner;
 
 class LearnerNovelty extends Model
 {
@@ -15,7 +16,7 @@ class LearnerNovelty extends Model
 
     public function learner()
     {
-    	return $this->belongsTo(Learner::class);
+    	return $this->belongsTo(Learner::class, 'learner_id');
     }
 
     public function committee()

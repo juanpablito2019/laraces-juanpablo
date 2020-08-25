@@ -16,7 +16,7 @@ class CreateAssociatedFilesTable extends Migration
         Schema::create('associated_files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('committee_session_id')->references('id')->on('committee_sessions');
-            $table->string('name')->unique();
+            $table->string('name',150)->unique();
             $table->string('path');
             $table->timestamps();
         });

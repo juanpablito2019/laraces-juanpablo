@@ -15,7 +15,7 @@ class CreateFormationProgramTypesTable extends Migration
     {
         Schema::create('formation_program_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name',150)->unique();
             $table->integer('elective_months');
             $table->integer('practice_months');
             $table->timestamps();

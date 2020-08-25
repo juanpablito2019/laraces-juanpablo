@@ -15,6 +15,7 @@ import Committee from "./pages/Committee";
 import InfringementTypes from "./pages/InfringementTypes";
 import InfringementClassifications from "./pages/InfringementClassifications";
 import NoveltyTypes from "./pages/NoveltyTypes";
+import LearnerNovelties from "./pages/LearnerNovelties";
 export default [
     {
         name: 'Home',
@@ -117,7 +118,7 @@ export default [
         name: 'Novedades del aprendiz',
         path: '/learner-novelties',
         visible: true,
-        component: Learners
+        component: LearnerNovelties
     },
     {
         name: 'Responsables de medida formativa',
