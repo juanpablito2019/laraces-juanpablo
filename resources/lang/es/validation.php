@@ -38,7 +38,7 @@ return [
     'dimensions' => 'El campo :attribute tiene dimensiones de imagen inválidas.',
     'distinct' => 'El campo :attribute tiene un valor duplicado.',
     'email' => 'El campo :attribute debe ser un correo electrónico válido.',
-    'exists' => 'El campo seleccionado :attribute es inválido.',
+    'exists' => 'El campo seleccionado :attribute ya existe.',
     'file' => 'El campo :attribute debe ser un archivo.',
     'filled' => 'El campo :attribute debe tener un valor.',
     'gt' => [
@@ -109,7 +109,7 @@ return [
     'starts_with' => 'El campo :attribute con uno de los siguientes valores: :values',
     'string' => 'El campo :attribute debe ser una cadena.',
     'timezone' => 'El campo :attribute debe ser una zona horaria válida.',
-    'unique' => 'El campo :attribute ya existe.',
+    'unique' => 'Ya existe un registro con el campo :attribute.',
     'uploaded' => 'Error al subir :attribute.',
     'url' => 'El formato de :attribute es inválido.',
     'uuid' => 'El campo :attribute debe ser un UUID válido.',

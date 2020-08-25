@@ -85,31 +85,25 @@ class Positions extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
-        if(formValid(rules)){
+        if (formValid(rules)) {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
-                console.log(data);
-                $('.modal').modal('toggle');
-                await this.getPositions();
-                this.setState({ edit: false });
-            } else {
-                let data = await store(e.target);
-                if (data.errors) {
-                    if (data.errors.name) {
-                        $('input#name').addClass('is-invalid');
-                        $('#errorName').text(data.errors.name);
-                    }
-                    if (data.errors.type) {
-                        $('input#type').addClass('is-invalid');
-                        $('#errorType').text(data.errors.type);
-                    }
-                }
                 if (data.success) {
+                    this.getPositions();
                     $('.modal').modal('toggle');
-                    await this.getPositions();
+                }else{
+                    this.setState({message: data.errors.name})
                 }
+            } else {
+                store(e.target).then(data => {
+                    if (data.success) {
+                        this.getPositions();
+                        $('.modal').modal('toggle');
+                    }else{
+                        this.setState({message: data.errors.name})
+                    }
+                });
             }
-
         }else{
             this.setState({message:'Por favor completa el formulario'});
         }
@@ -190,8 +184,9 @@ class Positions extends Component {
                             <div className="modal-body">
                                 <form id="form" onSubmit={this.handleSubmit}>
                                         {this.state.message ? (
+
                                         <div className="alert alert-info" role="alert">
-                                            <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
+                                            <span><i className="fa fa-info-circle" aria-hidden="true"></i>{this.state.message}</span>
                                         </div>
                                         ):(
                                             <div></div>

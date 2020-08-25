@@ -73,6 +73,26 @@ class FormativeMeasureResponsibleRequest extends FormRequest
         return $rules;
     }
 
+    public function attributes()
+    {
+        return [
+           'username' => 'nombre de usuario',
+            'misena_email' => 'correo mi sena',
+            'institutional_email' => 'correo institucional',
+            'document_type' => 'tipo de documento',
+            'document' => 'documento',
+            'birthdate' => 'fecha de nacimiento',
+            'phone' => 'celular',
+            'phone_ip' => 'telefono',
+            'gender' => 'genero',
+            'position_id' => 'cargo',
+            'contract_type_id' => 'tipo de contrato',
+            'type' => 'tipo',
+            'state' => 'estado',
+            'photo' => 'foto'
+        ];
+    }
+
     public function response(array $errors)
     {
         if ($this->expectsJson()) {

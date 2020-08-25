@@ -3,6 +3,7 @@ import { get, store, find, update, destroy, rules,storeMass } from '../container
 import { get as getContractTypes } from '../containers/ContractTypes';
 import { get as getPositions } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
+import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 import Select from 'react-select';
 import toastr from 'toastr';
@@ -35,6 +36,7 @@ class ResponsiblesFormativeMeasures extends Component {
     }
 
     async getResponsibles() {
+        this.setState({ responsibles: null });
         let data = await get();
         this.setState({ responsibles: data });
     }
@@ -178,31 +180,34 @@ class ResponsiblesFormativeMeasures extends Component {
     async handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
-            if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
+            if (formValid(rules)) {
+                if (this.state.edit) {
+                    let data = await update(e.target, this.state.id);
                     if (data.success) {
                         this.getResponsibles();
                         $('.modal').modal('toggle');
-                    } else {
-                        this.setState({ message: data.errors.name })
+                    }else{
+                        this.setState({message: data.errors.name})
                     }
-                })
+                } else {
+                    store(e.target).then(data => {
+                        if (data.success) {
+                            $('#modal').modal('hide');
+                            setTimeout(async () => {
+                                await this.getResponsibles();
+                            }, 100);
+                        }else{
+                            this.setState({message:  data.errors.document  || data.errors.misena_email || data.errors.institutional_email || data.errors.phone || data.errors.phone_ip  })
+                        }
+                    });
+                }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getResponsibles();
-                        $('.modal').modal('hide');
-                    } else {
-                        this.setState({ message: data.errors.name })
-                    }
-                });
-            }
-        } else {
             this.setState({ message: 'Por favor completa el formulario' })
+             }
         }
     }
 
-    tooltip(e) {
+    tooltip(e){
         $(e.target).tooltip();
     }
 
@@ -241,20 +246,10 @@ class ResponsiblesFormativeMeasures extends Component {
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo responsable</span></a>
                         <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} />
-                        </div>
-                    </div>
                 </div>
                 <div className="row mt-3">
                     <div className="col">
-                        <table className="table">
+                        <DataTable>
                             <thead>
                                 <tr>
                                     <th>Documento</th>
@@ -266,8 +261,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.responsibles.length > 0 ? (
-                                    this.state.responsibles.map(responsible => (
+                                    {this.state.responsibles.map(responsible => (
                                         <tr key={responsible.id}>
                                             <td>{responsible.document_type} {responsible.document}</td>
                                             <td>{responsible.username}</td>
@@ -282,14 +276,10 @@ class ResponsiblesFormativeMeasures extends Component {
                                                 </div>
                                             </td>
                                         </tr>
-                                    ))
-                                ) : (
-                                        <tr>
-                                            <td colSpan="6" className="text-center">No hay datos disponibles</td>
-                                        </tr>
-                                    )}
+                                    ))}
+
                             </tbody>
-                        </table>
+                        </DataTable>
                     </div>
                 </div>
 
@@ -306,12 +296,13 @@ class ResponsiblesFormativeMeasures extends Component {
                             <div className="modal-body">
                                 <form onSubmit={this.handleSubmit} id="form">
                                     {this.state.message ? (
-                                        <div className="alert alert-info" role="alert">
-                                            <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
-                                        </div>
-                                    ) : (
-                                            <div className=""></div>
-                                        )}
+
+                                    <div className="alert alert-info" role="alert">
+                                        <span><i className="fa fa-info-circle" aria-hidden="true"></i>{this.state.message}</span>
+                                    </div>
+                                    ):(
+                                        <div></div>
+                                    )}
                                     <ul className="nav nav-tabs" id="myTab" role="tablist">
                                         <li className="nav-item" role="presentation">
                                             <a className="nav-link active" id="home-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="home" aria-selected="true">Datos personales</a>
