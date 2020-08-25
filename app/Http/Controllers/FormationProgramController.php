@@ -88,30 +88,41 @@ class FormationProgramController extends Controller
 
     public function mass()
     {
-        $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
-            'misena_email'=>"consulta@misena.edu.co",
-            'password'=> "123456789110",
-        ]);
-        $token = $response->json()['token'];
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$token
-        ])->get('https://cronode.herokuapp.com/api/ces/formationPrograms');
-        $data = $response->json()['formationPrograms'];
-        for ($i=0; $i < count($data); $i++) {
-            $formation_program_types = FormationProgram::all();
-            if(!$formation_program_types->find($data[$i]['id'])){
-                FormationProgram::create([
-                    'id'=>$data[$i]['id'],
-                    'name'=>$data[$i]['name'],
-                    'code'=>$data[$i]['code'],
-                    'formation_program_type_id'=>$data[$i]['formationTypeId'],
+        try {
+            $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
+                'misena_email'=>"consulta@misena.edu.co",
+                'password'=> "123456789110",
+            ]);
+            $token = $response->json()['token'];
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer '.$token
+            ])->get('https://cronode.herokuapp.com/api/ces/formationPrograms');
+            $data = $response->json()['formationPrograms'];
+            for ($i=0; $i < count($data); $i++) {
+                $formation_program_types = FormationProgram::all();
+                if(!$formation_program_types->find($data[$i]['id'])){
+                    FormationProgram::create([
+                        'id'=>$data[$i]['id'],
+                        'name'=>$data[$i]['name'],
+                        'code'=>$data[$i]['code'],
+                        'formation_program_type_id'=>$data[$i]['formationTypeId'],
+                    ]);
+                }
+            }
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Tipos de programas de formacion actualizados'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1452"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'Actualizar tipo de programa formacion'
                 ]);
             }
         }
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Tipos de programas de formacion actualizados'
-        ]);
     }
 }
