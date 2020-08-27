@@ -16,7 +16,7 @@ class LearnerNovelty extends Model
 
     public function learner()
     {
-    	return $this->belongsTo(Learner::class, 'learner_id');
+    	return $this->belongsTo(Learner::class);
     }
 
     public function committee()

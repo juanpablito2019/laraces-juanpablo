@@ -4,6 +4,8 @@ import { validate, formValid, setRules } from '../containers/Validator';
 import { get as getLearners } from '../containers/Learners'
 import Loader from '../components/Loader';
 import { data } from 'jquery';
+import DataTable from '../components/DataTable';
+
 
 
 class LearnerNovelties extends Component {
@@ -18,12 +20,11 @@ class LearnerNovelties extends Component {
             rules: rules
         }
         this.getLearners = this.getLearners.bind(this);
-        // this.handleEdit = this.handleEdit.bind(this);
-        // this.handleModal = this.handleModal.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleDelete = this.handleDelete.bind(this);
-        // this.handleInput = this.handleInput.bind(this);
-        // this.search = this.search.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleModal = this.handleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleInput = this.handleInput.bind(this);
     }
 
     async getLearnerNovelties () {
@@ -34,11 +35,73 @@ class LearnerNovelties extends Component {
 
     getLearners() {
         getLearners().then(data => {
-            console.log(data.learner);
-            this.setState({learnersId: data})
+            this.setState({ learnersId: data });
         })
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        if (formValid(rules)) {
+            if (this.state.edit) {
+                update(e.target, this.state.id).then(data => {
+                    if (data.success) {
+                        this.getLearnerNovelties();
+                        $('.modal').modal('toggle');
+                    }else{
+                        this.setState({message: "Revisar campo HandleSubmit Update"});
+                    }
+                })
+            } else {
+                store(e.target).then(data => {
+                    if (data.success) {
+                        this.getLearnerNovelties();
+                        $('.modal').modal('toggle');
+                    }else{
+                        this.setState({message: "Revisar campo HandleSubmit Store"});
+                    }
+                });
+            }
+        } else {
+            this.setState({ message: 'Por favor completa el formulario' })
+        }
+    }
+
+    handleDelete(e) {
+        let id = $(e.target).data('id');
+        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        if (res) {
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getLearnerNovelties();
+                }
+            })
+        }
+    }
+
+    handleInput(e) {
+        const { name, value } = e.target;
+        let newRules = validate(name, value, rules);
+        this.setState({ rules: newRules });
+    }
+
+    handleModal() {
+        $('#form').trigger('reset');
+        setRules(rules);
+        this.setState({ message: 'Te recomendamos actualizar antes de agregar uno nuevo', edit: false });
+        $('.modal').find('.modal-title').text('Agregar Novedad del Aprendiz');
+        $('.modal').modal('toggle');
+    }
+
+    handleEdit(e) {
+        let id = $(e.target).data('id');
+        this.setState({ id, edit: true, message: null });
+        setRules(rules, false);
+        find(id).then(data => {
+            $('#name').val(data.name);
+            $('.modal').find('.modal-title').text('Editar Novedad del Aprendiz');
+            $('.modal').modal('toggle');
+        })
+    }
     
     componentDidMount() {
         this.getLearnerNovelties();
@@ -46,15 +109,53 @@ class LearnerNovelties extends Component {
     }
 
     render() {
-        const { rules } = this.state;
-        if (!this.state.learnerNovelties || !this.state.learnersId) {
-            return (
-                <Loader />
-            )
-        }
+        // const { rules } = this.state;
+        // if (!this.state.learnerNovelties) {
+        //     return (
+        //         <Loader />
+        //     )
+        // }
         return (
             <>
-                <h1>Hi Socitos</h1>
+                <div className="row">
+                    <div className="col">
+                        <h3>Novedades Aprendices</h3>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar Novedad</a>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th>Aprendiz</th>
+                                    <th>Comite</th>
+                                    <th>Novedad</th>
+                                    <th>Justificación</th>
+                                    <th>Fecha Respuesta</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* {this.state.learnerNovelties.map(learnerNovelty => (
+                                    <tr key={learnerNovelty.id}>
+                                        <td>{learnerNovelty.learner}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div className="btn-group" role="group" aria-label="Basic example">
+                                                <button data-id={learnerNovelty.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+                                                <button data-id={learnerNovelty.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))} */}
+                            </tbody>
+                        </DataTable>
+                    </div>
+                </div>
             </>
         );
     }

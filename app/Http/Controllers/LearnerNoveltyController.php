@@ -14,10 +14,12 @@ class LearnerNoveltyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // SANTIAGO
     public function index(Committee $committee)
     {
         return LearnerNovelty::with('learner', 'committee', 'noveltyType')->where('committee_id', $committee->id)->get();
     }
+    // SANTIAGO
 
     /**
      * Store a newly created resource in storage.
