@@ -15,7 +15,7 @@ class CreateInfringementClassificationsTable extends Migration
     {
         Schema::create('infringement_classifications', function (Blueprint $table) {
             $table->id();
-            $table->string('name',150)->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

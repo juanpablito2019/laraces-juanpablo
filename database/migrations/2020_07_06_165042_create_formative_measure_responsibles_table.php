@@ -16,12 +16,12 @@ class CreateFormativeMeasureResponsiblesTable extends Migration
         Schema::create('formative_measure_responsibles', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->string('misena_email',150)->unique();
-            $table->string('institutional_email',150)->unique()->nullable();
+            $table->string('misena_email')->unique();
+            $table->string('institutional_email')->unique()->nullable();
             $table->string('document_type');
             $table->string('document');
             $table->date('birthdate');
-            $table->string('phone',150)->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->string('phone_ip')->nullable();
             $table->enum('gender', ['M', 'F']);
             $table->foreignId('position_id')->references('id')->on('positions');

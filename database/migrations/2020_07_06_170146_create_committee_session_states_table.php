@@ -15,7 +15,7 @@ class CreateCommitteeSessionStatesTable extends Migration
     {
         Schema::create('committee_session_states', function (Blueprint $table) {
             $table->id();
-            $table->string('name',150)->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

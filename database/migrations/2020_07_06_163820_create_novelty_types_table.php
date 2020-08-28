@@ -15,7 +15,7 @@ class CreateNoveltyTypesTable extends Migration
     {
         Schema::create('novelty_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name',150)->unique();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
