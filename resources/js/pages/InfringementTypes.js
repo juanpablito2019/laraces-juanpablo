@@ -14,9 +14,9 @@ class InfringementTypes extends Component {
             rules: rules
         }
         this.handleEdit = this.handleEdit.bind(this);
-        this.handleModal = this.handleModal.bind(this);
+        // this.handleModal = this.handleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
+        // this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.search = this.search.bind(this);
     }
@@ -42,23 +42,23 @@ class InfringementTypes extends Component {
         $('.modal').modal('toggle');
     }
 
-    handleModal() {
-        this.setState({ edit: false });
-        setRules(rules);
-        this.setState({ message: false, edit: false });
-        $('#form').trigger('reset');
-        $('.modal').find('.modal-title').text('Agregar Tipo de Infracción');
-        $('.modal').modal('toggle');
-    }
+    // handleModal() {
+    //     this.setState({ edit: false });
+    //     setRules(rules);
+    //     this.setState({ message: false, edit: false });
+    //     $('#form').trigger('reset');
+    //     $('.modal').find('.modal-title').text('Agregar Tipo de Infracción');
+    //     $('.modal').modal('toggle');
+    // }
 
-    async handleDelete(e) {
-        let id = $(e.target).data('id');
-        let res = confirm('¿Estás seguro de eliminar este Tipo de Falta?');
-        if (res) {
-            let data = await destroy(id);
-            this.getInfringementTypes();
-        }
-    }
+    // async handleDelete(e) {
+    //     let id = $(e.target).data('id');
+    //     let res = confirm('¿Estás seguro de eliminar este Tipo de Falta?');
+    //     if (res) {
+    //         let data = await destroy(id);
+    //         this.getInfringementTypes();
+    //     }
+    // }
 
     search(e) {
         let { value } = e.target;
@@ -84,14 +84,14 @@ class InfringementTypes extends Component {
                     this.setState({ message: data.errors.name })
                 }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getInfringementTypes();
-                        $('.modal').modal('toggle');
-                    } else {
-                        this.setState({ message: data.errors.name })
-                    }
-                })
+                // store(e.target).then(data => {
+                //     if (data.success) {
+                //         this.getInfringementTypes();
+                //         $('.modal').modal('toggle');
+                //     } else {
+                //         this.setState({ message: data.errors.name })
+                //     }
+                // })
             }
         } else {
             this.setState({ message: 'Por favor completa el formulario' });
@@ -114,7 +114,7 @@ class InfringementTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de Faltas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de infracción</a>
+                        {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de infracción</a> */}
                     </div>
                     <div className="col-3">
                         <div className="input-group mb-3">
@@ -137,7 +137,7 @@ class InfringementTypes extends Component {
                                             <div className="col">
                                                 <h5>{infringementType.name}</h5>
                                                 <a  href="#" data-id={infringementType.id} onClick={this.handleEdit} >Editar</a>
-                                                <a  href="#" data-id={infringementType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                {/* <a  href="#" data-id={infringementType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
                                             </div>
                                         </div>
                                     </div>

@@ -14,9 +14,9 @@ class InfringementClassifications extends Component {
             rules: rules
         }
         this.handleEdit = this.handleEdit.bind(this);
-        this.handleModal = this.handleModal.bind(this);
+        // this.handleModal = this.handleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
+        // this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.search = this.search.bind(this);
     }
@@ -42,23 +42,23 @@ class InfringementClassifications extends Component {
         $('.modal').modal('toggle');
     }
 
-    handleModal() {
-        this.setState({ edit: false });
-        setRules(rules);
-        this.setState({ message: false, edit: false });
-        $('#form').trigger('reset');
-        $('.modal').find('.modal-title').text('Agregar Clasificación de la Falta');
-        $('.modal').modal('toggle');
-    }
+    // handleModal() {
+    //     this.setState({ edit: false });
+    //     setRules(rules);
+    //     this.setState({ message: false, edit: false });
+    //     $('#form').trigger('reset');
+    //     $('.modal').find('.modal-title').text('Agregar Clasificación de la Falta');
+    //     $('.modal').modal('toggle');
+    // }
 
-    async handleDelete(e) {
-        let id = $(e.target).data('id');
-        let res = confirm('¿Estás seguro de eliminar esta clasificación de Falta?');
-        if (res) {
-            let data = await destroy(id);
-            this.getInfringementClassification();
-        }
-    }
+    // async handleDelete(e) {
+    //     let id = $(e.target).data('id');
+    //     let res = confirm('¿Estás seguro de eliminar esta clasificación de Falta?');
+    //     if (res) {
+    //         let data = await destroy(id);
+    //         this.getInfringementClassification();
+    //     }
+    // }
 
     search(e) {
         let { value } = e.target;
@@ -84,14 +84,14 @@ class InfringementClassifications extends Component {
                     this.setState({ message: data.errors.name })
                 }
             } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getInfringementClassification();
-                        $('.modal').modal('toggle');
-                    } else {
-                        this.setState({ message: data.errors.name })
-                    }
-                })
+                // store(e.target).then(data => {
+                //     if (data.success) {
+                //         this.getInfringementClassification();
+                //         $('.modal').modal('toggle');
+                //     } else {
+                //         this.setState({ message: data.errors.name })
+                //     }
+                // })
             }
         } else {
             this.setState({ message: 'Por favor completa el formulario' });
@@ -113,7 +113,7 @@ class InfringementClassifications extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Clasificación de las Faltas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar clasificación de infracción</a>
+                        {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar clasificación de infracción</a> */}
                     </div>
                     <div className="col-3">
                         <div className="input-group mb-3">
@@ -136,7 +136,7 @@ class InfringementClassifications extends Component {
                                             <div className="col">
                                                 <h5>{infringementClassification.name}</h5>
                                                 <a  href="#" data-id={infringementClassification.id} onClick={this.handleEdit} >Editar</a>
-                                                <a  href="#" data-id={infringementClassification.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                {/* <a  href="#" data-id={infringementClassification.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
                                             </div>
                                         </div>
                                     </div>

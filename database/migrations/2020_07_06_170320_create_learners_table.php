@@ -17,7 +17,7 @@ class CreateLearnersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('document_type');
-            $table->string('document')->unique();
+            $table->string('document',150)->unique();
             $table->string('phone')->nullable();
             $table->string('email');
             $table->foreignId('group_id')->references('id')->on('groups');

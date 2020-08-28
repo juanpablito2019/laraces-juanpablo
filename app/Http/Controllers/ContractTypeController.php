@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ContractType;
-use App\Http\Requests\ContractTypeStoreRequest;
-use App\Http\Requests\ContractTypeUpdateRequest;
+use App\Http\Requests\ContractTypeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -26,7 +25,7 @@ class ContractTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ContractTypeStoreRequest $request)
+    public function store(ContractTypeRequest $request)
     {
         ContractType::create([
             'name' => $request->get('name')
@@ -56,7 +55,7 @@ class ContractTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ContractTypeUpdateRequest $request, ContractType $contractType)
+    public function update(ContractTypeRequest $request, ContractType $contractType)
     {
         $contractType->name = $request->get('name');
         $contractType->save();

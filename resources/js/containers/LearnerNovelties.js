@@ -1,4 +1,5 @@
 const token = document.getElementById('token').content;
+// SANTIAGO
 export const get = async (committee_id) => {
     try {
         let res = await fetch(`/learner-novelties/${committee_id}`);
@@ -8,6 +9,18 @@ export const get = async (committee_id) => {
         console.log(error);
     }
 }
+// SANTIAGO
+
+// export const get = async () => {
+//     try {
+//         let res = await fetch('/learner-novelties');
+//         let data = await res.json();
+//         return data;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
 
 export const store = async (form) => {
     try {
@@ -32,9 +45,12 @@ export const update = async (form, id) => {
         let fd = new FormData(form);
         fd.append('_method', 'PUT');
         fd.append('_token', token);
-        let res = await fetch(`/learner-novelties/update/${id}`, {
+        let res = await fetch(`/learner-novelties/${id}`, {
             method: 'POST',
-            body: fd
+            body: fd,
+            headers:{
+                accept: 'application/json'
+            }
         });
         let data = await res.json();
         return data;
