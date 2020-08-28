@@ -15,6 +15,7 @@ import Committee from "./pages/Committee";
 import InfringementTypes from "./pages/InfringementTypes";
 import InfringementClassifications from "./pages/InfringementClassifications";
 import NoveltyTypes from "./pages/NoveltyTypes";
+import CommitteeSession from "./pages/CommitteeSession";
 export default [
     {
         name: 'Home',
@@ -112,6 +113,12 @@ export default [
         path: '/committees/:id',
         visible: false,
         component: Committee
+    },
+    {
+        name: 'Committee',
+        path: '/committees/:id/committee-session/:id',
+        visible: false,
+        component: CommitteeSession
     },
     {
         name: 'Novedades del aprendiz',

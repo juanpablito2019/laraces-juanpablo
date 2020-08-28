@@ -531,8 +531,7 @@ class Committees extends Component {
                                                 <Ckeditor
                                                     name="assistants"
                                                     id="assistants"
-                                                    data={this.state.ckdata}
-                                                    reset={this.state.ckreset}
+                                                    d={this.state.ckdata}
                                                     options={['bulletedList','numberedList', 'undo', 'redo']}
                                                 />
                                             </div>
