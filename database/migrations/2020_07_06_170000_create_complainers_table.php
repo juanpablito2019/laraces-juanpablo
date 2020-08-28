@@ -15,7 +15,7 @@ class CreateComplainersTable extends Migration
     {
         Schema::create('complainers', function (Blueprint $table) {
             $table->id();
-            $table->string('name',150)->unique();
+            $table->string('name')->unique();
             $table->string('document_type');
             $table->string('document');
             $table->timestamps();
