@@ -126,8 +126,8 @@ class CommitteeParameters extends Component {
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Contenido</th>
-                                    <th scope="col">Nombre del acta</th>
+                                    <th className="hide" scope="col">Contenido</th>
+                                    <th className="hide" scope="col">Nombre del acta</th>
                                     <th scope="col">Opciones</th>
                                 </tr>
                             </thead>
@@ -135,8 +135,8 @@ class CommitteeParameters extends Component {
                             {this.state.committeeParameters.map(committeeParameter => (
                                 <tr key={committeeParameter.id}>
                                     <td>{committeeParameter.name}</td>
-                                    <td>{committeeParameter.content}</td>
-                                    <td>{committeeParameter.committee_session_state.name}</td>
+                                    <td className="hide">{$(committeeParameter.content).text()}</td>
+                                    <td className="hide">{committeeParameter.committee_session_state.name}</td>
                                     <td>
                                         <div className="btn-group" role="group" aria-label="Basic example">
                                             <button data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
