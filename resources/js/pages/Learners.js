@@ -90,8 +90,10 @@ class Learners extends Component {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
                 if (data.success) {
-                    await this.getLearners();
                     $('#modal').modal('toggle');
+                    setTimeout(async () => {
+                        await this.getLearners();
+                    }, 100);
                 } else {
                     this.setState({ message: data.errors.name || data.errors.document_type || data.errors.document })
                 }
@@ -185,8 +187,10 @@ class Learners extends Component {
         e.preventDefault();
         let data = await importLearners(e.target);
         if (data.status === 200) {
-            await this.getLearners();
             $('#import').modal('toggle');
+            setTimeout(async () => {
+                await this.getLearners();
+            }, 200);
         }
     }
 

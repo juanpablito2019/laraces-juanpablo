@@ -21,7 +21,7 @@ class CreateCommitteesTable extends Migration
             $table->string('subdirector_name');
             $table->boolean('qourum');
             $table->time('start_hour');
-            $table->time('end_hour');
+            $table->time('end_hour')->nullable();
             $table->string('place');
             $table->string('formation_center');
             $table->timestamps();

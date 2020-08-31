@@ -21,4 +21,19 @@ class Learner extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function stimuli()
+    {
+        return $this->hasMany(Stimulus::class);
+    }
+
+    public function novelties()
+    {
+        return $this->hasMany(LearnerNovelty::class);
+    }
+
+    public function academics()
+    {
+        return $this->hasMany(CommitteeSession::class);
+    }
 }

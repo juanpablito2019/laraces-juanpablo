@@ -29,7 +29,7 @@ class CommitteeRequest extends FormRequest
             'record_number' => ['required', 'min: 3', 'string', 'unique:committees'],
             'date' => ['required', 'date'],
             'start_hour' => ['required', 'date_format:H:i'],
-            'end_hour' => ['required', 'date_format:H:i', 'after:start_hour'],
+            'end_hour' => ['nullable','date_format:H:i', 'after:start_hour'],
             'place' => ['required', 'string'],
             'formation_center' => ['required', 'string'],
             'assistants' => ['required', 'string'],
