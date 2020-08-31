@@ -29,6 +29,7 @@ class CommunicationRequest extends FormRequest
             'notification_infringements' => ['required', 'string'],
             'infringement_type_id'=>['required', 'integer', 'exists:infringement_types,id'],
             'infringement_classification_id'=>['required', 'integer', 'exists:infringement_classifications,id'],
+            'start_hour'=>['required', 'date_format:H:i']
         ];
     }
 
@@ -36,7 +37,9 @@ class CommunicationRequest extends FormRequest
     {
         return [
             'notification_acts'=>'RELACIÓN SUSCINTA DEL INFORME O DE LA QUEJA PRESENTADA',
-            'notification_infringements' => 'NORMAS DEL REGLAMENTO DEL APRENDIZ SENA QUE PRESUNTAMENTE INFRINGIÓ(ERON) EL (LOS) APRENDIZ(CES) CON ESOS HECHOS U OMISIONES'
+            'notification_infringements' => 'NORMAS DEL REGLAMENTO DEL APRENDIZ SENA QUE PRESUNTAMENTE INFRINGIÓ(ERON) EL (LOS) APRENDIZ(CES) CON ESOS HECHOS U OMISIONES',
+            'start_hour'=>'HORA DE CITACION',
+            'infringement_classification_id' => 'CALIFICACIÓN PROVISIONAL DE LA(S) PROBABLE(S) FALTA(S)'
         ];
     }
 

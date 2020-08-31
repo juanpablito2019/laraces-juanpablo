@@ -95,6 +95,7 @@ class CommitteeSessionController extends Controller
         $committee->notification_acts = $request->get('notification_acts');
         $committee->notification_infringements = $request->get('notification_infringements');
         $committee->infringement_classification_id = $request->get('infringement_classification_id');
+        $committee->start_hour = $request->get('start_hour');
         $committee->save();
         return response()->json([
             'success' => true,
@@ -108,7 +109,7 @@ class CommitteeSessionController extends Controller
         $parser = new Parser();
         $committee = CommitteeSession::with('learner.group.formationProgram', 'committee')->findOrFail($id);
         $templateProcessor = new TemplateProcessor('word-template/communication.docx');
-        // dd($committee->committee);
+        // dd($committee->infringement_classification_id);
         $templateProcessor->setValue('learner_name', $committee->learner->name);
         $templateProcessor->setValue('learner_document', $committee->learner->document_type . " " . $committee->learner->document);
         $templateProcessor->setValue('learner_group', $committee->learner->group->code_tab);
@@ -117,12 +118,12 @@ class CommitteeSessionController extends Controller
         $templateProcessor->setValue('acts', $parser->fromHTML($committee->notification_acts));
         $templateProcessor->setValue('infringements', $parser->fromHTML($committee->notification_infringements));
         $templateProcessor->setValue('is_academic', $committee->infringement_type_id == 1 ? '___x___' : '______');
-        $templateProcessor->setValue('is_disciplinary', $committee->infringement_type_id == 2 ? '______' : '___x___');
+        $templateProcessor->setValue('is_disciplinary', $committee->infringement_type_id == 2 ? '___x___' : '______');
         $templateProcessor->setValue('is_leve', $committee->infringement_classification_id == 1 ? '___x___' : '______');
         $templateProcessor->setValue('is_grave', $committee->infringement_classification_id == 2 ? '___x___' : '______');
         $templateProcessor->setValue('is_gravisima', $committee->infringement_classification_id == 3 ? '___x___' : '______');
         $templateProcessor->setValue('committee_date', $committee->committee->date);
-        $templateProcessor->setValue('committee_hour', $committee->committee->start_hour);
+        $templateProcessor->setValue('committee_hour', $committee->start_hour);
         $templateProcessor->setValue('committee_place', $committee->committee->formation_center);
         $templateProcessor->setValue('subdirector_name', $committee->committee->subdirector_name);    
         $filename = 'Comunicacion - Learner';

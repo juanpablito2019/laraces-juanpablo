@@ -43,11 +43,11 @@ class CommitteeSession extends Component {
                 closeButton: true
             });
         } else {
-            this.setState({communicationMessage: data.errors.notification_acts})
+            this.setState({ communicationMessage: data.errors.notification_acts || data.errors.notification_infringements || data.errors.start_hour || data.errors.infringement_classification_id })
         }
     }
 
-    async exportCommunication(){
+    async exportCommunication() {
         let res = await exportWordCommunication(this.state.id);
         let blob = await res.blob();
         var url = window.URL.createObjectURL(blob);
@@ -74,7 +74,7 @@ class CommitteeSession extends Component {
                 <div className="row">
                     <div className="col-3">
                         <div className="card">
-                            <img src={"/storage/" + this.state.committeeSession.learner.photo} alt="img-fluid" className="card-img-top" />
+                            <img src={this.state.committeeSession.learner.photo ? "/storage/" + this.state.committeeSession.learner.photo : '/img/no-photo.png'} alt="img-fluid" className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="text-primary">{this.state.committeeSession.learner.name}</h5>
                                 <h6>{this.state.committeeSession.learner.document_type} {this.state.committeeSession.learner.document}</h6>
@@ -158,11 +158,7 @@ class CommitteeSession extends Component {
                                         <div className="col">
                                             <h6>
                                                 TIPO DE FALTA
-                                    </h6>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
+                                            </h6>
                                             {this.state.infringementTypes.length > 0 ? (
                                                 this.state.infringementTypes.map((infringementType, i) => (
                                                     <div className="form-check" key={i}>
@@ -176,16 +172,10 @@ class CommitteeSession extends Component {
                                                     <p>No hay tipos de faltas disponibles</p>
                                                 )}
                                         </div>
-                                    </div>
-                                    <div className="row mt-4">
                                         <div className="col">
                                             <h6>
                                                 CALIFICACIÓN PROVISIONAL DE LA(S) PROBABLE(S) FALTA(S)
-                                    </h6>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
+                                            </h6>
                                             {this.state.infringementClassifications.length > 0 ? (
                                                 this.state.infringementClassifications.map((infringementClassification, i) => (
                                                     <div className="form-check" key={i}>
@@ -198,6 +188,19 @@ class CommitteeSession extends Component {
                                             ) : (
                                                     <p>No hay clasificacion de faltas disponibles</p>
                                                 )}
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div className="row">
+                                        <div className="col">
+                                            <h6>HORA DE CITACION</h6>
+                                            <input 
+                                                type="time" 
+                                                name="start_hour" 
+                                                id="start_hour" 
+                                                className="form-control"
+                                                defaultValue={this.state.committeeSession.start_hour}
+                                            />
                                         </div>
                                     </div>
                                     <div className="row mt-3">
