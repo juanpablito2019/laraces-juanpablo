@@ -14,7 +14,7 @@ class ActTemplateController extends Controller
      */
     public function index()
     {
-        //
+        return ActTemplate::all();
     }
 
     /**

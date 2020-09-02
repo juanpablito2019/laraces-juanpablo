@@ -14,7 +14,7 @@ class GeneralParameterController extends Controller
      */
     public function index()
     {
-        //
+        return GeneralParameter::all();
     }
 
     /**

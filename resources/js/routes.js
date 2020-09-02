@@ -17,6 +17,8 @@ import InfringementClassifications from "./pages/InfringementClassifications";
 import NoveltyTypes from "./pages/NoveltyTypes";
 import CommitteeSession from "./pages/CommitteeSession";
 import LearnerNovelties from "./pages/LearnerNovelties";
+import GeneralParameters from "./pages/GeneralParameters";
+import ActTemplates from "./pages/ActTemplates";
 export default [
     {
         name: 'Home',
@@ -29,9 +31,19 @@ export default [
         type: 'menu',
         routes: [
             {
+                name: 'Plantillas de actas',
+                path: '/act-templates',
+                component: ActTemplates
+            },
+            {
                 name: 'Parámetros de acta',
                 path: '/committee-parameters',
                 component: CommitteeParameters
+            },
+            {
+                name: 'Parámetros generales',
+                path: '/general-parameters',
+                component: GeneralParameters
             },
             {
                 name: 'Sanciones',
