@@ -20,6 +20,7 @@ class CreateActTemplatesTable extends Migration
             $table->date('date');
             $table->boolean('is_active')->default(false);
             $table->string('path');
+            $table->foreignId('committee_session_state_id')->references('id')->on('committee_session_states');
             $table->timestamps();
         });
     }
