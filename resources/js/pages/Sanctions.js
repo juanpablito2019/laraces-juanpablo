@@ -35,7 +35,7 @@ class Sanctions extends Component {
         $('#form').trigger('reset');
         setRules(rules);
         this.setState({ message: null, edit: false });
-        $('.modal').find('.modal-title').text('Agregar Sancion');
+        $('.modal').find('.modal-title').text('Agregar sanción');
         $('.modal').modal('toggle');
     }
 
@@ -44,14 +44,14 @@ class Sanctions extends Component {
         setRules(rules, false);
         this.setState({ id, edit: true, message: null });
         let data = await find(id);
-        $('.modal').find('.modal-title').text('Editar sancion');
+        $('.modal').find('.modal-title').text('Editar sanción');
         $('.modal').find('#name').val(data.name);
         $('.modal').modal('toggle');
     }
     
     async handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar esta sancion?');
+        let res = confirm('¿Estas seguro de eliminar esta sanción?');
         if (res) {
             let data = await destroy(id);
             this.getSanctions();
@@ -110,9 +110,9 @@ class Sanctions extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Sanciones</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva sancion</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva sanción</a>
                     </div>
-                    <div className="col-3 d-none d-sm-block">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">

@@ -36,7 +36,7 @@ class NoveltyTypes extends Component {
         setRules(rules, false);
         this.setState({ id, edit: true, message: null });
         let data = await find(id);
-        $('.modal').find('.modal-title').text('Editar Tipo de Novedad');
+        $('.modal').find('.modal-title').text('Editar tipo de novedad');
         $('.modal').find('#name').val(data.name);
         $('.modal').modal('toggle');
     }
@@ -46,13 +46,13 @@ class NoveltyTypes extends Component {
         setRules(rules);
         this.setState({ message: false, edit: false });
         $('#form').trigger('reset');
-        $('.modal').find('.modal-title').text('Agregar Tipo de Novedad');
+        $('.modal').find('.modal-title').text('Agregar tipo de novedad');
         $('.modal').modal('toggle');
     }
 
     async handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estás seguro de eliminar este Tipo de Novedad?');
+        let res = confirm('¿Estás seguro de eliminar este tipo de novedad?');
         if (res) {
             let data = await destroy(id);
             this.getNoveltyTypes();
@@ -112,10 +112,10 @@ class NoveltyTypes extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Tipos de Novedades</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de Novedad</a>
+                        <h3>Tipos de novedades</h3>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de novedad</a>
                     </div>
-                    <div className="col-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
