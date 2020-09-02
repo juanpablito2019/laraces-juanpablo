@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/stimuli/update/{stimulus}', 'StimulusController@update');
 
     Route::get('/learner-novelties/{committee}', 'LearnerNoveltyController@index');
+    Route::get('/learner-novelties', 'LearnerNoveltyController@indexAll');
     Route::post('/learner-novelties', 'LearnerNoveltyController@store');
     Route::get('/learner-novelties/show/{learner_novelty}', 'LearnerNoveltyController@show');
     Route::delete('/learner-novelties/delete/{learner_novelty}', 'LearnerNoveltyController@destroy');

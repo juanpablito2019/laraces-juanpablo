@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import { get, store, find, update, destroy, rules } from '../containers/LearnerNovelties';
-import { validate, formValid, setRules } from '../containers/Validator';
-import { get as getLearners } from '../containers/Learners'
+import { getAll, find } from '../containers/LearnerNovelties';
 import Loader from '../components/Loader';
-import { data } from 'jquery';
 import DataTable from '../components/DataTable';
-
 
 
 class LearnerNovelties extends Component {
@@ -13,114 +9,49 @@ class LearnerNovelties extends Component {
         super(props);
         this.state = {
             learnerNovelties: null,
-            learnersId: null,
-            edit: false,
             id: null,
-            message:null,
-            rules: rules
         }
-        this.getLearners = this.getLearners.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
-        this.handleModal = this.handleModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleInput = this.handleInput.bind(this);
     }
 
     async getLearnerNovelties () {
         this.setState({learnerNovelties: null});
-        let data = await get();
+        let data = await getAll();
+        console.log(data);
         this.setState({learnerNovelties: data});
     }
 
-    getLearners() {
-        getLearners().then(data => {
-            this.setState({ learnersId: data });
-        })
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        if (formValid(rules)) {
-            if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
-                    if (data.success) {
-                        this.getLearnerNovelties();
-                        $('.modal').modal('toggle');
-                    }else{
-                        this.setState({message: "Revisar campo HandleSubmit Update"});
-                    }
-                })
-            } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getLearnerNovelties();
-                        $('.modal').modal('toggle');
-                    }else{
-                        this.setState({message: "Revisar campo HandleSubmit Store"});
-                    }
-                });
-            }
-        } else {
-            this.setState({ message: 'Por favor completa el formulario' })
-        }
-    }
-
-    handleDelete(e) {
+    async handleDetail(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
-        if (res) {
-            destroy(id).then(data => {
-                if (data.success) {
-                    this.getLearnerNovelties();
-                }
-            })
+        let data = await find(id);
+        $('#modal-detail').find('.modal-title').text('Detalle de la Novedad');
+        $('#modal-detail').find('#learner_name').text(data.learner.name);
+        if (data.learner.photo) {
+            $('#learner_photo').attr('src', "/storage/" + data.learner.photo);
         }
+        $('#modal-detail').find('#learner_document').text(`${data.learner.document_type} ${data.learner.document}`);
+        $('#modal-detail').find('#learner_email').text(data.learner.email);
+        $('#modal-detail').find('#learner_group').text(data.learner.group.code_tab);
+        $('#modal-detail').find('#learner_formation_program').text(data.learner.group.formation_program.name);
+        $('#modal-detail').find('#novelty_name').text(data.novelty_type.name);
+        $('#modal-detail').find('#justification').text(data.justification);
+        $('#modal-detail').modal('toggle');
     }
 
-    handleInput(e) {
-        const { name, value } = e.target;
-        let newRules = validate(name, value, rules);
-        this.setState({ rules: newRules });
-    }
-
-    handleModal() {
-        $('#form').trigger('reset');
-        setRules(rules);
-        this.setState({ message: 'Te recomendamos actualizar antes de agregar uno nuevo', edit: false });
-        $('.modal').find('.modal-title').text('Agregar Novedad del Aprendiz');
-        $('.modal').modal('toggle');
-    }
-
-    handleEdit(e) {
-        let id = $(e.target).data('id');
-        this.setState({ id, edit: true, message: null });
-        setRules(rules, false);
-        find(id).then(data => {
-            $('#name').val(data.name);
-            $('.modal').find('.modal-title').text('Editar Novedad del Aprendiz');
-            $('.modal').modal('toggle');
-        })
-    }
-    
     componentDidMount() {
         this.getLearnerNovelties();
-        this.getLearners();
     }
 
     render() {
-        // const { rules } = this.state;
-        // if (!this.state.learnerNovelties) {
-        //     return (
-        //         <Loader />
-        //     )
-        // }
+        if (!this.state.learnerNovelties) {
+            return (
+                <Loader />
+            )
+        }
         return (
             <>
                 <div className="row">
                     <div className="col">
                         <h3>Novedades Aprendices</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar Novedad</a>
                     </div>
                 </div>
                 <div className="row mt-3">
@@ -128,32 +59,67 @@ class LearnerNovelties extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
+                                    <th>Documento</th>
                                     <th>Aprendiz</th>
-                                    <th>Comite</th>
                                     <th>Novedad</th>
-                                    <th>Justificación</th>
-                                    <th>Fecha Respuesta</th>
+                                    <th>Fecha Comité</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {this.state.learnerNovelties.map(learnerNovelty => (
+                                {this.state.learnerNovelties.map(learnerNovelty => (
                                     <tr key={learnerNovelty.id}>
-                                        <td>{learnerNovelty.learner}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{learnerNovelty.learner.document_type} {learnerNovelty.learner.document}</td>
+                                        <td>{learnerNovelty.learner.name}</td>
+                                        <td>{learnerNovelty.novelty_type.name}</td>
+                                        <td>{learnerNovelty.committee.date}</td>
                                         <td>
                                             <div className="btn-group" role="group" aria-label="Basic example">
-                                                <button data-id={learnerNovelty.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                <button data-id={learnerNovelty.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                <button data-id={learnerNovelty.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary">Detalle</button>
                                             </div>
                                         </td>
                                     </tr>
-                                ))} */}
+                                ))}
                             </tbody>
                         </DataTable>
+                    </div>
+                </div>
+                {/* Detail */}
+                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="modal-detail">
+                    <div className="modal-dialog modal-sm">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Modal-title</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="row">
+                                    <div className="col">
+                                        <img id="learner_photo" src="/img/no-photo.png" alt="learner-img" className="img-thumbnail img-fluid" />
+                                    </div>
+                                </div>
+                                <h5 className="text-primary mb-2 mt-3" id="learner_name"></h5>
+                                <h6 id="learner_document"></h6>
+                                <h6 id="learner_email"></h6>
+                                <hr />
+                                <span>Grupo: </span><span className="text-primary" id="learner_group"></span><br />
+                                <span>Programa: </span><span className="text-primary" id="learner_formation_program"></span>
+                                <hr />
+                                <div className="row mt-3">
+                                    <div className="col">
+                                        <h5 className="text-primary">Tipo de novedad</h5>
+                                        <h6 id="novelty_name"></h6>
+                                        <h5 className="mt-3 text-primary">Justificacion</h5>
+                                        <h6 id="justification"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </>
