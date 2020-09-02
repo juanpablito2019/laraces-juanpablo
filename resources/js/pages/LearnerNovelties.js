@@ -88,7 +88,7 @@ class LearnerNovelties extends Component {
         $('#form').trigger('reset');
         setRules(rules);
         this.setState({ message: 'Te recomendamos actualizar antes de agregar uno nuevo', edit: false });
-        $('.modal').find('.modal-title').text('Agregar Novedad del Aprendiz');
+        $('.modal').find('.modal-title').text('Agregar novedad del aprendiz');
         $('.modal').modal('toggle');
     }
 
@@ -98,7 +98,7 @@ class LearnerNovelties extends Component {
         setRules(rules, false);
         find(id).then(data => {
             $('#name').val(data.name);
-            $('.modal').find('.modal-title').text('Editar Novedad del Aprendiz');
+            $('.modal').find('.modal-title').text('Editar novedad del aprendiz');
             $('.modal').modal('toggle');
         })
     }
@@ -119,7 +119,7 @@ class LearnerNovelties extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Novedades Aprendices</h3>
+                        <h3>Novedades aprendices</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar Novedad</a>
                     </div>
                 </div>
@@ -129,10 +129,10 @@ class LearnerNovelties extends Component {
                             <thead>
                                 <tr>
                                     <th>Aprendiz</th>
-                                    <th>Comite</th>
-                                    <th>Novedad</th>
-                                    <th>Justificación</th>
-                                    <th>Fecha Respuesta</th>
+                                    <th className="hide">Comite</th>
+                                    <th className="hide">Novedad</th>
+                                    <th className="hide">Justificación</th>
+                                    <th className="hide">Fecha Respuesta</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>

@@ -115,7 +115,7 @@ class FormativeMeasures extends Component {
                         <h3>Medida formativa</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva medida formativa</a>
                     </div>
-                    <div className="col-3 d-none d-sm-block">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">

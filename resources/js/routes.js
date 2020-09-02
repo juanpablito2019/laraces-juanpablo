@@ -29,7 +29,7 @@ export default [
         type: 'menu',
         routes: [
             {
-                name: 'Parametros de acta',
+                name: 'Parámetros de acta',
                 path: '/committee-parameters',
                 component: CommitteeParameters
             },

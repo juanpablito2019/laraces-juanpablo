@@ -37,7 +37,7 @@ class InfringementClassifications extends Component {
         setRules(rules, false);
         this.setState({ id, edit: true, message: null });
         let data = await find(id);
-        $('.modal').find('.modal-title').text('Editar Clasificación de la Falta');
+        $('.modal').find('.modal-title').text('Editar clasificación de la falta');
         $('.modal').find('#name').val(data.name);
         $('.modal').modal('toggle');
     }
@@ -112,10 +112,10 @@ class InfringementClassifications extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Clasificación de las Faltas</h3>
+                        <h3>Clasificación de las faltas</h3>
                         {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar clasificación de infracción</a> */}
                     </div>
-                    <div className="col-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">

@@ -39,7 +39,7 @@ class CommitteeParameters extends Component {
         $('#form').trigger('reset');
         setRules(rules);
         this.setState({ ckreset: true, ckdata: "",message: null, edit: false });
-        $('.modal').find('.modal-title').text('Crear parametro de comite');
+        $('.modal').find('.modal-title').text('Crear parámetro de acta');
         $('.modal').modal('toggle');
     }
 
@@ -52,7 +52,7 @@ class CommitteeParameters extends Component {
             $('#name').val(data.name);
             $('#content').val(data.content);
             $('#committee_session_state_id').val(data.committee_session_state_id);
-            $('.modal').find('.modal-title').text('Editar programa de formacion');
+            $('.modal').find('.modal-title').text('Editar parámetro de acta');
             $('.modal').modal('toggle');
         })
     }
@@ -88,7 +88,7 @@ class CommitteeParameters extends Component {
 
     async handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este parametro de comite?');
+        let res = confirm('¿Estas seguro de eliminar este parámetro de acta?');
         if (res) {
             let data = await destroy(id);
             this.getCommitteeParameters();
@@ -115,7 +115,7 @@ class CommitteeParameters extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Parámetros comite</h3>
+                        <h3>Parámetros de acta</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parámetro</a>
                     </div>
                 </div>
@@ -125,10 +125,10 @@ class CommitteeParameters extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th scope="col">Nombre</th>
-                                    <th className="hide" scope="col">Contenido</th>
-                                    <th className="hide" scope="col">Nombre del acta</th>
-                                    <th scope="col">Opciones</th>
+                                    <th>Nombre</th>
+                                    <th className="hide">Contenido</th>
+                                    <th className="hide">Nombre del acta</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -113,10 +113,10 @@ class InfringementTypes extends Component {
             <>
                 <div className="row">
                     <div className="col">
-                        <h3>Tipos de Faltas</h3>
+                        <h3>Tipos de faltas</h3>
                         {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de infracción</a> */}
                     </div>
-                    <div className="col-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">

@@ -6,6 +6,13 @@
     div#datatable_info.dataTables_info{
         display: none;
     }
+    li.paginate_button.page-item.previous a.page-link,
+    li.paginate_button.page-item.next a.page-link{
+        display: inline;
+    }
+    li.paginate_button.page-item a.page-link{
+        display: none;
+    }
  }
 
 @media (max-width: 768px) {
@@ -15,9 +22,14 @@
  }
 
 @media (max-width: 992px) { 
-    body{
-        background-color: #fff;
+    .hide-md{
+        display: none;
     }
+
+    div#datatable_info.dataTables_info{
+        display: none;
+    }
+    
  }
 
 @media (max-width: 1200px) {

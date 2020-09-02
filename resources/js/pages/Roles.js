@@ -34,7 +34,7 @@ class Roles extends Component {
                 <div className="row">
                     {this.state.rols.length>0?(
                         this.state.rols.map((rol, i) => (
-                            <div key={i} className="col-4">
+                            <div key={i} className="col-12 col-lg-4 mt-3">
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{rol.name}</h5>

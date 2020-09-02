@@ -129,10 +129,10 @@ class FormationProgramTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de programas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de programa</a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo tipo de programa</span></a>
+                        <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
                     </div>
-                    <div className="col-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -146,7 +146,7 @@ class FormationProgramTypes extends Component {
                 <div className="row mt-3">
                     {this.state.formationProgramTypes.length > 0 ? (
                         this.state.formationProgramTypes.map(formationProgramType => (
-                            <div className="col-12 col-md-4 mb-2" key={formationProgramType.id}>
+                            <div className="col-12 col-md-6 mb-2" key={formationProgramType.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
