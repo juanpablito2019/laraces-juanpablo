@@ -18,7 +18,7 @@ class CreateActTemplatesTable extends Migration
             $table->string('name');
             $table->integer('version');
             $table->date('date');
-            $table->boolean('is_acitive');
+            $table->boolean('is_active');
             $table->string('path');
             $table->timestamps();
         });
