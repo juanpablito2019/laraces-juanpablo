@@ -133,8 +133,11 @@ class InfringementClassifications extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col">
-                                                <h5>{infringementClassification.name}</h5>
+                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                                <i className="fab fa-accusoft fa-5x text-secondary mt-1"></i>
+                                            </div>
+                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
+                                                <h5 className="mb-4" >{infringementClassification.name}</h5>
                                                 <a  href="#" data-id={infringementClassification.id} onClick={this.handleEdit} >Editar</a>
                                                 {/* <a  href="#" data-id={infringementClassification.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
                                             </div>
