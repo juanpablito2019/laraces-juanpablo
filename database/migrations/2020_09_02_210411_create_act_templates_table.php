@@ -15,12 +15,11 @@ class CreateActTemplatesTable extends Migration
     {
         Schema::create('act_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->integer('version');
             $table->date('date');
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_acitive');
             $table->string('path');
-            $table->foreignId('committee_session_state_id')->references('id')->on('committee_session_states');
             $table->timestamps();
         });
     }

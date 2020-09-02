@@ -19,6 +19,7 @@ import CommitteeSession from "./pages/CommitteeSession";
 import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
+
 export default [
     {
         name: 'Home',

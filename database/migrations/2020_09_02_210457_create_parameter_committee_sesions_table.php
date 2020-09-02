@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParametersCommitteeSessions extends Migration
+class CreateParameterCommitteeSesionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateParametersCommitteeSessions extends Migration
      */
     public function up()
     {
-        Schema::create('parameters_committee_sessions', function (Blueprint $table) {
+        Schema::create('parameter_committee_sesions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parameter_id')->references('id')->on('committee_parameters');
             $table->foreignId('committee_session_id')->references('id')->on('committee_sessions');
@@ -29,6 +29,6 @@ class CreateParametersCommitteeSessions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameters_committee_sessions');
+        Schema::dropIfExists('parameter_committee_sesions');
     }
 }

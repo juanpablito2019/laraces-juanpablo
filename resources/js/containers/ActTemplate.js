@@ -7,3 +7,7 @@ export const index = async () => {
         console.log(error);
     }
 }
+
+export const store = async () => {
+    
+}
