@@ -34,6 +34,8 @@ class LearnerNovelties extends Component {
         $('#modal-detail').find('#learner_formation_program').text(data.learner.group.formation_program.name);
         $('#modal-detail').find('#novelty_name').text(data.novelty_type.name);
         $('#modal-detail').find('#justification').text(data.justification);
+        $('#modal-detail').find('#committee_date').text(data.committee);
+        $('#modal-detail').find('#reply_date').text(data.reply_date);
         $('#modal-detail').modal('toggle');
     }
 
@@ -86,7 +88,7 @@ class LearnerNovelties extends Component {
                 </div>
                 {/* Detail */}
                 <div className="modal fade" tabIndex="-1" data-backdrop="static" id="modal-detail">
-                    <div className="modal-dialog modal-sm">
+                    <div className="modal-dialog modal-lg">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Modal-title</h5>
@@ -96,23 +98,45 @@ class LearnerNovelties extends Component {
                             </div>
                             <div className="modal-body">
                                 <div className="row">
-                                    <div className="col">
-                                        <img id="learner_photo" src="/img/no-photo.png" alt="learner-img" className="img-thumbnail img-fluid" />
+                                    <div className="col-4">
+                                        <div className="row">
+                                            <div className="col mx-auto">
+                                                <div className="card">
+                                                    <img id="learner_photo" src="/img/no-photo.png" alt="learner-img" className="img-fluid" />
+                                                    <div className="card-body">
+                                                        <h5 className="text-primary mb-3 mt-1" id="learner_name"></h5>
+                                                        <h6 id="learner_document"></h6>
+                                                        <h6 id="learner_email"></h6>
+                                                        <hr />
+                                                        <span>Grupo: </span><span className="text-primary" id="learner_group"></span><br />
+                                                        <span>Programa: </span><span className="text-primary" id="learner_formation_program"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <h5 className="text-primary mb-2 mt-3" id="learner_name"></h5>
-                                <h6 id="learner_document"></h6>
-                                <h6 id="learner_email"></h6>
-                                <hr />
-                                <span>Grupo: </span><span className="text-primary" id="learner_group"></span><br />
-                                <span>Programa: </span><span className="text-primary" id="learner_formation_program"></span>
-                                <hr />
-                                <div className="row mt-3">
                                     <div className="col">
-                                        <h5 className="text-primary">Tipo de novedad</h5>
-                                        <h6 id="novelty_name"></h6>
-                                        <h5 className="mt-3 text-primary">Justificacion</h5>
-                                        <h6 id="justification"></h6>
+                                        <ul className="nav nav-tabs" id="myTab" role="tablist">
+                                            <li className="nav-item" role="presentation">
+                                                <a className="nav-link active" id="home-tab" data-toggle="tab" href="#information" role="tab" aria-controls="home" aria-selected="true">Detalle</a>
+                                            </li>
+                                        </ul>
+                                        <div className="tab-content" id="myTabContent">
+                                            <div className="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="home-tab">
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h5 className="text-primary">Tipo de novedad</h5>
+                                                        <h6 id="novelty_name"></h6>
+                                                        <h5 className="mt-3 text-primary">Justificacion</h5>
+                                                        <h6 id="justification"></h6>
+                                                        <h5 className="mt-3 text-primary">Fecha del comité</h5>
+                                                        <h6 id="committee_date"></h6>
+                                                        <h5 className="mt-3 text-primary">Fecha de respuesta</h5>
+                                                        <h6 id="reply_date"></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
