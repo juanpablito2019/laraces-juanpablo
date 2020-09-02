@@ -17,7 +17,7 @@ class CreateCommitteeParametersTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->longText('content');
-            $table->foreignId('act_template_id')->references('id')->on('act_templates');
+            $table->foreignId('committee_session_state_id')->references('id')->on('committee_session_states');
             $table->timestamps();
         });
     }
