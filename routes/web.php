@@ -70,4 +70,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/learner-novelties/show/{learner_novelty}', 'LearnerNoveltyController@show');
     Route::delete('/learner-novelties/delete/{learner_novelty}', 'LearnerNoveltyController@destroy');
     Route::put('/learner-novelties/update/{learner_novelty}', 'LearnerNoveltyController@update');
+
+    Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
+    Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');
 });
