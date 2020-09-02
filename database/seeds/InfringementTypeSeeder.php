@@ -19,6 +19,9 @@ class InfringementTypeSeeder extends Seeder
             ],[
                 'id'=>2,
                 'name'=>'DISCIPLINARIA'
+            ],[
+                'id'=>3,
+                'name'=>'ACADEMICA Y DISCIPLINARIA'
             ]
         ]);
     }

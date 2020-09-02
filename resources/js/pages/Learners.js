@@ -90,8 +90,10 @@ class Learners extends Component {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
                 if (data.success) {
-                    await this.getLearners();
                     $('#modal').modal('toggle');
+                    setTimeout(async () => {
+                        await this.getLearners();
+                    }, 100);
                 } else {
                     this.setState({ message: data.errors.name || data.errors.document_type || data.errors.document })
                 }
@@ -185,8 +187,10 @@ class Learners extends Component {
         e.preventDefault();
         let data = await importLearners(e.target);
         if (data.status === 200) {
-            await this.getLearners();
             $('#import').modal('toggle');
+            setTimeout(async () => {
+                await this.getLearners();
+            }, 200);
         }
     }
 
@@ -228,22 +232,22 @@ class Learners extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th>Documento</th>
+                                    <th className="hide">Documento</th>
                                     <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Grupo</th>
-                                    <th>Programa</th>
+                                    <th className="hide">Correo</th>
+                                    <th className="hide">Grupo</th>
+                                    <th className="hide">Programa</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.state.learners.map(learner => (
                                     <tr key={learner.id}>
-                                        <td>{learner.document_type} {learner.document}</td>
+                                        <td className="hide">{learner.document_type} {learner.document}</td>
                                         <td>{learner.name}</td>
-                                        <td>{learner.email}</td>
-                                        <td>{learner.group.code_tab}</td>
-                                        <td>{learner.group.formation_program.name.split('-')[1]}</td>
+                                        <td className="hide">{learner.email}</td>
+                                        <td className="hide">{learner.group.code_tab}</td>
+                                        <td className="hide">{learner.group.formation_program.name.split('-')[1]}</td>
                                         <td>
                                             <div className="btn-group" role="group" aria-label="Basic example">
                                                 <button data-id={learner.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
@@ -410,7 +414,7 @@ class Learners extends Component {
                                     <div className="tab-content" id="myTabContent">
                                         <div className="tab-pane fade show active mt-1" id="personal" role="tabpanel" aria-labelledby="home-tab">
                                             <div className="row">
-                                                <div className="col-4 mx-auto text-center">
+                                                <div className="col-8 mx-auto text-center col-lg-4">
                                                     <input
                                                         type="file"
                                                         name="photo"
@@ -449,7 +453,7 @@ class Learners extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <div className="form-row">
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Tipo de documento</label>
                                                         <select
                                                             name="document_type"
@@ -466,7 +470,7 @@ class Learners extends Component {
                                                             {rules.document_type.isInvalid && rules.document_type.message != '' ? rules.document_type.message : ''}
                                                         </div>
                                                     </div>
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Numero de documento</label>
                                                         <input
                                                             type="number"
@@ -496,7 +500,7 @@ class Learners extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <div className="form-row">
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Fecha de nacimiento</label>
                                                         <input
                                                             type="date"
@@ -509,7 +513,7 @@ class Learners extends Component {
                                                             {rules.birthdate.isInvalid && rules.birthdate.message != '' ? rules.birthdate.message : ''}
                                                         </div>
                                                     </div>
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Telefono</label>
                                                         <input
                                                             type="number"

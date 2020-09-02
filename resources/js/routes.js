@@ -15,6 +15,7 @@ import Committee from "./pages/Committee";
 import InfringementTypes from "./pages/InfringementTypes";
 import InfringementClassifications from "./pages/InfringementClassifications";
 import NoveltyTypes from "./pages/NoveltyTypes";
+import CommitteeSession from "./pages/CommitteeSession";
 import LearnerNovelties from "./pages/LearnerNovelties";
 export default [
     {
@@ -28,7 +29,7 @@ export default [
         type: 'menu',
         routes: [
             {
-                name: 'Parametros de acta',
+                name: 'Parámetros de acta',
                 path: '/committee-parameters',
                 component: CommitteeParameters
             },
@@ -113,6 +114,12 @@ export default [
         path: '/committees/:id',
         visible: false,
         component: Committee
+    },
+    {
+        name: 'Committee',
+        path: '/committees/:id/committee-session/:id',
+        visible: false,
+        component: CommitteeSession
     },
     {
         name: 'Novedades del aprendiz',

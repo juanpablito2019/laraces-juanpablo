@@ -16,7 +16,7 @@ class Committees extends Component {
             edit: false,
             message: null,
             rules,
-            subdirectors: null,
+            subdirector: null,
             ckdata: "",
             ckreset: false
         };
@@ -35,17 +35,21 @@ class Committees extends Component {
 
     async getSubdirectors() {
         let data = await getByRol(3);
-        this.setState({ subdirectors: data.users });
+        for (let i = 0; i < data.users.length; i++) {
+            if(data.users[i].pivot.is_active === 1){
+                this.setState({subdirector: data.users[i]});
+            }
+        }
     }
 
-    async handleDelete(e){
+    async handleDelete(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
-        if(res){
+        if (res) {
             let data = await destroy(id);
-            if(data.success){
+            if (data.success) {
                 await this.getCommittees();
-            }else{
+            } else {
                 console.log(data);
             }
         }
@@ -53,7 +57,9 @@ class Committees extends Component {
 
     async handleModal() {
         setRules(rules);
-        this.setState({ckreset: true, ckdata: "", edit: false});
+        rules.end_hour.isInvalid = false;
+        rules.subdirector_name.isInvalid = false;
+        this.setState({ ckreset: true, ckdata: "", edit: false });
         $('#form').trigger('reset');
         $(".modal")
             .find(".modal-title")
@@ -61,11 +67,11 @@ class Committees extends Component {
         $(".modal").modal("toggle");
     }
 
-    async handleEdit(e){
+    async handleEdit(e) {
         setRules(rules, false);
         let id = $(e.target).data('id');
         let data = await find(id);
-        this.setState({ckdata: data.assistants, ckreset: false, edit: true, id});
+        this.setState({ ckdata: data.assistants, ckreset: false, edit: true, id });
         $('.modal').find('.modal-title').text('Editar comité');
         $('.modal').find('#record_number').val(data.record_number);
         $('.modal').find('#date').val(data.date);
@@ -73,9 +79,9 @@ class Committees extends Component {
         $('.modal').find('#end_hour').val(data.end_hour);
         $('.modal').find('#place').val(data.place);
         $('.modal').find('#formation_center').val(data.formation_center);
-        if(data.qourum == 1){
+        if (data.qourum == 1) {
             $('#radio1').attr('checked', true);
-        }else{
+        } else {
             $('#radio2').attr('checked', true);
         }
         $('.modal').find('#subdirector_name').val(data.subdirector_name);
@@ -93,10 +99,10 @@ class Committees extends Component {
         if (formValid(rules)) {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
-                if(data.success){
+                if (data.success) {
                     await this.getCommittees();
                     $('.modal').modal('toggle');
-                    this.setState({edit: false});
+                    this.setState({ edit: false });
                 }
             } else {
                 let data = await store(e.target);
@@ -119,7 +125,7 @@ class Committees extends Component {
     }
     render() {
         const { rules } = this.state;
-        if (!this.state.committes || !this.state.subdirectors) {
+        if (!this.state.committes || !this.state.subdirector) {
             return <Loader />;
         }
         return (
@@ -142,7 +148,7 @@ class Committees extends Component {
                                         <div className="row">
                                             <div className="col">
                                                 <div className="card-title border-bottom">
-                                                    <Link to={"/app/committees/"+committe.id}>
+                                                    <Link to={"/app/committees/" + committe.id}>
                                                         <h5>
                                                             {moment(committe.date).format('LL')}
                                                         </h5>
@@ -337,10 +343,7 @@ class Committees extends Component {
                                                     </div>
                                                     <div className="col">
                                                         <label htmlFor="">
-                                                            Hora fin{" "}
-                                                            <span className="text-danger">
-                                                                *
-                                                            </span>
+                                                            Hora fin
                                                         </label>
                                                         <input
                                                             type="time"
@@ -399,35 +402,58 @@ class Committees extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label htmlFor="">
-                                                    Centro de formación{" "}
-                                                    <span className="text-danger">
-                                                        *
-                                                    </span>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="formation_center"
-                                                    id="formation_center"
-                                                    className={
-                                                        rules.formation_center
-                                                            .isInvalid &&
-                                                            rules.formation_center
-                                                                .message != ""
-                                                            ? "form-control is-invalid"
-                                                            : "form-control"
-                                                    }
-                                                    onInput={this.handleInput}
-                                                />
-                                                <div className="invalid-feedback">
-                                                    {rules.formation_center
-                                                        .isInvalid &&
-                                                        rules.formation_center
-                                                            .message != ""
-                                                        ? rules.formation_center
-                                                            .message
-                                                        : ""}
+                                                <div className="form-row">
+                                                    <div className="col">
+                                                        <label htmlFor="">
+                                                            Centro de formación{" "}
+                                                            <span className="text-danger">
+                                                                *
+                                                            </span>
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            name="formation_center"
+                                                            id="formation_center"
+                                                            className={
+                                                                rules.formation_center
+                                                                    .isInvalid &&
+                                                                    rules.formation_center
+                                                                        .message != ""
+                                                                    ? "form-control is-invalid"
+                                                                    : "form-control"
+                                                            }
+                                                            onInput={this.handleInput}
+                                                        />
+                                                        <div className="invalid-feedback">
+                                                            {rules.formation_center
+                                                                .isInvalid &&
+                                                                rules.formation_center
+                                                                    .message != ""
+                                                                ? rules.formation_center
+                                                                    .message
+                                                                : ""}
+                                                        </div>
+                                                    </div>
+                                                    <div className="col">
+                                                        <label htmlFor="">
+                                                            Subdirector{" "}
+                                                            <span className="text-danger">
+                                                                *
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" name="subdirector_name" id="subdirector_name" className="form-control" defaultValue={this.state.subdirector.name} />
+                                                        <div className="invalid-feedback">
+                                                            {rules.subdirector_name
+                                                                .isInvalid &&
+                                                                rules.subdirector_name
+                                                                    .message != ""
+                                                                ? rules.subdirector_name
+                                                                    .message
+                                                                : ""}
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="" className="d-block">
@@ -459,66 +485,6 @@ class Committees extends Component {
                                                     <label className="form-check-label" htmlFor="radio2">No</label>
                                                 </div>
                                             </div>
-                                            <div className="form-group">
-                                                <label htmlFor="">
-                                                    Subdirector{" "}
-                                                    <span className="text-danger">
-                                                        *
-                                                    </span>
-                                                </label>
-                                                <select
-                                                    name="subdirector_name"
-                                                    id="subdirector_name"
-                                                    className={
-                                                        rules.subdirector_name
-                                                            .isInvalid &&
-                                                            rules.subdirector_name
-                                                                .message != ""
-                                                            ? "form-control is-invalid"
-                                                            : "form-control"
-                                                    }
-                                                    onInput={this.handleInput}
-                                                >
-                                                    <option value="">
-                                                        Seleccion uno
-                                                    </option>
-                                                    {this.state.subdirectors
-                                                        .length > 0 ? (
-                                                            this.state.subdirectors.map(
-                                                                (
-                                                                    subdirector,
-                                                                    i
-                                                                ) => (
-                                                                        <option
-                                                                            key={i}
-                                                                            value={
-                                                                                subdirector.name
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                subdirector.name
-                                                                            }
-                                                                        </option>
-                                                                    )
-                                                            )
-                                                        ) : (
-                                                            <option value="">
-                                                                No hay subdirectores
-                                                                registrados en el
-                                                                sistema
-                                                            </option>
-                                                        )}
-                                                </select>
-                                                <div className="invalid-feedback">
-                                                    {rules.subdirector_name
-                                                        .isInvalid &&
-                                                        rules.subdirector_name
-                                                            .message != ""
-                                                        ? rules.subdirector_name
-                                                            .message
-                                                        : ""}
-                                                </div>
-                                            </div>
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
@@ -531,9 +497,8 @@ class Committees extends Component {
                                                 <Ckeditor
                                                     name="assistants"
                                                     id="assistants"
-                                                    data={this.state.ckdata}
-                                                    reset={this.state.ckreset}
-                                                    options={['bulletedList','numberedList', 'undo', 'redo']}
+                                                    d={this.state.ckdata}
+                                                    options={['bulletedList', 'numberedList', 'undo', 'redo']}
                                                 />
                                             </div>
                                         </div>

@@ -110,9 +110,9 @@ export const rules = {
         name: "hora fin",
         type: "time",
         message: "",
-        required: true,
-        isInvalid: true,
-        isEmpty: true
+        required: false,
+        isInvalid: false,
+        isEmpty: false
     },
     place: {
         name: "lugar",

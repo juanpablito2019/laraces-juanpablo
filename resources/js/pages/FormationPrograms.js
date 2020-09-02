@@ -3,7 +3,6 @@ import { get, rules, store, find, update, destroy, storeMass } from '../containe
 import {get as getFormationProgramTypes} from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
-import toastr from 'toastr';
 
 class FormationPrograms extends Component {
     constructor(props) {
@@ -146,10 +145,10 @@ class FormationPrograms extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Programas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de programa</a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo programa de formacion</span></a>
+                        <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
                     </div>
-                    <div className="col-6 col-lg-3 d-none d-md-inline">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -167,10 +166,10 @@ class FormationPrograms extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-2">
+                                            <div className="col-3 col-lg-3">
                                                 <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-8 ml-3">
                                                 <h5>{formationProgram.name.split('-')[1]}</h5>
                                                 <h6 className="text-muted">{formationProgram.code}</h6>
                                                 <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
