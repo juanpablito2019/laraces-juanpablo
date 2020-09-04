@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\ActTemplate;
+use App\Http\Requests\ActTemplateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ActTemplateController extends Controller
 {
@@ -14,7 +16,7 @@ class ActTemplateController extends Controller
      */
     public function index()
     {
-        //
+        return ActTemplate::all();
     }
 
     /**
@@ -33,9 +35,31 @@ class ActTemplateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ActTemplateRequest $request)
     {
-        //
+        $path = '';
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $ext = $file->extension();
+            $fileName = intval(time()) .".$ext";
+            Storage::putFileAs(
+                'public/act_templates', $file, $fileName
+            );
+            $path  = "act_templates/$fileName";
+        }
+        ActTemplate::create([
+            'name'=>$request->get('name'),
+            'version'=>$request->get('version'),
+            'date'=>$request->get('date'),
+            'is_active'=>$request->get('is_active'),
+            'path'=>$path
+        ]);
+        
+        return response()->json([
+            'status'=>201,
+            'success'=>true,
+            'message'=>'Plantilla de acta guardada con exito'
+        ]);
     }
 
     /**
@@ -46,7 +70,7 @@ class ActTemplateController extends Controller
      */
     public function show(ActTemplate $actTemplate)
     {
-        //
+        return $actTemplate;
     }
 
     /**
@@ -67,9 +91,9 @@ class ActTemplateController extends Controller
      * @param  \App\ActTemplate  $actTemplate
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ActTemplate $actTemplate)
+    public function update(ActTemplateRequest $request, ActTemplate $actTemplate)
     {
-        //
+        return $actTemplate;
     }
 
     /**

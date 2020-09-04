@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CommitteeRequest extends FormRequest
 {
