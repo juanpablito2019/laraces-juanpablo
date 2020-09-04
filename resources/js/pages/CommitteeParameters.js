@@ -204,8 +204,6 @@ class CommitteeParameters extends Component {
                                                 <Ckeditor
                                                     name="content"
                                                     id="content"
-                                                    data={this.state.ckdata}
-                                                    reset={this.state.ckreset}
                                                     options={['heading', 'bold', 'italic', 'blockQuote', 'bulletedList', 'numberedList', 'undo', 'redo']}
                                                 />
                                             </div>
