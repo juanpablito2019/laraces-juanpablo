@@ -38,7 +38,7 @@ class CommitteeParameters extends Component {
     handleModal(){
         $('#form').trigger('reset');
         setRules(rules);
-        this.setState({ ckreset: true, ckdata: "",message: null, edit: false });
+        this.setState({ ckdata: "",message: null, edit: false });
         $('.modal').find('.modal-title').text('Crear parámetro de acta');
         $('.modal').modal('toggle');
     }

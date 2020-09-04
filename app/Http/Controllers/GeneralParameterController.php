@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GeneralParameter;
 use Illuminate\Http\Request;
+use App\Http\Requests\GeneralParameterRequest;
 
 class GeneralParameterController extends Controller
 {
@@ -18,27 +19,6 @@ class GeneralParameterController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\GeneralParameter  $generalParameter
@@ -46,18 +26,7 @@ class GeneralParameterController extends Controller
      */
     public function show(GeneralParameter $generalParameter)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\GeneralParameter  $generalParameter
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(GeneralParameter $generalParameter)
-    {
-        //
+        return $generalParameter;
     }
 
     /**
@@ -67,9 +36,16 @@ class GeneralParameterController extends Controller
      * @param  \App\GeneralParameter  $generalParameter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GeneralParameter $generalParameter)
+    public function update(GeneralParameterRequest $request, GeneralParameter $generalParameter)
     {
-        //
+        $generalParameter->name = $request->get('name');
+        $generalParameter->content = $request->get('content');
+        $generalParameter->save();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Parametro general actualizado exitosamente'
+        ]);
     }
 
     /**
