@@ -82,8 +82,8 @@ export const rules = {
         isInvalid: true,
         min:5
     },
-    committee_session_state_id:{
-        name:'Estado de comite',
+    act_template_id:{
+        name:'plantilla',
         type:'numeric',
         message:'',
         required:true,

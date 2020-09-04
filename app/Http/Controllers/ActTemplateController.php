@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ActTemplate;
 use App\Http\Requests\ActTemplateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ActTemplateController extends Controller
@@ -37,6 +38,17 @@ class ActTemplateController extends Controller
      */
     public function store(ActTemplateRequest $request)
     {
+        $act_template = ActTemplate::where([
+            ['name','=', $request->get('name')],
+            ['version','=', $request->get('version')],
+        ])->first();
+        if($act_template){
+            return response()->json([
+                'status'=>422,
+                'sucesss'=>false,
+                'message'=>'Ya existe una plantilla con este nombre y esta version'
+            ]);
+        }
         $path = '';
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -93,7 +105,41 @@ class ActTemplateController extends Controller
      */
     public function update(ActTemplateRequest $request, ActTemplate $actTemplate)
     {
-        return $actTemplate;
+        $act_template = ActTemplate::where([
+            ['name','=', $request->get('name')],
+            ['version','=', $request->get('version')],
+        ])->first();
+        if($act_template && $act_template->id != $actTemplate->id){
+            return response()->json([
+                'status'=>422,
+                'sucesss'=>false,
+                'message'=>'Ya existe una plantilla con este nombre y esta version',
+            ]);
+        }
+        $actTemplate->name = $request->get('name');
+        $actTemplate->version = $request->get('version');
+        $actTemplate->date = $request->get('date');
+        if ($request->hasFile('file')) {
+            if($actTemplate->path){
+                if(File::exists(public_path("/storage/".$actTemplate->path))){
+                    File::delete(public_path("/storage/".$actTemplate->path));
+                }
+            }
+            $file = $request->file('file');
+            $ext = $file->extension();
+            $fileName = intval(time()) .".$ext";
+            Storage::putFileAs(
+                'public/learner-photos', $file, $fileName
+            );
+            $actTemplate->path  = "learner-photos/$fileName";
+        }
+        $actTemplate->is_active = $request->get('is_active');
+        $actTemplate->save();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Plantilla de acta actualizada con exito'
+        ]);
     }
 
     /**
@@ -104,6 +150,21 @@ class ActTemplateController extends Controller
      */
     public function destroy(ActTemplate $actTemplate)
     {
-        //
+        if($actTemplate->path){
+            if(File::exists(public_path("/storage/".$actTemplate->path))){
+                File::delete(public_path("/storage/".$actTemplate->path));
+            }
+        }
+        $actTemplate->delete();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'Plantilla de acta eliminada con exito'
+        ]);
+    }
+
+    public function findActive()
+    {
+        return ActTemplate::where('is_active', 1)->get();
     }
 }

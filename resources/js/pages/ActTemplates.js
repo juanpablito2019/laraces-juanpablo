@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 
-import { index, store, rules, find, update } from '../containers/ActTemplate';
+import { index, store, rules, find, update, destroy } from '../containers/ActTemplate';
 import { validate, formValid, setRules } from '../containers/Validator'
 import moment from 'moment';
 
@@ -20,6 +20,7 @@ class ActTemplates extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleModal = this.handleModal.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
 
@@ -31,7 +32,7 @@ class ActTemplates extends Component {
 
     handleModal() {
         setRules(rules);
-        this.setState({edit: false});
+        this.setState({edit: false, message: null});
         $('#form').trigger('reset');
         $('.modal').find('.modal-title').text('Agregar nueva plantilla');
         $('.modal').modal('toggle');
@@ -55,6 +56,17 @@ class ActTemplates extends Component {
         $('.modal').modal('toggle');
     }
 
+    async handleDelete(e){
+        let id = $(e.target).data('id');
+        let res = confirm('¿Seguro desea eliminar este item?');
+        if(res){
+            let data = await destroy(id);
+            if(data.success){
+                await this.getActTemplates();
+            }
+        }
+    }
+
     handleInput(e) {
         let { name, value } = e.target;
         let newRules = validate(name, value, rules);
@@ -70,7 +82,12 @@ class ActTemplates extends Component {
         if (formValid(rules)) {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
-                console.log(data);
+                if(data.success){
+                    $('.modal').modal('toggle');
+                    setTimeout(async () => {
+                        await this.getActTemplates();
+                    }, 100);
+                }
             } else {
                 let data = await store(e.target);
                 if (data.success) {
@@ -124,7 +141,7 @@ class ActTemplates extends Component {
                                         <td>
                                             <div className="btn-group" role="group" aria-label="Basic example">
                                                 <button data-id={actTemplate.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                <button data-id={actTemplate.id}  className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                <button data-id={actTemplate.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
                                             </div>
                                         </td>
                                     </tr>

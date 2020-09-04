@@ -57,6 +57,32 @@ export const update = async (form, id) => {
     }
 }
 
+export const destroy = async (id) => {
+    try {
+        let fd = new FormData();
+        fd.append('_method', 'DELETE');
+        fd.append('_token', token);
+        let res = await fetch(`/act-templates/${id}`, {
+            method: 'POST',
+            body: fd
+        });
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const findActive = async () => {
+    try {
+        let res = await fetch('/act-templates/active');
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const rules = {
     name:{
         name: 'nombre',

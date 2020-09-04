@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/CommitteeParameters';
-import { get as getCommitteeSessionStates } from '../containers/CommitteeSessionStates';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Ckeditor from '../components/Ckeditor';
-import DataTable from '../components/DataTable';
+import { findActive } from '../containers/ActTemplate';
 
 class CommitteeParameters extends Component {
     constructor(props) {
         super(props);
         this.state = {
             committeeParameters: null,
-            committeeSessionStates: null,
             edit: false,
-            ckdata: "",
-            ckreset: false
+            activeActTemplates: null
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleModal = this.handleModal.bind(this);
@@ -24,21 +21,19 @@ class CommitteeParameters extends Component {
     }
 
     async getCommitteeParameters() {
-        this.setState({ committeeParameters: null })
         let data = await get();
         this.setState({ committeeParameters: data })
     }
-
-    getCommitteeSessionStates() {
-        getCommitteeSessionStates().then(data =>{
-            this.setState( {committeeSessionStates: data })
-        })
+    async getActTemplatesActive() {
+        let data = await findActive();
+        this.setState({ activeActTemplates: data });
     }
 
-    handleModal(){
+
+    handleModal() {
         $('#form').trigger('reset');
         setRules(rules);
-        this.setState({ ckreset: true, ckdata: "",message: null, edit: false });
+        this.setState({ ckreset: true, ckdata: "", message: null, edit: false });
         $('.modal').find('.modal-title').text('Crear parámetro de acta');
         $('.modal').modal('toggle');
     }
@@ -46,12 +41,12 @@ class CommitteeParameters extends Component {
     async handleEdit(e) {
         let id = $(e.target).data('id');
         let data = await find(id);
-        this.setState({ ckdata: data.content, ckreset: false,id, edit: true, message: null });
+        this.setState({ ckdata: data.content, ckreset: false, id, edit: true, message: null });
         setRules(rules, false);
         find(id).then(data => {
             $('#name').val(data.name);
             $('#content').val(data.content);
-            $('#committee_session_state_id').val(data.committee_session_state_id);
+            $('#act_template_id').val(data.act_template_id);
             $('.modal').find('.modal-title').text('Editar parámetro de acta');
             $('.modal').modal('toggle');
         })
@@ -63,20 +58,16 @@ class CommitteeParameters extends Component {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
                 if (data.success) {
+                    await this.getCommitteeParameters();
                     $('#modal').modal('hide');
-                    setTimeout(async () => {
-                        await this.getCommitteeParameters();
-                    }, 100);
                 } else {
                     this.setState({ message: data.errors.name })
                 }
             } else {
                 let data = await store(e.target);
                 if (data.success) {
+                    await this.getCommitteeParameters();
                     $('#modal').modal('hide');
-                    setTimeout(async () => {
-                        await this.getCommitteeParameters();
-                    }, 100);
                 } else {
                     this.setState({ message: data.errors.name || data.errors.content })
                 }
@@ -101,12 +92,12 @@ class CommitteeParameters extends Component {
         this.setState({ rules: newRules });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getCommitteeParameters();
-        this.getCommitteeSessionStates();
+        this.getActTemplatesActive();
     }
     render() {
-        if(!this.state.committeeParameters || !this.state.committeeSessionStates ) {
+        if (!this.state.committeeParameters || !this.state.activeActTemplates) {
             return (
                 <Loader />
             )
@@ -121,33 +112,25 @@ class CommitteeParameters extends Component {
                 </div>
 
                 <div className="row mt-3">
-                    <div className="col">   
-                        <DataTable>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th className="hide">Contenido</th>
-                                    <th className="hide">Nombre del acta</th>
-                                    <th>Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.committeeParameters.map(committeeParameter => (
-                                <tr key={committeeParameter.id}>
-                                    <td>{committeeParameter.name}</td>
-                                    <td className="hide">{$(committeeParameter.content).text()}</td>
-                                    <td className="hide">{committeeParameter.committee_session_state.name}</td>
-                                    <td>
-                                        <div className="btn-group" role="group" aria-label="Basic example">
-                                            <button data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                            <button data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </DataTable>
-                    </div>
+                    {this.state.committeeParameters.length>0?(
+                        this.state.committeeParameters.map((committeeParameter, i) => (
+                            <div className="col-4" key={i}>
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="text-primary">{committeeParameter.name}</h5>
+                                        <h6>Plantilla: {committeeParameter.act_template.name} (V{committeeParameter.act_template.version})</h6>
+                                        <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
+                                        <a href="#" className="text-danger ml-3">Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ):(
+                        <div className="col">
+                            <p>No hay parametros de actas disponibles</p>
+                        </div>
+                    )}
+                    
                 </div>
 
                 <div className="modal" id="modal" tabIndex="-1" role="dialog">
@@ -188,22 +171,25 @@ class CommitteeParameters extends Component {
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col-12">
-                                                <label htmlFor="committee_session_state_id">Nombre acta <span className="text-danger">*</span></label>
+                                                <label htmlFor="act_template_id">Plantilla <span className="text-danger">*</span></label>
                                                 <select
-                                                    name="committee_session_state_id"
-                                                    id="committee_session_state_id"
-                                                    className={rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != ''?'form-control is-invalid':'form-control'}
+                                                    name="act_template_id"
+                                                    id="act_template_id"
+                                                    className={rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? 'form-control is-invalid' : 'form-control'}
                                                     onInput={this.handleInput}
                                                 >
                                                     <option value="">Seleccion uno</option>
-                                                    {this.state.committeeSessionStates.length>0?(
-                                                        this.state.committeeSessionStates.map(committeeSessionState => (
-                                                            <option key={committeeSessionState.id} value={committeeSessionState.id}>{committeeSessionState.name}</option>
+                                                    {this.state.activeActTemplates.length > 0 ? (
+                                                        this.state.activeActTemplates.map(activeActTemplate => (
+                                                            <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.name} (V{activeActTemplate.version})</option>
                                                         ))
-                                                    ):(
-                                                        <option value="">No hay tipos de programas</option>
-                                                    )}
+                                                    ) : (
+                                                            <option value="">No hay plantillas activas</option>
+                                                        )}
                                                 </select>
+                                                <div className="invalid-feedback">
+                                                    {rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? rules.act_template_id.message : ''}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +206,7 @@ class CommitteeParameters extends Component {
                                                     id="content"
                                                     data={this.state.ckdata}
                                                     reset={this.state.ckreset}
-                                                    options={['heading','bold','italic','blockQuote','bulletedList','numberedList','undo','redo']}
+                                                    options={['heading', 'bold', 'italic', 'blockQuote', 'bulletedList', 'numberedList', 'undo', 'redo']}
                                                 />
                                             </div>
                                         </div>

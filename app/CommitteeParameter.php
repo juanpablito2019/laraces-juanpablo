@@ -10,11 +10,11 @@ class CommitteeParameter extends Model
         'id',
         'name',
         'content',
-        'committee_session_state_id'
+        'act_template_id'
     ];
 
-    public function committeeSessionState()
+    public function actTemplate()
     {
-        return $this->belongsTo(CommitteeSessionState::class);
+        return $this->belongsTo(ActTemplate::class);
     }
 }

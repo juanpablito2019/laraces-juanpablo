@@ -15,7 +15,7 @@ class CommitteeParameterController extends Controller
      */
     public function index()
     {
-        return CommitteeParameter::with('committeeSessionState')->get();
+        return CommitteeParameter::with('actTemplate')->get();
     }
 
     /**
@@ -29,7 +29,7 @@ class CommitteeParameterController extends Controller
         CommitteeParameter::create([
             'name' => $request->get('name'),
             'content' => $request->get('content'),
-            'committee_session_state_id' => $request->get('committee_session_state_id')
+            'act_template_id' => $request->get('act_template_id')
         ]);
         return response()->json([
             'success'=>true,
@@ -60,7 +60,7 @@ class CommitteeParameterController extends Controller
     {
         $committeeParameter->name = $request->get('name');
         $committeeParameter->content = $request->get('content');
-        $committeeParameter->committee_session_state_id = $request->get('committee_session_state_id');
+        $committeeParameter->committee_session_state_id = $request->get('act_template_id');
         $committeeParameter->save();
         return response()->json([
             'success'=>true,

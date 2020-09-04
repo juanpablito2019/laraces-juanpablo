@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
 class ActTemplateRequest extends FormRequest
 {
@@ -25,12 +26,24 @@ class ActTemplateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name'=>['required', 'string', 'unique:act_templates'],
-            'version'=>['required', 'integer'],
-            'date'=>['required', 'date'],
-            'file'=>['required', 'max:5000'],
-            'is_active'=>['required', 'boolean']
+            'name' => ['required', 'string'],
+            'version' => ['required', 'integer'],
+            'date' => ['required', 'date'],
+            'file' => ['required', 'max:5000'],
+            'is_active' => ['required', 'boolean']
         ];
+
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+            $act_template = $this->route()->parameter('act_template');
+            $rules['name'] = [
+                'required',
+                'string',
+                Rule::unique('learners')->ignore($act_template)
+            ];
+            $rules['file'] = [
+                'max:5000',
+            ];
+        }
 
         return $rules;
     }
