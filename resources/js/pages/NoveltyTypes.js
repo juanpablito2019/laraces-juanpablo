@@ -115,7 +115,7 @@ class NoveltyTypes extends Component {
                         <h3>Tipos de novedades</h3>
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de novedad</a>
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
