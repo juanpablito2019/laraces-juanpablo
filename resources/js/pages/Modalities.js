@@ -55,6 +55,9 @@ class Modalities extends Component {
                 if (data.success) {
                     this.getModalities();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 }else{
                     this.setState({message: data.errors.name})
                 }
@@ -63,6 +66,9 @@ class Modalities extends Component {
                     if (data.success) {
                         this.getModalities();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name})
                     }
@@ -80,6 +86,13 @@ class Modalities extends Component {
             destroy(id).then(data => {
                 if (data.success) {
                     this.getModalities();
+                    toastr.info('', data.message, {
+                        closeButton: true
+                    });
+                }else{
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
                 }
             })
         }

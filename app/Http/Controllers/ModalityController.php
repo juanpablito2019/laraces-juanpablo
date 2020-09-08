@@ -75,12 +75,23 @@ class ModalityController extends Controller
      */
     public function destroy(Modality $modality)
     {
-        $modality->delete();
-        return response()->json([
+        try {
+            $modality->delete();
+            return response()->json([
             'success'=>true,
             'status'=>200,
             'message'=>'Modalidad eliminada con exito'
-        ]);
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar porque está relacionado con otro registro'
+                ]);
+            }
+        }
     }
 
     public function mass()

@@ -74,12 +74,23 @@ class ContractTypeController extends Controller
      */
     public function destroy(ContractType $contractType)
     {
-        $contractType->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Cargo eliminado exitosamente'
-        ]);
+        try {
+            $contractType->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Cargo eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar porque está relacionado con otro registro'
+                ]);
+            }
+        }
     }
 
     public function mass()

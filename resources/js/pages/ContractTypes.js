@@ -81,6 +81,13 @@ class ContractTypes extends Component {
         if (res) {
             let data = await destroy(id);
             this.getContractTypes();
+            toastr.info('', data.message, {
+                closeButton: true
+            });
+        }else{
+            toastr.error('', data.message, {
+                closeButton: true
+            });
         }
     }
 

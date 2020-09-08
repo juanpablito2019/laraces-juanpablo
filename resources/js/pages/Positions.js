@@ -80,6 +80,13 @@ class Positions extends Component {
         if (res) {
             let data = await destroy(id);
             this.getPositions();
+            toastr.info('', data.message, {
+                closeButton: true
+            });
+        }else{
+            toastr.error('', data.message, {
+                closeButton: true
+            });
         }
     }
 
@@ -91,6 +98,9 @@ class Positions extends Component {
                 if (data.success) {
                     this.getPositions();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 }else{
                     this.setState({message: data.errors.name})
                 }
@@ -99,6 +109,9 @@ class Positions extends Component {
                     if (data.success) {
                         this.getPositions();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name})
                     }

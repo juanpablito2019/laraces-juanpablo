@@ -76,12 +76,23 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        $position->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Cargo eliminado exitosamente'
-        ]);
+        try {
+            $position->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Cargo eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar porque está relacionado con otro registro'
+                ]);
+            }
+        }
     }
 
     public function mass()

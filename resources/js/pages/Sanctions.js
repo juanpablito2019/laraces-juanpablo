@@ -55,6 +55,9 @@ class Sanctions extends Component {
         if (res) {
             let data = await destroy(id);
             this.getSanctions();
+            toastr.warning('', data.message, {
+                closeButton: true
+            });
         }
     }
     search(e) {
@@ -76,6 +79,9 @@ class Sanctions extends Component {
                     if (data.success) {
                         this.getSanctions();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({ message: data.errors.name })
                     }
@@ -85,6 +91,9 @@ class Sanctions extends Component {
                     if (data.success) {
                         this.getSanctions();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({ message: data.errors.name })
                     }
