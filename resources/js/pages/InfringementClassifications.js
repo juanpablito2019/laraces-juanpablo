@@ -80,6 +80,9 @@ class InfringementClassifications extends Component {
                 if (data.success) {
                     this.getInfringementClassification();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }

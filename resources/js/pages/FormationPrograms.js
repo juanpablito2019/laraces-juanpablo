@@ -70,6 +70,9 @@ class FormationPrograms extends Component {
                     if (data.success) {
                         this.getFormationPrograms();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.code || data.errors.name});
                     }
@@ -79,6 +82,9 @@ class FormationPrograms extends Component {
                     if (data.success) {
                         this.getFormationPrograms();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.code || data.errors.name});
                     }
@@ -91,11 +97,18 @@ class FormationPrograms extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        let res = confirm('¿Estas seguro que deseas eliminar este programa de formacion?');
         if (res) {
             destroy(id).then(data => {
                 if (data.success) {
                     this.getFormationPrograms();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else{
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
                 }
             })
         }

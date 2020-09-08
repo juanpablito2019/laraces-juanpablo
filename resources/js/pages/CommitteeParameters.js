@@ -67,6 +67,9 @@ class CommitteeParameters extends Component {
                     setTimeout(async () => {
                         await this.getCommitteeParameters();
                     }, 100);
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -77,6 +80,9 @@ class CommitteeParameters extends Component {
                     setTimeout(async () => {
                         await this.getCommitteeParameters();
                     }, 100);
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name || data.errors.content })
                 }
@@ -86,12 +92,22 @@ class CommitteeParameters extends Component {
         }
     }
 
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este parámetro de acta?');
+        let res = confirm('¿Estas seguro que deseas eliminar este parámetro de acta?');
         if (res) {
-            let data = await destroy(id);
-            this.getCommitteeParameters();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getCommitteeParameters();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 

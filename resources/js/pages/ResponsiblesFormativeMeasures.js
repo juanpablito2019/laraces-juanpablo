@@ -45,6 +45,9 @@ class ResponsiblesFormativeMeasures extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getResponsibles();
+                toastr.success('', data.message, {
+                    closeButton: true
+                });
             }else{
                 this.getResponsibles();
                 toastr.error('', data.message, {
@@ -167,12 +170,22 @@ class ResponsiblesFormativeMeasures extends Component {
         $('#modal').modal('toggle');
     }
 
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este responsable?');
+        let res = confirm('¿¿Estas seguro de eliminar este responsable?');
         if (res) {
-            let data = await destroy(id);
-            this.getResponsibles();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getResponsibles();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 
@@ -185,6 +198,9 @@ class ResponsiblesFormativeMeasures extends Component {
                     if (data.success) {
                         this.getResponsibles();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name})
                     }
@@ -195,6 +211,9 @@ class ResponsiblesFormativeMeasures extends Component {
                             setTimeout(async () => {
                                 await this.getResponsibles();
                             }, 100);
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
                         }else{
                             this.setState({message:  data.errors.document  || data.errors.misena_email || data.errors.institutional_email || data.errors.phone || data.errors.phone_ip  })
                         }

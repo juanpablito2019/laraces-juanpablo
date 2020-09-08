@@ -61,12 +61,22 @@ class FormativeMeasures extends Component {
         $('.modal').modal('toggle');
     }
     
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar esta medida formativa?');
+        let res = confirm('¿Estas seguro que deseas eliminar esta medida formativa?');
         if (res) {
-            let data = await destroy(id);
-            this.getFormativeMeasures();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getFormativeMeasures();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 
@@ -78,6 +88,9 @@ class FormativeMeasures extends Component {
                     if (data.success) {
                         this.getFormativeMeasures();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({ message: data.errors.name })
                     }
@@ -87,6 +100,9 @@ class FormativeMeasures extends Component {
                     if (data.success) {
                         this.getFormativeMeasures();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({ message: data.errors.name })
                     }

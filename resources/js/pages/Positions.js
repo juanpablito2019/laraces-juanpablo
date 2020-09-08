@@ -74,19 +74,23 @@ class Positions extends Component {
         $('.modal').find('.modal-title').text('Agregar cargo');
         $('.modal').modal('toggle');
     }
-    async handleDelete(e) {
+
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este cargo?');
+        let res = confirm('¿¿Estas seguro de eliminar este cargo?');
         if (res) {
-            let data = await destroy(id);
-            this.getPositions();
-            toastr.info('', data.message, {
-                closeButton: true
-            });
-        }else{
-            toastr.error('', data.message, {
-                closeButton: true
-            });
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getPositions();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 

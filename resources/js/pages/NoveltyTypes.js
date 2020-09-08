@@ -50,12 +50,22 @@ class NoveltyTypes extends Component {
         $('.modal').modal('toggle');
     }
 
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estás seguro de eliminar este tipo de novedad?');
+        let res = confirm('¿Estas seguro que deseas eliminar este tipo de novedad?');
         if (res) {
-            let data = await destroy(id);
-            this.getNoveltyTypes();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getNoveltyTypes();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 
@@ -79,6 +89,9 @@ class NoveltyTypes extends Component {
                 if (data.success) {
                     this.getNoveltyTypes();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -87,6 +100,9 @@ class NoveltyTypes extends Component {
                     if (data.success) {
                         this.getNoveltyTypes();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     } else {
                         this.setState({ message: data.errors.name })
                     }

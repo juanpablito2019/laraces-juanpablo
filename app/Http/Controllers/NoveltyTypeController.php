@@ -73,11 +73,22 @@ class NoveltyTypeController extends Controller
      */
     public function destroy(NoveltyType $noveltyType)
     {
-        $noveltyType->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Tipo de novedad del aprendiz eliminada exitosamente'
-        ]);
+        try {
+            $noveltyType->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Tipo de novedad del aprendiz eliminada exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 }

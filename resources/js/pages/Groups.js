@@ -62,6 +62,9 @@ class Groups extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getGroups();
+                toastr.success('', data.message, {
+                    closeButton: true
+                });
             }else{
                 this.getGroups();
                 toastr.error('', data.message, {
@@ -108,6 +111,9 @@ class Groups extends Component {
                     if (data.success) {
                         this.getGroups();
                         $('#modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     } else {
                         this.setState({ message: data.errors.code_tab })
                     }
@@ -117,6 +123,9 @@ class Groups extends Component {
                     if (data.success) {
                         this.getGroups();
                         $('#modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     } else {
                         this.setState({ message: data.errors.code_tab })
                     }
@@ -129,11 +138,18 @@ class Groups extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        let res = confirm('¿Estas seguro que deseas eliminar este grupo?');
         if (res) {
             destroy(id).then(data => {
                 if (data.success) {
                     this.getGroups();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else{
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
                 }
             })
         }

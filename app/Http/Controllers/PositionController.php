@@ -89,7 +89,7 @@ class PositionController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar porque está relacionado con otro registro'
+                    'message'=>'No se puede eliminar'
                 ]);
             }
         }

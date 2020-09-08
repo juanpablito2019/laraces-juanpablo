@@ -80,6 +80,9 @@ class InfringementTypes extends Component {
                 if (data.success) {
                     this.getInfringementTypes();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }

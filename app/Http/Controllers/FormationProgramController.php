@@ -78,12 +78,23 @@ class FormationProgramController extends Controller
      */
     public function destroy(FormationProgram $formationProgram)
     {
-        $formationProgram->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Programa de formacion eliminado exitosamente'
-        ]);
+        try {
+            $formationProgram->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Programa de formacion eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 
     public function mass()
@@ -112,7 +123,7 @@ class FormationProgramController extends Controller
             return response()->json([
                 'status'=>200,
                 'success'=>true,
-                'message'=>'Tipos de programas de formacion actualizados'
+                'message'=>'Programas de formacion actualizados'
             ]);
         } catch (\Throwable $th) {
             $error = $th->errorInfo;

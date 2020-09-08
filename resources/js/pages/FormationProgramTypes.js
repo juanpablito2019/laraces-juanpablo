@@ -55,6 +55,9 @@ class FormationProgramTypes extends Component {
                     if (data.success) {
                         this.getFormationPrograms();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }
                 })
             } else {
@@ -62,6 +65,9 @@ class FormationProgramTypes extends Component {
                     if (data.success) {
                         this.getFormationPrograms();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name || data.errors.elective_months || data.errors.practice_months})
                     }
@@ -74,11 +80,18 @@ class FormationProgramTypes extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        let res = confirm('¿Estas seguro que deseas eliminar este tipo de programa de formacion?');
         if (res) {
             destroy(id).then(data => {
                 if (data.success) {
                     this.getFormationPrograms();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else{
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
                 }
             })
         }

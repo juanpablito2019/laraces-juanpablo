@@ -73,11 +73,22 @@ class SanctionController extends Controller
      */
     public function destroy(Sanction $sanction)
     {
-        $sanction->delete();
-        return response()->json([
+        try {
+            $sanction->delete();
+            return response()->json([
             'status'=>200,
             'success'=>true,
             'message'=>'Sancion eliminada exitosamente'
-        ]);
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar porque está relacionado con otro registro'
+                ]);
+            }
+        }
     }
 }
