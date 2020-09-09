@@ -98,12 +98,23 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        $group->delete();
-        return response()->json([
-            'status' => 200,
-            'success' => true,
-            'message' => 'Grupo eliminado con exito'
-        ]);
+        try {
+            $group->delete();
+            return response()->json([
+                'status' => 200,
+                'success' => true,
+                'message' => 'Grupo eliminado con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 
     public function mass()
@@ -142,7 +153,7 @@ class GroupController extends Controller
             return response()->json([
                 'status'=>200,
                 'success'=>true,
-                'message'=>'Tipos de programas de formacion actualizados'
+                'message'=>'Grupos actualizados'
             ]);
         } catch (\Throwable $th) {
             $error = $th->errorInfo;

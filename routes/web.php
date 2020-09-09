@@ -58,6 +58,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
     Route::resource('users', 'UserController');
+    Route::resource('general-parameters', 'GeneralParameterController');
+    Route::get('act-templates/active', 'ActTemplateController@findActive');
+    Route::get('act-templates/state/{id}', 'ActTemplateController@findByState');
+    Route::resource('act-templates', 'ActTemplateController');
 
     Route::get('/stimuli/{committee}', 'StimulusController@index');
     Route::post('/stimuli', 'StimulusController@store');
@@ -66,8 +70,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/stimuli/update/{stimulus}', 'StimulusController@update');
 
     Route::get('/learner-novelties/{committee}', 'LearnerNoveltyController@index');
+    Route::get('/learner-novelties', 'LearnerNoveltyController@indexAll');
     Route::post('/learner-novelties', 'LearnerNoveltyController@store');
     Route::get('/learner-novelties/show/{learner_novelty}', 'LearnerNoveltyController@show');
     Route::delete('/learner-novelties/delete/{learner_novelty}', 'LearnerNoveltyController@destroy');
     Route::put('/learner-novelties/update/{learner_novelty}', 'LearnerNoveltyController@update');
+
+    Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
+    Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');
 });

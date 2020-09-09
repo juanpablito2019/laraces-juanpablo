@@ -31,6 +31,7 @@ import NoveltyForm from "../forms/Committee/NoveltyForm";
 import AcademicForm from "../forms/Committee/AcademicForm";
 import DataTable from "../components/DataTable";
 import { validate, formValid, setRules } from "../containers/Validator";
+import { Link } from "react-router-dom";
 
 class Committee extends Component {
     constructor(props) {
@@ -204,21 +205,6 @@ class Committee extends Component {
         }
     }
 
-    async handleModalAcademic(e) {
-        let id = $(e.target).data('id');
-        let data = await fetchAcademic(id);
-        $('#modal-academic').find('#learner_name').text(data.learner.name);
-        if (data.learner.photo) {
-            $('#learner_photo').attr('src', "/storage/" + data.learner.photo);
-        }
-        $('#modal-academic').find('#learner_email').text(data.learner.email);
-        $('#modal-academic').find('#learner_document').text(`${data.learner.document_type} ${data.learner.document}`);
-        $('#modal-academic').find('#learner_group').text(`Grupo: ${data.learner.group.code_tab}`);
-        $('#modal-academic').find('#learner_formation_program').text(data.learner.group.formation_program.name);
-        $('#modal-academic').find('#infringement_type').text(data.infringement_type.name);
-        $('#modal-academic').modal('toggle');
-    }
-
     async handleDeleteAcademic(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
@@ -301,7 +287,9 @@ class Committee extends Component {
                 let data = await storeStimulus(e.target);
                 if (data.success) {
                     $("#modal-add").modal("toggle");
-                    await this.getStimuli();
+                    setTimeout(async () => {
+                        await this.getStimuli();
+                    }, 200);
                 } else {
                     console.log(data);
                 }
@@ -313,7 +301,9 @@ class Committee extends Component {
                 let data = await storeNovelty(e.target);
                 if (data.success) {
                     $("#modal-add").modal("toggle");
-                    await this.getLearnerNovelties();
+                    setTimeout(async () => {
+                        await this.getLearnerNovelties();
+                    }, 200);
                 } else {
                     console.log(data);
                 }
@@ -325,7 +315,9 @@ class Committee extends Component {
                 let data = await storeAcademic(e.target);
                 if (data.success) {
                     $("#modal-add").modal('toggle');
-                    await this.getCommittee();
+                    setTimeout(async () => {
+                        await this.getCommittee();
+                    }, 200);
                 } else {
                     this.setState({ message: data.errors.learners });
                 }
@@ -628,15 +620,12 @@ class Committee extends Component {
                                                                 >
                                                                     Editar
                                                                     </button>
-                                                                <button
-                                                                    data-id={
-                                                                        committee_session.id
-                                                                    }
+                                                                <Link
                                                                     className="btn btn-sm btn-outline-primary"
-                                                                    onClick={this.handleModalAcademic}
+                                                                    to={`/app/committees/${this.state.id}/committee-session/${committee_session.id}`}
                                                                 >
                                                                     Detalle
-                                                                    </button>
+                                                                </Link>
                                                                 <button
                                                                     data-id={
                                                                         committee_session.id
@@ -827,45 +816,6 @@ class Committee extends Component {
                                 <button form="form" className="btn btn-primary">
                                     Guardar
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="modal fade" tabIndex="-1" data-backdrop="static" id="modal-academic">
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Detalle de caso</h5>
-                                <button
-                                    type="button"
-                                    className="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                >
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="row">
-                                    <div className="col-3">
-                                        <img id="learner_photo" src="/img/no-photo.png" alt="learner-img" className="img-thumbnail img-fluid" />
-                                    </div>
-                                    <div className="col">
-                                        <h5 className="text-primary mb-3" id="learner_name"></h5>
-                                        <h6 id="learner_email"></h6>
-                                        <h6 id="learner_document"></h6>
-                                        <hr />
-                                        <h6 id="learner_group"></h6>
-                                        <h6 id="learner_formation_program"></h6>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div className="row">
-                                    <div className="col">
-                                        <h5 className="text-primary">Tipo de falta</h5>
-                                        <h6 id="infringement_type"></h6>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

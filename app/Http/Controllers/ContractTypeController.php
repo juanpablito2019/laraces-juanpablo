@@ -33,7 +33,7 @@ class ContractTypeController extends Controller
         return response()->json([
             'status'=>201,
             'success'=>true,
-            'message' => 'Cargo guardado exitosamente'
+            'message' => 'Tipo de contrato guardado exitosamente'
         ]);
     }
 
@@ -62,7 +62,7 @@ class ContractTypeController extends Controller
         return response()->json([
             'status'=>200,
             'success'=>true,
-            'message'=>'Cargo actualizado exitosamente'
+            'message'=>'Tipo de contrato actualizado exitosamente'
         ]);
     }
 
@@ -74,12 +74,23 @@ class ContractTypeController extends Controller
      */
     public function destroy(ContractType $contractType)
     {
-        $contractType->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Cargo eliminado exitosamente'
-        ]);
+        try {
+            $contractType->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Tipo de contrato eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 
     public function mass()

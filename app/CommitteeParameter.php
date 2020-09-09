@@ -10,11 +10,17 @@ class CommitteeParameter extends Model
         'id',
         'name',
         'content',
-        'committee_session_state_id'
+        'act_template_id',
+        'slug'
     ];
 
-    public function committeeSessionState()
+    public function actTemplate()
     {
-        return $this->belongsTo(CommitteeSessionState::class);
+        return $this->belongsTo(ActTemplate::class);
+    }
+
+    public function committeeSessions()
+    {
+        return $this->belongsToMany(CommitteeSession::class, 'committee_parameter_committee_session', 'parameter_id', 'session_id')->withPivot('description');
     }
 }

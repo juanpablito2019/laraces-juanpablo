@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CommitteeRequest extends FormRequest
 {
@@ -29,12 +29,11 @@ class CommitteeRequest extends FormRequest
             'record_number' => ['required', 'min: 3', 'string', 'unique:committees'],
             'date' => ['required', 'date'],
             'start_hour' => ['required', 'date_format:H:i'],
-            'end_hour' => ['required', 'date_format:H:i', 'after:start_hour'],
+            'end_hour' => ['nullable','date_format:H:i', 'after:start_hour'],
             'place' => ['required', 'string'],
             'formation_center' => ['required', 'string'],
-            'assistants' => ['required', 'string'],
             'subdirector_name'=>['required', 'string'],
-            'qourum'=>['required', 'boolean']
+            'coordinador_name'=>['required', 'string']
         ];
 
         if(in_array($this->method(), ['PUT', 'PATCH'])){

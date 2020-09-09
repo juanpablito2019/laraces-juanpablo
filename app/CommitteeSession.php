@@ -60,4 +60,9 @@ class CommitteeSession extends Model
 	{
 		return $this->belongsTo(InfringementType::class);
 	}
+
+	public function committeeSessionParameters()
+	{
+		return $this->belongsToMany(CommitteeParameter::class, 'committee_parameter_committee_session', 'session_id', 'parameter_id')->withPivot('description');
+	}
 }

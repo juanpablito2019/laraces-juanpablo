@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommitteeParametersTable extends Migration
+class CreateActTemplatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateCommitteeParametersTable extends Migration
      */
     public function up()
     {
-        Schema::create('committee_parameters', function (Blueprint $table) {
+        Schema::create('act_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->longText('content');
             $table->foreignId('committee_session_state_id')->references('id')->on('committee_session_states');
+            $table->integer('version');
+            $table->date('date');
+            $table->boolean('is_active');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ class CreateCommitteeParametersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('committee_parameters');
+        Schema::dropIfExists('act_templates');
     }
 }

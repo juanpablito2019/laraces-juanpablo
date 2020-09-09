@@ -48,15 +48,6 @@ class Ckeditor extends Component {
             this.setState({ config: newConfig });
         }
     }
-
-    UNSAFE_componentWillReceiveProps(nextProps) {
-        if (nextProps.data != '') {
-            this.setState({ data: nextProps.data });
-        }
-        if (nextProps.reset) {
-            this.setState({ data: "" });
-        }
-    }
     render() {
 
         return (
@@ -66,8 +57,10 @@ class Ckeditor extends Component {
                     config={{
                         language: 'es',
                     }}
-                    data={this.state.data}
+                    data={this.props.d}
                     onInit={editor => {
+                        let d = editor.getData();
+                        this.setState({data: d});
                         // console.log(Array.from(editor.ui.componentFactory.names()))
                     }}
                     config={this.state.config}

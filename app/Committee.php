@@ -13,9 +13,8 @@ class Committee extends Model
         'end_hour',
         'place',
         'formation_center',
-        'assistants',
         'subdirector_name',
-        'qourum'
+        'coordinador_name'
     ];
 
     public function committeeSessions()

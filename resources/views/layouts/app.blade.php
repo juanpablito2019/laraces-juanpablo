@@ -68,7 +68,7 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                               <a class="dropdown-item" href="{{route('committees.index')}}">Reuniones de comite</a>
                               <a class="dropdown-item" href="{{route('sanctions.index')}}">Sanciones</a>
-                              <a class="dropdown-item" href="{{route('committee-parameters.index')}}">Parametros de actas</a>
+                              <a class="dropdown-item" href="{{route('committee-parameters.index')}}">Parámetros de actas</a>
                               <a class="dropdown-item" href="{{route('committee-session-types.index')}}">Tipos de casos</a>
                               <a class="dropdown-item" href="{{route('formative-measures.index')}}">Medidas formativas</a>
                               <a class="dropdown-item" href="{{route('infringement-types.index')}}">Tipos de faltas</a>

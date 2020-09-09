@@ -122,5 +122,16 @@ export const validate = (name, value, rules) => {
 			rules[name].message = '';
 		}
 	}
+	if(rules[name].type === 'file'){
+		if (rules[name].required && value.length === 0) {
+			rules[name].isEmpty = true;
+			rules[name].isInvalid = true;
+			rules[name].message = `El campo ${rules[name].name} es requerido`;
+		}else{
+			rules[name].isEmpty = false;
+			rules[name].isInvalid = false;
+			rules[name].message = '';
+		}
+	}
 	return rules;
 }

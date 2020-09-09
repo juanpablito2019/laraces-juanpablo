@@ -15,7 +15,7 @@ class CommitteeParameterController extends Controller
      */
     public function index()
     {
-        return CommitteeParameter::with('committeeSessionState')->get();
+        return CommitteeParameter::with('actTemplate.committeeSessionState')->get();
     }
 
     /**
@@ -29,12 +29,13 @@ class CommitteeParameterController extends Controller
         CommitteeParameter::create([
             'name' => $request->get('name'),
             'content' => $request->get('content'),
-            'committee_session_state_id' => $request->get('committee_session_state_id')
+            'act_template_id' => $request->get('act_template_id'),
+            'slug'=>$request->get('slug')
         ]);
         return response()->json([
             'success'=>true,
             'status'=>201,
-            'message'=>'Parametro de comite agregado exitosamente'
+            'message'=>'Parámetro de comite agregado exitosamente'
         ]);
     }
 
@@ -60,12 +61,13 @@ class CommitteeParameterController extends Controller
     {
         $committeeParameter->name = $request->get('name');
         $committeeParameter->content = $request->get('content');
-        $committeeParameter->committee_session_state_id = $request->get('committee_session_state_id');
+        $committeeParameter->slug = $request->get('slug');
+        $committeeParameter->act_template_id = $request->get('act_template_id');
         $committeeParameter->save();
         return response()->json([
             'success'=>true,
             'status'=>200,
-            'message'=>'Parametro de comite actualizado exitosamente'
+            'message'=>'Parámetro de comite actualizado exitosamente'
         ]);
     }
 
@@ -77,11 +79,22 @@ class CommitteeParameterController extends Controller
      */
     public function destroy(CommitteeParameter $committeeParameter)
     {
-        $committeeParameter->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Parametro de comite eliminado exitosamente'
-        ]);
+        try {
+            $committeeParameter->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Parámetro de comite eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }  
     }
 }

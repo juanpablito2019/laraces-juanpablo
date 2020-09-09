@@ -33,9 +33,8 @@ class CommitteeController extends Controller
             'end_hour' => $request->get('end_hour'),
             'place' => $request->get('place'),
             'formation_center' => $request->get('formation_center'),
-            'assistants'=>$request->get('assistants'),
             'subdirector_name' => $request->get('subdirector_name'),
-            'qourum' => $request->get('qourum')
+            'coordinador_name' => $request->get('coordinador_name')
         ]);
 
         return response()->json([
@@ -71,9 +70,8 @@ class CommitteeController extends Controller
         $committee->end_hour = $request->get('end_hour');
         $committee->place = $request->get('place');
         $committee->formation_center = $request->get('formation_center');
-        $committee->assistants = $request->get('assistants');
         $committee->subdirector_name = $request->get('subdirector_name');
-        $committee->qourum = $request->get('qourum');
+        $committee->coordinador_name = $request->get('coordinador_name');
         $committee->save();
         return response()->json([
             'status'=>200,
@@ -90,11 +88,22 @@ class CommitteeController extends Controller
      */
     public function destroy(Committee $committee)
     {
-        $committee->delete();
-        return response()->json([
-            'status'=>201,
-            'success'=>true,
-            'message'=>'Comité eliminado con exito'
-        ]);
+        try {
+            $committee->delete();
+            return response()->json([
+                'status'=>201,
+                'success'=>true,
+                'message'=>'Comité eliminado con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 }

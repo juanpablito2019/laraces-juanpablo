@@ -78,12 +78,23 @@ class FormationProgramTypeController extends Controller
      */
     public function destroy(FormationProgramType $formationProgramType)
     {
-        $formationProgramType->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Tipo de programa de formacion eliminado exitosamente'
-        ]);
+        try {
+            $formationProgramType->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Tipo de programa de formacion eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 
     public function mass()

@@ -6,7 +6,6 @@ import { validate, formValid, setRules } from '../containers/Validator';
 import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 import Select from 'react-select';
-import toastr from 'toastr';
 
 class ResponsiblesFormativeMeasures extends Component {
     constructor(props) {
@@ -46,6 +45,9 @@ class ResponsiblesFormativeMeasures extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getResponsibles();
+                toastr.success('', data.message, {
+                    closeButton: true
+                });
             }else{
                 this.getResponsibles();
                 toastr.error('', data.message, {
@@ -169,12 +171,22 @@ class ResponsiblesFormativeMeasures extends Component {
         $('#modal').modal('toggle');
     }
 
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este responsable?');
+        let res = confirm('¿¿Estas seguro de eliminar este responsable?');
         if (res) {
-            let data = await destroy(id);
-            this.getResponsibles();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getResponsibles();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 
@@ -187,6 +199,9 @@ class ResponsiblesFormativeMeasures extends Component {
                     if (data.success) {
                         this.getResponsibles();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name})
                     }
@@ -197,6 +212,9 @@ class ResponsiblesFormativeMeasures extends Component {
                             setTimeout(async () => {
                                 await this.getResponsibles();
                             }, 100);
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
                         }else{
                             this.setState({message:  data.errors.document  || data.errors.misena_email || data.errors.institutional_email || data.errors.phone || data.errors.phone_ip  })
                         }
@@ -253,22 +271,22 @@ class ResponsiblesFormativeMeasures extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th>Documento</th>
+                                    <th className="hide">Documento</th>
                                     <th>Nombre</th>
-                                    <th className="d-none d-lg-table-cell" >Correo</th>
-                                    <th className="d-none d-md-table-cell">telefono</th>
-                                    <th className="d-none d-lg-table-cell" >Cargo</th>
+                                    <th className="hide">Correo</th>
+                                    <th className="hide-md">telefono</th>
+                                    <th className="hide">Cargo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     {this.state.responsibles.map(responsible => (
                                         <tr key={responsible.id}>
-                                            <td>{responsible.document_type} {responsible.document}</td>
+                                            <td className="hide">{responsible.document_type} {responsible.document}</td>
                                             <td>{responsible.username}</td>
-                                            <td className="d-none d-lg-table-cell">{responsible.misena_email}</td>
-                                            <td className="d-none d-md-table-cell">{responsible.phone}</td>
-                                            <td className="d-none d-lg-table-cell">{responsible.position.name}</td>
+                                            <td className="hide">{responsible.misena_email}</td>
+                                            <td className="hide-md">{responsible.phone}</td>
+                                            <td className="hide">{responsible.position.name}</td>
                                             <td>
                                                 <div className="btn-group" role="responsible" aria-label="Basic example">
                                                     <button data-id={responsible.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i className="far fa-edit d-sm-block d-md-none"></i><span className="d-none d-md-inline">Editar</span></button>
@@ -315,7 +333,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                     <div className="tab-content" id="myTabContent">
                                         <div className="tab-pane fade show active mt-1" id="personal" role="tabpanel" aria-labelledby="home-tab">
                                             <div className="row">
-                                                <div className="col-4 mx-auto text-center">
+                                                <div className="col-8 mx-auto text-center col-lg-4">
                                                     <input
                                                         type="file"
                                                         name="photo"
@@ -352,7 +370,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                             </div>
                                             <div className="form-group">
                                                 <div className="form-row">
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Tipo de documento</label>
                                                         <select
                                                             name="document_type"
@@ -369,7 +387,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                                             {rules.document_type.isInvalid && rules.document_type.message != '' ? rules.document_type.message : ''}
                                                         </div>
                                                     </div>
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Numero de documento</label>
                                                         <input
                                                             type="number"
@@ -452,7 +470,7 @@ class ResponsiblesFormativeMeasures extends Component {
 
                                             <div className="form-group">
                                                 <div className="form-row">
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Celular</label>
                                                         <input
                                                             type="number"
@@ -465,7 +483,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                                             {rules.phone.isInvalid && rules.phone.message != '' ? rules.phone.message : 'form-control'}
                                                         </div>
                                                     </div>
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Telefono</label>
                                                         <input
                                                             type="number"
@@ -483,7 +501,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                             <div className="form-group">
                                                 <div className="form-row">
 
-                                                        <div className="col">
+                                                        <div className="col-12 col-lg-6">
                                                             <label htmlFor="">Fecha de nacimiento</label>
                                                             <input
                                                                 type="date"
@@ -498,7 +516,7 @@ class ResponsiblesFormativeMeasures extends Component {
 
                                                         </div>
 
-                                                        <div className="col">
+                                                        <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Genero</label>
                                                         <select
                                                             name="gender"
@@ -522,7 +540,7 @@ class ResponsiblesFormativeMeasures extends Component {
 
                                                 <div className="form-row">
 
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Tipo</label>
                                                         <input
                                                             type="text"
@@ -535,7 +553,7 @@ class ResponsiblesFormativeMeasures extends Component {
                                                             {rules.type.isInvalid && rules.type.message != '' ? rules.type.message : 'form-control'}
                                                         </div>
                                                     </div>
-                                                    <div className="col">
+                                                    <div className="col-12 col-lg-6">
                                                         <label htmlFor="">Estado</label>
                                                         <input
                                                             type="text"

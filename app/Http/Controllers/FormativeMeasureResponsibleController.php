@@ -124,18 +124,28 @@ class FormativeMeasureResponsibleController extends Controller
      */
     public function destroy(FormativeMeasureResponsible $formativeMeasureResponsible)
     {
-        if($formativeMeasureResponsible->photo){
-            if(File::exists(public_path("/storage/".$formativeMeasureResponsible->photo))){
-                File::delete(public_path("/storage/".$formativeMeasureResponsible->photo));
+        try {
+            if($formativeMeasureResponsible->photo){
+                if(File::exists(public_path("/storage/".$formativeMeasureResponsible->photo))){
+                    File::delete(public_path("/storage/".$formativeMeasureResponsible->photo));
+                }
+            }
+            $formativeMeasureResponsible->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Responsable eliminado con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
             }
         }
-        $formativeMeasureResponsible->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Responsable eliminado con exito'
-        ]);
-
     }
 
     public function mass()

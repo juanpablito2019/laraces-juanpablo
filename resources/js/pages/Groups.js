@@ -8,7 +8,6 @@ import { get as getFormationPrograms } from '../containers/FormationPrograms';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import { Link } from "react-router-dom";
-import toastr from 'toastr';
 
 class Groups extends Component {
     constructor(props) {
@@ -63,6 +62,9 @@ class Groups extends Component {
         storeMass().then(data => {
             if(data.success){
                 this.getGroups();
+                toastr.success('', data.message, {
+                    closeButton: true
+                });
             }else{
                 this.getGroups();
                 toastr.error('', data.message, {
@@ -109,6 +111,9 @@ class Groups extends Component {
                     if (data.success) {
                         this.getGroups();
                         $('#modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     } else {
                         this.setState({ message: data.errors.code_tab })
                     }
@@ -118,6 +123,9 @@ class Groups extends Component {
                     if (data.success) {
                         this.getGroups();
                         $('#modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     } else {
                         this.setState({ message: data.errors.code_tab })
                     }
@@ -130,11 +138,18 @@ class Groups extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        let res = confirm('¿Estas seguro que deseas eliminar este grupo?');
         if (res) {
             destroy(id).then(data => {
                 if (data.success) {
                     this.getGroups();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else{
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
                 }
             })
         }
@@ -204,10 +219,10 @@ class Groups extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Grupos</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo tipo de programa</a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar</a>
+                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo grupo</span></a>
+                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
                     </div>
-                    <div className="col-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -221,19 +236,19 @@ class Groups extends Component {
                 <div className="row mt-3">
                     {this.state.groups.length > 0 ? (
                         this.state.groups.map(group => (
-                            <div className="col-6 mb-2" key={group.id}>
+                            <div className="col-12 col-lg-6 col-md-6 mb-2" key={group.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-3">
-                                                <i className="fa fa-users fa-5x mt-3" aria-hidden="true"></i>
+                                            <div className="col-3 col-lg-3">
+                                                <i className="fa fa-users fa-4x mt-3" aria-hidden="true"></i>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-8 ml-3">
                                                 <h5>{group.code_tab}</h5>
                                                 <p>{group.formation_program.name}</p>
-                                                <a href="#" data-id={group.id} onClick={this.handleEdit}>Editar</a>
-                                                <a href="#" data-id={group.id} onClick={this.handleDetail} className="ml-3">Detalle</a>
-                                                <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
+                                                <a href="#" data-id={group.id} onClick={this.handleDetail} className="mr-2">Detalle</a>
+                                                <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
                                             </div>
                                         </div>
                                     </div>
@@ -314,7 +329,7 @@ class Groups extends Component {
                                     </div>
                                     <div className="form-group">
                                         <div className="form-row">
-                                            <div className="col">
+                                            <div className="col-12 col-lg-6">
                                                 <label htmlFor="quantity_learners">Numero de aprendices</label>
                                                 <input
                                                     type="number"
@@ -327,7 +342,7 @@ class Groups extends Component {
                                                     {rules.quantity_learners.isInvalid && rules.quantity_learners.message != '' ? rules.quantity_learners.message : ''}
                                                 </div>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-12 col-lg-6">
                                                 <label htmlFor="active_learners">Aprendices activos</label>
                                                 <input
                                                     type="number"

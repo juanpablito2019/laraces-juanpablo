@@ -17,11 +17,10 @@ class CreateCommitteesTable extends Migration
             $table->id();
             $table->string('record_number')->unique();
             $table->date('date');
-            $table->longText('assistants');
             $table->string('subdirector_name');
-            $table->boolean('qourum');
+            $table->string('coordinador_name');
             $table->time('start_hour');
-            $table->time('end_hour');
+            $table->time('end_hour')->nullable();
             $table->string('place');
             $table->string('formation_center');
             $table->timestamps();

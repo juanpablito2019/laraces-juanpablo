@@ -29,7 +29,7 @@ class LearnerRequest extends FormRequest
             'name' => ['required', 'string', 'min:3'],
             'document_type' => ['required', 'string', 'max:3'],
             'document' => ['required', 'string', 'unique:learners'],
-            'phone' => ['required', 'string', 'unique:learners'],
+            'phone' => ['string', 'unique:learners'],
             'email' => ['required', 'string', 'unique:learners'],
             'group_id' => ['required', 'integer', 'exists:groups,id'],
             'birthdate' => ['date'],
@@ -44,7 +44,6 @@ class LearnerRequest extends FormRequest
                 Rule::unique('learners')->ignore($user)
             ];
             $rules['phone'] = [
-                'required',
                 'string',
                 Rule::unique('learners')->ignore($user)
             ];

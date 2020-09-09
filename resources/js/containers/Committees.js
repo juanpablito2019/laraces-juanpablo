@@ -110,9 +110,9 @@ export const rules = {
         name: "hora fin",
         type: "time",
         message: "",
-        required: true,
-        isInvalid: true,
-        isEmpty: true
+        required: false,
+        isInvalid: false,
+        isEmpty: false
     },
     place: {
         name: "lugar",
@@ -138,12 +138,12 @@ export const rules = {
         isInvalid: true,
         isEmpty: true
     },
-    qourum: {
-        name: 'qourum',
-        type: 'text',
-        message: '',
+    coordinador_name: {
+        name: "coordinador",
+        type: "text",
+        message: "",
         required: true,
         isInvalid: true,
         isEmpty: true
-    }
+    },
 };

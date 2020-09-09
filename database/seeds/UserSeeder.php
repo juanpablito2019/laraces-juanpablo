@@ -1,9 +1,7 @@
 <?php
 
-use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -15,29 +13,31 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('role_user')->truncate();
-        $adminRole = Role::where('id', 1)->first();
-        $coordinadorRole = Role::where('id', 2)->first();
-        $subdirectorRole = Role::where('id', 3)->first();
-
         $admin = User::create([
-            'name'=>'Administrador',
-            'email'=>'administrador@gmail.com',
-            'password'=>Hash::make('admin123')
+            'name'=>'Admin User',
+            'email'=>'admin@gmail.com',
+            'password'=>Hash::make('admin123'),
+            'is_active'=>true
         ]);
-        $coordinador = User::create([
-            'name'=>'Coordinador',
-            'email'=>'coordinador@gmail.com',
-            'password'=>Hash::make('coordinador2020')
+        $cordi = User::create([
+            'name'=>'Cordinador User',
+            'email'=>'cordi@gmail.com',
+            'password'=>Hash::make('cordi123'),
+            'is_active'=>true
         ]);
-        $subdirector = User::create([
-            'name'=>'Subdirector',
-            'email'=>'subdirector@gmail.com',
-            'password'=>Hash::make('subdirector2020')
+        $subdi = User::create([
+            'name'=>'Subdirector User',
+            'email'=>'subdi@gmail.com',
+            'password'=>Hash::make('subdi123'),
+            'is_active'=>true
         ]);
 
-        $admin->roles()->attach($adminRole);
-        $coordinador->roles()->attach($coordinadorRole);
-        $subdirector->roles()->attach($subdirectorRole);
+        $admin->assignRole('Administrador'); // Super Admin
+        $cordi->assignRole('Coordinador');
+        $subdi->assignRole('Subdirector');
+
+        // $roles -> $permisos
+        // $users -> $roles
+        // $users -> $permisos
     }
 }

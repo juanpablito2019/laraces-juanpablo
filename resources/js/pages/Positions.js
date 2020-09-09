@@ -74,12 +74,23 @@ class Positions extends Component {
         $('.modal').find('.modal-title').text('Agregar cargo');
         $('.modal').modal('toggle');
     }
-    async handleDelete(e) {
+
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este cargo?');
+        let res = confirm('¿¿Estas seguro de eliminar este cargo?');
         if (res) {
-            let data = await destroy(id);
-            this.getPositions();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getPositions();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 
@@ -91,6 +102,9 @@ class Positions extends Component {
                 if (data.success) {
                     this.getPositions();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 }else{
                     this.setState({message: data.errors.name})
                 }
@@ -99,6 +113,9 @@ class Positions extends Component {
                     if (data.success) {
                         this.getPositions();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name})
                     }

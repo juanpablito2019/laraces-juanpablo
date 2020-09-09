@@ -11255,7 +11255,7 @@ a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 
-#content {
+div#content {
   width: 100%;
   margin-left: 250px;
   padding: 10px 20px;
@@ -11263,7 +11263,7 @@ a.article:hover {
   transition: all 0.3s;
 }
 
-#content.active {
+div#content.active {
   width: 100%;
   margin-left: 0px;
   padding: 10px 20px;
@@ -11280,11 +11280,11 @@ a.article:hover {
     margin-left: -250px;
   }
 
-  #content {
+  div#content {
     margin-left: 0px;
   }
 
-  #content.active {
+  div#content.active {
     margin-left: 250px;
   }
 
