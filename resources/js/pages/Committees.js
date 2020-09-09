@@ -57,16 +57,22 @@ class Committees extends Component {
         this.setState({formation_center: parameter1.content, place: parameter2.content});
     }
 
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
+        let res = confirm('¿Estas seguro que deseas eliminar este comite?');
         if (res) {
-            let data = await destroy(id);
-            if (data.success) {
-                await this.getCommittees();
-            } else {
-                console.log(data);
-            }
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getCommittees();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 

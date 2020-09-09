@@ -93,11 +93,22 @@ class LearnerNoveltyController extends Controller
      */
     public function destroy(LearnerNovelty $learnerNovelty)
     {
-        $learnerNovelty->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Novedad eliminada con exito'
-        ]);
+        try {
+            $learnerNovelty->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Novedad eliminada con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 }

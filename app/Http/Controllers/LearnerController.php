@@ -112,17 +112,28 @@ class LearnerController extends Controller
      */
     public function destroy(Learner $learner)
     {
-        if($learner->photo){
-            if(File::exists(public_path("/storage/".$learner->photo))){
-                File::delete(public_path("/storage/".$learner->photo));
+        try {
+            if($learner->photo){
+                if(File::exists(public_path("/storage/".$learner->photo))){
+                    File::delete(public_path("/storage/".$learner->photo));
+                }
+            }
+            $learner->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Aprendiz eliminado con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
             }
         }
-        $learner->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Aprendiz eliminado con exito'
-        ]);
     }
 
     public function import(Request $request)

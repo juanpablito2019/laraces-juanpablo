@@ -35,7 +35,7 @@ class CommitteeParameterController extends Controller
         return response()->json([
             'success'=>true,
             'status'=>201,
-            'message'=>'Parametro de comite agregado exitosamente'
+            'message'=>'Parámetro de comite agregado exitosamente'
         ]);
     }
 
@@ -67,7 +67,7 @@ class CommitteeParameterController extends Controller
         return response()->json([
             'success'=>true,
             'status'=>200,
-            'message'=>'Parametro de comite actualizado exitosamente'
+            'message'=>'Parámetro de comite actualizado exitosamente'
         ]);
     }
 
@@ -79,11 +79,22 @@ class CommitteeParameterController extends Controller
      */
     public function destroy(CommitteeParameter $committeeParameter)
     {
-        $committeeParameter->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Parametro de comite eliminado exitosamente'
-        ]);
+        try {
+            $committeeParameter->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Parámetro de comite eliminado exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }  
     }
 }

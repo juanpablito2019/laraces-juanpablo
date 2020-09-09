@@ -80,6 +80,9 @@ class InfringementClassifications extends Component {
                 if (data.success) {
                     this.getInfringementClassification();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -115,7 +118,7 @@ class InfringementClassifications extends Component {
                         <h3>Clasificación de las faltas</h3>
                         {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar clasificación de infracción</a> */}
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -126,7 +129,7 @@ class InfringementClassifications extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-3">
+                <div className="row">
                     {this.state.infringementClassifications.length > 0 ? (
                         this.state.infringementClassifications.map(infringementClassification => (
                             <div className="col-12 col-md-6 col-lg-4 mb-2" key={infringementClassification.id}>

@@ -48,15 +48,26 @@ class Sanctions extends Component {
         $('.modal').find('#name').val(data.name);
         $('.modal').modal('toggle');
     }
-    
-    async handleDelete(e) {
+
+    handleDelete(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Estas seguro de eliminar esta sanción?');
         if (res) {
-            let data = await destroy(id);
-            this.getSanctions();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getSanctions();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
+    
     search(e) {
         let { value } = e.target;
         let matches = this.state.sanctions.filter(sanction => {
@@ -76,6 +87,9 @@ class Sanctions extends Component {
                     if (data.success) {
                         this.getSanctions();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({ message: data.errors.name })
                     }
@@ -85,6 +99,9 @@ class Sanctions extends Component {
                     if (data.success) {
                         this.getSanctions();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({ message: data.errors.name })
                     }

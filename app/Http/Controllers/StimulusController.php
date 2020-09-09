@@ -80,11 +80,22 @@ class StimulusController extends Controller
      */
     public function destroy(Stimulus $stimulus)
     {
-        $stimulus->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Estimulo agregado con exito'
-        ]);
+        try {
+            $stimulus->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Estimulo agregado con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        } 
     }
 }

@@ -75,12 +75,22 @@ class ContractTypes extends Component {
         $('.modal').modal('toggle');
     }
 
-    async handleDelete(e) {
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro de eliminar este contrato?');
+        let res = confirm('¿Estas seguro que deseas eliminar este contrato?');
         if (res) {
-            let data = await destroy(id);
-            this.getContractTypes();
+            destroy(id).then(data => {
+                if (data.success) {
+                    this.getContractTypes();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else {
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
+                }
+            })
         }
     }
 
@@ -92,6 +102,9 @@ class ContractTypes extends Component {
                 if (data.success) {
                     this.getContractTypes();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 }else{
                     this.setState({message: data.errors.name})
                 }
@@ -100,6 +113,9 @@ class ContractTypes extends Component {
                     if (data.success) {
                         this.getContractTypes();
                         $('.modal').modal('toggle');
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
                     }else{
                         this.setState({message: data.errors.name})
                     }

@@ -94,6 +94,9 @@ class Learners extends Component {
                     setTimeout(async () => {
                         await this.getLearners();
                     }, 100);
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name || data.errors.document_type || data.errors.document })
                 }
@@ -104,6 +107,9 @@ class Learners extends Component {
                     setTimeout(async () => {
                         await this.getLearners();
                     }, 100);
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -120,6 +126,13 @@ class Learners extends Component {
             destroy(id).then(data => {
                 if (data.success) {
                     this.getLearners();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                }else{
+                    toastr.error('', data.message, {
+                        closeButton: true
+                    });
                 }
             })
         }

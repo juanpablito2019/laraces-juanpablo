@@ -73,11 +73,22 @@ class FormativeMeasureController extends Controller
      */
     public function destroy(FormativeMeasure $formativeMeasure)
     {
-        $formativeMeasure->delete();
-        return response()->json([
-            'status'=>200,
-            'success'=>true,
-            'message'=>'Medida formativa eliminada exitosamente'
-        ]);
+        try {
+            $formativeMeasure->delete();
+            return response()->json([
+                'status'=>200,
+                'success'=>true,
+                'message'=>'Medida formativa eliminada exitosamente'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar'
+                ]);
+            }
+        }
     }
 }

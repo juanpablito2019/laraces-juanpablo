@@ -80,6 +80,9 @@ class InfringementTypes extends Component {
                 if (data.success) {
                     this.getInfringementTypes();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -116,7 +119,7 @@ class InfringementTypes extends Component {
                         <h3>Tipos de faltas</h3>
                         {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de infracción</a> */}
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
+                    <div className="d-6 d-lg-3 mr-3 ml-3 ">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
@@ -127,7 +130,7 @@ class InfringementTypes extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-3">
+                <div className="row">
                     {this.state.infringementTypes.length > 0 ? (
                         this.state.infringementTypes.map(infringementType => (
                             <div className="col-12 col-md-6 col-lg-4 mb-2" key={infringementType.id}>

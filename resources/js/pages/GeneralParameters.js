@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { get, find, update, rules } from '../containers/GeneralParameters';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import Ckeditor from '../components/Ckeditor';
 
 class GeneralParameters extends Component {
     constructor(props) {
@@ -12,8 +11,7 @@ class GeneralParameters extends Component {
             edit: false,
             id: null,
             message: null,
-            rules: rules,
-            ckdata: "",
+            rules: rules
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,23 +37,23 @@ class GeneralParameters extends Component {
     }
 
     async handleEdit(e) {
+
         let id = $(e.target).data('id');
+        this.setState({ edit: true, id });
+        setRules(rules,false);
+
         let data = await find(id);
         if(data.content != null){
-            this.setState({ ckdata: data.content, ckreset: false, id , edit: true, message: null });
-            setRules(rules, false);
             find(id).then(data => {
-                $('#name').val(data.name);
-                $('#content').val(data.content);
                 $('.modal').find('.modal-title').text('Editar parámetro general');
+                $('.modal').find('#name').val(data.name);
+                // $('.modal').find('#content').val(data.content);  el id#content genera un error
                 $('.modal').modal('toggle');
             })
         }else{
-            this.setState({ ckreset: false, id , edit: true, message: null });
-            setRules(rules, false);
             find(id).then(data => {
-                $('#name').val(data.name);
                 $('.modal').find('.modal-title').text('Editar parámetro general');
+                $('.modal').find('#name').val(data.name);
                 $('.modal').modal('toggle');
             })
         }
@@ -69,6 +67,9 @@ class GeneralParameters extends Component {
                 if (data.success) {
                     this.getGeneralParameters();
                     $('.modal').modal('toggle');
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -100,14 +101,14 @@ class GeneralParameters extends Component {
                     <div className="col">
                         <h3>Parametros generales</h3>
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
+                    <div className="col-12 col-md-3 col-lg-3">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
                                     <i className="fa fa-search" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <input type="text" className="form-control" onInput={this.search} />
+                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
                         </div>
                     </div>
                 </div>
@@ -115,7 +116,7 @@ class GeneralParameters extends Component {
                 <div className="row mt-3">
                     {this.state.generalParameters.length > 0 ? (
                         this.state.generalParameters.map(generalParameter => (
-                            <div key={generalParameter.id} className="col-12 col-md-6 col-lg-6 mb-2" key={generalParameter.id}>
+                            <div key={generalParameter.id} className="col-12 col-md-4 col-lg-4 mb-2" key={generalParameter.id}>
                                 <div className="card">
                                     <div className="card-body">
 
@@ -151,7 +152,7 @@ class GeneralParameters extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <form id="form" onSubmit={this.handleSubmit}>
+                            <form id="form" onSubmit={this.handleSubmit}>
                                         {this.state.message ? (
 
                                         <div className="alert alert-info" role="alert">
@@ -174,21 +175,13 @@ class GeneralParameters extends Component {
                                         </div>
                                     </div>
                                     <div className="form-group">
-                                        <div className="form-row">
-                                            <div className="col">
-                                                <label htmlFor="">Contenido
-                                                    <span className="text-danger">
-                                                        *
-                                                    </span>
-                                                </label>
-                                                <Ckeditor
-                                                    name="content"
-                                                    id="content"
-                                                    d={this.state.ckdata}
-                                                    options={['heading','bold','italic','blockQuote','bulletedList','numberedList','undo','redo']}
-                                                />
-                                            </div>
-                                        </div>
+                                        <label htmlFor="">Contenido</label>
+                                        <input
+                                            type="text"
+                                            name="content"
+                                            className="form-control"
+                                            onInput={this.handleInput}
+                                        />
                                     </div>
                                 </form>
                             </div>
