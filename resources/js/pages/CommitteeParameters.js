@@ -11,7 +11,8 @@ class CommitteeParameters extends Component {
         this.state = {
             committeeParameters: null,
             edit: false,
-            activeActTemplates: null
+            activeActTemplates: null,
+            ckdata: ""
         }
         this.handleEdit = this.handleEdit.bind(this);
         this.handleModal = this.handleModal.bind(this);
@@ -29,11 +30,14 @@ class CommitteeParameters extends Component {
         this.setState({ activeActTemplates: data });
     }
 
+    tooltip(e){
+        $(e.target).tooltip();
+    }
 
     handleModal() {
         $('#form').trigger('reset');
         setRules(rules);
-        this.setState({ ckreset: true, ckdata: "", message: null, edit: false });
+        this.setState({ ckdata: "", message: null, edit: false });
         $('.modal').find('.modal-title').text('Crear parámetro de acta');
         $('.modal').modal('toggle');
     }
@@ -41,12 +45,12 @@ class CommitteeParameters extends Component {
     async handleEdit(e) {
         let id = $(e.target).data('id');
         let data = await find(id);
-        this.setState({ ckdata: data.content, ckreset: false, id, edit: true, message: null });
+        this.setState({ ckdata: data.content?data.content:'', id, edit: true, message: null });
         setRules(rules, false);
         find(id).then(data => {
             $('#name').val(data.name);
-            $('#content').val(data.content);
             $('#act_template_id').val(data.act_template_id);
+            $('#slug').val(data.slug)
             $('.modal').find('.modal-title').text('Editar parámetro de acta');
             $('.modal').modal('toggle');
         })
@@ -90,6 +94,18 @@ class CommitteeParameters extends Component {
         let { name, value } = e.target;
         let newRules = validate(name, value, rules)
         this.setState({ rules: newRules });
+        if(name=='name'){
+            let str = value.trim();
+            str = str.toLowerCase();
+            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+            let slug = str.replace(/ /g, '_');
+            $('#slug').val('${'+slug+'}');
+            if(slug.length>=8){
+                rules.slug.isInvalid = false;
+            }else{
+                rules.slug.isInvalid = true;
+            }
+        }
     }
 
     componentDidMount() {
@@ -112,29 +128,29 @@ class CommitteeParameters extends Component {
                 </div>
 
                 <div className="row mt-3">
-                    {this.state.committeeParameters.length>0?(
+                    {this.state.committeeParameters.length > 0 ? (
                         this.state.committeeParameters.map((committeeParameter, i) => (
                             <div className="col-4" key={i}>
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
-                                        <h6>Plantilla: {committeeParameter.act_template.name} (V{committeeParameter.act_template.version})</h6>
+                                        <h6>Plantilla: {committeeParameter.act_template.committee_session_state.name} (V{committeeParameter.act_template.version})</h6>
                                         <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
-                                        <a href="#" className="text-danger ml-3">Eliminar</a>
+                                        <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                     </div>
                                 </div>
                             </div>
                         ))
-                    ):(
-                        <div className="col">
-                            <p>No hay parametros de actas disponibles</p>
-                        </div>
-                    )}
-                    
+                    ) : (
+                            <div className="col">
+                                <p>No hay parametros de actas disponibles</p>
+                            </div>
+                        )}
+
                 </div>
 
                 <div className="modal" id="modal" tabIndex="-1" role="dialog">
-                    <div className="modal-dialog">
+                    <div className="modal-dialog modal-lg">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Modal title</h5>
@@ -153,7 +169,7 @@ class CommitteeParameters extends Component {
                                         )}
                                     <div className="form-group">
                                         <div className="form-row">
-                                            <div className="col-12">
+                                            <div className="col">
                                                 <label htmlFor="">Nombre <span className="text-danger">*</span></label>
                                                 <input
                                                     type="text"
@@ -161,16 +177,13 @@ class CommitteeParameters extends Component {
                                                     id="name"
                                                     className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
                                                     onInput={this.handleInput}
+                                                    autoComplete="off"
                                                 />
                                                 <div className="invalid-feedback">
                                                     {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <div className="form-row">
-                                            <div className="col-12">
+                                            <div className="col">
                                                 <label htmlFor="act_template_id">Plantilla <span className="text-danger">*</span></label>
                                                 <select
                                                     name="act_template_id"
@@ -181,7 +194,7 @@ class CommitteeParameters extends Component {
                                                     <option value="">Seleccion uno</option>
                                                     {this.state.activeActTemplates.length > 0 ? (
                                                         this.state.activeActTemplates.map(activeActTemplate => (
-                                                            <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.name} (V{activeActTemplate.version})</option>
+                                                            <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.committee_session_state.name} (V{activeActTemplate.version})</option>
                                                         ))
                                                     ) : (
                                                             <option value="">No hay plantillas activas</option>
@@ -189,6 +202,38 @@ class CommitteeParameters extends Component {
                                                 </select>
                                                 <div className="invalid-feedback">
                                                     {rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? rules.act_template_id.message : ''}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <div className="form-row">
+                                            <div className="col">
+                                                <label htmlFor="slug">
+                                                    Slug 
+                                                    <span className="text-danger">
+                                                        *
+                                                    </span>
+                                                    <button 
+                                                        type="button"
+                                                        onMouseOver={this.tooltip}
+                                                        className="btn btn-link btn-sm" 
+                                                        data-toggle="tooltip" 
+                                                        data-placement="right" 
+                                                        title="Cadena de texto que debe estar en la plantilla"
+                                                    >
+                                                        <i className="fa fa-info-circle text-info" aria-hidden="true"></i>
+                                                    </button>
+                                                </label>
+                                                <input 
+                                                    type="text" 
+                                                    name="slug" 
+                                                    id="slug" 
+                                                    className={rules.slug.isInvalid && rules.slug.message != ''?'form-control is-invalid':'form-control'}
+                                                    onInput={this.handleInput}
+                                                />
+                                                <div className="invalid-feedback">
+                                                    {rules.slug.isInvalid && rules.slug.message != '' ? rules.slug.message : ''}
                                                 </div>
                                             </div>
                                         </div>
@@ -204,6 +249,7 @@ class CommitteeParameters extends Component {
                                                 <Ckeditor
                                                     name="content"
                                                     id="content"
+                                                    d={this.state.ckdata}
                                                     options={['heading', 'bold', 'italic', 'blockQuote', 'bulletedList', 'numberedList', 'undo', 'redo']}
                                                 />
                                             </div>

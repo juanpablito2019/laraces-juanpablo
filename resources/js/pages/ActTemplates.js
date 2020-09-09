@@ -3,6 +3,7 @@ import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 
 import { index, store, rules, find, update, destroy } from '../containers/ActTemplate';
+import { get as indexStates } from '../containers/CommitteeSessionStates';
 import { validate, formValid, setRules } from '../containers/Validator'
 import moment from 'moment';
 
@@ -14,7 +15,8 @@ class ActTemplates extends Component {
             rules,
             edit: false,
             message: null,
-            id: null
+            id: null,
+            committeeSessionStates: null
         }
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,38 +32,43 @@ class ActTemplates extends Component {
         this.setState({ actTemplates: data });
     }
 
+    async getCommitteeSessionStates() {
+        let data = await indexStates();
+        this.setState({ committeeSessionStates: data });
+    }
+
     handleModal() {
         setRules(rules);
-        this.setState({edit: false, message: null});
+        this.setState({ edit: false, message: null });
         $('#form').trigger('reset');
         $('.modal').find('.modal-title').text('Agregar nueva plantilla');
         $('.modal').modal('toggle');
     }
 
-    async handleEdit(e){
+    async handleEdit(e) {
         setRules(rules, false);
         let id = $(e.target).data('id');
-        this.setState({id, edit: true});
+        this.setState({ id, edit: true });
         let data = await find(id);
         $('.modal').find('.modal-title').text('Editar plantilla');
-        $('#name').val(data.name);
+        $('#committee_session_state_id').val(data.committee_session_state_id);
         $('#version').val(data.version);
         $('#date').val(data.date);
-        if(data.is_active==1){
+        if (data.is_active == 1) {
             $('#radio_yes').attr('checked', true);
-        }else{
+        } else {
             $('#radio_no').attr('checked', true);
         }
         $('#filename').html(`<a href="/storage/${data.path}">Archivo actual</a>`);
         $('.modal').modal('toggle');
     }
 
-    async handleDelete(e){
+    async handleDelete(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Seguro desea eliminar este item?');
-        if(res){
+        if (res) {
             let data = await destroy(id);
-            if(data.success){
+            if (data.success) {
                 await this.getActTemplates();
             }
         }
@@ -82,11 +89,13 @@ class ActTemplates extends Component {
         if (formValid(rules)) {
             if (this.state.edit) {
                 let data = await update(e.target, this.state.id);
-                if(data.success){
+                if (data.success) {
                     $('.modal').modal('toggle');
                     setTimeout(async () => {
                         await this.getActTemplates();
                     }, 100);
+                } else {
+                    this.setState({ message: data.message });
                 }
             } else {
                 let data = await store(e.target);
@@ -95,6 +104,8 @@ class ActTemplates extends Component {
                     setTimeout(async () => {
                         await this.getActTemplates();
                     }, 100);
+                } else {
+                    this.setState({ message: data.message });
                 }
             }
         } else {
@@ -104,11 +115,12 @@ class ActTemplates extends Component {
 
     componentDidMount() {
         this.getActTemplates();
+        this.getCommitteeSessionStates();
     }
 
     render() {
         let { rules } = this.state;
-        if (!this.state.actTemplates) {
+        if (!this.state.actTemplates || !this.state.committeeSessionStates) {
             return <Loader />
         }
         return (
@@ -134,7 +146,7 @@ class ActTemplates extends Component {
                             <tbody>
                                 {this.state.actTemplates.map((actTemplate, i) => (
                                     <tr key={i}>
-                                        <td>{actTemplate.name}</td>
+                                        <td>{actTemplate.committee_session_state.name}</td>
                                         <td>{actTemplate.version}</td>
                                         <td>{moment(actTemplate.date).format('LL')}</td>
                                         <td>{actTemplate.is_active == 1 ? (<span className="badge badge-success">Activa</span>) : <span className="badge badge-secondary">Inactiva</span>}</td>
@@ -170,16 +182,24 @@ class ActTemplates extends Component {
                                             <div className=""></div>
                                         )}
                                     <div className="form-group">
-                                        <label htmlFor="name">Nombre</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            id="name"
-                                            className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
+                                        <label htmlFor="committee_session_state_id">Nombre</label>
+                                        <select
+                                            name="committee_session_state_id"
+                                            id="committee_session_state_id"
+                                            className={rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != '' ? 'form-control is-invalid' : 'form-control'}
                                             onInput={this.handleInput}
-                                        />
+                                        >
+                                            <option value="">Seleccione uno</option>
+                                            {this.state.committeeSessionStates.length > 0 ? (
+                                                this.state.committeeSessionStates.map((committeeSessionState, i) => (
+                                                    <option key={i} value={committeeSessionState.id}>{committeeSessionState.name}</option>
+                                                ))
+                                            ) : (
+                                                    <option value="">No hay actas registradas en el sistema</option>
+                                                )}
+                                        </select>
                                         <div className="invalid-feedback">
-                                            {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
+                                            {rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != '' ? rules.committee_session_state_id.message : ''}
                                         </div>
                                     </div>
                                     <div className="form-group">

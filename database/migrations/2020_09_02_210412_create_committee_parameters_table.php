@@ -16,8 +16,9 @@ class CreateCommitteeParametersTable extends Migration
         Schema::create('committee_parameters', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->foreignId('act_template_id')->references('id')->on('act_templates');
+            $table->string('slug');
             $table->timestamps();
         });
     }

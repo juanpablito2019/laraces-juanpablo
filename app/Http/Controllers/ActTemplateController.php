@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActTemplate;
+use App\CommitteeSessionState;
 use App\Http\Requests\ActTemplateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -17,7 +18,7 @@ class ActTemplateController extends Controller
      */
     public function index()
     {
-        return ActTemplate::all();
+        return ActTemplate::with('committeeSessionState')->get();
     }
 
     /**
@@ -39,7 +40,7 @@ class ActTemplateController extends Controller
     public function store(ActTemplateRequest $request)
     {
         $act_template = ActTemplate::where([
-            ['name','=', $request->get('name')],
+            ['committee_session_state_id','=', $request->get('committee_session_state_id')],
             ['version','=', $request->get('version')],
         ])->first();
         if($act_template){
@@ -47,6 +48,17 @@ class ActTemplateController extends Controller
                 'status'=>422,
                 'sucesss'=>false,
                 'message'=>'Ya existe una plantilla con este nombre y esta version'
+            ]);
+        }
+        $act_template = ActTemplate::where([
+            ['committee_session_state_id','=',$request->get('committee_session_state_id')],
+            ['is_active','=',1]
+        ])->first();
+        if($act_template){
+            return response()->json([
+                'status'=>422,
+                'sucesss'=>false,
+                'message'=>'Ya existe una plantilla con este nombre y esta activa',
             ]);
         }
         $path = '';
@@ -60,7 +72,7 @@ class ActTemplateController extends Controller
             $path  = "act_templates/$fileName";
         }
         ActTemplate::create([
-            'name'=>$request->get('name'),
+            'committee_session_state_id'=>$request->get('committee_session_state_id'),
             'version'=>$request->get('version'),
             'date'=>$request->get('date'),
             'is_active'=>$request->get('is_active'),
@@ -106,7 +118,7 @@ class ActTemplateController extends Controller
     public function update(ActTemplateRequest $request, ActTemplate $actTemplate)
     {
         $act_template = ActTemplate::where([
-            ['name','=', $request->get('name')],
+            ['committee_session_state_id','=', $request->get('committee_session_state_id')],
             ['version','=', $request->get('version')],
         ])->first();
         if($act_template && $act_template->id != $actTemplate->id){
@@ -116,7 +128,18 @@ class ActTemplateController extends Controller
                 'message'=>'Ya existe una plantilla con este nombre y esta version',
             ]);
         }
-        $actTemplate->name = $request->get('name');
+        $act_template = ActTemplate::where([
+            ['committee_session_state_id','=',$request->get('committee_session_state_id')],
+            ['is_active','=',1]
+        ])->first();
+        if($act_template && $act_template->id != $actTemplate->id){
+            return response()->json([
+                'status'=>422,
+                'sucesss'=>false,
+                'message'=>'Ya existe una plantilla con este nombre y esta activa',
+            ]);
+        }
+        $actTemplate->committee_session_state_id = $request->get('committee_session_state_id');
         $actTemplate->version = $request->get('version');
         $actTemplate->date = $request->get('date');
         if ($request->hasFile('file')) {
@@ -129,9 +152,9 @@ class ActTemplateController extends Controller
             $ext = $file->extension();
             $fileName = intval(time()) .".$ext";
             Storage::putFileAs(
-                'public/learner-photos', $file, $fileName
+                'public/act_templates', $file, $fileName
             );
-            $actTemplate->path  = "learner-photos/$fileName";
+            $actTemplate->path  = "act_templates/$fileName";
         }
         $actTemplate->is_active = $request->get('is_active');
         $actTemplate->save();
@@ -165,6 +188,14 @@ class ActTemplateController extends Controller
 
     public function findActive()
     {
-        return ActTemplate::where('is_active', 1)->get();
+        return ActTemplate::with('committeeSessionState')->where('is_active', 1)->get();
+    }
+
+    public function findByState($id)
+    {
+        return ActTemplate::with('committeeSessionState', 'parameters.committeeSessions')->where([
+            ['is_active', '=', 1],
+            ['committee_session_state_id', '=', $id]
+        ])->first();
     }
 }

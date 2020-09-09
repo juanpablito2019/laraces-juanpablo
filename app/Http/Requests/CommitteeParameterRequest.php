@@ -27,8 +27,8 @@ class CommitteeParameterRequest extends FormRequest
     {
         $rules = [
             'name' => ['required', 'string', 'min:5', 'unique:committee_parameters'],
-            'content' => ['required', 'string'],
             'act_template_id' => ['required','integer', 'exists:act_templates,id'],
+            'slug' => ['required','string'],
         ];
         if(in_array($this->method(), ['PUT', 'PATCH'])) {
             $committee_parameter  = $this->route()->parameter('committee_parameter');
@@ -46,7 +46,8 @@ class CommitteeParameterRequest extends FormRequest
         return  [
             'name' => 'nombre',
             'content' => 'contenido',
-            'act_template_id' => 'nombre de la plantilla'
+            'act_template_id' => 'nombre de la plantilla',
+            'slug'=>'slug'
         ];
     }
 

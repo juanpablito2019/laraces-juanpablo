@@ -16,7 +16,7 @@ class CreateGeneralParametersTable extends Migration
         Schema::create('general_parameters', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->timestamps();
         });
     }

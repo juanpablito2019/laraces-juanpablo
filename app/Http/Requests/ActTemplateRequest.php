@@ -26,25 +26,12 @@ class ActTemplateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => ['required', 'string'],
+            'committee_session_state_id' => ['required', 'integer', 'exists:committee_session_states,id'],
             'version' => ['required', 'integer'],
             'date' => ['required', 'date'],
             'file' => ['required', 'max:5000'],
             'is_active' => ['required', 'boolean']
         ];
-
-        if (in_array($this->method(), ['PUT', 'PATCH'])) {
-            $act_template = $this->route()->parameter('act_template');
-            $rules['name'] = [
-                'required',
-                'string',
-                Rule::unique('learners')->ignore($act_template)
-            ];
-            $rules['file'] = [
-                'max:5000',
-            ];
-        }
-
         return $rules;
     }
 

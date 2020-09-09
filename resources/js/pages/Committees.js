@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { get, store, rules, destroy, find, update } from "../containers/Committees";
 import { getByRol } from "../containers/User";
+import {find as findGeneralParameter} from '../containers/GeneralParameters';
 import Loader from "../components/Loader";
-import Ckeditor from "../components/Ckeditor";
 import { formValid, validate, setRules } from "../containers/Validator";
 import moment from 'moment';
 
@@ -17,8 +17,9 @@ class Committees extends Component {
             message: null,
             rules,
             subdirector: null,
-            ckdata: "",
-            ckreset: false
+            coordinador: null,
+            place: null,
+            formation_center: null
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,10 +37,24 @@ class Committees extends Component {
     async getSubdirectors() {
         let data = await getByRol(3);
         for (let i = 0; i < data.users.length; i++) {
-            if(data.users[i].pivot.is_active === 1){
-                this.setState({subdirector: data.users[i]});
+            if (data.users[i].is_active === 1) {
+                this.setState({ subdirector: data.users[i] });
             }
         }
+    }
+    async getCoordinadores() {
+        let data = await getByRol(2);
+        for (let i = 0; i < data.users.length; i++) {
+            if (data.users[i].is_active === 1) {
+                this.setState({ coordinador: data.users[i] });
+            }
+        }
+    }
+
+    async getGeneralParameters(){
+        let parameter1 = await findGeneralParameter(1);
+        let parameter2 = await findGeneralParameter(2);
+        this.setState({formation_center: parameter1.content, place: parameter2.content});
     }
 
     async handleDelete(e) {
@@ -59,7 +74,10 @@ class Committees extends Component {
         setRules(rules);
         rules.end_hour.isInvalid = false;
         rules.subdirector_name.isInvalid = false;
-        this.setState({ ckreset: true, ckdata: "", edit: false });
+        rules.coordinador_name.isInvalid = false;
+        rules.place.isInvalid = false;
+        rules.formation_center.isInvalid = false;
+        this.setState({edit: false });
         $('#form').trigger('reset');
         $(".modal")
             .find(".modal-title")
@@ -71,7 +89,7 @@ class Committees extends Component {
         setRules(rules, false);
         let id = $(e.target).data('id');
         let data = await find(id);
-        this.setState({ ckdata: data.assistants, ckreset: false, edit: true, id });
+        this.setState({ edit: true, id });
         $('.modal').find('.modal-title').text('Editar comité');
         $('.modal').find('#record_number').val(data.record_number);
         $('.modal').find('#date').val(data.date);
@@ -79,11 +97,6 @@ class Committees extends Component {
         $('.modal').find('#end_hour').val(data.end_hour);
         $('.modal').find('#place').val(data.place);
         $('.modal').find('#formation_center').val(data.formation_center);
-        if (data.qourum == 1) {
-            $('#radio1').attr('checked', true);
-        } else {
-            $('#radio2').attr('checked', true);
-        }
         $('.modal').find('#subdirector_name').val(data.subdirector_name);
         $('.modal').modal('toggle');
     }
@@ -122,10 +135,12 @@ class Committees extends Component {
     componentDidMount() {
         this.getCommittees();
         this.getSubdirectors();
+        this.getCoordinadores();
+        this.getGeneralParameters();
     }
     render() {
         const { rules } = this.state;
-        if (!this.state.committes || !this.state.subdirector) {
+        if (!this.state.committes || !this.state.subdirector || !this.state.coordinador || !this.state.formation_center || !this.state.place) {
             return <Loader />;
         }
         return (
@@ -195,7 +210,7 @@ class Committees extends Component {
                         )}
                 </div>
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">
-                    <div className="modal-dialog modal-xl">
+                    <div className="modal-dialog modal-lg">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title">Modal title</h5>
@@ -385,6 +400,7 @@ class Committees extends Component {
                                                     type="text"
                                                     name="place"
                                                     id="place"
+                                                    defaultValue={this.state.place}
                                                     className={
                                                         rules.place.isInvalid &&
                                                             rules.place.message !=
@@ -402,38 +418,39 @@ class Committees extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <div className="form-row">
-                                                    <div className="col">
-                                                        <label htmlFor="">
-                                                            Centro de formación{" "}
-                                                            <span className="text-danger">
-                                                                *
+                                                <label htmlFor="">
+                                                    Centro de formación{" "}
+                                                    <span className="text-danger">
+                                                        *
                                                             </span>
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            name="formation_center"
-                                                            id="formation_center"
-                                                            className={
-                                                                rules.formation_center
-                                                                    .isInvalid &&
-                                                                    rules.formation_center
-                                                                        .message != ""
-                                                                    ? "form-control is-invalid"
-                                                                    : "form-control"
-                                                            }
-                                                            onInput={this.handleInput}
-                                                        />
-                                                        <div className="invalid-feedback">
-                                                            {rules.formation_center
-                                                                .isInvalid &&
-                                                                rules.formation_center
-                                                                    .message != ""
-                                                                ? rules.formation_center
-                                                                    .message
-                                                                : ""}
-                                                        </div>
-                                                    </div>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="formation_center"
+                                                    id="formation_center"
+                                                    defaultValue={this.state.formation_center}
+                                                    className={
+                                                        rules.formation_center
+                                                            .isInvalid &&
+                                                            rules.formation_center
+                                                                .message != ""
+                                                            ? "form-control is-invalid"
+                                                            : "form-control"
+                                                    }
+                                                    onInput={this.handleInput}
+                                                />
+                                                <div className="invalid-feedback">
+                                                    {rules.formation_center
+                                                        .isInvalid &&
+                                                        rules.formation_center
+                                                            .message != ""
+                                                        ? rules.formation_center
+                                                            .message
+                                                        : ""}
+                                                </div>
+                                            </div>
+                                            <div className="form-group">
+                                                <div className="form-row">
                                                     <div className="col">
                                                         <label htmlFor="">
                                                             Subdirector{" "}
@@ -452,56 +469,28 @@ class Committees extends Component {
                                                                 : ""}
                                                         </div>
                                                     </div>
+                                                    <div className="col">
+                                                        <label htmlFor="">
+                                                            Coordinador{" "}
+                                                            <span className="text-danger">
+                                                                *
+                                                            </span>
+                                                        </label>
+                                                        <input type="text" name="coordinador_name" id="coordinador_name" className="form-control" defaultValue={this.state.coordinador.name} />
+                                                        <div className="invalid-feedback">
+                                                            {rules.coordinador_name
+                                                                .isInvalid &&
+                                                                rules.coordinador_name
+                                                                    .message != ""
+                                                                ? rules.coordinador_name
+                                                                    .message
+                                                                : ""}
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                        </div>
 
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="" className="d-block">
-                                                    ¿Quorum?{" "}
-                                                    <span className="text-danger">
-                                                        *
-                                                    </span>
-                                                </label>
-                                                <div className="form-check form-check-inline">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="radio"
-                                                        name="qourum"
-                                                        id="radio1"
-                                                        value="1"
-                                                        onChange={this.handleInput}
-                                                    />
-                                                    <label className="form-check-label" htmlFor="radio1">Si</label>
-                                                </div>
-                                                <div className="form-check form-check-inline">
-                                                    <input
-                                                        className="form-check-input"
-                                                        type="radio"
-                                                        name="qourum"
-                                                        id="radio2"
-                                                        value="0"
-                                                        onInput={this.handleInput}
-                                                    />
-                                                    <label className="form-check-label" htmlFor="radio2">No</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col">
-                                            <div className="form-group">
-                                                <label htmlFor="">
-                                                    Asistentes{" "}
-                                                    <span className="text-danger">
-                                                        *
-                                                    </span>
-                                                </label>
-                                                <Ckeditor
-                                                    name="assistants"
-                                                    id="assistants"
-                                                    d={this.state.ckdata}
-                                                    options={['bulletedList', 'numberedList', 'undo', 'redo']}
-                                                />
-                                            </div>
-                                        </div>
                                     </div>
                                 </form>
                             </div>

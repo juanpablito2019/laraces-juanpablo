@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { find } from '../containers/CommitteeSessions';
 import { get as indexInfringementTypes } from '../containers/InfringementTypes';
 import { get as indexInfringementClassifications } from '../containers/InfringementClassifications';
+import { findActiveByState } from '../containers/ActTemplate';
 import { save as saveCommunication, exportWord as exportWordCommunication } from '../containers/Communication';
 import Loader from '../components/Loader';
 import Ckeditor from '../components/Ckeditor';
+import { param } from 'jquery';
 
 class CommitteeSession extends Component {
     constructor(props) {
@@ -14,11 +16,14 @@ class CommitteeSession extends Component {
             committeeSession: null,
             infringementTypes: null,
             infringementClassifications: null,
-            communicationMessage: null
+            communicationMessage: null,
+            actCommunicationActive: null,
+            exportCommunication: true
         }
         this.submitCommunication = this.submitCommunication.bind(this);
         this.exportCommunication = this.exportCommunication.bind(this);
     }
+
     async getCommitteeSession() {
         let data = await find(this.state.id);
         this.setState({ committeeSession: data });
@@ -31,6 +36,11 @@ class CommitteeSession extends Component {
         let data = await indexInfringementClassifications();
         this.setState({ infringementClassifications: data });
     }
+    async getActCommunicationActive() {
+        let data = await findActiveByState(1);
+        this.setState({ actCommunicationActive: data });
+        console.log(data);
+    }
     async showHistory() {
         $('#learner-history').modal('toggle');
     }
@@ -42,8 +52,9 @@ class CommitteeSession extends Component {
             toastr.success('', data.message, {
                 closeButton: true
             });
+            this.setState({ communicationMessage: null });
         } else {
-            this.setState({ communicationMessage: data.errors.notification_acts || data.errors.notification_infringements || data.errors.start_hour || data.errors.infringement_classification_id })
+            this.setState({ communicationMessage: data.message });
         }
     }
 
@@ -63,10 +74,10 @@ class CommitteeSession extends Component {
         this.getCommitteeSession();
         this.getInfringementTypes();
         this.getInfringementClassifications();
-
+        this.getActCommunicationActive();
     }
     render() {
-        if (!this.state.committeeSession || !this.state.infringementTypes || !this.state.infringementClassifications) {
+        if (!this.state.committeeSession || !this.state.infringementTypes || !this.state.infringementClassifications || !this.state.actCommunicationActive) {
             return <Loader />
         }
         return (
@@ -108,52 +119,45 @@ class CommitteeSession extends Component {
                                         <div className=""></div>
                                     )}
                                 <form onSubmit={this.submitCommunication}>
-                                    <div className="row mt-4">
-                                        <div className="col">
-                                            <h6>
-                                                RELACIÓN SUSCINTA DEL INFORME O DE LA QUEJA PRESENTADA
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <Ckeditor
-                                                name="notification_acts"
-                                                id="notification_acts"
-                                                d={this.state.committeeSession.notification_acts}
-                                                options={[
-                                                    'heading',
-                                                    'bold',
-                                                    'italic',
-                                                    'numberedList',
-                                                    'bulletedList'
-                                                ]}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="row mt-4">
-                                        <div className="col">
-                                            <h6>
-                                                NORMAS DEL REGLAMENTO DEL APRENDIZ SENA QUE PRESUNTAMENTE INFRINGIÓ(ERON) EL (LOS) APRENDIZ(CES) CON ESOS HECHOS U OMISIONES
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <Ckeditor
-                                                name="notification_infringements"
-                                                id="notification_infringements"
-                                                d={this.state.committeeSession.notification_infringements}
-                                                options={[
-                                                    'heading',
-                                                    'bold',
-                                                    'italic',
-                                                    'numberedList',
-                                                    'bulletedList'
-                                                ]}
-                                            />
-                                        </div>
-                                    </div>
+                                    
+                                    {this.state.actCommunicationActive.parameters.length > 0 ? (
+                                        this.state.actCommunicationActive.parameters.map((parameter, i) => (
+                                            <div key={i}>
+                                                <div className="row mt-4" >
+                                                    <div className="col">
+                                                        <h6>
+                                                            {parameter.name}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <Ckeditor
+                                                            name={"parameter_" + parameter.id}
+                                                            id={"parameter_" + parameter.id}
+                                                            d={this.state.committeeSession.committee_session_parameters.find(prm => prm.id == parameter.id) ? this.state.committeeSession.committee_session_parameters.find(prm => prm.id == parameter.id).pivot.description : parameter.content}
+                                                            options={[
+                                                                'heading',
+                                                                'bold',
+                                                                'italic',
+                                                                'numberedList',
+                                                                'bulletedList'
+                                                            ]}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                            <div className="row mt-4">
+                                                <div className="col">
+                                                    <div className="alert alert-warning" role="alert">
+                                                        Oops..., no hay parametros registrados para esta acta
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    <hr />
                                     <div className="row mt-4">
                                         <div className="col">
                                             <h6>
@@ -190,14 +194,14 @@ class CommitteeSession extends Component {
                                                 )}
                                         </div>
                                     </div>
-                                    <hr/>
+                                    <hr />
                                     <div className="row">
                                         <div className="col">
                                             <h6>HORA DE CITACION</h6>
-                                            <input 
-                                                type="time" 
-                                                name="start_hour" 
-                                                id="start_hour" 
+                                            <input
+                                                type="time"
+                                                name="start_hour"
+                                                id="start_hour"
                                                 className="form-control"
                                                 defaultValue={this.state.committeeSession.start_hour}
                                             />
@@ -206,7 +210,7 @@ class CommitteeSession extends Component {
                                     <div className="row mt-3">
                                         <div className="col text-right">
                                             <button className="btn btn-outline-primary">Guardar</button>
-                                            <button onClick={this.exportCommunication} type="button" className="btn btn-link"><i className="far fa-file-word"></i> Exportar</button>
+                                            <button disabled={this.state.cannotExportCommunication} onClick={this.exportCommunication} type="button" className="btn btn-link"><i className="far fa-file-word"></i> Exportar</button>
                                         </div>
                                     </div>
                                 </form>

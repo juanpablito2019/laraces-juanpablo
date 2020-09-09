@@ -19,8 +19,6 @@ import NotFound from './pages/NotFound';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-
-
 function App() {
     const prefix = '/app';
     const authUsername = document.getElementById('auth-username').content;

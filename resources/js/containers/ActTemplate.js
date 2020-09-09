@@ -83,12 +83,22 @@ export const findActive = async () => {
     }
 }
 
+export const findActiveByState = async (id) => {
+    try {
+        let res = await fetch(`/act-templates/state/${id}`);
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const rules = {
-    name:{
+    committee_session_state_id:{
         name: 'nombre',
         required: true,
         message: '',
-        type: 'text',
+        type: 'numeric',
         isInvalid: true,
         isEmpty: true
     },

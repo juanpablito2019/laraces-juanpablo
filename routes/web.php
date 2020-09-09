@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');
     Route::get('act-templates/active', 'ActTemplateController@findActive');
+    Route::get('act-templates/state/{id}', 'ActTemplateController@findByState');
     Route::resource('act-templates', 'ActTemplateController');
 
     Route::get('/stimuli/{committee}', 'StimulusController@index');

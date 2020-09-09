@@ -89,6 +89,15 @@ export const rules = {
         required:true,
         isEmpty: true,
         isInvalid:true
+    },
+    slug:{
+        name: 'slug',
+        type: 'text',
+        message: '',
+        required: true,
+        isEmpty: true,
+        isInvalid: true,
+        min: 8
     }
 };
 

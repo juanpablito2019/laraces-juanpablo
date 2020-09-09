@@ -138,12 +138,12 @@ export const rules = {
         isInvalid: true,
         isEmpty: true
     },
-    qourum: {
-        name: 'qourum',
-        type: 'text',
-        message: '',
+    coordinador_name: {
+        name: "coordinador",
+        type: "text",
+        message: "",
         required: true,
         isInvalid: true,
         isEmpty: true
-    }
+    },
 };
