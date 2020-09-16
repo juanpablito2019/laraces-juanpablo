@@ -47,7 +47,7 @@ class GeneralParameters extends Component {
             find(id).then(data => {
                 $('.modal').find('.modal-title').text('Editar parámetro general');
                 $('.modal').find('#name').val(data.name);
-                // $('.modal').find('#content').val(data.content);  el id#content genera un error
+                $('.modal').find('#content').val(data.content);
                 $('.modal').modal('toggle');
             })
         }else{
@@ -179,6 +179,7 @@ class GeneralParameters extends Component {
                                         <input
                                             type="text"
                                             name="content"
+                                            id="content"
                                             className="form-control"
                                             onInput={this.handleInput}
                                         />
