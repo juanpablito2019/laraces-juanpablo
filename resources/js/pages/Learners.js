@@ -193,6 +193,10 @@ class Learners extends Component {
         $('#detail').find('#email').text(`${data.email}`);
         $('#detail').find('#phone').text(`${data.phone}`);
         $('#detail').find('#learner-photo').attr('src', data.photo ? "/storage/" + data.photo : '/img/no-photo.png');
+        $('#detail').find('#estimulo').text(`${data}`);
+        $('#detail').find('#justification').text(`${data}`);
+        $('#detail').find('#associated_committee').text(`${data}`);
+        $('#detail').find('#date_committee').text(`${data}`);
         $('#detail').modal('toggle');
     }
 
@@ -386,8 +390,34 @@ class Learners extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                                            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                                            <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="profile-tab">
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Estímulo</h6>
+                                                        <h6 className="text-muted" id="estimulo"></h6>
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Justificación</h6>
+                                                        <h6 className="text-muted" id="justification"></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="contact-tab">
+                                            <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Comité Asociado</h6>
+                                                        <h6 className="text-muted" id="associated_committee"></h6>
+                                                    </div>
+                                                </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Fecha del Comité</h6>
+                                                        <h6 className="text-muted" id="date_committee"></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

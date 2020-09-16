@@ -413,10 +413,10 @@ class Committee extends Component {
                                                 "HH:mm"
                                             ).format("hh:mm A")}{" "}
                                             a{" "}
-                                            {moment(
+                                            {this.state.committee.end_hour ? moment(
                                                 this.state.committee.end_hour,
                                                 "HH:mm"
-                                            ).format("hh:mm A")}
+                                            ).format("hh:mm A"):'(Aún no se define la hora fin)'}
                                         </p>
                                         <h5>Lugar </h5>
                                         <p>{this.state.committee.place}</p>

@@ -150,7 +150,7 @@ class Committees extends Component {
             return <Loader />;
         }
         return (
-            <>
+            <div>
                 <div className="row">
                     <div className="col">
                         <h3>Comités</h3>
@@ -515,7 +515,7 @@ class Committees extends Component {
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         );
     }
 }

@@ -15,8 +15,7 @@ class ActTemplates extends Component {
             rules,
             edit: false,
             message: null,
-            id: null,
-            committeeSessionStates: null
+            id: null
         }
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,11 +29,6 @@ class ActTemplates extends Component {
         this.setState({ actTemplates: null });
         let data = await index();
         this.setState({ actTemplates: data });
-    }
-
-    async getCommitteeSessionStates() {
-        let data = await indexStates();
-        this.setState({ committeeSessionStates: data });
     }
 
     handleModal() {
@@ -51,7 +45,7 @@ class ActTemplates extends Component {
         this.setState({ id, edit: true });
         let data = await find(id);
         $('.modal').find('.modal-title').text('Editar plantilla');
-        $('#committee_session_state_id').val(data.committee_session_state_id);
+        $('#act_type').val(data.act_type);
         $('#version').val(data.version);
         $('#date').val(data.date);
         if (data.is_active == 1) {
@@ -124,12 +118,11 @@ class ActTemplates extends Component {
 
     componentDidMount() {
         this.getActTemplates();
-        this.getCommitteeSessionStates();
     }
 
     render() {
         let { rules } = this.state;
-        if (!this.state.actTemplates || !this.state.committeeSessionStates) {
+        if (!this.state.actTemplates) {
             return <Loader />
         }
         return (
@@ -145,7 +138,7 @@ class ActTemplates extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
+                                    <th>Tipo de acta</th>
                                     <th>Version</th>
                                     <th>Fecha</th>
                                     <th>Estado</th>
@@ -155,7 +148,7 @@ class ActTemplates extends Component {
                             <tbody>
                                 {this.state.actTemplates.map((actTemplate, i) => (
                                     <tr key={i}>
-                                        <td>{actTemplate.committee_session_state.name}</td>
+                                        <td>{actTemplate.act_type}</td>
                                         <td>{actTemplate.version}</td>
                                         <td>{moment(actTemplate.date).format('LL')}</td>
                                         <td>{actTemplate.is_active == 1 ? (<span className="badge badge-success">Activa</span>) : <span className="badge badge-secondary">Inactiva</span>}</td>
@@ -191,24 +184,20 @@ class ActTemplates extends Component {
                                             <div className=""></div>
                                         )}
                                     <div className="form-group">
-                                        <label htmlFor="committee_session_state_id">Nombre</label>
+                                        <label htmlFor="act_type">Tipo de acta</label>
                                         <select
-                                            name="committee_session_state_id"
-                                            id="committee_session_state_id"
-                                            className={rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != '' ? 'form-control is-invalid' : 'form-control'}
+                                            name="act_type"
+                                            id="act_type"
+                                            className={rules.act_type.isInvalid && rules.act_type.message != '' ? 'form-control is-invalid' : 'form-control'}
                                             onInput={this.handleInput}
                                         >
                                             <option value="">Seleccione uno</option>
-                                            {this.state.committeeSessionStates.length > 0 ? (
-                                                this.state.committeeSessionStates.map((committeeSessionState, i) => (
-                                                    <option key={i} value={committeeSessionState.id}>{committeeSessionState.name}</option>
-                                                ))
-                                            ) : (
-                                                    <option value="">No hay actas registradas en el sistema</option>
-                                                )}
+                                            <option value="Comunicación al aprendiz">Comunicación al aprendiz</option>
+                                            <option value="Acta de comité">Acta de comité</option>
+                                            <option value="Acto sancionatorio">Acto sancionatorio</option>
                                         </select>
                                         <div className="invalid-feedback">
-                                            {rules.committee_session_state_id.isInvalid && rules.committee_session_state_id.message != '' ? rules.committee_session_state_id.message : ''}
+                                            {rules.act_type.isInvalid && rules.act_type.message != '' ? rules.act_type.message : ''}
                                         </div>
                                     </div>
                                     <div className="form-group">

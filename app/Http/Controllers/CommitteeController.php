@@ -52,7 +52,7 @@ class CommitteeController extends Controller
      */
     public function show($id)
     {   
-        return Committee::with('committeeSessions.learner')->find($id);
+        return Committee::with('committeeSessions.learner', 'committeeSessions.committeeSessionState')->find($id);
     }
 
     /**
