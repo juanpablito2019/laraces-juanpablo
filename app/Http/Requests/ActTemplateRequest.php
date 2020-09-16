@@ -32,6 +32,11 @@ class ActTemplateRequest extends FormRequest
             'file' => ['required', 'max:5000'],
             'is_active' => ['required', 'boolean']
         ];
+        if(in_array($this->method(), ['PUT', 'PATCH'])) {
+            $rules['file'] = [
+                'max:5000',
+            ];
+        }
         return $rules;
     }
 

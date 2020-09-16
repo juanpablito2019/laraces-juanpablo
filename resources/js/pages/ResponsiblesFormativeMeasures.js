@@ -133,6 +133,7 @@ class ResponsiblesFormativeMeasures extends Component {
         setRules(rules,false);
 
         let data = await find(id);
+        console.log(data);
         $('#modal').find('#modal-title').text('Editar responsable');
         $('#modal').find('#username').val(data.username);
         $('#modal').find('#misena_email').val(data.misena_email);
@@ -288,9 +289,9 @@ class ResponsiblesFormativeMeasures extends Component {
                                             <td className="hide">{responsible.position.name}</td>
                                             <td>
                                                 <div className="btn-group" role="responsible" aria-label="Basic example">
-                                                    <button data-id={responsible.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                    <button data-id={responsible.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary">Detalle</button>
-                                                    <button data-id={responsible.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                    <button data-id={responsible.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i className="far fa-edit d-sm-block d-md-none"></i><span className="d-none d-md-inline">Editar</span></button>
+                                                    <button data-id={responsible.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary"><i className="far fa-eye d-sm-block d-md-none"></i><span className="d-none d-md-inline">Detalle</span></button>
+                                                    <button data-id={responsible.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i className="far fa-trash-alt d-sm-block d-md-none"></i><span className="d-none d-md-inline">Eliminar</span></button>
                                                 </div>
                                             </td>
                                         </tr>

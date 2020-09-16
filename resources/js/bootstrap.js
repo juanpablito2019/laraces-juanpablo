@@ -11,7 +11,7 @@ try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
     window.toastr = require('toastr');
-    
+    toastr.options = {"positionClass": "toast-bottom-right"}
     require('bootstrap');
     require('datatables.net');
     require('datatables.net-bs4/js/dataTables.bootstrap4')

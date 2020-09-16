@@ -45,7 +45,7 @@ class ActTemplates extends Component {
         this.setState({ id, edit: true });
         let data = await find(id);
         $('.modal').find('.modal-title').text('Editar plantilla');
-        $('#committee_session_state_id').val(data.committee_session_state_id);
+        $('#act_type').val(data.act_type);
         $('#version').val(data.version);
         $('#date').val(data.date);
         if (data.is_active == 1) {
@@ -64,6 +64,9 @@ class ActTemplates extends Component {
             let data = await destroy(id);
             if (data.success) {
                 await this.getActTemplates();
+                toastr.success('', data.message, {
+                    closeButton: true
+                });
             }
         }
     }
@@ -88,6 +91,9 @@ class ActTemplates extends Component {
                     setTimeout(async () => {
                         await this.getActTemplates();
                     }, 100);
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.message });
                 }
@@ -98,6 +104,9 @@ class ActTemplates extends Component {
                     setTimeout(async () => {
                         await this.getActTemplates();
                     }, 100);
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
                 } else {
                     this.setState({ message: data.message });
                 }
