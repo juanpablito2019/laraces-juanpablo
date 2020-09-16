@@ -26,7 +26,7 @@ class ActTemplateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'committee_session_state_id' => ['required', 'integer', 'exists:committee_session_states,id'],
+            'act_type' => ['required', 'string'],
             'version' => ['required', 'integer'],
             'date' => ['required', 'date'],
             'file' => ['required', 'max:5000'],

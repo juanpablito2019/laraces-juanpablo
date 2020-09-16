@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
     Route::resource('committees', 'CommitteeController');
     Route::resource('committee-parameters', 'CommitteeParameterController');
+    Route::put('committee-sessions/{id}/update-state', 'CommitteeSessionController@updateState');
     Route::resource('committee-sessions', 'CommitteeSessionController');
     Route::resource('committee-session-states', 'CommitteeSessionStateController');
     Route::resource('complainers', 'ComplainerController');
@@ -59,7 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');
     Route::get('act-templates/active', 'ActTemplateController@findActive');
-    Route::get('act-templates/state/{id}', 'ActTemplateController@findByState');
+    Route::get('act-templates/type/{act_type}', 'ActTemplateController@findByType');
     Route::resource('act-templates', 'ActTemplateController');
 
     Route::get('/stimuli/{committee}', 'StimulusController@index');

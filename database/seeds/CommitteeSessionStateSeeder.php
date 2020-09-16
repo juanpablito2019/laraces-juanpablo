@@ -15,12 +15,15 @@ class CommitteeSessionStateSeeder extends Seeder
         DB::table('committee_session_states')->insert([
             [
                 'id'=>1,
-                'name'=>'Comunicación al aprendiz'
+                'name'=>'Registrado'
             ],[
                 'id'=>2,
-                'name'=>'Acta de comité'
+                'name'=>'Comunicación al aprendiz'
             ],[
                 'id'=>3,
+                'name'=>'Acta de comité'
+            ],[
+                'id'=>4,
                 'name'=>'Acto sancionatorio'
             ]
         ]);

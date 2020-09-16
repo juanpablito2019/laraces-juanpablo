@@ -83,22 +83,22 @@ export const findActive = async () => {
     }
 }
 
-export const findActiveByState = async (id) => {
+export const findActiveByType = async (type) => {
+    let res = await fetch(`/act-templates/type/${type}`);
     try {
-        let res = await fetch(`/act-templates/state/${id}`);
         let data = await res.json();
         return data;
     } catch (error) {
-        console.log(error);
+        return {sucess: false, status: res.status};
     }
 }
 
 export const rules = {
-    committee_session_state_id:{
-        name: 'nombre',
+    act_type:{
+        name: 'tipo de acta',
         required: true,
         message: '',
-        type: 'numeric',
+        type: 'text',
         isInvalid: true,
         isEmpty: true
     },
