@@ -95,7 +95,7 @@ class ActTemplates extends Component {
                         closeButton: true
                     });
                 } else {
-                    this.setState({ message: data.message });
+                    this.setState({ message: data.errors.act_type || data.errors.version || data.errors.date || data.errors.file || data.errors.is_active || data.message });
                 }
             } else {
                 let data = await store(e.target);
@@ -108,7 +108,7 @@ class ActTemplates extends Component {
                         closeButton: true
                     });
                 } else {
-                    this.setState({ message: data.message });
+                    this.setState({ message: data.errors.act_type || data.errors.version || data.errors.date || data.errors.file || data.errors.is_active || data.message });
                 }
             }
         } else {

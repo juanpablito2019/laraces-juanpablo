@@ -29,6 +29,8 @@ class CreateCommitteeSessionsTable extends Migration
             $table->date('date_notification_act_sanction')->nullable();
             $table->date('date_expiration_act_sanction')->nullable();
             $table->date('date_lifting_act_sanction')->nullable();
+            $table->string('discharge_type')->nullable();
+            $table->longText('objectives')->nullable();
             $table->timestamps();
         });
     }

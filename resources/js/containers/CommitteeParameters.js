@@ -80,7 +80,8 @@ export const rules = {
         required: true,
         isEmpty: true,
         isInvalid: true,
-        min:5
+        min:5,
+        max:50
     },
     act_template_id:{
         name:'plantilla',

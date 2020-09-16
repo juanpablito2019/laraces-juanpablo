@@ -165,6 +165,7 @@ class CommitteeSession extends Component {
                         ) : (
                                 <h6><i>No hay estados del caso registrados</i></h6>
                             )}
+                        <hr/>
                         <ul className="nav nav-tabs mt-1" id="myTab" role="tablist">
                             <li className="nav-item" role="presentation">
                                 <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Comunicación al aprendiz</a>
@@ -311,18 +312,37 @@ class CommitteeSession extends Component {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <h6>¿Quorum?</h6>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="quorum" id="quorum_yes" value="1" />
-                                            <label className="form-check-label" htmlFor="quorum_yes">
-                                                Si
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="quorum" id="quorum_no" value="0" />
-                                            <label className="form-check-label" htmlFor="quorum_no">
-                                                No
-                                            </label>
+                                        <div className="form-row">
+                                            <div className="col">
+                                                <h6>¿Quorum?</h6>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="quorum" id="quorum_yes" value="1" />
+                                                    <label className="form-check-label" htmlFor="quorum_yes">
+                                                        Si
+                                                    </label>
+                                                </div>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="quorum" id="quorum_no" value="0" />
+                                                    <label className="form-check-label" htmlFor="quorum_no">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                            <h6>¿De que forma se presentaron los descargos?</h6>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="discharge_type" id="written" value="written" />
+                                                    <label className="form-check-label" htmlFor="written">
+                                                        Escrita
+                                                    </label>
+                                                </div>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="discharge_type" id="verbal" value="verbal" />
+                                                    <label className="form-check-label" htmlFor="verbal">
+                                                        Verbal
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
