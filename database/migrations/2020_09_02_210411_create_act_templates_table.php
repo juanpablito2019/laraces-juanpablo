@@ -15,7 +15,7 @@ class CreateActTemplatesTable extends Migration
     {
         Schema::create('act_templates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('committee_session_state_id')->references('id')->on('committee_session_states');
+            $table->string('act_type');
             $table->integer('version');
             $table->date('date');
             $table->boolean('is_active');

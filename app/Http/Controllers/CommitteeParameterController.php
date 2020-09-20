@@ -15,7 +15,7 @@ class CommitteeParameterController extends Controller
      */
     public function index()
     {
-        return CommitteeParameter::with('actTemplate.committeeSessionState')->get();
+        return CommitteeParameter::with('actTemplate')->get();
     }
 
     /**

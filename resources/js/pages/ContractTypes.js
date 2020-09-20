@@ -146,14 +146,14 @@ class ContractTypes extends Component {
                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
                         <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
                     </div>
-                    <div className="d-6 d-lg-3 mr-3 ml-3 mt-3">
+                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
                             <div className="input-group-prepend">
                                 <button className="btn btn-outline-primary" type="button" id="button-addon1">
                                     <i className="fa fa-search" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <input type="text" className="form-control" onInput={this.search} />
+                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
                         </div>
                     </div>
                 </div>

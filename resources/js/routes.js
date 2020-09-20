@@ -19,6 +19,7 @@ import CommitteeSession from "./pages/CommitteeSession";
 import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
+import Rol from "./pages/CreateRoles";
 
 export default [
     {
@@ -146,4 +147,11 @@ export default [
         visible: true,
         component: ResponsiblesFormativeMeasures
     },
+    {
+        name: 'Roles',
+        path: '/roles/create',
+        visible: false,
+        component: Rol
+    },
+
 ]

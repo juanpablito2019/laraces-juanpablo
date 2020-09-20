@@ -30,7 +30,7 @@ class CommitteeParameters extends Component {
         this.setState({ activeActTemplates: data });
     }
 
-    tooltip(e){
+    tooltip(e) {
         $(e.target).tooltip();
     }
 
@@ -45,7 +45,7 @@ class CommitteeParameters extends Component {
     async handleEdit(e) {
         let id = $(e.target).data('id');
         let data = await find(id);
-        this.setState({ ckdata: data.content?data.content:'', id, edit: true, message: null });
+        this.setState({ ckdata: data.content ? data.content : '', id, edit: true, message: null });
         setRules(rules, false);
         find(id).then(data => {
             $('#name').val(data.name);
@@ -103,7 +103,7 @@ class CommitteeParameters extends Component {
                     toastr.success('', data.message, {
                         closeButton: true
                     });
-                }else {
+                } else {
                     toastr.error('', data.message, {
                         closeButton: true
                     });
@@ -116,15 +116,15 @@ class CommitteeParameters extends Component {
         let { name, value } = e.target;
         let newRules = validate(name, value, rules)
         this.setState({ rules: newRules });
-        if(name=='name'){
+        if (name == 'name') {
             let str = value.trim();
             str = str.toLowerCase();
-            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
             let slug = str.replace(/ /g, '_');
-            $('#slug').val('${'+slug+'}');
-            if(slug.length>=8){
+            $('#slug').val('${' + slug + '}');
+            if (slug.length >= 8) {
                 rules.slug.isInvalid = false;
-            }else{
+            } else {
                 rules.slug.isInvalid = true;
             }
         }
@@ -156,7 +156,7 @@ class CommitteeParameters extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
-                                        <h6>Plantilla: {committeeParameter.act_template.committee_session_state.name} (V{committeeParameter.act_template.version})</h6>
+                                        <h6>Plantilla: {committeeParameter.act_template.act_type} (V{committeeParameter.act_template.version})</h6>
                                         <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
                                         <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                     </div>
@@ -207,24 +207,27 @@ class CommitteeParameters extends Component {
                                             </div>
                                             <div className="col">
                                                 <label htmlFor="act_template_id">Plantilla <span className="text-danger">*</span></label>
-                                                <select
-                                                    name="act_template_id"
-                                                    id="act_template_id"
-                                                    className={rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? 'form-control is-invalid' : 'form-control'}
-                                                    onInput={this.handleInput}
-                                                >
-                                                    <option value="">Seleccion uno</option>
-                                                    {this.state.activeActTemplates.length > 0 ? (
-                                                        this.state.activeActTemplates.map(activeActTemplate => (
-                                                            <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.committee_session_state.name} (V{activeActTemplate.version})</option>
-                                                        ))
-                                                    ) : (
-                                                            <option value="">No hay plantillas activas</option>
-                                                        )}
-                                                </select>
-                                                <div className="invalid-feedback">
-                                                    {rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? rules.act_template_id.message : ''}
-                                                </div>
+                                                {this.state.activeActTemplates.length > 0 ? (
+                                                    <React.Fragment>
+                                                        <select
+                                                            name="act_template_id"
+                                                            id="act_template_id"
+                                                            className={rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? 'form-control is-invalid' : 'form-control'}
+                                                            onInput={this.handleInput}
+                                                        >
+                                                            <option value="">Seleccion uno</option>
+                                                            {this.state.activeActTemplates.map(activeActTemplate => (
+                                                                <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.act_type} (V{activeActTemplate.version})</option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="invalid-feedback">
+                                                            {rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? rules.act_template_id.message : ''}
+                                                        </div>
+                                                    </React.Fragment>
+                                                ) : (
+                                                        <h6 className="text-muted"><i>No hay actas activas registradas</i></h6>
+                                                    )}
+
                                             </div>
                                         </div>
                                     </div>
@@ -232,26 +235,26 @@ class CommitteeParameters extends Component {
                                         <div className="form-row">
                                             <div className="col">
                                                 <label htmlFor="slug">
-                                                    Slug 
+                                                    Slug
                                                     <span className="text-danger">
                                                         *
                                                     </span>
-                                                    <button 
+                                                    <button
                                                         type="button"
                                                         onMouseOver={this.tooltip}
-                                                        className="btn btn-link btn-sm" 
-                                                        data-toggle="tooltip" 
-                                                        data-placement="right" 
+                                                        className="btn btn-link btn-sm"
+                                                        data-toggle="tooltip"
+                                                        data-placement="right"
                                                         title="Cadena de texto que debe estar en la plantilla"
                                                     >
                                                         <i className="fa fa-info-circle text-info" aria-hidden="true"></i>
                                                     </button>
                                                 </label>
-                                                <input 
-                                                    type="text" 
-                                                    name="slug" 
-                                                    id="slug" 
-                                                    className={rules.slug.isInvalid && rules.slug.message != ''?'form-control is-invalid':'form-control'}
+                                                <input
+                                                    type="text"
+                                                    name="slug"
+                                                    id="slug"
+                                                    className={rules.slug.isInvalid && rules.slug.message != '' ? 'form-control is-invalid' : 'form-control'}
                                                     onInput={this.handleInput}
                                                 />
                                                 <div className="invalid-feedback">

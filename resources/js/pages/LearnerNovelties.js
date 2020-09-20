@@ -16,7 +16,6 @@ class LearnerNovelties extends Component {
     async getLearnerNovelties () {
         this.setState({learnerNovelties: null});
         let data = await getAll();
-        console.log(data);
         this.setState({learnerNovelties: data});
     }
 

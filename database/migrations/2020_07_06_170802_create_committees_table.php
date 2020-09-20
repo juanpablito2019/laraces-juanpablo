@@ -23,6 +23,8 @@ class CreateCommitteesTable extends Migration
             $table->time('end_hour')->nullable();
             $table->string('place');
             $table->string('formation_center');
+            $table->longText('assistants')->nullable();
+            $table->boolean('quorum')->nullable();
             $table->timestamps();
         });
     }
