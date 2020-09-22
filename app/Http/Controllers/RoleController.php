@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
@@ -14,7 +16,16 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return Role::all();
+        $permissions = DB::table('permissions')->get();
+
+        // if($user->hasPermissionTo('list_role')){
+
+        // }
+
+        return response()->json([
+            'permissions' =>$permissions,
+            'rols' =>Role::all()
+        ], 200);
     }
 
     /**
@@ -25,7 +36,22 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required| unique:roles',
+            'permissions'=>'required'
+        ]);
+
+        $role = Role::create([
+            'name'=>$request->get('name')
+        ]);
+        
+        $role->givePermissionTo($request->get('permissions'));
+
+        return response()->json([
+            'status'=>201,
+            'success'=>true,
+            'message' => 'Rol agregado exitosamente'
+        ]);
     }
 
     /**
@@ -47,9 +73,12 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Role $role)
     {
-        //
+        $role->name = $request->get('name');
+        $role->save();
+        $role->syncPermissions($request->get('permissions'));
+        return redirect()->route('roles.index');
     }
 
     /**
@@ -58,8 +87,10 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+        $role->syncPermissions();
+        $role->delete();
+        return redirect()->route('roles.index');
     }
 }

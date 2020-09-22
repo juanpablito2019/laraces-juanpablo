@@ -13,7 +13,7 @@ class Roles extends Component {
 
     async getRols(){
         let data = await get();
-        this.setState({rols: data})
+        this.setState({rols: data.rols})
     }
 
     componentDidMount(){
@@ -29,6 +29,7 @@ class Roles extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Roles</h3>
+                        <a href="./roles/create"><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo rol</span></a>
                     </div>
                 </div>
                 <div className="row">
@@ -50,6 +51,7 @@ class Roles extends Component {
                         </div>
                     )}
                 </div>
+
             </>
         )
     }

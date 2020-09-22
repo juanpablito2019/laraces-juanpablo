@@ -20,7 +20,10 @@ export const store = async function(form){
         fd.append('_token', token);
         let res = await fetch('/roles', {
             method:'POST',
-            body: fd
+            body:fd,
+            headers:{
+                'accept':'application/json'
+            }
         });
         let data = await res.json();
         return data;
@@ -70,3 +73,16 @@ export const find = async function(id){
         console.log(error);
     }
 }
+
+export const rules = {
+    name: {
+        // Properties
+        name: 'nombre',
+        type: 'text',
+        message: '',
+        // Rules
+        required: true,
+        isEmpty: true,
+        isInvalid: true
+    },
+};

@@ -413,7 +413,7 @@ class Learners extends Component {
                                                 </div>
                                                 <div className="row mt-3">
                                                     <div className="col">
-                                                        <h6>Fecha del Comité</h6>
+                                                        <h6>Fecha de Comité</h6>
                                                         <h6 className="text-muted" id="date_committee"></h6>
                                                     </div>
                                                 </div>
