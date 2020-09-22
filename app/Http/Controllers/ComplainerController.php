@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Complainer;
 use Illuminate\Http\Request;
 
 class ComplainerController extends Controller
@@ -13,7 +14,7 @@ class ComplainerController extends Controller
      */
     public function index()
     {
-        //
+        return Complainer::all();
     }
 
     /**

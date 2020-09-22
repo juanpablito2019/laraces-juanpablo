@@ -46,4 +46,14 @@ class CommitteeSession extends Model
 	{
 		return $this->belongsTo(CommitteeSessionState::class);
 	}
+
+	public function responsibles()
+	{
+		return $this->belongsToMany(FormativeMeasureResponsible::class, 'committee_session_formative_measures', 'session_id', 'responsible_id')->withPivot(['description', 'state', 'measure_id']);
+	}
+
+	public function complainer()
+	{
+		return $this->belongsTo(Complainer::class);
+	}
 }

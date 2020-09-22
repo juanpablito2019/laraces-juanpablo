@@ -152,7 +152,7 @@ class CommitteeParameters extends Component {
                 <div className="row mt-3">
                     {this.state.committeeParameters.length > 0 ? (
                         this.state.committeeParameters.map((committeeParameter, i) => (
-                            <div className="col-4" key={i}>
+                            <div className="col-4 mb-2" key={i}>
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
@@ -195,7 +195,7 @@ class CommitteeParameters extends Component {
                                             type="text"
                                             name="name"
                                             id="name"
-                                            maxLength="50"
+                                            maxLength="80"
                                             className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
                                             onInput={this.handleInput}
                                             autoComplete="off"
