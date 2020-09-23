@@ -20,8 +20,55 @@ import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
 import Rol from "./pages/CreateRoles";
+import { forEach, isNull } from "lodash";
+
+
+    var permis = new Array;
+
+    const getPemissionsByRoles = async ()=>{
+        let data = await fetch('/userPermissions');
+        let res = await data.json();
+
+
+        res.map(permiso =>{
+            permis.push(permiso.name)
+        })
+
+        // validacion(permis,null)
+
+    }
+    getPemissionsByRoles();
+
+
+
+    function validacion(array =null , nombre = null){
+
+        // var arreglo = new Array;
+
+
+        // permis.forEach(element => {
+        //    arreglo.push(element);
+        // });
+        // console.info('arreglo',arreglo)
+
+        console.info('arreglo',array)
+        console.info(nombre)
+
+
+
+
+    }
+
+
+
+    validacion(permis,'list_act_template');
+
+
+
+
 
 export default [
+
     {
         name: 'Home',
         path: '/',

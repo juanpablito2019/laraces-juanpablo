@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,4 +80,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
     Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');
+
+    Route::get('/userPermissions', function () {
+
+        $user = Auth::user();
+
+        return  $user->getPermissionsViaRoles();
+
+    });
 });

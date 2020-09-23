@@ -6,7 +6,7 @@
 
 require('./bootstrap');
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import routes from './routes';
@@ -33,7 +33,9 @@ function App() {
         }
         $(e.target).parent().addClass('active');
     }
+
     let path = location.pathname.split('/')[2];
+
     return (
         <Router>
             <div className="wrapper">
