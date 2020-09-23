@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('committees', 'CommitteeController');
     Route::resource('committee-parameters', 'CommitteeParameterController');
     Route::put('committee-sessions/{id}/update-state', 'CommitteeSessionController@updateState');
+    Route::put('committee-sessions/{id}/delete-complainer', 'CommitteeSessionController@deleteComplainer');
+    Route::put('committee-sessions/{id}/detach-responsible', 'CommitteeSessionController@detachResponsible');
     Route::resource('committee-sessions', 'CommitteeSessionController');
     Route::resource('committee-session-states', 'CommitteeSessionStateController');
     Route::resource('complainers', 'ComplainerController');
@@ -81,6 +83,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
     Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');
 
+<<<<<<< HEAD
     Route::get('/userPermissions', function () {
 
         $user = Auth::user();
@@ -88,4 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
         return  $user->getPermissionsViaRoles();
 
     });
+=======
+    Route::put('/save-committee/{id}', 'CommitteeSessionController@saveCommittee');
+    Route::get('/export-committee/{id}', 'CommitteeSessionController@exportCommunication');
+>>>>>>> 6964026ef096fa47a6845a9b9cd50a11d3c5fa55
 });

@@ -77,6 +77,39 @@ export const updateState = async (id, state) => {
 	}
 }
 
+export const deleteComplainer = async (id) => {
+	try {
+		let fd = new FormData();
+		fd.append('_method', 'PUT');
+		fd.append('_token', token);
+		let res = await fetch(`/committee-sessions/${id}/delete-complainer`, {
+			method: 'POST',
+			body: fd
+		});
+		let data = await res.json();
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const detachResponsible = async (id, responsibleId) => {
+	try {
+		let fd = new FormData();
+		fd.append('_method', 'PUT');
+		fd.append('_token', token);
+		fd.append('responsible_id', responsibleId);
+		let res = await fetch(`/committee-sessions/${id}/detach-responsible`, {
+			method: 'POST',
+			body: fd
+		});
+		let data = await res.json();
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const rules = {
 	learner_id: {
 		name: "aprendiz",

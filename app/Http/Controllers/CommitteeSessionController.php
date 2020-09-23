@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\ActTemplate;
+use App\Committee;
 use App\CommitteeSession;
+use App\Complainer;
 use App\Http\Requests\CommitteeSessionRequest;
 use Exception;
 use HTMLtoOpenXML\Parser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpWord\TemplateProcessor;
 
 class CommitteeSessionController extends Controller
@@ -55,7 +58,18 @@ class CommitteeSessionController extends Controller
      */
     public function show($id)
     {
-        return CommitteeSession::with('learner.group.formationProgram', 'learner.stimuli', 'learner.novelties', 'learner.academics', 'infringementType', 'committeeSessionParameters', 'committeeSessionState')->findOrFail($id);
+        return CommitteeSession::with(
+            'learner.group.formationProgram', 
+            'learner.stimuli', 
+            'learner.novelties', 
+            'learner.academics', 
+            'infringementType', 
+            'committeeSessionParameters', 
+            'committeeSessionState', 
+            'committee',
+            'responsibles',
+            'complainer'
+        )->findOrFail($id);
     }
 
     /**
@@ -99,9 +113,33 @@ class CommitteeSessionController extends Controller
         $committee->committee_session_state_id = $request->state_id;
         $committee->save();
         return response()->json([
-            'status'=>200,
+            'status' => 200,
+            'success' => true,
+            'message' => 'Se ha actualizado el estado del caso'
+        ]);
+    }
+
+    public function deleteComplainer($id)
+    {
+        $committee = CommitteeSession::findOrFail($id);
+        $committee->complainer_id = null;
+        $committee->save();
+        return response()->json([
             'success'=>true,
-            'message'=>'Se ha actualizado el estado del caso'
+            'status'=>200,
+            'message'=>'La empresa no estara asociada con este caso'
+        ]);
+    }
+
+    public function detachResponsible(Request $request, $id)
+    {
+        $committee = CommitteeSession::findOrFail($id);
+        $committee->responsibles()->detach($request->get('responsible_id'));
+        $committee->save();
+        return response()->json([
+            'success'=>true,
+            'status'=>200,
+            'message'=>'El responsable no estara asociado con este caso'
         ]);
     }
 
@@ -122,11 +160,11 @@ class CommitteeSessionController extends Controller
             $committee->save();
             // Validacion de que si ya existe lo actualiza y si no esta lo crea
             foreach ($parameters as $parameter) {
-                if($committee->committeeSessionParameters->pluck('id')->contains($parameter)){
+                if ($committee->committeeSessionParameters->pluck('id')->contains($parameter)) {
                     $committee->committeeSessionParameters()->detach($parameter);
                     $committee->committeeSessionParameters()->attach($parameter, ['description' => $request->get('parameter_' . $parameter)]);
-                }else{
-                    $committee->committeeSessionParameters()->attach($parameter, ['description'=> $request->get('parameter_' . $parameter)]);
+                } else {
+                    $committee->committeeSessionParameters()->attach($parameter, ['description' => $request->get('parameter_' . $parameter)]);
                 }
             }
             return response()->json([
@@ -157,12 +195,12 @@ class CommitteeSessionController extends Controller
             $name = str_replace('${', '', $parameter->slug);
             $name = str_replace('}', '', $name);
             array_push($parameters, [
-                'name'=>$name,
-                'value'=>$parameter->pivot->description
+                'name' => $name,
+                'value' => $parameter->pivot->description
             ]);
         }
-        
-        $templateProcessor = new TemplateProcessor(public_path("/storage/".$active_communication->path));
+
+        $templateProcessor = new TemplateProcessor(public_path("/storage/" . $active_communication->path));
         $templateProcessor->setValue('learner_name', $committee->learner->name);
         $templateProcessor->setValue('learner_document', $committee->learner->document_type . " " . $committee->learner->document);
         $templateProcessor->setValue('learner_group', $committee->learner->group->code_tab);
@@ -183,5 +221,110 @@ class CommitteeSessionController extends Controller
         $filename = 'Comunicacion - Learner';
         $templateProcessor->saveAs($filename . ".docx");
         return response()->download($filename . ".docx")->deleteFileAfterSend(true);
+    }
+
+    public function saveCommittee(Request $request, $id)
+    {
+        try {
+            // dd($request->all());
+            // $validator = Validator::make($request->all(), [
+            //     'assistants'=>['required'],
+            //     'quorum'=>['required'],
+            //     'objectives'=>['required'],
+            //     'discharge_type'=>['required'],
+            //     'sanction_id'=>['required'],
+            //     'discharge_type'=>['required'],
+            // ]);
+            // if($validator->fails()){
+            //     dd($validator->errors());
+            // }
+            $committeeSession = CommitteeSession::find($id);
+            $committee = Committee::find($committeeSession->committee_id);
+            $keys = array_keys($request->all());
+            $parameters = [];
+            foreach ($keys as $key) {
+                if (
+                    $key != 'assistants' &&
+                    $key != 'quorum' &&
+                    $key != 'objectives' &&
+                    $key != 'discharge_type' &&
+                    $key != 'sanction_id' &&
+                    $key != 'responsibles' &&
+                    $key != 'formative_measures' &&
+                    $key != 'type_complainer' &&
+                    $key != 'name' &&
+                    $key != 'document_type' &&
+                    $key != 'document' &&
+                    $key != '_method' &&
+                    $key != '_token'
+                ) {
+                    $parameter_id = explode('_', $key)[1];
+                    array_push($parameters, $parameter_id);
+                }
+            }
+            $committee->assistants = $request->get('assistants');
+            $committee->quorum = $request->get('quorum');
+            $committee->save();
+            $committeeSession->objectives = $request->get('objectives');
+            $committeeSession->discharge_type = $request->get('discharge_type');
+            $committeeSession->act_sanction_id = $request->get('sanction_id');
+
+            foreach ($parameters as $parameter) {
+                if ($committeeSession->committeeSessionParameters->pluck('id')->contains($parameter)) {
+                    $committeeSession->committeeSessionParameters()->detach($parameter);
+                    $committeeSession->committeeSessionParameters()->attach($parameter, ['description' => $request->get('parameter_' . $parameter)]);
+                } else {
+                    $committeeSession->committeeSessionParameters()->attach($parameter, ['description' => $request->get('parameter_' . $parameter)]);
+                }
+            }
+            $responsibles = $request->get('responsibles');
+            $responsibles_formative_measures = [];
+            $formative_measures = $request->get('formative_measures');
+            if ($responsibles) {
+                foreach ($responsibles as $index => $responsible) {
+                    if($formative_measures){
+                        array_push($responsibles_formative_measures, [
+                            'responsible' => $responsible,
+                            'formative_measure' => array_key_exists($index, $formative_measures) ? $formative_measures[$index] : null
+                        ]);
+                    }else{
+                        array_push($responsibles_formative_measures, [
+                            'responsible' => $responsible,
+                            'formative_measure' => null
+                        ]);
+                    }
+                }
+                foreach ($responsibles_formative_measures as $row) {
+                    if($committeeSession->responsibles->pluck('id')->contains($row['responsible'])){
+                        $committeeSession->responsibles()->detach($row['responsible']);
+                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure']]);
+                    }else{
+                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure']]);
+                    }
+                }
+            }
+            if($request->get('name')){
+                $complainer = Complainer::where('name', $request->name)->first();
+                if($complainer){
+                    $committeeSession->complainer_id = $complainer->id;
+                    $committeeSession->save();
+                }else{
+                    $cmp = Complainer::create([
+                        'name'=>$request->get('name'),
+                        'document_type'=>$request->get('document_type'),
+                        'document'=>$request->get('document'),
+                    ]);
+                    $committeeSession->complainer_id = $cmp->id;
+                    $committeeSession->save();
+                }
+            }
+            return response()->json([
+                'status' => 200,
+                'success' => true,
+                'message' => 'Acta de comité guardada con exito'
+            ]);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }

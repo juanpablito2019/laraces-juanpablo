@@ -36,7 +36,6 @@ export const formValid = (rules) => {
 			valid = false
 		}
 	});
-
 	return valid;
 }
 
@@ -52,6 +51,10 @@ export const validate = (name, value, rules) => {
 			rules[name].isEmpty = true;
 			rules[name].isInvalid = true;
 			rules[name].message = `El campo ${rules[name].name} debe tener minimo ${rules[name].min} caracteres`;
+		} else if(value.length > rules[name].max ){
+			rules[name].isEmpty = true;
+			rules[name].isInvalid = true;
+			rules[name].message = `El campo ${rules[name].name} no debe tener mas de ${rules[name].max} caracteres`;
 		} else {
 			rules[name].isEmpty = false;
 			rules[name].isInvalid = false;

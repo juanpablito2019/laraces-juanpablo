@@ -16,10 +16,10 @@ class CreateCommitteeSessionFormativeMeasuresTable extends Migration
         Schema::create('committee_session_formative_measures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('session_id')->references('id')->on('committee_sessions');
-            $table->foreignId('measure_id')->references('id')->on('formative_measures');
-            $table->foreignId('responsble_id')->references('id')->on('formative_measure_responsibles');
-            $table->longText('description');
-            $table->string('state');
+            $table->foreignId('measure_id')->nullable()->references('id')->on('formative_measures');
+            $table->foreignId('responsible_id')->references('id')->on('formative_measure_responsibles');
+            $table->longText('description')->nullable();
+            $table->string('state')->nullable();
             $table->timestamps();
         });
     }

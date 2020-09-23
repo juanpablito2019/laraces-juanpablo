@@ -152,7 +152,7 @@ class CommitteeParameters extends Component {
                 <div className="row mt-3">
                     {this.state.committeeParameters.length > 0 ? (
                         this.state.committeeParameters.map((committeeParameter, i) => (
-                            <div className="col-4" key={i}>
+                            <div className="col-4 mb-2" key={i}>
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
@@ -190,45 +190,18 @@ class CommitteeParameters extends Component {
                                             <div className=""></div>
                                         )}
                                     <div className="form-group">
-                                        <div className="form-row">
-                                            <div className="col">
-                                                <label htmlFor="">Nombre <span className="text-danger">*</span></label>
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    id="name"
-                                                    className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
-                                                    onInput={this.handleInput}
-                                                    autoComplete="off"
-                                                />
-                                                <div className="invalid-feedback">
-                                                    {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
-                                                </div>
-                                            </div>
-                                            <div className="col">
-                                                <label htmlFor="act_template_id">Plantilla <span className="text-danger">*</span></label>
-                                                {this.state.activeActTemplates.length > 0 ? (
-                                                    <React.Fragment>
-                                                        <select
-                                                            name="act_template_id"
-                                                            id="act_template_id"
-                                                            className={rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? 'form-control is-invalid' : 'form-control'}
-                                                            onInput={this.handleInput}
-                                                        >
-                                                            <option value="">Seleccion uno</option>
-                                                            {this.state.activeActTemplates.map(activeActTemplate => (
-                                                                <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.act_type} (V{activeActTemplate.version})</option>
-                                                            ))}
-                                                        </select>
-                                                        <div className="invalid-feedback">
-                                                            {rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? rules.act_template_id.message : ''}
-                                                        </div>
-                                                    </React.Fragment>
-                                                ) : (
-                                                        <h6 className="text-muted"><i>No hay actas activas registradas</i></h6>
-                                                    )}
-
-                                            </div>
+                                        <label htmlFor="">Nombre <span className="text-danger">*</span></label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="name"
+                                            maxLength="80"
+                                            className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
+                                            onInput={this.handleInput}
+                                            autoComplete="off"
+                                        />
+                                        <div className="invalid-feedback">
+                                            {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
                                         </div>
                                     </div>
                                     <div className="form-group">
@@ -263,6 +236,30 @@ class CommitteeParameters extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="form-group">
+                                        <label htmlFor="act_template_id">Plantilla <span className="text-danger">*</span></label>
+                                        {this.state.activeActTemplates.length > 0 ? (
+                                            <React.Fragment>
+                                                <select
+                                                    name="act_template_id"
+                                                    id="act_template_id"
+                                                    className={rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? 'form-control is-invalid' : 'form-control'}
+                                                    onInput={this.handleInput}
+                                                >
+                                                    <option value="">Seleccion uno</option>
+                                                    {this.state.activeActTemplates.map(activeActTemplate => (
+                                                        <option key={activeActTemplate.id} value={activeActTemplate.id}>{activeActTemplate.act_type} (V{activeActTemplate.version})</option>
+                                                    ))}
+                                                </select>
+                                                <div className="invalid-feedback">
+                                                    {rules.act_template_id.isInvalid && rules.act_template_id.message != '' ? rules.act_template_id.message : ''}
+                                                </div>
+                                            </React.Fragment>
+                                        ) : (
+                                                <h6 className="text-muted"><i>No hay actas activas registradas</i></h6>
+                                            )}
+                                    </div>
+                                    
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col">

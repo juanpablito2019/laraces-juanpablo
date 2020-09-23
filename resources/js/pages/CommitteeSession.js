@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { find, updateState } from '../containers/CommitteeSessions';
+import { find, updateState, deleteComplainer, detachResponsible } from '../containers/CommitteeSessions';
 import { get as indexInfringementTypes } from '../containers/InfringementTypes';
 import { get as indexInfringementClassifications } from '../containers/InfringementClassifications';
 import { findActiveByType } from '../containers/ActTemplate';
 import { get as indexCommitteeSessionStates } from '../containers/CommitteeSessionStates';
-import { save as saveCommunication, exportWord as exportWordCommunication } from '../containers/Communication';
+import { save as saveCommunication, exportWord as exportWordCommunication } from '../containers/Acts/Communication';
+import { save as saveCommittee } from '../containers/Acts/Committee';
+import { get as IndexSanctions } from '../containers/Sanctions';
 import Loader from '../components/Loader';
 import Ckeditor from '../components/Ckeditor';
-import { param } from 'jquery';
+import Complainer from '../forms/CommitteeSession/Complainer'
 
 class CommitteeSession extends Component {
     constructor(props) {
@@ -18,16 +20,59 @@ class CommitteeSession extends Component {
             committeeSessionState: null,
             infringementTypes: null,
             infringementClassifications: null,
+            sanctions: null,
             committeeSessionStates: null,
             communicationMessage: null,
             actCommunicationActive: null,
             disabledExportCommunication: false,
             actCommitteeActive: null,
-            disabledExportCommittee: false
+            disabledExportCommittee: false,
+            nComplainers: []
         }
         this.submitCommunication = this.submitCommunication.bind(this);
         this.exportCommunication = this.exportCommunication.bind(this);
         this.updateCommitteeSessionState = this.updateCommitteeSessionState.bind(this);
+        this.addComplainer = this.addComplainer.bind(this);
+        this.removeComplainer = this.removeComplainer.bind(this);
+        this.submitCommittee = this.submitCommittee.bind(this);
+        this.deleteComplainer = this.deleteComplainer.bind(this);
+        this.detachResponsible = this.detachResponsible.bind(this);
+    }
+
+    addComplainer() {
+        let d = this.state.nComplainers;
+        let l = Math.floor(Math.random()*(100 - 50 + 1))+50;
+        while(d.includes(l)){
+            l = Math.floor(Math.random()*(100 - 50 + 1))+50;
+        }
+        d.push(l);
+        this.setState({
+            nComplainers: d
+        });
+    }
+    removeComplainer(e) {
+        let num = $(e.target).data('index');
+        let d = this.state.nComplainers;
+        let index = d.indexOf(num);
+        delete d[index];
+        this.setState({ nComplainers: d });
+    }
+
+    async deleteComplainer(e){
+        let id = $(e.target).data('id');
+        let res = confirm('¿Esta seguro?');
+        if(res){
+            let data = await deleteComplainer(this.state.id);
+            this.getCommitteeSession();
+        }
+    }
+    async detachResponsible(e){
+        let id = $(e.target).data('id');
+        let res = confirm('¿Esta seguro?');
+        if(res){
+            let data = await detachResponsible(this.state.id, id);
+            this.getCommitteeSession();
+        }
     }
 
     async getCommitteeSession() {
@@ -37,6 +82,10 @@ class CommitteeSession extends Component {
     async getInfringementTypes() {
         let data = await indexInfringementTypes();
         this.setState({ infringementTypes: data });
+    }
+    async getSanctions() {
+        let data = await IndexSanctions();
+        this.setState({ sanctions: data });
     }
     async getCommitteeSessionStates() {
         let data = await indexCommitteeSessionStates();
@@ -123,6 +172,13 @@ class CommitteeSession extends Component {
         a.remove();
     }
 
+    async submitCommittee(e) {
+        e.preventDefault();
+        let data = await saveCommittee(e.target, this.state.id);
+        console.log(data);
+    }
+
+
     componentDidMount() {
         this.getCommitteeSession();
         this.getInfringementTypes();
@@ -130,9 +186,10 @@ class CommitteeSession extends Component {
         this.getActCommunicationActive();
         this.getCommitteeSessionStates();
         this.getActCommitteeActive();
+        this.getSanctions();
     }
     render() {
-        if (!this.state.committeeSession || !this.state.infringementTypes || !this.state.infringementClassifications || !this.state.actCommunicationActive || !this.state.committeeSessionStates || !this.state.actCommitteeActive) {
+        if (!this.state.committeeSession || !this.state.infringementTypes || !this.state.infringementClassifications || !this.state.actCommunicationActive || !this.state.committeeSessionStates || !this.state.actCommitteeActive || !this.state.sanctions) {
             return <Loader />
         }
         return (
@@ -165,6 +222,7 @@ class CommitteeSession extends Component {
                         ) : (
                                 <h6><i>No hay estados del caso registrados</i></h6>
                             )}
+                        <hr />
                         <ul className="nav nav-tabs mt-1" id="myTab" role="tablist">
                             <li className="nav-item" role="presentation">
                                 <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Comunicación al aprendiz</a>
@@ -225,9 +283,9 @@ class CommitteeSession extends Component {
                                                 </div>
                                             )
                                     ) : (
-                                        <div className="alert alert-warning mt-3">
-                                            Oops... no tienes acta de comunicacion registrada
-                                        </div>
+                                            <div className="alert alert-warning mt-3">
+                                                Oops... no tienes acta de comunicacion registrada
+                                            </div>
                                         )}
                                     <hr />
                                     <div className="row mt-4">
@@ -295,7 +353,7 @@ class CommitteeSession extends Component {
                                 ) : (
                                         <div className=""></div>
                                     )}
-                                <form>
+                                <form onSubmit={this.submitCommittee}>
                                     <div className="form-group mt-3">
                                         <h6>Asistentes</h6>
                                         <Ckeditor
@@ -308,31 +366,113 @@ class CommitteeSession extends Component {
                                                 'numberedList',
                                                 'bulletedList'
                                             ]}
+                                            d={this.state.committeeSession.committee.assistants}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <h6>¿Quorum?</h6>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="quorum" id="quorum_yes" value="1" />
-                                            <label className="form-check-label" htmlFor="quorum_yes">
-                                                Si
-                                            </label>
+                                        <h6>Objetivos de la reunion</h6>
+                                        <Ckeditor
+                                            name="objectives"
+                                            id="objectives"
+                                            options={[
+                                                'heading',
+                                                'bold',
+                                                'italic',
+                                                'numberedList',
+                                                'bulletedList'
+                                            ]}
+                                            d={this.state.committeeSession.objectives}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <div className="form-row">
+                                            <div className="col">
+                                                <h6>¿Quorum?</h6>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="quorum" id="quorum_yes" value="1" defaultChecked={this.state.committeeSession.committee.quorum == 1 ?? true} />
+                                                    <label className="form-check-label" htmlFor="quorum_yes">
+                                                        Si
+                                                    </label>
+                                                </div>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="quorum" id="quorum_no" value="0" defaultChecked={this.state.committeeSession.committee.quorum == 0 ?? true} />
+                                                    <label className="form-check-label" htmlFor="quorum_no">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <h6>¿De que forma se presentaron los descargos?</h6>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="discharge_type" id="written" value="written" defaultChecked={this.state.committeeSession.discharge_type == 'written' ?? true} />
+                                                    <label className="form-check-label" htmlFor="written">
+                                                        Escrita
+                                                    </label>
+                                                </div>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="radio" name="discharge_type" id="verbal" value="verbal" defaultChecked={this.state.committeeSession.discharge_type == 'verbal' ?? true} />
+                                                    <label className="form-check-label" htmlFor="verbal">
+                                                        Verbal
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="radio" name="quorum" id="quorum_no" value="0" />
-                                            <label className="form-check-label" htmlFor="quorum_no">
-                                                No
-                                            </label>
-                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div className="form-group">
+                                        <h6 className="d-inline">Quejoso(s)</h6>
+                                    </div>
+                                    {this.state.committeeSession.complainer_id ? (
+                                        <Complainer
+                                            index={this.state.committeeSession.complainer_id}
+                                            tcmp="0"
+                                            company={this.state.committeeSession.complainer}
+                                            companyId={this.state.committeeSession.complainer_id}
+                                            onCancel={this.deleteComplainer}
+                                        />
+                                    ) : (
+                                            <div></div>
+                                        )}
+                                    {this.state.committeeSession.responsibles.map((responsible, i) => (
+                                        <Complainer
+                                            key={i}
+                                            index={responsible.id}
+                                            tcmp="1"
+                                            responsible={responsible}
+                                            measure={responsible.pivot.measure_id}
+                                            responsibleId={responsible.id}
+                                            onCancel={this.detachResponsible}
+                                        />
+                                    ))}
+                                    {this.state.nComplainers.map((cmp, i) => (
+                                        <Complainer
+                                            key={i}
+                                            index={cmp}
+                                            onCancel={this.removeComplainer}
+                                        />
+                                    ))}
+                                    <button type="button" className="btn btn-sm btn-link ml-2" onClick={this.addComplainer}><i className="fa fa-plus"></i> Agregar</button>
+                                    <hr />
+                                    <div className="form-group">
+                                        <label>Sanción</label>
+                                        {this.state.sanctions.map((sanction, i) => (
+                                            <div className="form-check" key={i}>
+                                                <input className="form-check-input" type="radio" name="sanction_id" id={"sanction" + sanction.id} value={sanction.id} defaultChecked={this.state.committeeSession.act_sanction_id == sanction.id ? true : false} />
+                                                <label className="form-check-label" htmlFor={"sanction" + sanction.id}>
+                                                    {sanction.name}
+                                                </label>
+                                            </div>
+                                        ))}
                                     </div>
                                     <hr />
                                     {this.state.actCommitteeActive.parameters ? (
                                         this.state.actCommitteeActive.parameters.map((parameter, i) => (
                                             <div className="form-group" key={i}>
                                                 <label>{parameter.name}</label>
-                                                <Ckeditor 
-                                                    name={"parameter_", parameter.id}
-                                                    id={"parameter_", parameter.id}
+                                                <Ckeditor
+                                                    name={"parameter_" + parameter.id}
+                                                    id={"parameter_" + parameter.id}
+                                                    d={this.state.committeeSession.committee_session_parameters.find(prm => prm.id == parameter.id) ? this.state.committeeSession.committee_session_parameters.find(prm => prm.id == parameter.id).pivot.description : parameter.content}
                                                     options={[
                                                         'heading',
                                                         'bold',
@@ -343,11 +483,17 @@ class CommitteeSession extends Component {
                                                 />
                                             </div>
                                         ))
-                                    ):(
-                                        <div className="alert alert-warining">
-                                            Oopss... no tienes parametros para esta acta
+                                    ) : (
+                                            <div className="alert alert-warining">
+                                                Oopss... no tienes parametros para esta acta
+                                            </div>
+                                        )}
+                                    <div className="row mt-3">
+                                        <div className="col text-right">
+                                            <button className="btn btn-outline-primary">Guardar</button>
+                                            <button type="button" className="btn btn-link"><i className="far fa-file-word"></i> Exportar</button>
                                         </div>
-                                    )}
+                                    </div>
                                 </form>
                             </div>
                             <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>

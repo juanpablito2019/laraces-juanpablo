@@ -51,7 +51,7 @@ class Roles extends Component {
                         // this.props.history.push(`/app/roles`);
                         location.href = '/app/roles';
                     }else{
-                        this.setState({ message: data.errors.name })
+                        this.setState({ message: data.errors.name  ||  data.errors.permissions })
                     }
                 });
             }
@@ -95,7 +95,13 @@ class Roles extends Component {
                             <div className="card-body">
 
                                 <form id="form" onSubmit={this.handleSubmit}>
-
+                                    {this.state.message ? (
+                                        <div className="alert alert-info" role="alert">
+                                            <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
+                                        </div>
+                                    ) : (
+                                            <div className=""></div>
+                                        )}
                                     <div className="form-group">
                                         <label>Nombre</label>
                                         <input
@@ -111,7 +117,7 @@ class Roles extends Component {
                                     </div>
 
                                     <div className="form-group">
-
+                                        <label>Permisos</label>
                                         {this.state.permissions.map(permission => (
                                             <div key={permission.id} className="form-check ">
                                                 <input className="form-check-input" type="checkbox" id="permissions[]" name="permissions[]" value={permission.id} />
