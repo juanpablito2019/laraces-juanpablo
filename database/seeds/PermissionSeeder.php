@@ -13,136 +13,136 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         /* Act Templates */
-        Permission::create(['name'=>'list_act_template']);
-        Permission::create(['name'=>'create_act_template']);
-        Permission::create(['name'=>'edit_act_template']);
-        Permission::create(['name'=>'update_act_template']);
-        Permission::create(['name'=>'delete_act_template']);
+        Permission::create(['name'=>'list_act_template', 'spanish_name' => 'Listar planilla actas']);
+        Permission::create(['name'=>'create_act_template', 'spanish_name' => 'Crear planilla actas']);
+        Permission::create(['name'=>'edit_act_template', 'spanish_name' => 'Editar planilla actas']);
+        Permission::create(['name'=>'update_act_template', 'spanish_name' => 'Actualizar planilla actas']);
+        Permission::create(['name'=>'delete_act_template','spanish_name' => 'Eliminar planilla actas']);
         /* Committee */
-        Permission::create(['name'=>'list_committee']);
-        Permission::create(['name'=>'create_committee']);
-        Permission::create(['name'=>'edit_committee']);
-        Permission::create(['name'=>'update_committee']);
-        Permission::create(['name'=>'delete_committee']);
+        Permission::create(['name'=>'list_committee', 'spanish_name' => 'Listar comite']);
+        Permission::create(['name'=>'create_committee','spanish_name' => 'Crear comite']);
+        Permission::create(['name'=>'edit_committee', 'spanish_name' => 'Editar comite']);
+        Permission::create(['name'=>'update_committee', 'spanish_name' => 'Actualizar comite']);
+        Permission::create(['name'=>'delete_committee', 'spanish_name' => 'Eliminar comite']);
         /* Committee Parameter */
-        Permission::create(['name'=>'list_committee_parameter']);
-        Permission::create(['name'=>'create_committee_parameter']);
-        Permission::create(['name'=>'edit_committee_parameter']);
-        Permission::create(['name'=>'update_committee_parameter']);
-        Permission::create(['name'=>'delete_committee_parameter']);
+        Permission::create(['name'=>'list_committee_parameter', 'spanish_name' => 'Listar parametro comite']);
+        Permission::create(['name'=>'create_committee_parameter', 'spanish_name' => 'Crear parametro comite']);
+        Permission::create(['name'=>'edit_committee_parameter', 'spanish_name' => 'Editar parametro comite']);
+        Permission::create(['name'=>'update_committee_parameter', 'spanish_name' => 'Actualizar parametro comite']);
+        Permission::create(['name'=>'delete_committee_parameter', 'spanish_name' => 'Eliminar parametro comite']);
         /* Committee Session */
-        Permission::create(['name'=>'list_committee_session']);
-        Permission::create(['name'=>'create_committee_session']);
-        Permission::create(['name'=>'edit_committee_session']);
-        Permission::create(['name'=>'update_committee_session']);
-        Permission::create(['name'=>'delete_committee_session']);
+        Permission::create(['name'=>'list_committee_session', 'spanish_name' => 'Listar sesion comite']);
+        Permission::create(['name'=>'create_committee_session', 'spanish_name' => 'Crear sesion comite']);
+        Permission::create(['name'=>'edit_committee_session', 'spanish_name' => 'Editar sesion comite']);
+        Permission::create(['name'=>'update_committee_session', 'spanish_name' => 'Actualizar sesion comite']);
+        Permission::create(['name'=>'delete_committee_session', 'spanish_name' => 'Eliminar sesion comite']);
         /* Committee Session State */
-        Permission::create(['name'=>'list_committee_session_state']);
-        Permission::create(['name'=>'create_committee_session_state']);
-        Permission::create(['name'=>'edit_committee_session_state']);
-        Permission::create(['name'=>'update_committee_session_state']);
-        Permission::create(['name'=>'delete_committee_session_state']);
+        Permission::create(['name'=>'list_committee_session_state', 'spanish_name' => 'Listar estado sesion comite']);
+        Permission::create(['name'=>'create_committee_session_state', 'spanish_name' => 'Crear estado sesion comite']);
+        Permission::create(['name'=>'edit_committee_session_state', 'spanish_name' => 'Editar estado sesion comite']);
+        Permission::create(['name'=>'update_committee_session_state', 'spanish_name' => 'Actualizar estado sesion comite']);
+        Permission::create(['name'=>'delete_committee_session_state', 'spanish_name' => 'Eliminar estado sesion comite']);
         /* Contract Type */
-        Permission::create(['name'=>'list_contract_type']);
-        Permission::create(['name'=>'create_contract_type']);
-        Permission::create(['name'=>'edit_contract_type']);
-        Permission::create(['name'=>'update_contract_type']);
-        Permission::create(['name'=>'delete_contract_type']);
+        Permission::create(['name'=>'list_contract_type', 'spanish_name' => 'Listar tipos de contratos']);
+        Permission::create(['name'=>'create_contract_type','spanish_name' => 'Crear tipos de contratos']);
+        Permission::create(['name'=>'edit_contract_type','spanish_name' => 'Editar tipos de contratos']);
+        Permission::create(['name'=>'update_contract_type','spanish_name' => 'Actualizar tipos de contratos']);
+        Permission::create(['name'=>'delete_contract_type','spanish_name' => 'Eliminar tipos de contratos']);
         /* Formation Program */
-        Permission::create(['name'=>'list_formation_program']);
-        Permission::create(['name'=>'create_formation_program']);
-        Permission::create(['name'=>'edit_formation_program']);
-        Permission::create(['name'=>'update_formation_program']);
-        Permission::create(['name'=>'delete_formation_program']);
+        Permission::create(['name'=>'list_formation_program','spanish_name' => 'Listar programas de formacion']);
+        Permission::create(['name'=>'create_formation_program','spanish_name' => 'Crear programas de formacion']);
+        Permission::create(['name'=>'edit_formation_program','spanish_name' => 'Editar programas de formacion']);
+        Permission::create(['name'=>'update_formation_program','spanish_name' => 'Actualizar programas de formacion']);
+        Permission::create(['name'=>'delete_formation_program','spanish_name' => 'Eliminar programas de formacion']);
         /* Formation Program Type */
-        Permission::create(['name'=>'list_formation_program_type']);
-        Permission::create(['name'=>'create_formation_program_type']);
-        Permission::create(['name'=>'edit_formation_program_type']);
-        Permission::create(['name'=>'update_formation_program_type']);
-        Permission::create(['name'=>'delete_formation_program_type']);
+        Permission::create(['name'=>'list_formation_program_type','spanish_name' => 'Listar tipos de programas de formacion']);
+        Permission::create(['name'=>'create_formation_program_type','spanish_name' => 'Crear tipos de programas de formacion']);
+        Permission::create(['name'=>'edit_formation_program_type','spanish_name' => 'Editar tipos de programas de formacion']);
+        Permission::create(['name'=>'update_formation_program_type','spanish_name' => 'Actualizar tipos de programas de formacion']);
+        Permission::create(['name'=>'delete_formation_program_type','spanish_name' => 'Eliminar tipos de programas de formacion']);
         /* Formative Measure */
-        Permission::create(['name'=>'list_formative_measure']);
-        Permission::create(['name'=>'create_formative_measure']);
-        Permission::create(['name'=>'edit_formative_measure']);
-        Permission::create(['name'=>'update_formative_measure']);
-        Permission::create(['name'=>'delete_formative_measure']);
+        Permission::create(['name'=>'list_formative_measure','spanish_name' => 'Listar medidas formativas']);
+        Permission::create(['name'=>'create_formative_measure','spanish_name' => 'Crear medidas formativas']);
+        Permission::create(['name'=>'edit_formative_measure','spanish_name' => 'Editar medidas formativas']);
+        Permission::create(['name'=>'update_formative_measure','spanish_name' => 'Actualizar medidas formativas']);
+        Permission::create(['name'=>'delete_formative_measure','spanish_name' => 'Eliminar medidas formativas']);
         /* General Parameter */
-        Permission::create(['name'=>'list_general_parameter']);
-        Permission::create(['name'=>'create_general_parameter']);
-        Permission::create(['name'=>'edit_general_parameter']);
-        Permission::create(['name'=>'update_general_parameter']);
-        Permission::create(['name'=>'delete_general_parameter']);
+        Permission::create(['name'=>'list_general_parameter','spanish_name' => 'Listar parametros generales']);
+        Permission::create(['name'=>'create_general_parameter','spanish_name' => 'Crear parametros generales']);
+        Permission::create(['name'=>'edit_general_parameter','spanish_name' => 'Editar parametros generales']);
+        Permission::create(['name'=>'update_general_parameter','spanish_name' => 'Actualizar parametros generales']);
+        Permission::create(['name'=>'delete_general_parameter','spanish_name' => 'Eliminar parametros generales']);
         /* Group */
-        Permission::create(['name'=>'list_group']);
-        Permission::create(['name'=>'create_group']);
-        Permission::create(['name'=>'edit_group']);
-        Permission::create(['name'=>'update_group']);
-        Permission::create(['name'=>'delete_group']);
+        Permission::create(['name'=>'list_group','spanish_name' => 'Listar grupos']);
+        Permission::create(['name'=>'create_group','spanish_name' => 'Crear grupos']);
+        Permission::create(['name'=>'edit_group','spanish_name' => 'Editar grupos']);
+        Permission::create(['name'=>'update_group','spanish_name' => 'Actualizar grupos']);
+        Permission::create(['name'=>'delete_group','spanish_name' => 'Eliminar grupos']);
         /* Infringement Classification */
-        Permission::create(['name'=>'list_infringement_classification']);
-        Permission::create(['name'=>'create_infringement_classification']);
-        Permission::create(['name'=>'edit_infringement_classification']);
-        Permission::create(['name'=>'update_infringement_classification']);
-        Permission::create(['name'=>'delete_infringement_classification']);
+        Permission::create(['name'=>'list_infringement_classification','spanish_name' => 'Listar clasificacion de faltas']);
+        Permission::create(['name'=>'create_infringement_classification','spanish_name' => 'Crear clasificacion de faltas']);
+        Permission::create(['name'=>'edit_infringement_classification','spanish_name' => 'Editar clasificacion de faltas']);
+        Permission::create(['name'=>'update_infringement_classification','spanish_name' => 'Actualizar clasificacion de faltas']);
+        Permission::create(['name'=>'delete_infringement_classification','spanish_name' => 'Eliminar clasificacion de faltas']);
         /* Infringement Type */
-        Permission::create(['name'=>'list_infringement_type']);
-        Permission::create(['name'=>'create_infringement_type']);
-        Permission::create(['name'=>'edit_infringement_type']);
-        Permission::create(['name'=>'update_infringement_type']);
-        Permission::create(['name'=>'delete_infringement_type']);
+        Permission::create(['name'=>'list_infringement_type','spanish_name' => 'Listar tipos de faltas']);
+        Permission::create(['name'=>'create_infringement_type','spanish_name' => 'Crear tipos de faltas']);
+        Permission::create(['name'=>'edit_infringement_type','spanish_name' => 'Editar tipos de faltas']);
+        Permission::create(['name'=>'update_infringement_type','spanish_name' => 'Actualizar tipos de faltas']);
+        Permission::create(['name'=>'delete_infringement_type','spanish_name' => 'Eliminar tipos de faltas']);
         /* Learner */
-        Permission::create(['name'=>'list_learner']);
-        Permission::create(['name'=>'create_learner']);
-        Permission::create(['name'=>'edit_learner']);
-        Permission::create(['name'=>'update_learner']);
-        Permission::create(['name'=>'delete_learner']);
+        Permission::create(['name'=>'list_learner','spanish_name' => 'Listar aprendices']);
+        Permission::create(['name'=>'create_learner','spanish_name' => 'Crear aprendices']);
+        Permission::create(['name'=>'edit_learner','spanish_name' => 'Editar aprendices']);
+        Permission::create(['name'=>'update_learner','spanish_name' => 'Actualizar aprendices']);
+        Permission::create(['name'=>'delete_learner','spanish_name' => 'Eliminar aprendices']);
         /* Learner Novelty */
-        Permission::create(['name'=>'list_learner_novelty']);
-        Permission::create(['name'=>'create_learner_novelty']);
-        Permission::create(['name'=>'edit_learner_novelty']);
-        Permission::create(['name'=>'update_learner_novelty']);
-        Permission::create(['name'=>'delete_learner_novelty']);
+        Permission::create(['name'=>'list_learner_novelty','spanish_name' => 'Listar novedades de aprendices']);
+        Permission::create(['name'=>'create_learner_novelty','spanish_name' => 'Crear novedades de aprendices']);
+        Permission::create(['name'=>'edit_learner_novelty','spanish_name' => 'Editar novedades de aprendices']);
+        Permission::create(['name'=>'update_learner_novelty','spanish_name' => 'Actualizar novedades de aprendices']);
+        Permission::create(['name'=>'delete_learner_novelty','spanish_name' => 'Eliminar novedades de aprendices']);
         /* Modality */
-        Permission::create(['name'=>'list_modality']);
-        Permission::create(['name'=>'create_modality']);
-        Permission::create(['name'=>'edit_modality']);
-        Permission::create(['name'=>'update_modality']);
-        Permission::create(['name'=>'delete_modality']);
+        Permission::create(['name'=>'list_modality','spanish_name' => 'Listar modalidades']);
+        Permission::create(['name'=>'create_modality','spanish_name' => 'Crear modalidades']);
+        Permission::create(['name'=>'edit_modality','spanish_name' => 'Editar modalidades']);
+        Permission::create(['name'=>'update_modality','spanish_name' => 'Actualizar modalidades']);
+        Permission::create(['name'=>'delete_modality','spanish_name' => 'Eliminar modalidades']);
         /* Novelty Type */
-        Permission::create(['name'=>'list_novelty_type']);
-        Permission::create(['name'=>'create_novelty_type']);
-        Permission::create(['name'=>'edit_novelty_type']);
-        Permission::create(['name'=>'update_novelty_type']);
-        Permission::create(['name'=>'delete_novelty_type']);
+        Permission::create(['name'=>'list_novelty_type','spanish_name' => 'Listar tipos de novedades']);
+        Permission::create(['name'=>'create_novelty_type','spanish_name' => 'Crear tipos de novedades']);
+        Permission::create(['name'=>'edit_novelty_type','spanish_name' => 'Editar tipos de novedades']);
+        Permission::create(['name'=>'update_novelty_type','spanish_name' => 'Actualizar tipos de novedades']);
+        Permission::create(['name'=>'delete_novelty_type','spanish_name' => 'Eliminar tipos de novedades']);
         /* Position */
-        Permission::create(['name'=>'list_position']);
-        Permission::create(['name'=>'create_position']);
-        Permission::create(['name'=>'edit_position']);
-        Permission::create(['name'=>'update_position']);
-        Permission::create(['name'=>'delete_position']);
+        Permission::create(['name'=>'list_position','spanish_name' => 'Listar cargos']);
+        Permission::create(['name'=>'create_position','spanish_name' => 'Crear cargos']);
+        Permission::create(['name'=>'edit_position','spanish_name' => 'Editar cargos']);
+        Permission::create(['name'=>'update_position','spanish_name' => 'Actualizar cargos']);
+        Permission::create(['name'=>'delete_position','spanish_name' => 'Eliminar cargos']);
         /* Role */
-        Permission::create(['name'=>'list_role']);
-        Permission::create(['name'=>'create_role']);
-        Permission::create(['name'=>'edit_role']);
-        Permission::create(['name'=>'update_role']);
-        Permission::create(['name'=>'delete_role']);
+        Permission::create(['name'=>'list_role','spanish_name' => 'Listar roles']);
+        Permission::create(['name'=>'create_role','spanish_name' => 'Crear roles']);
+        Permission::create(['name'=>'edit_role','spanish_name' => 'Editar roles']);
+        Permission::create(['name'=>'update_role','spanish_name' => 'Actualizar roles']);
+        Permission::create(['name'=>'delete_role','spanish_name' => 'Eliminar roles']);
         /* Sanction */
-        Permission::create(['name'=>'list_sanction']);
-        Permission::create(['name'=>'create_sanction']);
-        Permission::create(['name'=>'edit_sanction']);
-        Permission::create(['name'=>'update_sanction']);
-        Permission::create(['name'=>'delete_sanction']);
+        Permission::create(['name'=>'list_sanction','spanish_name' => 'Listar sanciones']);
+        Permission::create(['name'=>'create_sanction','spanish_name' => 'Crear sanciones']);
+        Permission::create(['name'=>'edit_sanction','spanish_name' => 'Editar sanciones']);
+        Permission::create(['name'=>'update_sanction','spanish_name' => 'Actualizar sanciones']);
+        Permission::create(['name'=>'delete_sanction','spanish_name' => 'Eliminar sanciones']);
         /* Stimulus */
-        Permission::create(['name'=>'list_stimulus']);
-        Permission::create(['name'=>'create_stimulus']);
-        Permission::create(['name'=>'edit_stimulus']);
-        Permission::create(['name'=>'update_stimulus']);
-        Permission::create(['name'=>'delete_stimulus']);
+        Permission::create(['name'=>'list_stimulus','spanish_name' => 'Listar estimulos']);
+        Permission::create(['name'=>'create_stimulus','spanish_name' => 'Crear estimulos']);
+        Permission::create(['name'=>'edit_stimulus','spanish_name' => 'Editar estimulos']);
+        Permission::create(['name'=>'update_stimulus','spanish_name' => 'Actualizar estimulos']);
+        Permission::create(['name'=>'delete_stimulus','spanish_name' => 'Eliminar estimulos']);
         /* User */
-        Permission::create(['name'=>'list_user']);
-        Permission::create(['name'=>'create_user']);
-        Permission::create(['name'=>'edit_user']);
-        Permission::create(['name'=>'update_user']);
-        Permission::create(['name'=>'delete_user']);
+        Permission::create(['name'=>'list_user','spanish_name' => 'Listar usuarios']);
+        Permission::create(['name'=>'create_user','spanish_name' => 'Crear usuarios']);
+        Permission::create(['name'=>'edit_user','spanish_name' => 'Editar usuarios']);
+        Permission::create(['name'=>'update_user','spanish_name' => 'Actualizar usuarios']);
+        Permission::create(['name'=>'delete_user','spanish_name' => 'Eliminar usuarios']);
     }
 }

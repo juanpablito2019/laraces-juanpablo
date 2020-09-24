@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class RoleController extends Controller
 {
+    use HasRoles;
     /**
      * Display a listing of the resource.
      *
@@ -16,16 +20,33 @@ class RoleController extends Controller
      */
     public function index()
     {
+
+
+        $user = Auth::user();
+
+        $user->hasAllRoles(Role::all());
+
+        $role = Role::all();
+
+
         $permissions = DB::table('permissions')->get();
 
-        // if($user->hasPermissionTo('list_role')){
 
-        // }
+        if($user->hasPermissionTo('list_act_template')){
 
-        return response()->json([
-            'permissions' =>$permissions,
-            'rols' =>Role::all()
-        ], 200);
+            return response()->json([
+                'permissions' =>$permissions,
+                'rols' =>Role::all(),
+                'user'=>$user
+            ], 200);
+
+        }else{
+            return response()->json([
+                'message' =>'You have not permissions'
+            ], 403);
+        }
+
+
     }
 
     /**

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
 import { get, rules, store } from '../containers/Roles';
-import { Route } from 'react-router-dom';
-import { withRouter } from 'react-router'
 
 class Roles extends Component {
     constructor(props){
@@ -123,7 +121,7 @@ class Roles extends Component {
                                         {this.state.permissions.map(permission => (
                                             <div key={permission.id} className="form-check ">
                                                 <input className="form-check-input" type="checkbox" id="permissions[]" name="permissions[]" value={permission.id} />
-                                                <label className="form-check-label">{permission.name}</label>
+                                                <label className="form-check-label">{permission.nickname}</label>
                                             </div>
                                         ))}
 
