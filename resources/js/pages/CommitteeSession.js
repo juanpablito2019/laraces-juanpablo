@@ -63,6 +63,7 @@ class CommitteeSession extends Component {
         let res = confirm('¿Esta seguro?');
         if(res){
             let data = await deleteComplainer(this.state.id);
+            toastr.success(data.message);
             this.getCommitteeSession();
         }
     }
@@ -71,6 +72,7 @@ class CommitteeSession extends Component {
         let res = confirm('¿Esta seguro?');
         if(res){
             let data = await detachResponsible(this.state.id, id);
+            toastr.success(data.message);
             this.getCommitteeSession();
         }
     }
@@ -101,17 +103,28 @@ class CommitteeSession extends Component {
             toastr.info('No se encuentra registrada la plantilla de acta para comunicación');
         } else {
             this.setState({ actCommunicationActive: data });
+            let fd = [];
             data.parameters.map(parameter => {
                 let existRecord = parameter.committee_sessions.find(committee_session => committee_session.id == this.state.id);
                 if (!existRecord) {
-                    this.setState({ disabledExportCommunication: true });
+                    fd.push(true);
                 } else {
-                    this.setState({ disabledExportCommunication: false });
+                    fd.push(false);
                 }
             });
             if (!this.state.committeeSession.infringement_classification_id) {
-                this.setState({ disabledExportCommunication: true });
+                fd.push(true);
             } else {
+                fd.push(false);
+            }
+            if(!this.state.committeeSession.start_hour){
+                fd.push(true);
+            }else{
+                fd.push(false);
+            }
+            if(fd.includes(true)){
+                this.setState({ disabledExportCommunication: true });
+            }else{
                 this.setState({ disabledExportCommunication: false });
             }
         }
@@ -175,7 +188,7 @@ class CommitteeSession extends Component {
     async submitCommittee(e) {
         e.preventDefault();
         let data = await saveCommittee(e.target, this.state.id);
-        console.log(data);
+        toastr.success(data.message);
     }
 
 

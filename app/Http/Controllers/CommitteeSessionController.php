@@ -226,18 +226,6 @@ class CommitteeSessionController extends Controller
     public function saveCommittee(Request $request, $id)
     {
         try {
-            // dd($request->all());
-            // $validator = Validator::make($request->all(), [
-            //     'assistants'=>['required'],
-            //     'quorum'=>['required'],
-            //     'objectives'=>['required'],
-            //     'discharge_type'=>['required'],
-            //     'sanction_id'=>['required'],
-            //     'discharge_type'=>['required'],
-            // ]);
-            // if($validator->fails()){
-            //     dd($validator->errors());
-            // }
             $committeeSession = CommitteeSession::find($id);
             $committee = Committee::find($committeeSession->committee_id);
             $keys = array_keys($request->all());
