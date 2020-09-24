@@ -92,5 +92,5 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::put('/save-committee/{id}', 'CommitteeSessionController@saveCommittee');
-    Route::get('/export-committee/{id}', 'CommitteeSessionController@exportCommunication');
+    Route::get('/export-committee/{id}', 'CommitteeSessionController@exportCommittee');
 });

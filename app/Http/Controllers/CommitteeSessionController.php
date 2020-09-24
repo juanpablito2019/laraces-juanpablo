@@ -186,7 +186,7 @@ class CommitteeSessionController extends Controller
     {
         $parser = new Parser();
         $committee = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
-        $active_communication =  ActTemplate::with('committeeSessionState', 'parameters.committeeSessions')->where([
+        $active_communication =  ActTemplate::with('parameters.committeeSessions')->where([
             ['is_active', '=', 1],
             ['act_type', '=', 'Comunicación al aprendiz']
         ])->first();
@@ -314,5 +314,40 @@ class CommitteeSessionController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function exportCommittee($id)
+    {
+        $parser = new Parser();
+        $committeeSession = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
+        $active_communication =  ActTemplate::with('parameters.committeeSessions')->where([
+            ['is_active', '=', 1],
+            ['act_type', '=', 'Acta de comité']
+        ])->first();
+        $parameters = [];
+        foreach ($committeeSession->committeeSessionParameters as $parameter) {
+            $name = str_replace('${', '', $parameter->slug);
+            $name = str_replace('}', '', $name);
+            array_push($parameters, [
+                'name' => $name,
+                'value' => $parameter->pivot->description
+            ]);
+        }
+        // dd($committeeSession->committee->assistants);
+        $templateProcessor = new TemplateProcessor(public_path("/storage/" . $active_communication->path));
+        $templateProcessor->setValue('learner_name', $committeeSession->learner->name);
+        $templateProcessor->setValue('learner_document', $committeeSession->learner->document_type . " " . $committeeSession->learner->document);
+        $templateProcessor->setValue('learner_group', $committeeSession->learner->group->code_tab);
+        $templateProcessor->setValue('learner_formation_program', $committeeSession->learner->group->formationProgram->name);
+        $templateProcessor->setValue('formation_center', $committeeSession->committee->formation_center);
+        $templateProcessor->setValue('assistants', $parser->fromHTML($committeeSession->committee->assistants));
+        $templateProcessor->setValue('quorum_yes', $committeeSession->committee->quorum == 1 ? '__x__' : '____');
+        $templateProcessor->setValue('quorum_no', $committeeSession->committee->quorum == 0 ? '__x__' : '____');
+        foreach ($parameters as $parameter) {
+            $templateProcessor->setValue($parameter['name'], $parser->fromHTML($parameter['value']));
+        }
+        $filename = 'Acta de comite - Learner';
+        $templateProcessor->saveAs($filename . ".docx");
+        return response()->download($filename . ".docx")->deleteFileAfterSend(true);
     }
 }

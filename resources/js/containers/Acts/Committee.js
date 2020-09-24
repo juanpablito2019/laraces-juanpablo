@@ -18,3 +18,12 @@ export const save = async (form, id) => {
         console.log(error);
     }
 }
+
+export const exportWord = async (id) => {
+    try {
+        let res = await fetch(`/export-committee/${id}`);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}

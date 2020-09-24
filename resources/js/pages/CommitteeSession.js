@@ -5,7 +5,7 @@ import { get as indexInfringementClassifications } from '../containers/Infringem
 import { findActiveByType } from '../containers/ActTemplate';
 import { get as indexCommitteeSessionStates } from '../containers/CommitteeSessionStates';
 import { save as saveCommunication, exportWord as exportWordCommunication } from '../containers/Acts/Communication';
-import { save as saveCommittee } from '../containers/Acts/Committee';
+import { save as saveCommittee, exportWord as exportWordCommittee } from '../containers/Acts/Committee';
 import { get as IndexSanctions } from '../containers/Sanctions';
 import Loader from '../components/Loader';
 import Ckeditor from '../components/Ckeditor';
@@ -31,6 +31,7 @@ class CommitteeSession extends Component {
         }
         this.submitCommunication = this.submitCommunication.bind(this);
         this.exportCommunication = this.exportCommunication.bind(this);
+        this.exportCommittee = this.exportCommittee.bind(this);
         this.updateCommitteeSessionState = this.updateCommitteeSessionState.bind(this);
         this.addComplainer = this.addComplainer.bind(this);
         this.removeComplainer = this.removeComplainer.bind(this);
@@ -180,6 +181,17 @@ class CommitteeSession extends Component {
         var a = document.createElement('a');
         a.href = url;
         a.download = `Comunicacion - ${this.state.committeeSession.learner.name}.docx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+    async exportCommittee() {
+        let res = await exportWordCommittee(this.state.id);
+        let blob = await res.blob();
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = `Comite - ${this.state.committeeSession.learner.name}.docx`;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -504,7 +516,7 @@ class CommitteeSession extends Component {
                                     <div className="row mt-3">
                                         <div className="col text-right">
                                             <button className="btn btn-outline-primary">Guardar</button>
-                                            <button type="button" className="btn btn-link"><i className="far fa-file-word"></i> Exportar</button>
+                                            <button type="button" className="btn btn-link" onClick={this.exportCommittee}><i className="far fa-file-word"></i> Exportar</button>
                                         </div>
                                     </div>
                                 </form>
