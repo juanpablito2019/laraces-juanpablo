@@ -37,11 +37,13 @@ class RoleController extends Controller
             return response()->json([
                 'permissions' =>$permissions,
                 'rols' =>Role::all(),
-                'user'=>$user
+                'user'=>$user,
+                'message' =>'Welcome'
             ], 200);
 
         }else{
             return response()->json([
+                'permissions' =>$permissions,
                 'message' =>'You have not permissions'
             ], 403);
         }
@@ -65,7 +67,7 @@ class RoleController extends Controller
         $role = Role::create([
             'name'=>$request->get('name')
         ]);
-        
+
         $role->givePermissionTo($request->get('permissions'));
 
         return response()->json([

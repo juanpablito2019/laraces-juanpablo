@@ -24,6 +24,7 @@ import { forEach, isNull } from "lodash";
 
 
     var permis = new Array;
+    var myFunc;
 
     const getPemissionsByRoles = async ()=>{
         let data = await fetch('/userPermissions');
@@ -34,40 +35,53 @@ import { forEach, isNull } from "lodash";
             permis.push(permiso.name)
         })
 
-        // validacion(permis,null)
+        function nombrePer(name = null){
+            console.log(name);
+
+        }
+
+
+        validacion(permis)
 
     }
     getPemissionsByRoles();
 
 
+    function validacion(array = null){
 
-    function validacion(array =null , nombre = null){
+
 
         // var arreglo = new Array;
+        console.info(array);
 
+        function nombrePer(name = null){
+            console.log(name);
 
-        // permis.forEach(element => {
-        //    arreglo.push(element);
-        // });
-        // console.info('arreglo',arreglo)
-
-        console.info('arreglo',array)
-        console.info(nombre)
+        }
 
 
 
 
     }
 
+    myFunc = function(theObject) {
+        theObject.make = theObject;
+    }
 
 
-    validacion(permis,'list_act_template');
+    console.log('myFunc',myFunc);
+
+
+
+    myFunc('list_act_template');
 
 
 
 
 
 export default [
+
+
 
     {
         name: 'Home',
