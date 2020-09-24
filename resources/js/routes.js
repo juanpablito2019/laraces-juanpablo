@@ -24,7 +24,6 @@ import { forEach, isNull } from "lodash";
 
 
     var permis = new Array;
-    var myFunc;
 
     const getPemissionsByRoles = async ()=>{
         let data = await fetch('/userPermissions');
@@ -64,16 +63,7 @@ import { forEach, isNull } from "lodash";
 
     }
 
-    myFunc = function(theObject) {
-        theObject.make = theObject;
-    }
-
-
-    console.log('myFunc',myFunc);
-
-
-
-    myFunc('list_act_template');
+    // validacion.nombrePer('list_act_template');
 
 
 

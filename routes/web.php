@@ -83,14 +83,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
     Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');
 
-    Route::get('/userPermissions', function () {
-
-        $user = Auth::user();
-
-        return  $user->getPermissionsViaRoles();
-
-    });
-
     Route::put('/save-committee/{id}', 'CommitteeSessionController@saveCommittee');
     Route::get('/export-committee/{id}', 'CommitteeSessionController@exportCommunication');
+
+
+});
+
+Route::get('/userPermissions', function () {
+
+    $user = Auth::user();
+
+    return  $user->getPermissionsViaRoles();
+
 });
