@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { find, updateState, deleteComplainer, detachResponsible } from '../containers/CommitteeSessions';
+import { find, updateState, deleteComplainer, detachResponsible, updateStateFormativeMeasure } from '../containers/CommitteeSessions';
 import { get as indexInfringementTypes } from '../containers/InfringementTypes';
 import { get as indexInfringementClassifications } from '../containers/InfringementClassifications';
 import { findActiveByType } from '../containers/ActTemplate';
 import { get as indexCommitteeSessionStates } from '../containers/CommitteeSessionStates';
 import { save as saveCommunication, exportWord as exportWordCommunication } from '../containers/Acts/Communication';
 import { save as saveCommittee, exportWord as exportWordCommittee } from '../containers/Acts/Committee';
+import { save as saveSanction, exportWord as exportWordSanction } from '../containers/Acts/Sanction';
 import { get as IndexSanctions } from '../containers/Sanctions';
 import Loader from '../components/Loader';
 import Ckeditor from '../components/Ckeditor';
@@ -27,26 +28,29 @@ class CommitteeSession extends Component {
             disabledExportCommunication: false,
             actCommitteeActive: null,
             disabledExportCommittee: false,
-            nComplainers: []
+            nComplainers: [],
+            actSanctionActive: null,
+            responsibles: []
         }
         this.submitCommunication = this.submitCommunication.bind(this);
         this.exportCommunication = this.exportCommunication.bind(this);
         this.exportCommittee = this.exportCommittee.bind(this);
+        this.exportSanction = this.exportSanction.bind(this);
         this.updateCommitteeSessionState = this.updateCommitteeSessionState.bind(this);
         this.addComplainer = this.addComplainer.bind(this);
         this.removeComplainer = this.removeComplainer.bind(this);
         this.submitCommittee = this.submitCommittee.bind(this);
         this.deleteComplainer = this.deleteComplainer.bind(this);
         this.detachResponsible = this.detachResponsible.bind(this);
+        this.submitSanction = this.submitSanction.bind(this);
+        this.handleTypeComplainer = this.handleTypeComplainer.bind(this);
+        this.handleStateFormativeMeasure = this.handleStateFormativeMeasure.bind(this);
     }
 
     addComplainer() {
         let d = this.state.nComplainers;
-        let l = Math.floor(Math.random()*(100 - 50 + 1))+50;
-        while(d.includes(l)){
-            l = Math.floor(Math.random()*(100 - 50 + 1))+50;
-        }
-        d.push(l);
+        let l = +new Date;
+        d.push({ index: l, type: null });
         this.setState({
             nComplainers: d
         });
@@ -54,33 +58,82 @@ class CommitteeSession extends Component {
     removeComplainer(e) {
         let num = $(e.target).data('index');
         let d = this.state.nComplainers;
-        let index = d.indexOf(num);
-        delete d[index];
+        d.map((record, i) => {
+            if (record.index == num) {
+                delete d[i];
+            }
+        })
         this.setState({ nComplainers: d });
     }
+    handleTypeComplainer(type, index) {
+        let d = this.state.nComplainers;
+        console.log(d);
+        let rec = d.find(r => {
+            if (r) {
+                if (r.type == "0") {
+                    return r;
+                }
+            }
+        });
+        if (rec && type == "0") {
+            toastr.warning('Solo puedes asociar a una empresa')
+            d.map((record, i) => {
+                if (record.index == index) {
+                    delete d[i];
+                }
+            })
+            this.setState({ nComplainers: d });
+        } else {
+            if (type == "0" && this.state.committeeSession.complainer_id) {
+                toastr.warning('Solo puedes asociar a una empresa')
+                d.map((record, i) => {
+                    if (record.index == index) {
+                        delete d[i];
+                    }
+                })
+                this.setState({ nComplainers: d });
+            } else {
+                d.map(record => {
+                    if (record.index == index) {
+                        record.type = type
+                    }
+                });
+                this.setState({
+                    nComplainers: d
+                });
+            }
+        }
 
-    async deleteComplainer(e){
+    }
+
+    async deleteComplainer(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Esta seguro?');
-        if(res){
+        if (res) {
             let data = await deleteComplainer(this.state.id);
             toastr.success(data.message);
             this.getCommitteeSession();
         }
     }
-    async detachResponsible(e){
+    async detachResponsible(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Esta seguro?');
-        if(res){
+        if (res) {
             let data = await detachResponsible(this.state.id, id);
             toastr.success(data.message);
-            this.getCommitteeSession();
+            await this.getCommitteeSession();
         }
     }
 
     async getCommitteeSession() {
         let data = await find(this.state.id);
-        this.setState({ committeeSession: data, committeeSessionState: data.committee_session_state_id });
+        this.setState({responsibles: []})
+        this.setState({
+            committeeSession: data,
+            committeeSessionState: data.committee_session_state_id,
+            nComplainers: [],
+            responsibles: data.responsibles
+        });
     }
     async getInfringementTypes() {
         let data = await indexInfringementTypes();
@@ -88,10 +141,12 @@ class CommitteeSession extends Component {
     }
     async getSanctions() {
         let data = await IndexSanctions();
+
         this.setState({ sanctions: data });
     }
     async getCommitteeSessionStates() {
         let data = await indexCommitteeSessionStates();
+
         this.setState({ committeeSessionStates: data });
     }
     async getInfringementClassifications() {
@@ -118,14 +173,14 @@ class CommitteeSession extends Component {
             } else {
                 fd.push(false);
             }
-            if(!this.state.committeeSession.start_hour){
+            if (!this.state.committeeSession.start_hour) {
                 fd.push(true);
-            }else{
+            } else {
                 fd.push(false);
             }
-            if(fd.includes(true)){
+            if (fd.includes(true)) {
                 this.setState({ disabledExportCommunication: true });
-            }else{
+            } else {
                 this.setState({ disabledExportCommunication: false });
             }
         }
@@ -136,6 +191,15 @@ class CommitteeSession extends Component {
             toastr.info('No se encuentra registrada la plantilla de acta para comité');
         } else {
             this.setState({ actCommitteeActive: data });
+        }
+    }
+
+    async getActSanctionActive() {
+        let data = await findActiveByType('Acto sancionatorio');
+        if (data.status == 404) {
+            toastr.info('No se encuentra registrada la plantilla de acta para el acto sancionatorio');
+        } else {
+            this.setState({ actSanctionActive: data });
         }
     }
     async showHistory() {
@@ -201,6 +265,35 @@ class CommitteeSession extends Component {
         e.preventDefault();
         let data = await saveCommittee(e.target, this.state.id);
         toastr.success(data.message);
+        await this.getCommitteeSession();
+    }
+
+    async submitSanction(e) {
+        e.preventDefault();
+        let data = await saveSanction(e.target, this.state.id);
+        toastr.success(data.message);
+    }
+
+    async exportSanction() {
+        let res = await exportWordSanction(this.state.id);
+        let blob = await res.blob();
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = `Sancion - ${this.state.committeeSession.learner.name}.docx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
+
+    async handleStateFormativeMeasure(e){
+        let responsible = $(e.target).data('responsible');
+        let state = e.target.value;
+        let data = await updateStateFormativeMeasure(this.state.id, responsible, state);
+        if(data.success){
+            toastr.success(data.message);
+        }
     }
 
 
@@ -211,10 +304,11 @@ class CommitteeSession extends Component {
         this.getActCommunicationActive();
         this.getCommitteeSessionStates();
         this.getActCommitteeActive();
+        this.getActSanctionActive();
         this.getSanctions();
     }
     render() {
-        if (!this.state.committeeSession || !this.state.infringementTypes || !this.state.infringementClassifications || !this.state.actCommunicationActive || !this.state.committeeSessionStates || !this.state.actCommitteeActive || !this.state.sanctions) {
+        if (!this.state.committeeSession || !this.state.infringementTypes || !this.state.infringementClassifications || !this.state.actCommunicationActive || !this.state.committeeSessionStates || !this.state.actCommitteeActive || !this.state.sanctions || !this.state.actSanctionActive) {
             return <Loader />
         }
         return (
@@ -257,6 +351,9 @@ class CommitteeSession extends Component {
                             </li>
                             <li className="nav-item" role="presentation">
                                 <a className="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Acto sancionatorio</a>
+                            </li>
+                            <li className="nav-item" role="presentation">
+                                <a className="nav-link" id="responsibles-tab" data-toggle="tab" href="#measures" role="tab" aria-controls="contact" aria-selected="false">Medidas formativas</a>
                             </li>
                         </ul>
                         <div className="tab-content" id="myTabContent">
@@ -458,7 +555,7 @@ class CommitteeSession extends Component {
                                     ) : (
                                             <div></div>
                                         )}
-                                    {this.state.committeeSession.responsibles.map((responsible, i) => (
+                                    {this.state.responsibles.map((responsible, i)=>(
                                         <Complainer
                                             key={i}
                                             index={responsible.id}
@@ -472,7 +569,8 @@ class CommitteeSession extends Component {
                                     {this.state.nComplainers.map((cmp, i) => (
                                         <Complainer
                                             key={i}
-                                            index={cmp}
+                                            index={cmp.index}
+                                            onSelectType={this.handleTypeComplainer}
                                             onCancel={this.removeComplainer}
                                         />
                                     ))}
@@ -521,7 +619,100 @@ class CommitteeSession extends Component {
                                     </div>
                                 </form>
                             </div>
-                            <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                            <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <form className="mt-3" onSubmit={this.submitSanction}>
+                                    <div className="form-row">
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label>Fecha del acto sancionatorio</label>
+                                                <input type="date" name="date_academic_act_sanction" id="date_academic_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_academic_act_sanction} />
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label>Fecha de notificacion del acto sancionatorio</label>
+                                                <input type="date" name="date_notification_act_sanction" id="date_notification_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_notification_act_sanction} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-row">
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label>Fecha de expiracion del acto sancionatorio</label>
+                                                <input type="date" name="date_expiration_act_sanction" id="date_expiration_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_expiration_act_sanction} />
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label>Fecha de levantamiento del acto sancionatorio</label>
+                                                <input type="date" name="date_lifting_act_sanction" id="date_lifting_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_lifting_act_sanction} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {this.state.actSanctionActive.parameters.map((parameter, i) => (
+                                        <div className="form-group" key={i}>
+                                            <label>{parameter.name}</label>
+                                            <Ckeditor
+                                                name={"parameter_" + parameter.id}
+                                                id={"parameter_" + parameter.id}
+                                                d={this.state.committeeSession.committee_session_parameters.find(prm => prm.id == parameter.id) ? this.state.committeeSession.committee_session_parameters.find(prm => prm.id == parameter.id).pivot.description : parameter.content}
+                                                options={[
+                                                    'heading',
+                                                    'bold',
+                                                    'italic',
+                                                    'numberedList',
+                                                    'bulletedList'
+                                                ]}
+                                            />
+                                        </div>
+                                    ))}
+                                    <div className="row mt-3">
+                                        <div className="col text-right">
+                                            <button className="btn btn-outline-primary">Guardar</button>
+                                            <button type="button" className="btn btn-link" onClick={this.exportSanction}><i className="far fa-file-word"></i> Exportar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="tab-pane fade" id="measures" role="tabpanel" aria-labelledby="responsibles-tab">
+                                <h5 className="mt-3">Estado de las medidas formativas</h5>
+                                <table className="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Documento</th>
+                                            <th>Nombre</th>
+                                            <th>Medida formativa</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.committeeSession.responsibles.length > 0 ? (
+                                            this.state.committeeSession.responsibles.map((responsible, i) => (
+                                                <tr key={i}>
+                                                    <td>{responsible.document_type} {responsible.document}</td>
+                                                    <td>{responsible.username}</td>
+                                                    <td>{responsible.pivot.formative_measure ? responsible.pivot.formative_measure.name : (<span className="text-primary">No definió medida formativa</span>)}</td>
+                                                    <td>
+                                                        <select data-responsible={responsible.id} className="form-control form-control-sm" defaultValue={responsible.pivot.state} onInput={this.handleStateFormativeMeasure}>
+                                                            <option value="En proceso">En proceso</option>
+                                                            <option value="Asignado">Asignado</option>
+                                                            <option value="Finalizado">Finalizado</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <button className="btn btn-sm btn-outline-primary">Editar</button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                                <tr>
+                                                    <td colSpan="4" className="text-center">No hay responsables registrados</td>
+                                                </tr>
+                                            )}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -608,6 +799,24 @@ class CommitteeSession extends Component {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" tabIndex="-1" id="responsible-measure">
+                    <div className="modal-dialog modal-xl">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Medida formativa</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                               
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>

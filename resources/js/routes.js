@@ -34,40 +34,44 @@ import { forEach, isNull } from "lodash";
             permis.push(permiso.name)
         })
 
-        // validacion(permis,null)
+        function nombrePer(name = null){
+            console.log(name);
+
+        }
+
+
+        validacion(permis)
 
     }
     getPemissionsByRoles();
 
 
+    function validacion(array = null){
 
-    function validacion(array =null , nombre = null){
+
 
         // var arreglo = new Array;
+        console.info(array);
 
+        function nombrePer(name = null){
+            console.log(name);
 
-        // permis.forEach(element => {
-        //    arreglo.push(element);
-        // });
-        // console.info('arreglo',arreglo)
-
-        console.info('arreglo',array)
-        console.info(nombre)
+        }
 
 
 
 
     }
 
-
-
-    validacion(permis,'list_act_template');
+    // validacion.nombrePer('list_act_template');
 
 
 
 
 
 export default [
+
+
 
     {
         name: 'Home',

@@ -22,8 +22,6 @@ class Roles extends Component {
         let data = await get();
         this.setState({rols: data.rols})
         this.setState({permissions: data.permissions})
-        console.log(this.state.permissions);
-
 
     }
 
@@ -121,7 +119,7 @@ class Roles extends Component {
                                         {this.state.permissions.map(permission => (
                                             <div key={permission.id} className="form-check ">
                                                 <input className="form-check-input" type="checkbox" id="permissions[]" name="permissions[]" value={permission.id} />
-                                                <label className="form-check-label">{permission.nickname}</label>
+                                                <label className="form-check-label">{permission.spanish_name}</label>
                                             </div>
                                         ))}
 

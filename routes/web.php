@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('committee-sessions/{id}/update-state', 'CommitteeSessionController@updateState');
     Route::put('committee-sessions/{id}/delete-complainer', 'CommitteeSessionController@deleteComplainer');
     Route::put('committee-sessions/{id}/detach-responsible', 'CommitteeSessionController@detachResponsible');
+    Route::put('committee-sessions/{id}/set-state', 'CommitteeSessionController@setState');
     Route::resource('committee-sessions', 'CommitteeSessionController');
     Route::resource('committee-session-states', 'CommitteeSessionStateController');
     Route::resource('complainers', 'ComplainerController');
@@ -83,14 +84,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
     Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');
 
-    Route::get('/userPermissions', function () {
-
-        $user = Auth::user();
-
-        return  $user->getPermissionsViaRoles();
-
-    });
-
     Route::put('/save-committee/{id}', 'CommitteeSessionController@saveCommittee');
     Route::get('/export-committee/{id}', 'CommitteeSessionController@exportCommittee');
+
+    Route::put('/save-sanction/{id}', 'CommitteeSessionController@saveSanction');
+    Route::get('/export-sanction/{id}', 'CommitteeSessionController@exportSanction');
+
+
+});
+
+Route::get('/userPermissions', function () {
+
+    $user = Auth::user();
+
+    return  $user->getPermissionsViaRoles();
+
 });

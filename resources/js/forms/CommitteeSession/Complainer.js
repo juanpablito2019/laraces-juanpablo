@@ -5,7 +5,7 @@ import { get as IndexResponsibles } from '../../containers/ResponsiblesFormative
 import { get as IndexFormativeMeasures } from '../../containers/FormativeMeasures';
 import { get as IndexComplainers } from '../../containers/Complainer';
 
-function Complainer({ index, onCancel, tcmp, company, responsible, measure, companyId, responsibleId }) {
+function Complainer({ index, onCancel, tcmp, company, responsible, measure, companyId, responsibleId, onSelectType }) {
     const [typeComplainer, setTypeComplainer] = useState(tcmp);
     const [responsibles, setResponsibles] = useState(null);
     const [formativeMeasures, setFormativeMeasures] = useState(null);
@@ -55,6 +55,11 @@ function Complainer({ index, onCancel, tcmp, company, responsible, measure, comp
         setTmpComplainers([]);
     }
 
+    const handleTypeComplainer = (e) => {
+        setTypeComplainer(e.target.value);
+        onSelectType(e.target.value, index);
+    }
+
     useEffect(() => {
         getResponsibles();
         getFormativeMeasures();
@@ -65,17 +70,17 @@ function Complainer({ index, onCancel, tcmp, company, responsible, measure, comp
         return <Loader />
     }
     return (
-        <div className="card border mb-2">
+        <div className={tcmp == "0" ? "card border mb-4 border-primary": typeComplainer == "0" ? "card border mb-2 border-primary" : "card border mb-2"}>
             <div className="card-body">
                 <div className="form-group">
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="radio" name={"type_complainer[" + index + "]"} id={"responsibles" + index} onClick={(e) => setTypeComplainer(e.target.value)} value="1" defaultChecked={tcmp == 1 ?? true} />
+                        <input className="form-check-input" type="radio" name={"type_complainer[" + index + "]"} id={"responsibles" + index} onClick={handleTypeComplainer} value="1" defaultChecked={tcmp == 1 ?? true} />
                         <label className="form-check-label" htmlFor={"responsibles" + index}>
                             Responsables de medida formativa
                         </label>
                     </div>
                     <div className="form-check form-check-inline">
-                        <input className="form-check-input" type="radio" name={"type_complainer[" + index + "]"} id={"complainer" + index} onClick={(e) => setTypeComplainer(e.target.value)} value="0" defaultChecked={tcmp == 0 ?? true} />
+                        <input className="form-check-input" type="radio" name={"type_complainer[" + index + "]"} id={"complainer" + index} onClick={handleTypeComplainer} value="0" defaultChecked={tcmp == 0 ?? true} />
                         <label className="form-check-label" htmlFor={"complainer" + index}>
                             Empresa
                         </label>
@@ -90,18 +95,18 @@ function Complainer({ index, onCancel, tcmp, company, responsible, measure, comp
                                     name={"responsibles[" + index + "]"}
                                     id="responsibles"
                                     options={responsibles}
-                                    defaultValue={responsible?{label: responsible.username+" ("+responsible.document+")", value: responsible.id}:""}
+                                    defaultValue={responsible ? { label: responsible.username + " (" + responsible.document + ")", value: responsible.id } : ""}
                                 />
                             </div>
                             <div className="form-group">
                                 <label>Medida formativa</label>
                                 {formativeMeasures.map((formativeMeasure, i) => (
                                     <div className="form-check" key={i}>
-                                        <input 
-                                            className="form-check-input" 
-                                            type="radio" 
-                                            name={"formative_measures[" + index + "]"} 
-                                            id={"formative_measure" + formativeMeasure.id + "_" + index} 
+                                        <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name={"formative_measures[" + index + "]"}
+                                            id={"formative_measure" + formativeMeasure.id + "_" + index}
                                             value={formativeMeasure.id}
                                             defaultChecked={measure == formativeMeasure.id ?? true}
                                         />
@@ -127,7 +132,7 @@ function Complainer({ index, onCancel, tcmp, company, responsible, measure, comp
                                     <div className="form-row">
                                         <div className="col">
                                             <label>Tipo de documento</label>
-                                            <select className="form-control" name="document_type" id="document_type" defaultValue={company ? company.document_type: ""}>
+                                            <select className="form-control" name="document_type" id="document_type" defaultValue={company ? company.document_type : ""}>
                                                 <option value="">Seleccion uno</option>
                                                 <option value="CE">Cedula extranjera</option>
                                                 <option value="CC">Cedula de ciudadania</option>
@@ -135,7 +140,7 @@ function Complainer({ index, onCancel, tcmp, company, responsible, measure, comp
                                         </div>
                                         <div className="col">
                                             <label>Numero de documento</label>
-                                            <input type="number" name="document" id="document" className="form-control" defaultValue={company ? company.document:""} />
+                                            <input type="number" name="document" id="document" className="form-control" defaultValue={company ? company.document : ""} />
                                         </div>
                                     </div>
                                 </div>

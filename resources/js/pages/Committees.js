@@ -94,13 +94,15 @@ class Committees extends Component {
     async handleEdit(e) {
         setRules(rules, false);
         let id = $(e.target).data('id');
+        this.setState({edit: true, id });
         let data = await find(id);
-        this.setState({ edit: true, id });
+        let start_hour = data.start_hour.split(':')[0] + ":" + data.start_hour.split(':')[1];
+        let end_hour = data.end_hour ? data.end_hour.split(':')[0] + ":" + data.end_hour.split(':')[1] : null;
         $('.modal').find('.modal-title').text('Editar comité');
         $('.modal').find('#record_number').val(data.record_number);
         $('.modal').find('#date').val(data.date);
-        $('.modal').find('#start_hour').val(data.start_hour);
-        $('.modal').find('#end_hour').val(data.end_hour);
+        $('.modal').find('#start_hour').val(start_hour);
+        $('.modal').find('#end_hour').val(end_hour);
         $('.modal').find('#place').val(data.place);
         $('.modal').find('#formation_center').val(data.formation_center);
         $('.modal').find('#subdirector_name').val(data.subdirector_name);

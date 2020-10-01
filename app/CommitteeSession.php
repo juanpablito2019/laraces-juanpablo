@@ -36,6 +36,10 @@ class CommitteeSession extends Model
 	{
 		return $this->belongsTo(InfringementType::class);
 	}
+	public function infringementClassification()
+	{
+		return $this->belongsTo(InfringementClassification::class);
+	}
 
 	public function committeeSessionParameters()
 	{
@@ -49,7 +53,16 @@ class CommitteeSession extends Model
 
 	public function responsibles()
 	{
-		return $this->belongsToMany(FormativeMeasureResponsible::class, 'committee_session_formative_measures', 'session_id', 'responsible_id')->withPivot(['description', 'state', 'measure_id']);
+		return $this->belongsToMany(
+			FormativeMeasureResponsible::class, 
+			'committee_session_formative_measures', 
+			'session_id', 
+			'responsible_id'
+			)
+			->using(CommitteeSessionFormativeMeasure::class)
+			->withPivot(
+				['description', 'state', 'measure_id']
+			);
 	}
 
 	public function complainer()
