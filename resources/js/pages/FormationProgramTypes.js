@@ -167,7 +167,15 @@ class FormationProgramTypes extends Component {
                                                 <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
                                             </div>
                                             <div className="col">
-                                                <h5>{formationProgramType.name}</h5>
+                                                <h5>
+                                                    {
+                                                        (formationProgramType.name).length > 20 ? (
+                                                            ((formationProgramType.name).substring(0,20)+'...')
+                                                        ) : (
+                                                            formationProgramType.name
+                                                        )
+                                                    }
+                                                </h5>
                                                 <h6 className="text-muted">Mesese electivos: {formationProgramType.elective_months}</h6>
                                                 <h6 className="text-muted">Mesese practicos: {formationProgramType.practice_months}</h6>
                                                 <a href="#" data-id={formationProgramType.id} onClick={this.handleEdit}>Editar</a>

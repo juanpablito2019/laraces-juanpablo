@@ -141,7 +141,15 @@ class InfringementTypes extends Component {
                                                 <i className="fas fa-balance-scale fa-5x text-secondary mt-1"></i>
                                             </div>
                                             <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
-                                                <h5 className="mb-4" >{infringementType.name}</h5>
+                                                <h5 className="mb-4">
+                                                    {
+                                                        (infringementType.name).length > 13 ? (
+                                                            ((infringementType.name).substring(0,13)+'...')
+                                                        ) : (
+                                                            infringementType.name
+                                                        )
+                                                    }
+                                                </h5>
                                                 <a  href="#" data-id={infringementType.id} onClick={this.handleEdit} >Editar</a>
                                                 {/* <a  href="#" data-id={infringementType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
                                             </div>

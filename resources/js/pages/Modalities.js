@@ -161,7 +161,15 @@ class Modalities extends Component {
                             <div className="col-12 col-md-4 mb-2" key={modality.id}>
                                 <div className="card">
                                     <div className="card-body">
-                                        <h5>{modality.name}</h5>
+                                        <h5>
+                                            {
+                                                (modality.name).length > 16 ? (
+                                                    ((modality.name).substring(0,16)+'...')
+                                                ) : (
+                                                    modality.name
+                                                )
+                                            }
+                                        </h5>
                                         <a href="#" data-id={modality.id} onClick={this.handleEdit}>Editar</a>
                                         <a href="#" data-id={modality.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                     </div>

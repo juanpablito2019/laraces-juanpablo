@@ -57,14 +57,14 @@ class ModalityController extends Controller
      */
     public function update(ModalityRequest $request, Modality $modality)
     {
-        dd($request->all());
-        // $modality->name = $request->get('name');
-        // $modality->save();
-        // return response()->json([
-        //     'status'=>200,
-        //     'success'=>true,
-        //     'message'=>'Modalidad actualizada con exito'
-        // ]);
+        // dd($request->all());
+        $modality->name = $request->get('name');
+        $modality->save();
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Modalidad actualizada con exito'
+        ]);
     }
 
     /**

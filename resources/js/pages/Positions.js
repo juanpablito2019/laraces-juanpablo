@@ -166,7 +166,15 @@ class Positions extends Component {
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col">
-                                                <h5>{position.name}</h5>
+                                                <h5>
+                                                    {
+                                                        (position.name).length > 30 ? (
+                                                            ((position.name).substring(0,30)+'...')
+                                                        ) : (
+                                                            position.name
+                                                        )
+                                                    }
+                                                </h5>
                                             </div>
                                         </div>
                                         <div className="row">
