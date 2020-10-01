@@ -13,11 +13,11 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         /* Act Templates */
-        Permission::create(['name'=>'list_act_template', 'spanish_name' => 'Listar planilla actas']);
-        Permission::create(['name'=>'create_act_template', 'spanish_name' => 'Crear planilla actas']);
-        Permission::create(['name'=>'edit_act_template', 'spanish_name' => 'Editar planilla actas']);
-        Permission::create(['name'=>'update_act_template', 'spanish_name' => 'Actualizar planilla actas']);
-        Permission::create(['name'=>'delete_act_template','spanish_name' => 'Eliminar planilla actas']);
+        Permission::create(['name'=>'list_act_template', 'spanish_name' => 'Listar plantilla actas']);
+        Permission::create(['name'=>'create_act_template', 'spanish_name' => 'Crear plantilla actas']);
+        Permission::create(['name'=>'edit_act_template', 'spanish_name' => 'Editar plantilla actas']);
+        Permission::create(['name'=>'update_act_template', 'spanish_name' => 'Actualizar plantilla actas']);
+        Permission::create(['name'=>'delete_act_template','spanish_name' => 'Eliminar plantilla actas']);
         /* Committee */
         Permission::create(['name'=>'list_committee', 'spanish_name' => 'Listar comite']);
         Permission::create(['name'=>'create_committee','spanish_name' => 'Crear comite']);
@@ -144,5 +144,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name'=>'edit_user','spanish_name' => 'Editar usuarios']);
         Permission::create(['name'=>'update_user','spanish_name' => 'Actualizar usuarios']);
         Permission::create(['name'=>'delete_user','spanish_name' => 'Eliminar usuarios']);
+        /* Formative measure responsibles */
+        Permission::create(['name'=>'list_formative-measure-responsibles','spanish_name' => 'Listar responsables de medidas formativas']);
+        Permission::create(['name'=>'create_formative-measure-responsibles','spanish_name' => 'Crear responsables de medidas formativas']);
+        Permission::create(['name'=>'edit_formative-measure-responsibles','spanish_name' => 'Editar responsables de medidas formativas']);
+        Permission::create(['name'=>'update_formative-measure-responsibles','spanish_name' => 'Actualizar responsables de medidas formativas']);
+        Permission::create(['name'=>'delete_formative-measure-responsibles','spanish_name' => 'Eliminar responsables de medidas formativas']);
     }
 }

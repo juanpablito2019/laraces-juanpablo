@@ -6,6 +6,11 @@ use App\ContractType;
 use App\Http\Requests\ContractTypeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+
 
 class ContractTypeController extends Controller
 {
@@ -16,7 +21,42 @@ class ContractTypeController extends Controller
      */
     public function index()
     {
+
+
+        $user = Auth::user();
+
+        $user->hasAllRoles(Role::all());
+
+        $role = Role::all();
+
+
+        $permissions = Permission::all();
+
         return ContractType::all();
+
+        // return response()->json([
+        //     'permissions' =>$permissions,
+        //     'contract_type' =>ContractType::all(),
+        //     'user'=>$user
+        // ], 200);
+
+
+        // if($user->hasPermissionTo('list_contract_type')){
+
+        //     return response()->json([
+        //         'permissions' =>$permissions,
+        //         'contract_type' =>ContractType::all(),
+        //         'user'=>$user,
+        //         'message' =>'Welcome'
+        //     ], 200);
+
+        // }else{
+        //     return response()->json([
+        //         'message' =>'You have not permissions',
+        //         'status' => 403
+        //     ], 403);
+        // }
+
     }
 
     /**

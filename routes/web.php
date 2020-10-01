@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 /*
@@ -14,6 +16,7 @@ use Spatie\Permission\Models\Role;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +32,9 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'react',
         'where' => ['path' => '.*']
     ]);
+
+
+
     Route::resource('committees', 'CommitteeController');
     Route::resource('committee-parameters', 'CommitteeParameterController');
     Route::put('committee-sessions/{id}/update-state', 'CommitteeSessionController@updateState');
@@ -90,7 +96,6 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/userPermissions', function () {
-
     $user = Auth::user();
 
     return  $user->getPermissionsViaRoles();
