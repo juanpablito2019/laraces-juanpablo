@@ -153,7 +153,15 @@ class FormativeMeasures extends Component {
                                                 <i className="fas fa-calendar-check fa-5x text-secondary mt-2"></i>
                                             </div>
                                             <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
-                                                <h5 className="mb-4">{formativeMeasure.name}</h5>
+                                                <h5 className="mb-4">
+                                                    {
+                                                        (formativeMeasure.name).length > 16 ? (
+                                                            ((formativeMeasure.name).substring(0,16)+'...')
+                                                        ) : (
+                                                            formativeMeasure.name
+                                                        )
+                                                    }
+                                                </h5>
                                                 <a href="#" data-id={formativeMeasure.id} onClick={this.handleEdit}>Editar</a>
                                                 <a href="#" data-id={formativeMeasure.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                             </div>

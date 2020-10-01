@@ -150,7 +150,15 @@ class NoveltyTypes extends Component {
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col">
-                                                <h5>{noveltyType.name}</h5>
+                                                <h5>
+                                                    {
+                                                        (noveltyType.name).length > 16 ? (
+                                                            ((noveltyType.name).substring(0,16)+'...')
+                                                        ) : (
+                                                            noveltyType.name
+                                                        )
+                                                    }
+                                                </h5>
                                                 <a  href="#" data-id={noveltyType.id} onClick={this.handleEdit} >Editar</a>
                                                 <a  href="#" data-id={noveltyType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
                                             </div>

@@ -13,6 +13,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $superAdmin = User::create([
+            'name'=>'SuperAdmin User',
+            'email'=>'super@gmail.com',
+            'password'=>Hash::make('super123'),
+            'is_active'=>true
+        ]);
         $admin = User::create([
             'name'=>'Admin User',
             'email'=>'admin@gmail.com',
@@ -31,7 +37,8 @@ class UserSeeder extends Seeder
             'password'=>Hash::make('subdi123'),
             'is_active'=>true
         ]);
-
+        
+        $superAdmin->assignRole('SuperAdmin'); // Super Admin
         $admin->assignRole('Administrador'); // Super Admin
         $cordi->assignRole('Coordinador');
         $subdi->assignRole('Subdirector');

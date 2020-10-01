@@ -168,7 +168,15 @@ class ContractTypes extends Component {
                                                 <i className="fa fa-list-alt fa-5x text-secondary mt-2"></i>
                                             </div>
                                             <div className="col">
-                                                <h5>{contractType.name}</h5>
+                                                <h5>
+                                                    {
+                                                        (contractType.name).length > 16 ? (
+                                                            ((contractType.name).substring(0,16)+'...')
+                                                        ) : (
+                                                            contractType.name
+                                                        )
+                                                    }
+                                                </h5>
                                                 <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
                                                 <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
                                             </div>

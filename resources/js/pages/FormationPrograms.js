@@ -183,7 +183,15 @@ class FormationPrograms extends Component {
                                                 <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
                                             </div>
                                             <div className="col-8 ml-3">
-                                                <h5>{formationProgram.name.split('-')[1]}</h5>
+                                                <h5>
+                                                    {
+                                                        (formationProgram.name.split('-')[1]).length > 22 ? (
+                                                            ((formationProgram.name.split('-')[1]).substring(0,22)+'...')
+                                                        ) : (
+                                                            formationProgram.name.split('-')[1]
+                                                        )
+                                                    }
+                                                </h5>
                                                 <h6 className="text-muted">{formationProgram.code}</h6>
                                                 <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
