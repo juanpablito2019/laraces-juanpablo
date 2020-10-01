@@ -122,7 +122,15 @@ class GeneralParameters extends Component {
 
                                         <div className="row">
                                             <div className="col">
-                                                <h5>{generalParameter.name}</h5>
+                                                <h5>
+                                                    {
+                                                        (generalParameter.name).length > 30 ? (
+                                                            ((generalParameter.name).substring(0,30)+'...')
+                                                        ) : (
+                                                            generalParameter.name
+                                                        )
+                                                    }
+                                                </h5>
                                             </div>
                                         </div>
 
