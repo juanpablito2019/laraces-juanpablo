@@ -10,6 +10,7 @@ use App\Http\Requests\CommitteeSessionRequest;
 use Exception;
 use HTMLtoOpenXML\Parser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -58,18 +59,23 @@ class CommitteeSessionController extends Controller
      */
     public function show($id)
     {
-        return CommitteeSession::with(
-            'learner.group.formationProgram', 
-            'learner.stimuli', 
-            'learner.novelties', 
-            'learner.academics', 
-            'infringementType', 
-            'committeeSessionParameters', 
-            'committeeSessionState', 
+        $committeeSession = CommitteeSession::with(
+            'learner.group.formationProgram',
+            'learner.stimuli',
+            'learner.novelties',
+            'learner.academics',
+            'infringementType',
+            'committeeSessionParameters',
+            'committeeSessionState',
             'committee',
             'responsibles',
             'complainer'
         )->findOrFail($id);
+        foreach ($committeeSession->responsibles as $responsible) {
+            $formative_measure = $responsible->pivot->formativeMeasure;
+            $responsible->pivot->formative_measure = $formative_measure;
+        }
+        return $committeeSession;
     }
 
     /**
@@ -125,9 +131,9 @@ class CommitteeSessionController extends Controller
         $committee->complainer_id = null;
         $committee->save();
         return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'La empresa no estara asociada con este caso'
+            'success' => true,
+            'status' => 200,
+            'message' => 'La empresa no estara asociada con este caso'
         ]);
     }
 
@@ -137,9 +143,24 @@ class CommitteeSessionController extends Controller
         $committee->responsibles()->detach($request->get('responsible_id'));
         $committee->save();
         return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'El responsable no estara asociado con este caso'
+            'success' => true,
+            'status' => 200,
+            'message' => 'El responsable no estara asociado con este caso'
+        ]);
+    }
+
+    public function setState(Request $request, $id)
+    {
+        $committeeSession = CommitteeSession::findOrFail($id);
+        DB::update('UPDATE committee_session_formative_measures SET state = :state WHERE session_id = :session_id AND responsible_id = :responsible_id', [
+            'state' => $request->get('state'),
+            'session_id' => $committeeSession->id,
+            'responsible_id' => $request->get('responsible_id')
+        ]);
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Estado de la medida formativa actualizado con exito'
         ]);
     }
 
@@ -186,7 +207,7 @@ class CommitteeSessionController extends Controller
     {
         $parser = new Parser();
         $committee = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
-        $active_communication =  ActTemplate::with('committeeSessionState', 'parameters.committeeSessions')->where([
+        $active_communication =  ActTemplate::with('parameters.committeeSessions')->where([
             ['is_active', '=', 1],
             ['act_type', '=', 'Comunicación al aprendiz']
         ])->first();
@@ -226,18 +247,6 @@ class CommitteeSessionController extends Controller
     public function saveCommittee(Request $request, $id)
     {
         try {
-            // dd($request->all());
-            // $validator = Validator::make($request->all(), [
-            //     'assistants'=>['required'],
-            //     'quorum'=>['required'],
-            //     'objectives'=>['required'],
-            //     'discharge_type'=>['required'],
-            //     'sanction_id'=>['required'],
-            //     'discharge_type'=>['required'],
-            // ]);
-            // if($validator->fails()){
-            //     dd($validator->errors());
-            // }
             $committeeSession = CommitteeSession::find($id);
             $committee = Committee::find($committeeSession->committee_id);
             $keys = array_keys($request->all());
@@ -282,42 +291,42 @@ class CommitteeSessionController extends Controller
             $formative_measures = $request->get('formative_measures');
             if ($responsibles) {
                 foreach ($responsibles as $index => $responsible) {
-                    if($formative_measures){
+                    if ($formative_measures) {
                         array_push($responsibles_formative_measures, [
                             'responsible' => $responsible,
                             'formative_measure' => array_key_exists($index, $formative_measures) ? $formative_measures[$index] : null
                         ]);
-                    }else{
+                    } else {
                         array_push($responsibles_formative_measures, [
                             'responsible' => $responsible,
                             'formative_measure' => null
                         ]);
                     }
                 }
+
                 foreach ($responsibles_formative_measures as $row) {
-                    if($committeeSession->responsibles->pluck('id')->contains($row['responsible'])){
+                    if ($committeeSession->responsibles->pluck('id')->contains($row['responsible'])) {
                         $committeeSession->responsibles()->detach($row['responsible']);
-                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure']]);
-                    }else{
-                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure']]);
+                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure'], 'state' => 'En proceso']);
+                    } else {
+                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure'], 'state' => 'En proceso']);
                     }
                 }
             }
-            if($request->get('name')){
+            if ($request->get('name')) {
                 $complainer = Complainer::where('name', $request->name)->first();
-                if($complainer){
+                if ($complainer) {
                     $committeeSession->complainer_id = $complainer->id;
-                    $committeeSession->save();
-                }else{
+                } else {
                     $cmp = Complainer::create([
-                        'name'=>$request->get('name'),
-                        'document_type'=>$request->get('document_type'),
-                        'document'=>$request->get('document'),
+                        'name' => $request->get('name'),
+                        'document_type' => $request->get('document_type'),
+                        'document' => $request->get('document'),
                     ]);
                     $committeeSession->complainer_id = $cmp->id;
-                    $committeeSession->save();
                 }
             }
+            $committeeSession->save();
             return response()->json([
                 'status' => 200,
                 'success' => true,
@@ -326,5 +335,129 @@ class CommitteeSessionController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    public function exportCommittee($id)
+    {
+        $parser = new Parser();
+        $committeeSession = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
+        $active_committee =  ActTemplate::with('parameters.committeeSessions')->where([
+            ['is_active', '=', 1],
+            ['act_type', '=', 'Acta de comité']
+        ])->first();
+        $parameters = [];
+        foreach ($committeeSession->committeeSessionParameters as $parameter) {
+            $name = str_replace('${', '', $parameter->slug);
+            $name = str_replace('}', '', $name);
+            array_push($parameters, [
+                'name' => $name,
+                'value' => $parameter->pivot->description
+            ]);
+        }
+        $templateProcessor = new TemplateProcessor(public_path("/storage/" . $active_committee->path));
+        $templateProcessor->setValue('learner_name', $committeeSession->learner->name);
+        $templateProcessor->setValue('learner_document', $committeeSession->learner->document_type . " " . $committeeSession->learner->document);
+        $templateProcessor->setValue('learner_group', $committeeSession->learner->group->code_tab);
+        $templateProcessor->setValue('learner_formation_program', $committeeSession->learner->group->formationProgram->name);
+        $templateProcessor->setValue('formation_center', $committeeSession->committee->formation_center);
+        $templateProcessor->setValue('assistants', $parser->fromHTML($committeeSession->committee->assistants));
+        $templateProcessor->setValue('quorum_yes', $committeeSession->committee->quorum == 1 ? '__x__' : '____');
+        $templateProcessor->setValue('quorum_no', $committeeSession->committee->quorum == 0 ? '__x__' : '____');
+        $templateProcessor->setValue('is_verbal', $committeeSession->discharge_type == 'verbal' ? '__x__' : '____');
+        $templateProcessor->setValue('is_written', $committeeSession->discharge_type == 'written' ? '__x__' : '____');
+        $templateProcessor->setValue('committee_date', $committeeSession->committee->date);
+        $templateProcessor->setValue('committee_place', $committeeSession->committee->place);
+        $templateProcessor->setValue('committee_start_hour', $committeeSession->committee->start_hour);
+        $templateProcessor->setValue('objectives', $parser->fromHTML($committeeSession->objectives));
+        $templateProcessor->setValue('record_number', $committeeSession->committee->record_number);
+
+        foreach ($parameters as $parameter) {
+            $templateProcessor->setValue($parameter['name'], $parser->fromHTML($parameter['value']));
+        }
+        $filename = 'Acta de comite - Learner';
+        $templateProcessor->saveAs($filename . ".docx");
+        return response()->download($filename . ".docx")->deleteFileAfterSend(true);
+    }
+
+    public function saveSanction(Request $request, $id)
+    {
+        $committeeSession = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
+        $keys = array_keys($request->all());
+        $parameters = [];
+        foreach ($keys as $key) {
+            if (
+                $key != 'date_academic_act_sanction' &&
+                $key != 'date_notification_act_sanction' &&
+                $key != 'date_expiration_act_sanction' &&
+                $key != 'date_lifting_act_sanction' &&
+                $key != '_method' &&
+                $key != '_token'
+            ) {
+                $parameter_id = explode('_', $key)[1];
+                array_push($parameters, $parameter_id);
+            }
+        }
+        foreach ($parameters as $parameter) {
+            if ($committeeSession->committeeSessionParameters->pluck('id')->contains($parameter)) {
+                $committeeSession->committeeSessionParameters()->detach($parameter);
+                $committeeSession->committeeSessionParameters()->attach($parameter, ['description' => $request->get('parameter_' . $parameter)]);
+            } else {
+                $committeeSession->committeeSessionParameters()->attach($parameter, ['description' => $request->get('parameter_' . $parameter)]);
+            }
+        }
+        $committeeSession->date_academic_act_sanction = $request->get('date_academic_act_sanction');
+        $committeeSession->date_notification_act_sanction = $request->get('date_notification_act_sanction');
+        $committeeSession->date_expiration_act_sanction = $request->get('date_expiration_act_sanction');
+        $committeeSession->date_lifting_act_sanction = $request->get('date_lifting_act_sanction');
+        $committeeSession->save();
+
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Acto sancionatorio guardado con exito'
+        ]);
+    }
+
+    public function exportSanction($id)
+    {
+        $parser = new Parser();
+        $committeeSession = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters', 'infringementType', 'infringementClassification')->findOrFail($id);
+        $active_committee =  ActTemplate::with('parameters.committeeSessions')->where([
+            ['is_active', '=', 1],
+            ['act_type', '=', 'Acto sancionatorio']
+        ])->first();
+        $parameters = [];
+        foreach ($committeeSession->committeeSessionParameters as $parameter) {
+            $name = str_replace('${', '', $parameter->slug);
+            $name = str_replace('}', '', $name);
+            array_push($parameters, [
+                'name' => $name,
+                'value' => $parameter->pivot->description
+            ]);
+        }
+        $templateProcessor = new TemplateProcessor(public_path("/storage/" . $active_committee->path));
+        $templateProcessor->setValue('learner_name', $committeeSession->learner->name);
+        $templateProcessor->setValue('learner_document', $committeeSession->learner->document_type . " " . $committeeSession->learner->document);
+        $templateProcessor->setValue('learner_group', $committeeSession->learner->group->code_tab);
+        $templateProcessor->setValue('learner_formation_program', $committeeSession->learner->group->formationProgram->name);
+        $templateProcessor->setValue('formation_center', $committeeSession->committee->formation_center);
+        $templateProcessor->setValue('assistants', $parser->fromHTML($committeeSession->committee->assistants));
+        $templateProcessor->setValue('quorum_yes', $committeeSession->committee->quorum == 1 ? '__x__' : '____');
+        $templateProcessor->setValue('quorum_no', $committeeSession->committee->quorum == 0 ? '__x__' : '____');
+        $templateProcessor->setValue('is_verbal', $committeeSession->discharge_type == 'verbal' ? '__x__' : '____');
+        $templateProcessor->setValue('is_written', $committeeSession->discharge_type == 'written' ? '__x__' : '____');
+        $templateProcessor->setValue('committee_date', $committeeSession->committee->date);
+        $templateProcessor->setValue('committee_place', $committeeSession->committee->place);
+        $templateProcessor->setValue('committee_start_hour', $committeeSession->start_hour);
+        $templateProcessor->setValue('infringement_type', $committeeSession->infringementType->name);
+        $templateProcessor->setValue('infringement_classification', $committeeSession->infringementClassification ? $committeeSession->infringementClassification->name : "");
+        $templateProcessor->setValue('record_number', $committeeSession->committee->record_number);
+
+        foreach ($parameters as $parameter) {
+            $templateProcessor->setValue($parameter['name'], $parser->fromHTML($parameter['value']));
+        }
+        $filename = 'Acta de comite - Learner';
+        $templateProcessor->saveAs($filename . ".docx");
+        return response()->download($filename . ".docx")->deleteFileAfterSend(true);
     }
 }

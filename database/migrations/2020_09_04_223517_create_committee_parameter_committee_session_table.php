@@ -17,7 +17,7 @@ class CreateCommitteeParameterCommitteeSessionTable extends Migration
             $table->id();
             $table->foreignId('parameter_id')->references('id')->on('committee_parameters');
             $table->foreignId('session_id')->references('id')->on('committee_sessions');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
