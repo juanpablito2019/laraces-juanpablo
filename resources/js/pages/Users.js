@@ -30,7 +30,7 @@ class Users extends Component {
                 <div className="row">
                     {this.state.users.length > 0 ? (
                         this.state.users.map(user => (
-                            <div className="col-12 col-lg-4 mt-3">
+                            <div className="col-12 col-lg-4 mt-3" key={user.id}>
                                 <div className="card">
                                     <div className="card-body">
                                         <h5>{user.name}</h5>

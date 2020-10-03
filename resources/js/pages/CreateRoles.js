@@ -19,9 +19,31 @@ class Roles extends Component {
 
 
     async getData(){
+        // Data Roles
         let data = await get();
-        this.setState({rols: data.rols})
-        this.setState({permissions: data.permissions})
+        this.setState({rols: data})
+
+        // Data Permisos
+        let dataPermissions = await fetch('/userPermissions');
+        let res = await dataPermissions.json();
+        this.setState({permissions: res})
+
+    }
+
+    async getPermission() {
+        let data = await fetch('/userPermissions');
+        let res = await data.json();
+
+        let permis =  this.props.permis;
+
+        localStorage.setItem( "permis", JSON.stringify( res ) ) ;
+
+            res.forEach(element => {
+                console.log(element.pivot.role_id)
+            });
+
+        this.setState({ permissions: res });
+        this.setState({ permis: permis });
 
     }
 
@@ -77,12 +99,6 @@ class Roles extends Component {
         }
         return (
             <>
-                {/* <div className="row">
-                    <div className="col">
-                        <h3>Agregar Rol</h3>
-
-                    </div>
-                </div> */}
 
                 <div className="row">
                     <div className="col col-sm-12 col-md-12 col-lg-6 m-auto">

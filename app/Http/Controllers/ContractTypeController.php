@@ -19,6 +19,12 @@ class ContractTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
 
@@ -27,35 +33,8 @@ class ContractTypeController extends Controller
 
         $user->hasAllRoles(Role::all());
 
-        $role = Role::all();
-
-
-        $permissions = Permission::all();
-
         return ContractType::all();
 
-        // return response()->json([
-        //     'permissions' =>$permissions,
-        //     'contract_type' =>ContractType::all(),
-        //     'user'=>$user
-        // ], 200);
-
-
-        // if($user->hasPermissionTo('list_contract_type')){
-
-        //     return response()->json([
-        //         'permissions' =>$permissions,
-        //         'contract_type' =>ContractType::all(),
-        //         'user'=>$user,
-        //         'message' =>'Welcome'
-        //     ], 200);
-
-        // }else{
-        //     return response()->json([
-        //         'message' =>'You have not permissions',
-        //         'status' => 403
-        //     ], 403);
-        // }
 
     }
 

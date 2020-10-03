@@ -147,7 +147,7 @@ class Committee extends Component {
                 $('#stimulus-edit').modal('toggle');
                 await this.getStimuli();
             } else {
-                console.log(data);
+                // console.log(data);
             }
         } else {
             this.setState({ message: 'Por favor completa el formulario' });

@@ -27,10 +27,6 @@ class ContractTypes extends Component {
     async getContractTypes() {
         let data = await get();
 
-        if(data.status == 403){
-            this.props.history.push("/app")
-        }
-
         this.setState({ contractTypes: data });
     }
 
@@ -156,7 +152,7 @@ class ContractTypes extends Component {
                     <div className="col">
                         <h3>Tipos de contratos</h3>
 
-                        <SetPermissions permis="list_act_template">
+                        <SetPermissions permis="create_contract_type">
                                     <div className="col">
                                         <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
                                         <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>

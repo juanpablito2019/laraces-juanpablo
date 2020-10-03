@@ -1,5 +1,7 @@
 <?php
+session_start();
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
@@ -24,7 +26,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::group(['middleware' => ['auth']], function () {
+
     Route::get('/app/{path?}', [
         'uses' => function(){
             return view('react');
@@ -32,7 +36,6 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'react',
         'where' => ['path' => '.*']
     ]);
-
 
 
     Route::resource('committees', 'CommitteeController');
@@ -100,4 +103,35 @@ Route::get('/userPermissions', function () {
 
     return  $user->getPermissionsViaRoles();
 
+
 });
+
+
+Route::get('/permis', function () {
+    $user = Auth::user();
+
+    $arreglo = $user->getPermissionsViaRoles();
+    $vacio = [];
+
+    foreach ($arreglo as $key => $value) {
+
+        array_push($vacio, $value->name);
+    }
+
+    // foreach ($vacio as $key ) {
+    //     return  $key;
+    // }
+
+
+    if (!in_array('ass', $vacio)) {
+        return redirect('/app');
+    }
+
+
+
+
+
+
+});
+
+

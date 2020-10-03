@@ -60,7 +60,6 @@ import { forEach, isBoolean, isNull } from "lodash";
 
 
 
-
 export default [
 
 
@@ -129,7 +128,7 @@ export default [
     {
         name: 'Parámetros generales',
         type: 'menu',
-        visible: permission('list_general_parameter'),
+        visible: true,
         routes: [
             {
                 name: 'Cargos',

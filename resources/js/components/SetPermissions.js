@@ -22,7 +22,7 @@ class SetPermissions extends Component {
         localStorage.setItem( "permis", JSON.stringify( res ) ) ;
 
             res.forEach(element => {
-                console.log(element.pivot.role_id)
+                localStorage.setItem( "idRol", JSON.stringify( element.pivot.role_id  ) ) ;
             });
 
         this.setState({ permissions: res });
@@ -33,6 +33,7 @@ class SetPermissions extends Component {
     Permissions(name) {
 
         var arreglo = JSON.parse(localStorage.getItem( "permis"));
+        var idRol = JSON.parse(localStorage.getItem( "idRol"));
 
         var bool = Boolean(0);
 
@@ -43,6 +44,12 @@ class SetPermissions extends Component {
                 this.setState({ response: bool});
             }
         });
+
+        if(idRol == 1){
+            bool = true
+            this.setState({ response: bool});
+        }
+
 
         localStorage.setItem( "bool", JSON.stringify( bool ) ) ;
         return bool
