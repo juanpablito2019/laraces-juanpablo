@@ -151,15 +151,11 @@ class ContractTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
+                        <SetPermissions>
 
-                        <SetPermissions permis="create_contract_type">
-                                    <div className="col">
-                                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
-                                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
-                                    </div>
                         </SetPermissions>
-
-
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
+                            <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -172,40 +168,41 @@ class ContractTypes extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-3">
-                    {this.state.contractTypes.length > 0 ? (
-                        this.state.contractTypes.map(contractType => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={contractType.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
-                                                <i className="fa fa-list-alt fa-5x text-secondary mt-2"></i>
-                                            </div>
-                                            <div className="col">
-                                                <h5>
-                                                    {
-                                                        (contractType.name).length > 16 ? (
-                                                            ((contractType.name).substring(0,16)+'...')
-                                                        ) : (
-                                                            contractType.name
-                                                        )
-                                                    }
-                                                </h5>
-                                                <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
-                                                <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                    <div className="row mt-3">
+                        {this.state.contractTypes.length > 0 ? (
+                            this.state.contractTypes.map(contractType => (
+                                <div className="col-12 col-md-6 col-lg-4 mb-2" key={contractType.id}>
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <div className="row">
+                                                <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                                    <i className="fa fa-list-alt fa-5x text-secondary mt-2"></i>
+                                                </div>
+                                                <div className="col">
+                                                    <h5>
+                                                        {
+                                                            (contractType.name).length > 16 ? (
+                                                                ((contractType.name).substring(0,16)+'...')
+                                                            ) : (
+                                                                contractType.name
+                                                            )
+                                                        }
+                                                    </h5>
+                                                    <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
+                                                    <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
-                </div>
+                            ))
+                        ) : (
+                                <div className="col">
+                                    <p>No hay datos disponibles</p>
+                                </div>
+                            )}
+                    </div>
+
                 <div className="modal fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">

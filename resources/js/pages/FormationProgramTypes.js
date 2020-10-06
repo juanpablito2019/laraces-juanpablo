@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
+import SetPermissions from '../components/SetPermissions';
 import { formValid, validate, setRules } from '../containers/Validator';
 
 class FormationProgramTypes extends Component {

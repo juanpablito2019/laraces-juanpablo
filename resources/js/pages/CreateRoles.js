@@ -21,12 +21,12 @@ class Roles extends Component {
     async getData(){
         // Data Roles
         let data = await get();
-        this.setState({rols: data})
+        this.setState({rols: data.rols})
+
 
         // Data Permisos
-        let dataPermissions = await fetch('/userPermissions');
-        let res = await dataPermissions.json();
-        this.setState({permissions: res})
+        this.setState({permissions: data.permissions})
+
 
     }
 
