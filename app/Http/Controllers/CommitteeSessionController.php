@@ -7,6 +7,7 @@ use App\Committee;
 use App\CommitteeSession;
 use App\Complainer;
 use App\Http\Requests\CommitteeSessionRequest;
+use App\Http\Requests\SaveSanctionRequest;
 use Exception;
 use HTMLtoOpenXML\Parser;
 use Illuminate\Http\Request;
@@ -161,6 +162,21 @@ class CommitteeSessionController extends Controller
             'status' => 200,
             'success' => true,
             'message' => 'Estado de la medida formativa actualizado con exito'
+        ]);
+    }
+
+    public function setDescription(Request $request, $id)
+    {
+        $committeeSession = CommitteeSession::findOrFail($id);
+        DB::update('UPDATE committee_session_formative_measures SET description = :description WHERE session_id = :session_id AND responsible_id = :responsible_id', [
+            'description' => $request->get('description'),
+            'session_id' => $committeeSession->id,
+            'responsible_id' => $request->get('responsible_id')
+        ]);
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Descripcion de la medida formativa actualizado con exito'
         ]);
     }
 
@@ -381,6 +397,19 @@ class CommitteeSessionController extends Controller
 
     public function saveSanction(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'date_academic_act_sanction' => ['nullable', 'date'],
+            'date_notification_act_sanction' => ['nullable', 'date', 'after:date_academic_act_sanction'],
+            'date_expiration_act_sanction' => ['nullable', 'date', 'after:date_notification_act_sanction'],
+            'date_lifting_act_sanction' => ['nullable', 'date', 'after:date_notification_act_sanction'],
+        ], [
+            'date_notification_act_sanction.after' => 'El campo de fecha de notificacion debe ser una fecha posterior a la fecha de acto sancionatorio',
+            'date_expiration_act_sanction.after' => 'El campo de fecha de expiracion debe ser una fecha posterior a la fecha de notificacion del acto sancionatorio',
+            'date_lifting_act_sanction.after' => 'El campo de fecha de levantamiento debe ser una fecha posterior a la fecha de notificacion del acto sancionatorio',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
         $committeeSession = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
         $keys = array_keys($request->all());
         $parameters = [];

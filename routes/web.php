@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('committee-sessions/{id}/delete-complainer', 'CommitteeSessionController@deleteComplainer');
     Route::put('committee-sessions/{id}/detach-responsible', 'CommitteeSessionController@detachResponsible');
     Route::put('committee-sessions/{id}/set-state', 'CommitteeSessionController@setState');
+    Route::put('committee-sessions/{id}/set-description', 'CommitteeSessionController@setDescription');
     Route::resource('committee-sessions', 'CommitteeSessionController');
     Route::resource('committee-session-states', 'CommitteeSessionStateController');
     Route::resource('complainers', 'ComplainerController');

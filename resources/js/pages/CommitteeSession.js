@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { find, updateState, deleteComplainer, detachResponsible, updateStateFormativeMeasure } from '../containers/CommitteeSessions';
+import { find, updateState, deleteComplainer, detachResponsible, updateStateFormativeMeasure, setDescriptionFormativeMeasure } from '../containers/CommitteeSessions';
 import { get as indexInfringementTypes } from '../containers/InfringementTypes';
 import { get as indexInfringementClassifications } from '../containers/InfringementClassifications';
 import { findActiveByType } from '../containers/ActTemplate';
@@ -45,6 +45,7 @@ class CommitteeSession extends Component {
         this.submitSanction = this.submitSanction.bind(this);
         this.handleTypeComplainer = this.handleTypeComplainer.bind(this);
         this.handleStateFormativeMeasure = this.handleStateFormativeMeasure.bind(this);
+        this.submitMeasureDescription = this.submitMeasureDescription.bind(this);
     }
 
     addComplainer() {
@@ -127,7 +128,7 @@ class CommitteeSession extends Component {
 
     async getCommitteeSession() {
         let data = await find(this.state.id);
-        this.setState({responsibles: []})
+        this.setState({ responsibles: [] })
         this.setState({
             committeeSession: data,
             committeeSessionState: data.committee_session_state_id,
@@ -271,7 +272,11 @@ class CommitteeSession extends Component {
     async submitSanction(e) {
         e.preventDefault();
         let data = await saveSanction(e.target, this.state.id);
-        toastr.success(data.message);
+        if(data.success){
+            toastr.success(data.message);
+        }else{
+            toastr.warning(data.date_notification_act_sanction || data.date_expiration_act_sanction || data.date_lifting_act_sanction)
+        }
     }
 
     async exportSanction() {
@@ -287,10 +292,19 @@ class CommitteeSession extends Component {
     }
 
 
-    async handleStateFormativeMeasure(e){
+    async handleStateFormativeMeasure(e) {
         let responsible = $(e.target).data('responsible');
         let state = e.target.value;
         let data = await updateStateFormativeMeasure(this.state.id, responsible, state);
+        if (data.success) {
+            toastr.success(data.message);
+        }
+    }
+
+    async submitMeasureDescription(e){
+        e.preventDefault();
+        let responsible = $(e.target).data('responsible');
+        let data = await setDescriptionFormativeMeasure(this.state.id, responsible, e.target);
         if(data.success){
             toastr.success(data.message);
         }
@@ -555,7 +569,7 @@ class CommitteeSession extends Component {
                                     ) : (
                                             <div></div>
                                         )}
-                                    {this.state.responsibles.map((responsible, i)=>(
+                                    {this.state.responsibles.map((responsible, i) => (
                                         <Complainer
                                             key={i}
                                             index={responsible.id}
@@ -625,13 +639,25 @@ class CommitteeSession extends Component {
                                         <div className="col">
                                             <div className="form-group">
                                                 <label>Fecha del acto sancionatorio</label>
-                                                <input type="date" name="date_academic_act_sanction" id="date_academic_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_academic_act_sanction} />
+                                                <input 
+                                                    type="date" 
+                                                    name="date_academic_act_sanction" 
+                                                    id="date_academic_act_sanction" 
+                                                    className="form-control" 
+                                                    defaultValue={this.state.committeeSession.date_academic_act_sanction} 
+                                                />
                                             </div>
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
                                                 <label>Fecha de notificacion del acto sancionatorio</label>
-                                                <input type="date" name="date_notification_act_sanction" id="date_notification_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_notification_act_sanction} />
+                                                <input 
+                                                    type="date" 
+                                                    name="date_notification_act_sanction" 
+                                                    id="date_notification_act_sanction" 
+                                                    className="form-control" 
+                                                    defaultValue={this.state.committeeSession.date_notification_act_sanction} 
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -639,7 +665,13 @@ class CommitteeSession extends Component {
                                         <div className="col">
                                             <div className="form-group">
                                                 <label>Fecha de expiracion del acto sancionatorio</label>
-                                                <input type="date" name="date_expiration_act_sanction" id="date_expiration_act_sanction" className="form-control" defaultValue={this.state.committeeSession.date_expiration_act_sanction} />
+                                                <input 
+                                                    type="date" 
+                                                    name="date_expiration_act_sanction" 
+                                                    id="date_expiration_act_sanction" 
+                                                    className="form-control" 
+                                                    defaultValue={this.state.committeeSession.date_expiration_act_sanction} 
+                                                />
                                             </div>
                                         </div>
                                         <div className="col">
@@ -675,43 +707,45 @@ class CommitteeSession extends Component {
                                 </form>
                             </div>
                             <div className="tab-pane fade" id="measures" role="tabpanel" aria-labelledby="responsibles-tab">
-                                <h5 className="mt-3">Estado de las medidas formativas</h5>
-                                <table className="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Documento</th>
-                                            <th>Nombre</th>
-                                            <th>Medida formativa</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.state.committeeSession.responsibles.length > 0 ? (
-                                            this.state.committeeSession.responsibles.map((responsible, i) => (
-                                                <tr key={i}>
-                                                    <td>{responsible.document_type} {responsible.document}</td>
-                                                    <td>{responsible.username}</td>
-                                                    <td>{responsible.pivot.formative_measure ? responsible.pivot.formative_measure.name : (<span className="text-primary">No definió medida formativa</span>)}</td>
-                                                    <td>
-                                                        <select data-responsible={responsible.id} className="form-control form-control-sm" defaultValue={responsible.pivot.state} onInput={this.handleStateFormativeMeasure}>
+                                <h5 className="my-3">Estado de las medidas formativas</h5>
+                                {this.state.responsibles.map((responsible, i) => (
+                                    <div className="accordion mb-2" id={"accordion" + responsible.id} key={i}>
+                                        <div className="card">
+                                            <div className="card-header" id="headingOne">
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <h2 className="mb-0">
+                                                            <button className="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target={"#collapse" + responsible.id} aria-expanded="true" aria-controls={"#collapse" + responsible.id}>
+                                                                {responsible.username} <span className="text-muted">({responsible.pivot.formative_measure ? responsible.pivot.formative_measure.name : ''})</span>
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div className="col-3">
+                                                        <select className="form-control" data-responsible={responsible.id} defaultValue={responsible.pivot.state} onInput={this.handleStateFormativeMeasure}>
                                                             <option value="En proceso">En proceso</option>
                                                             <option value="Asignado">Asignado</option>
                                                             <option value="Finalizado">Finalizado</option>
                                                         </select>
-                                                    </td>
-                                                    <td>
-                                                        <button className="btn btn-sm btn-outline-primary">Editar</button>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        ) : (
-                                                <tr>
-                                                    <td colSpan="4" className="text-center">No hay responsables registrados</td>
-                                                </tr>
-                                            )}
-                                    </tbody>
-                                </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div id={"collapse" + responsible.id} className="collapse" aria-labelledby="headingOne" data-parent={"#accordion" + responsible.id}>
+                                                <div className="card-body">
+                                                    <form id={"form"+responsible.id} data-responsible={responsible.id} onSubmit={this.submitMeasureDescription}>
+                                                        <label>Descripcion</label>
+                                                        <Ckeditor
+                                                            id={"responsible[" + responsible.id + "][description]"}
+                                                            name="description"
+                                                            d={responsible.pivot.description}
+                                                        />
+                                                        <button type="submit" form={"form"+responsible.id} className="btn btn-outline-primary mt-2">Guardar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -816,7 +850,7 @@ class CommitteeSession extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                               
+
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -830,3 +864,10 @@ class CommitteeSession extends Component {
 }
 
 export default CommitteeSession;
+
+/**
+ * Fecha del acto sancionatorio  => 1
+ * Fecha de notificacion del acto sancionatorio => 2
+ * Fecha de expiracion del acto sancionatorio (Tiene que ser mayor a la de expiracion)
+ * Fecha de levantamiento del acto sancionatorio (Tiene que ser mayor a la de expiracion)
+ */
