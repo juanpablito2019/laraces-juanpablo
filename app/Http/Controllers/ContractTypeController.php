@@ -6,6 +6,11 @@ use App\ContractType;
 use App\Http\Requests\ContractTypeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+
 
 class ContractTypeController extends Controller
 {
@@ -14,9 +19,23 @@ class ContractTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
+
+
+        $user = Auth::user();
+
+        $user->hasAllRoles(Role::all());
+
         return ContractType::all();
+
+
     }
 
     /**

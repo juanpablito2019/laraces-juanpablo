@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules,storeMass } from '../containers/ContractTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
+import SetPermissions from '../components/SetPermissions';
+
 
 class ContractTypes extends Component {
     constructor(props) {
@@ -24,8 +26,10 @@ class ContractTypes extends Component {
 
     async getContractTypes() {
         let data = await get();
+
         this.setState({ contractTypes: data });
     }
+
 
     search(e) {
         let { value } = e.target;
@@ -47,6 +51,7 @@ class ContractTypes extends Component {
             }
         })
     }
+
 
     handleInput(e) {
         let { name, value } = e.target;
@@ -127,24 +132,34 @@ class ContractTypes extends Component {
 
     }
 
+
     componentDidMount() {
         this.getContractTypes();
+
     }
 
     render() {
         const { rules } = this.state;
-        if (!this.state.contractTypes) {
+        if (!this.state.contractTypes && !this.state.permissions) {
             return (
                 <Loader />
             )
         }
+
         return (
             <>
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+
+                        <SetPermissions permis="create_contract_type">
+                                    <div className="col">
+                                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
+                                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+                                    </div>
+                        </SetPermissions>
+
+
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">

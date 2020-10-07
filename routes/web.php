@@ -1,7 +1,11 @@
 <?php
+session_start();
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 /*
@@ -15,13 +19,16 @@ use Spatie\Permission\Models\Role;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
 
+
 Route::group(['middleware' => ['auth']], function () {
+
     Route::get('/app/{path?}', [
         'uses' => function(){
             return view('react');
@@ -29,6 +36,8 @@ Route::group(['middleware' => ['auth']], function () {
         'as' => 'react',
         'where' => ['path' => '.*']
     ]);
+
+
     Route::resource('committees', 'CommitteeController');
     Route::resource('committee-parameters', 'CommitteeParameterController');
     Route::put('committee-sessions/{id}/update-state', 'CommitteeSessionController@updateState');
@@ -95,9 +104,39 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/userPermissions', function () {
-
     $user = Auth::user();
 
     return  $user->getPermissionsViaRoles();
 
+
 });
+
+
+Route::get('/permis', function () {
+    $user = Auth::user();
+
+    $arreglo = $user->getPermissionsViaRoles();
+    $vacio = [];
+
+    foreach ($arreglo as $key => $value) {
+
+        array_push($vacio, $value->name);
+    }
+
+    // foreach ($vacio as $key ) {
+    //     return  $key;
+    // }
+
+
+    if (!in_array('ass', $vacio)) {
+        return redirect('/app');
+    }
+
+
+
+
+
+
+});
+
+

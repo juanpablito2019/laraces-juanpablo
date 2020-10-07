@@ -28,20 +28,24 @@ export const getByRol = async function(id) {
     }
 };
 
-export const store = async function(form) {
+
+export const store = async (form) => {
     try {
         let fd = new FormData(form);
-        fd.append("_token", token);
-        let res = await fetch("/users", {
-            method: "POST",
-            body: fd
+        fd.append('_token', token);
+        let res = await fetch('/users', {
+            method:'POST',
+            body:fd,
+            headers:{
+                'accept':'application/json'
+            }
         });
         let data = await res.json();
         return data;
     } catch (error) {
         console.log(error);
     }
-};
+}
 
 export const update = async function(form, id) {
     try {
@@ -82,5 +86,34 @@ export const find = async function(id) {
         return data;
     } catch (error) {
         console.log(error);
+    }
+};
+
+export const rules = {
+    name: {
+        // Properties
+        name: 'nombre',
+        type: 'text',
+        message: '',
+        // Rules
+        required: true,
+        isEmpty: true,
+        isInvalid: true
+    },
+    email:{
+        name:'correo',
+        type:'email',
+        message:'',
+        required:true,
+        isEmpty: true,
+        isInvalid:true
+    },
+    password:{
+        name:'contraseña',
+        type:'text',
+        message:'',
+        required:true,
+        isEmpty: true,
+        isInvalid:true
     }
 };

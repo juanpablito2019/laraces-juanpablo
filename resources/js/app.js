@@ -54,14 +54,19 @@ function App() {
                     <ul className="list-unstyled components">
 
                         {routes.map((route, index) => (
-                            route.type == 'menu' ? (
+                            route.type == 'menu' && route.visible ? (
                                 <li key={index}>
                                     <a href={"#submenu" + index} data-toggle="collapse" aria-expanded="false">+ {route.name}</a>
                                     <ul className="collapse list-unstyled" id={"submenu" + index}>
                                         {route.routes.map((subroute, index) => (
-                                            <li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''}>
-                                                <Link to={prefix + subroute.path}>- {subroute.name}</Link>
-                                            </li>
+                                            subroute.visible ? (
+                                                <li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''}>
+                                                    <Link to={prefix + subroute.path}>- {subroute.name}</Link>
+                                                </li>
+                                            ):(
+                                                <div key={index} className=""></div>
+                                            )
+
                                         ))}
 
                                     </ul>

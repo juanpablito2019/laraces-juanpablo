@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Permission;
 
 
 class RoleController extends Controller
@@ -21,32 +22,15 @@ class RoleController extends Controller
     public function index()
     {
 
+        // $user = Auth::user();
 
-        $user = Auth::user();
+        // $user->hasAllRoles(Role::all());
 
-        $user->hasAllRoles(Role::all());
+        // $permissions = Permission::all();
 
-        $role = Role::all();
-
-
-        $permissions = DB::table('permissions')->get();
+        return Role::all();
 
 
-        if($user->hasPermissionTo('list_act_template')){
-
-            return response()->json([
-                'permissions' =>$permissions,
-                'rols' =>Role::all(),
-                'user'=>$user,
-                'message' =>'Welcome'
-            ], 200);
-
-        }else{
-            return response()->json([
-                'permissions' =>$permissions,
-                'message' =>'You have not permissions'
-            ], 403);
-        }
 
 
     }
