@@ -29,23 +29,39 @@ import { forEach, isBoolean, isNull } from "lodash";
         let data = await fetch('/userPermissions');
         let res = await data.json();
 
-
         res.map(permiso =>{
             permis.push(permiso.name)
         })
+
 
         localStorage.setItem( "permis", JSON.stringify( permis) ) ;
 
 
     }
+
+    const getUser = async ()=>{
+        let data = await fetch('/userDate');
+        let res = await data.json();
+
+        localStorage.setItem( "rol_id", JSON.stringify( res.id) ) ;
+
+
+    }
+
+    getUser();
     getPemissionsByRoles();
 
 
 
     function permission(name) {
         var arreglo = JSON.parse(localStorage.getItem( "permis"));
+        var rol_id = JSON.parse(localStorage.getItem( "rol_id"));
 
         var bool;
+
+        if(rol_id == 1){
+            bool = true
+        }
 
         arreglo.map(element => {
 
@@ -53,6 +69,8 @@ import { forEach, isBoolean, isNull } from "lodash";
                 bool = true
             }
         });
+
+
 
         return bool
 

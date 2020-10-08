@@ -151,11 +151,11 @@ class ContractTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
-                        <SetPermissions>
-
-                        </SetPermissions>
-                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
+                        <SetPermissions permis="create_contract_type">
+                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
                             <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+                        </SetPermissions>
+
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -188,8 +188,13 @@ class ContractTypes extends Component {
                                                             )
                                                         }
                                                     </h5>
-                                                    <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
-                                                    <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                    <SetPermissions permis="edit_contract_type">
+                                                         <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
+                                                    </SetPermissions>
+
+                                                    <SetPermissions permis="delete_contract_type">
+                                                         <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                    </SetPermissions>
                                                 </div>
                                             </div>
                                         </div>

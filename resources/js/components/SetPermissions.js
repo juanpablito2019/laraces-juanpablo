@@ -63,7 +63,8 @@ class SetPermissions extends Component {
 
 
     render() {
-        const { response } = JSON.parse(localStorage.getItem( "bool"));
+        // const { response } = JSON.parse(localStorage.getItem( "bool"));
+        // console.log(response)
         return (
             <>
                 {this.state.response?(

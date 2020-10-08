@@ -103,38 +103,19 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/userPermissions', function () {
+
     $user = Auth::user();
 
-    return  $user->getPermissionsViaRoles();
+     return  $user->getPermissionsViaRoles();
 
 
 });
 
 
-Route::get('/permis', function () {
+Route::get('/userDate', function () {
     $user = Auth::user();
 
-    $arreglo = $user->getPermissionsViaRoles();
-    $vacio = [];
-
-    foreach ($arreglo as $key => $value) {
-
-        array_push($vacio, $value->name);
-    }
-
-    // foreach ($vacio as $key ) {
-    //     return  $key;
-    // }
-
-
-    if (!in_array('ass', $vacio)) {
-        return redirect('/app');
-    }
-
-
-
-
-
+     return $user;
 
 });
 

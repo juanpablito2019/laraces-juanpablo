@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
-
 import { index, store, rules, find, update, destroy } from '../containers/ActTemplate';
 import { get as indexStates } from '../containers/CommitteeSessionStates';
-import { validate, formValid, setRules } from '../containers/Validator'
-import {SetPermissions} from '../components/SetPermissions'
+import { validate, formValid, setRules } from '../containers/Validator';
+import SetPermissions from '../components/SetPermissions';
 import moment from 'moment';
 
 class ActTemplates extends Component {
@@ -136,7 +135,6 @@ class ActTemplates extends Component {
                         </SetPermissions>
                     </div>
                 </div>
-                <SetPermissions permis="list_act_template">
                     <div className="row mt-3">
                         <div className="col">
                             <DataTable>
@@ -174,7 +172,6 @@ class ActTemplates extends Component {
                             </DataTable>
                         </div>
                     </div>
-                </SetPermissions>
 
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog modal-lg">

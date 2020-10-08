@@ -29,7 +29,7 @@ class Users extends Component {
 
     async getRoles() {
         let data = await getRoles();
-        this.setState({ roles: data });
+        this.setState({ roles: data.rols });
     }
 
     handleInput(e) {
@@ -212,13 +212,18 @@ class Users extends Component {
 
                                     <div className="form-group">
                                         <label>Asigne un rol</label>
-                                        {this.state.roles.map(rol => (
-                                            <div key={rol.id} className="form-check ">
-                                                <input className="form-check-input" type="radio" id="rol" name="rol" value={rol.id} />
-                                                <label className="form-check-label">{rol.name}</label>
-                                            </div>
-                                        ))}
-
+                                        {this.state.roles.length > 0 ? (
+                                            this.state.roles.map(rol => (
+                                                <div key={rol.id} className="form-check ">
+                                                    <input className="form-check-input" type="radio" id="rol" name="rol" value={rol.id} />
+                                                    <label className="form-check-label">{rol.name}</label>
+                                                </div>
+                                            ))
+                                        ) : (
+                                                <div className="col">
+                                                    <p>No hay datos disponibles</p>
+                                                </div>
+                                            )}
                                     </div>
                                 </form>
                             </div>

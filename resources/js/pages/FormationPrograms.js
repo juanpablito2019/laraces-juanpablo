@@ -180,14 +180,14 @@ class FormationPrograms extends Component {
                     <div className="row mt-3">
                         {this.state.formationPrograms.length > 0 ? (
                             this.state.formationPrograms.map(formationProgram => (
-                                <div className="col-12 col-lg-6 mb-2" key={formationProgram.id}>
+                                <div className="col-12 col-lg-4 mb-2" key={formationProgram.id}>
                                     <div className="card">
                                         <div className="card-body">
                                             <div className="row">
-                                                <div className="col-3 col-lg-3">
+                                                <div className="col-2 m-auto">
                                                     <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
                                                 </div>
-                                                <div className="col-8 ml-3">
+                                                <div className="col-9 ml-2">
                                                     <h5>
                                                         {
                                                             (formationProgram.name.split('-')[1]).length > 22 ? (

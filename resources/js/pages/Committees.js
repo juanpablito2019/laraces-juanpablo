@@ -5,7 +5,7 @@ import { getByRol } from "../containers/User";
 import {find as findGeneralParameter} from '../containers/GeneralParameters';
 import Loader from "../components/Loader";
 import { formValid, validate, setRules } from "../containers/Validator";
-import {SetPermissions} from '../components/SetPermissions'
+import SetPermissions from '../components/SetPermissions'
 import moment from 'moment';
 
 class Committees extends Component {
