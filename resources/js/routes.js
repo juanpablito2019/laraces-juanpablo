@@ -55,7 +55,7 @@ import Rol from "./pages/CreateRoles";
         getUser();
         getPemissionsByRoles();
 
-         arreglo = JSON.parse(localStorage.getItem( "permis"));
+        arreglo = JSON.parse(localStorage.getItem( "permis"));
         var rol_id = JSON.parse(localStorage.getItem( "rol_id"));
 
         var bool;
