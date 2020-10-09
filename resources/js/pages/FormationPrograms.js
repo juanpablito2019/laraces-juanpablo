@@ -176,7 +176,6 @@ class FormationPrograms extends Component {
                         </div>
                     </div>
                 </div>
-                <SetPermissions permis="list_formation_program">
                     <div className="row mt-3">
                         {this.state.formationPrograms.length > 0 ? (
                             this.state.formationPrograms.map(formationProgram => (
@@ -201,13 +200,13 @@ class FormationPrograms extends Component {
                                                     <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
 
                                                     <div className="row">
-                                                        <div className="col-2">
+                                                        <div className="col-3">
                                                             <SetPermissions permis="edit_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
                                                             </SetPermissions>
 
                                                         </div>
-                                                        <div className="col-3">
+                                                        <div className="col-5">
                                                             <SetPermissions permis="delete_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
                                                             </SetPermissions>
@@ -229,7 +228,6 @@ class FormationPrograms extends Component {
                                 </div>
                             )}
                     </div>
-                </SetPermissions>
 
                 <div className="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">

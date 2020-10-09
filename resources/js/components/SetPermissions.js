@@ -37,7 +37,7 @@ class SetPermissions extends Component {
 
         var bool = Boolean(0);
 
-        arreglo.forEach(element => {
+        arreglo.map(element => {
             if(element == name){
                 bool = true
 
