@@ -57,7 +57,6 @@ import Rol from "./pages/CreateRoles";
 
         arreglo = JSON.parse(localStorage.getItem( "permis"));
         var rol_id = JSON.parse(localStorage.getItem( "rol_id"));
-
         var bool;
 
         if(rol_id == 1){

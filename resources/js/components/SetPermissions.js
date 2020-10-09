@@ -21,9 +21,12 @@ class SetPermissions extends Component {
 
         localStorage.setItem( "permis", JSON.stringify( res ) ) ;
 
-            res.forEach(element => {
-                localStorage.setItem( "idRol", JSON.stringify( element.pivot.role_id  ) ) ;
-            });
+
+        let users = await fetch('/userDate');
+        let dat = await users.json();
+
+        localStorage.setItem( "idRol", JSON.stringify( dat.id ) ) ;
+
 
         this.setState({ permissions: res });
         this.setState({ permis: permis });
@@ -34,6 +37,7 @@ class SetPermissions extends Component {
 
         var arreglo = JSON.parse(localStorage.getItem( "permis"));
         var idRol = JSON.parse(localStorage.getItem( "idRol"));
+
 
         var bool = Boolean(0);
 
