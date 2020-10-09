@@ -13,7 +13,7 @@ class Roles extends Component {
 
     async getRols(){
         let data = await get();
-        this.setState({rols: data})
+        this.setState({rols: data.rols})
     }
 
     componentDidMount(){

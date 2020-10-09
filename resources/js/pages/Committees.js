@@ -5,6 +5,7 @@ import { getByRol } from "../containers/User";
 import {find as findGeneralParameter} from '../containers/GeneralParameters';
 import Loader from "../components/Loader";
 import { formValid, validate, setRules } from "../containers/Validator";
+import SetPermissions from '../components/SetPermissions'
 import moment from 'moment';
 
 class Committees extends Component {
@@ -156,67 +157,79 @@ class Committees extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Comités</h3>
-                        <a href="#" onClick={this.handleModal}>
-                            <i className="fa fa-plus" aria-hidden="true"></i>{" "}
-                            Nuevo comité
-                        </a>
+                        <SetPermissions permis="create_committee">
+                            <a href="#" onClick={this.handleModal}>
+                                <i className="fa fa-plus" aria-hidden="true"></i>{" "}
+                                Nuevo comité
+                            </a>
+                        </SetPermissions>
+
                     </div>
                 </div>
-                <div className="row mt-3">
-                    {this.state.committes.length > 0 ? (
-                        this.state.committes.map((committe, i) => (
-                            <div className="col-4" key={i}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col">
-                                                <div className="card-title border-bottom">
-                                                    <Link to={"/app/committees/" + committe.id}>
-                                                        <h5>
-                                                            {moment(committe.date).format('LL')}
-                                                        </h5>
-                                                    </Link>
-                                                </div>
-                                                <div className="card-text">
-                                                    <h6>
-                                                        Numero de acta:{" "}
-                                                        <span className="text-muted">
-                                                            {committe.record_number}
-                                                        </span>
-                                                    </h6>
-                                                    <h6>
-                                                        Hora:{" "}
-                                                        <span className="text-muted">
-                                                            {moment(committe.start_hour, 'HH:mm').format('hh:mm A')} a {moment(committe.end_hour, 'HH:mm').format('hh:mm A')}
-                                                        </span>
-                                                    </h6>
-                                                    <h6>
-                                                        Lugar:{" "}
-                                                        <span className="text-muted">
-                                                            {committe.place}
-                                                        </span>
-                                                    </h6>
-                                                    <h6 className="mb-3">
-                                                        Centro de formacion:{" "}
-                                                        <span className="text-muted">
-                                                            {committe.formation_center}
-                                                        </span>
-                                                    </h6>
-                                                    <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
-                                                    <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
+                <SetPermissions permis="list_committee">
+                    <div className="row mt-3">
+                        {this.state.committes.length > 0 ? (
+                            this.state.committes.map((committe, i) => (
+                                <div className="col-4" key={i}>
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <div className="row">
+                                                <div className="col">
+                                                    <div className="card-title border-bottom">
+                                                        <Link to={"/app/committees/" + committe.id}>
+                                                            <h5>
+                                                                {moment(committe.date).format('LL')}
+                                                            </h5>
+                                                        </Link>
+                                                    </div>
+                                                    <div className="card-text">
+                                                        <h6>
+                                                            Numero de acta:{" "}
+                                                            <span className="text-muted">
+                                                                {committe.record_number}
+                                                            </span>
+                                                        </h6>
+                                                        <h6>
+                                                            Hora:{" "}
+                                                            <span className="text-muted">
+                                                                {moment(committe.start_hour, 'HH:mm').format('hh:mm A')} a {moment(committe.end_hour, 'HH:mm').format('hh:mm A')}
+                                                            </span>
+                                                        </h6>
+                                                        <h6>
+                                                            Lugar:{" "}
+                                                            <span className="text-muted">
+                                                                {committe.place}
+                                                            </span>
+                                                        </h6>
+                                                        <h6 className="mb-3">
+                                                            Centro de formacion:{" "}
+                                                            <span className="text-muted">
+                                                                {committe.formation_center}
+                                                            </span>
+                                                        </h6>
+
+                                                        <SetPermissions permis="edit_committee">
+                                                            <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
+                                                        </SetPermissions>
+
+                                                        <SetPermissions permis="delete_committee">
+                                                            <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
+                                                        </SetPermissions>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
-                </div>
+                            ))
+                        ) : (
+                                <div className="col">
+                                    <p>No hay datos disponibles</p>
+                                </div>
+                            )}
+                    </div>
+                </SetPermissions>
+
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">

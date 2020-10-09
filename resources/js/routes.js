@@ -20,43 +20,67 @@ import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
 import Rol from "./pages/CreateRoles";
-import { forEach, isBoolean, isNull } from "lodash";
 
-
-    var permis = new Array;
-
-    const getPemissionsByRoles = async ()=>{
-        let data = await fetch('/userPermissions');
-        let res = await data.json();
-
-
-        res.map(permiso =>{
-            permis.push(permiso.name)
-        })
-
-        localStorage.setItem( "permis", JSON.stringify( permis) ) ;
-
-
-    }
-    getPemissionsByRoles();
 
 
 
     function permission(name) {
-        var arreglo = JSON.parse(localStorage.getItem( "permis"));
+        var arreglo = new Array;
+        var permis = new Array;
+
+
+        const getPemissionsByRoles = async ()=>{
+            let data = await fetch('/userPermissions');
+            let res = await data.json();
+
+            res.map(permiso =>{
+                permis.push(permiso.name)
+            })
+
+            localStorage.setItem( "permis", JSON.stringify( permis));
+
+            arreglo = JSON.parse(localStorage.getItem( "permis"));
+
+
+        }
+
+        const getUser = async ()=>{
+            let data = await fetch('/userDate');
+            let res = await data.json();
+
+            localStorage.setItem( "rol_id", JSON.stringify( res.id) ) ;
+
+        }
+
+        getUser();
+        getPemissionsByRoles();
+
+         arreglo = JSON.parse(localStorage.getItem( "permis"));
+        var rol_id = JSON.parse(localStorage.getItem( "rol_id"));
 
         var bool;
 
-        arreglo.map(element => {
+        if(rol_id == 1){
+            bool = true
+        }
 
-            if(name == element){
-                bool = true
-            }
-        });
+
+        if(arreglo){
+
+            arreglo.map(element => {
+
+                if(name == element){
+                    bool = true
+                }
+            });
+
+        }
 
         return bool
 
     }
+
+    permission('name');
 
 
 

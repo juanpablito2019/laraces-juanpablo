@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/FormationPrograms';
 import {get as getFormationProgramTypes} from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
+import SetPermissions from '../components/SetPermissions';
 import { formValid, validate, setRules } from '../containers/Validator';
 
 class FormationPrograms extends Component {
@@ -158,8 +159,11 @@ class FormationPrograms extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Programas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo programa de formacion</span></a>
-                        <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
+                        <SetPermissions permis="create_formation_program">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo programa de formacion</span></a>
+                            <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
+                        </SetPermissions>
+
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -172,42 +176,59 @@ class FormationPrograms extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-3">
-                    {this.state.formationPrograms.length > 0 ? (
-                        this.state.formationPrograms.map(formationProgram => (
-                            <div className="col-12 col-lg-6 mb-2" key={formationProgram.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-3 col-lg-3">
-                                                <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
-                                            </div>
-                                            <div className="col-8 ml-3">
-                                                <h5>
-                                                    {
-                                                        (formationProgram.name.split('-')[1]).length > 22 ? (
-                                                            ((formationProgram.name.split('-')[1]).substring(0,22)+'...')
-                                                        ) : (
-                                                            formationProgram.name.split('-')[1]
-                                                        )
-                                                    }
-                                                </h5>
-                                                <h6 className="text-muted">{formationProgram.code}</h6>
-                                                <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
-                                                <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
-                                                <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
+                    <div className="row mt-3">
+                        {this.state.formationPrograms.length > 0 ? (
+                            this.state.formationPrograms.map(formationProgram => (
+                                <div className="col-12 col-lg-4 mb-2" key={formationProgram.id}>
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <div className="row">
+                                                <div className="col-2 m-auto">
+                                                    <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
+                                                </div>
+                                                <div className="col-9 ml-2">
+                                                    <h5>
+                                                        {
+                                                            (formationProgram.name.split('-')[1]).length > 22 ? (
+                                                                ((formationProgram.name.split('-')[1]).substring(0,22)+'...')
+                                                            ) : (
+                                                                formationProgram.name.split('-')[1]
+                                                            )
+                                                        }
+                                                    </h5>
+                                                    <h6 className="text-muted">{formationProgram.code}</h6>
+                                                    <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
+
+                                                    <div className="row">
+                                                        <div className="col-3">
+                                                            <SetPermissions permis="edit_formation_program">
+                                                                <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
+                                                            </SetPermissions>
+
+                                                        </div>
+                                                        <div className="col-5">
+                                                            <SetPermissions permis="delete_formation_program">
+                                                                <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
+                                                            </SetPermissions>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
-                </div>
+                            ))
+                        ) : (
+                                <div className="col">
+                                    <p>No hay datos disponibles</p>
+                                </div>
+                            )}
+                    </div>
+
                 <div className="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -254,8 +275,8 @@ class FormationPrograms extends Component {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="formation_program_type_id">Tipo de programa <span className="text-danger">*</span></label>
-                                        <select 
-                                            name="formation_program_type_id" 
+                                        <select
+                                            name="formation_program_type_id"
                                             id="formation_program_type_id"
                                             className={rules.formation_program_type_id.isInvalid && rules.formation_program_type_id.message != ''?'form-control is-invalid':'form-control'}
                                             onInput={this.handleInput}

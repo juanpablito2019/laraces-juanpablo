@@ -37,7 +37,7 @@ class SetPermissions extends Component {
 
         var bool = Boolean(0);
 
-        arreglo.forEach(element => {
+        arreglo.map(element => {
             if(element == name){
                 bool = true
 
@@ -63,8 +63,8 @@ class SetPermissions extends Component {
 
 
     render() {
-        const { response } = JSON.parse(localStorage.getItem( "bool"));
-
+        // const { response } = JSON.parse(localStorage.getItem( "bool"));
+        // console.log(response)
         return (
             <>
                 {this.state.response?(
