@@ -41,17 +41,23 @@ class SetPermissions extends Component {
 
         var bool = Boolean(0);
 
-        arreglo.map(element => {
-            if(element == name){
-                bool = true
 
-                this.setState({ response: bool});
-            }
-        });
 
         if(idRol == 1){
+
             bool = true
             this.setState({ response: bool});
+
+        }else{
+
+            arreglo.map(element => {
+                if(element == name){
+                    bool = true
+
+                    this.setState({ response: bool});
+                }
+            });
+
         }
 
 
