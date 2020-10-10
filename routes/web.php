@@ -105,8 +105,9 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/userPermissions', function () {
 
     $user = Auth::user();
-
+    if($user) {
      return  $user->getPermissionsViaRoles();
+    }
 
 
 });
@@ -114,8 +115,9 @@ Route::get('/userPermissions', function () {
 
 Route::get('/userDate', function () {
     $user = Auth::user();
-
+    if($user){
      return $user;
+    }
 
 });
 

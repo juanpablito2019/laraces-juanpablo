@@ -21,15 +21,14 @@ class RoleController extends Controller
      */
     public function index()
     {
-
-        // $user = Auth::user();
-
-        // $user->hasAllRoles(Role::all());
+        $user = Auth::user();
 
 
         return response()->json([
             'rols'=>Role::all(),
-            'permissions'=>Permission::all()
+            'permissions'=>Permission::all(),
+            'user'=>$user = Auth::user(),
+            'userPermissions'=>$user->getPermissionsViaRoles()
         ]);
 
 
