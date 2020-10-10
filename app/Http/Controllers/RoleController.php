@@ -26,11 +26,11 @@ class RoleController extends Controller
 
         // $user->hasAllRoles(Role::all());
 
-        // $permissions = Permission::all();
 
-        return Role::all();
-
-
+        return response()->json([
+            'rols'=>Role::all(),
+            'permissions'=>Permission::all()
+        ]);
 
 
     }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
-
 import { index, store, rules, find, update, destroy } from '../containers/ActTemplate';
 import { get as indexStates } from '../containers/CommitteeSessionStates';
-import { validate, formValid, setRules } from '../containers/Validator'
+import { validate, formValid, setRules } from '../containers/Validator';
+import SetPermissions from '../components/SetPermissions';
 import moment from 'moment';
 
 class ActTemplates extends Component {
@@ -130,41 +130,49 @@ class ActTemplates extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Plantillas de actas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva plantilla</a>
+                        <SetPermissions permis="create_act_template">
+                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva plantilla</a>
+                        </SetPermissions>
                     </div>
                 </div>
-                <div className="row mt-3">
-                    <div className="col">
-                        <DataTable>
-                            <thead>
-                                <tr>
-                                    <th>Tipo de acta</th>
-                                    <th>Version</th>
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.actTemplates.map((actTemplate, i) => (
-                                    <tr key={i}>
-                                        <td>{actTemplate.act_type}</td>
-                                        <td>{actTemplate.version}</td>
-                                        <td>{moment(actTemplate.date).format('LL')}</td>
-                                        <td>{actTemplate.is_active == 1 ? (<span className="badge badge-success">Activa</span>) : <span className="badge badge-secondary">Inactiva</span>}</td>
-                                        <td>
-                                            <div className="btn-group" role="group" aria-label="Basic example">
-                                                <button data-id={actTemplate.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                <button data-id={actTemplate.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
-                                            </div>
-                                        </td>
+                    <div className="row mt-3">
+                        <div className="col">
+                            <DataTable>
+                                <thead>
+                                    <tr>
+                                        <th>Tipo de acta</th>
+                                        <th>Version</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
                                     </tr>
-                                ))
-                                }
-                            </tbody>
-                        </DataTable>
+                                </thead>
+                                <tbody>
+                                    {this.state.actTemplates.map((actTemplate, i) => (
+                                        <tr key={i}>
+                                            <td>{actTemplate.act_type}</td>
+                                            <td>{actTemplate.version}</td>
+                                            <td>{moment(actTemplate.date).format('LL')}</td>
+                                            <td>{actTemplate.is_active == 1 ? (<span className="badge badge-success">Activa</span>) : <span className="badge badge-secondary">Inactiva</span>}</td>
+                                            <td>
+                                                <div className="btn-group" role="group" aria-label="Basic example">
+                                                    <SetPermissions permis="edit_act_template">
+                                                        <button data-id={actTemplate.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+                                                    </SetPermissions>
+
+                                                    <SetPermissions permis="delete_act_template">
+                                                      <button data-id={actTemplate.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                    </SetPermissions>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                    }
+                                </tbody>
+                            </DataTable>
+                        </div>
                     </div>
-                </div>
+
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">
