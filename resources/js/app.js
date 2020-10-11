@@ -103,7 +103,7 @@ function App() {
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                             <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
                                             <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
-                                            <a className="dropdown-item" href="#">Cerrar session</a>
+                                            <a className="dropdown-item" href={prefix + "/logout"}>Cerrar session</a>
                                         </div>
                                     </li>
                                 </ul>

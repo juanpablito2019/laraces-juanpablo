@@ -26,6 +26,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('app/logout', function() {
+    session()->flush();
+    return redirect('login');
+});
 
 Route::group(['middleware' => ['auth']], function () {
 
