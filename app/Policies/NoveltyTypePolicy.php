@@ -18,7 +18,9 @@ class NoveltyTypePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_novelty_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_novelty_type')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class NoveltyTypePolicy
      */
     public function view(User $user, NoveltyType $noveltyType)
     {
-        if($user->hasPermissionTo('edit_novelty_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_novelty_type')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class NoveltyTypePolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_novelty_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_novelty_type')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class NoveltyTypePolicy
      */
     public function update(User $user, NoveltyType $noveltyType)
     {
-        if($user->hasPermissionTo('update_novelty_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_novelty_type')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class NoveltyTypePolicy
      */
     public function delete(User $user, NoveltyType $noveltyType)
     {
-        if($user->hasPermissionTo('delete_novelty_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_novelty_type')){
             return true;
         }
     }

@@ -18,7 +18,9 @@ class CommitteePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_committee')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_committee')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class CommitteePolicy
      */
     public function view(User $user, Committee $committee)
     {
-        if($user->hasPermissionTo('edit_committee')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_committee')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class CommitteePolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_committee')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_committee')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class CommitteePolicy
      */
     public function update(User $user, Committee $committee)
     {
-        if($user->hasPermissionTo('update_committee')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_committee')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class CommitteePolicy
      */
     public function delete(User $user, Committee $committee)
     {
-        if($user->hasPermissionTo('delete_committee')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_committee')){
             return true;
         }
     }

@@ -18,7 +18,9 @@ class FormativeMeasurePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_formative_measure')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_formative_measure')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class FormativeMeasurePolicy
      */
     public function view(User $user, FormativeMeasure $formativeMeasure)
     {
-        if($user->hasPermissionTo('edit_formative_measure')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_formative_measure')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class FormativeMeasurePolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_formative_measure')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_formative_measure')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class FormativeMeasurePolicy
      */
     public function update(User $user, FormativeMeasure $formativeMeasure)
     {
-        if($user->hasPermissionTo('update_formative_measure')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_formative_measure')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class FormativeMeasurePolicy
      */
     public function delete(User $user, FormativeMeasure $formativeMeasure)
     {
-        if($user->hasPermissionTo('delete_formative_measure')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_formative_measure')){
             return true;
         }
     }

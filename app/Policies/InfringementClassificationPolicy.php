@@ -18,7 +18,9 @@ class InfringementClassificationPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_infringement_classification')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_infringement_classification')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class InfringementClassificationPolicy
      */
     public function view(User $user, InfringementClassification $infringementClassification)
     {
-        if($user->hasPermissionTo('edit_infringement_classification')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_infringement_classification')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class InfringementClassificationPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_infringement_classification')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_infringement_classification')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class InfringementClassificationPolicy
      */
     public function update(User $user, InfringementClassification $infringementClassification)
     {
-        if($user->hasPermissionTo('update_infringement_classification')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_infringement_classification')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class InfringementClassificationPolicy
      */
     public function delete(User $user, InfringementClassification $infringementClassification)
     {
-        if($user->hasPermissionTo('delete_infringement_classification')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_infringement_classification')){
             return true;
         }
     }

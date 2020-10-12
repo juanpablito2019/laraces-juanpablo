@@ -18,7 +18,9 @@ class ContractTypePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_contract_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_contract_type')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class ContractTypePolicy
      */
     public function view(User $user, ContractType $contractType)
     {
-        if($user->hasPermissionTo('edit_contract_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_contract_type')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class ContractTypePolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_contract_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_contract_type')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class ContractTypePolicy
      */
     public function update(User $user, ContractType $contractType)
     {
-        if($user->hasPermissionTo('update_contract_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_contract_type')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class ContractTypePolicy
      */
     public function delete(User $user, ContractType $contractType)
     {
-        if($user->hasPermissionTo('delete_contract_type')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_contract_type')){
             return true;
         }
     }

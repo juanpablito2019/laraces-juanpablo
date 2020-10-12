@@ -18,7 +18,9 @@ class ModalityPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_modality')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_modality')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class ModalityPolicy
      */
     public function view(User $user, Modality $modality)
     {
-        if($user->hasPermissionTo('edit_modality')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_modality')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class ModalityPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_modality')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_modality')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class ModalityPolicy
      */
     public function update(User $user, Modality $modality)
     {
-        if($user->hasPermissionTo('update_modality')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_modality')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class ModalityPolicy
      */
     public function delete(User $user, Modality $modality)
     {
-        if($user->hasPermissionTo('delete_modality')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_modality')){
             return true;
         }
     }

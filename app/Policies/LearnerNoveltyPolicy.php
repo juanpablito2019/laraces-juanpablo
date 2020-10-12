@@ -18,7 +18,9 @@ class LearnerNoveltyPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_learner_novelty')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_learner_novelty')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class LearnerNoveltyPolicy
      */
     public function view(User $user, LearnerNovelty $learnerNovelty)
     {
-        if($user->hasPermissionTo('edit_learner_novelty')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_learner_novelty')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class LearnerNoveltyPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_learner_novelty')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_learner_novelty')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class LearnerNoveltyPolicy
      */
     public function update(User $user, LearnerNovelty $learnerNovelty)
     {
-        if($user->hasPermissionTo('update_learner_novelty')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_learner_novelty')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class LearnerNoveltyPolicy
      */
     public function delete(User $user, LearnerNovelty $learnerNovelty)
     {
-        if($user->hasPermissionTo('delete_learner_novelty')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_learner_novelty')){
             return true;
         }
     }

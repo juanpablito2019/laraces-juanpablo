@@ -18,7 +18,9 @@ class PositionPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_position')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_position')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class PositionPolicy
      */
     public function view(User $user, Position $position)
     {
-        if($user->hasPermissionTo('edit_position')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_position')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class PositionPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_position')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_position')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class PositionPolicy
      */
     public function update(User $user, Position $position)
     {
-        if($user->hasPermissionTo('update_position')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_position')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class PositionPolicy
      */
     public function delete(User $user, Position $position)
     {
-        if($user->hasPermissionTo('delete_position')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_position')){
             return true;
         }
     }

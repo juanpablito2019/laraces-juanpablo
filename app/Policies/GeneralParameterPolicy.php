@@ -20,6 +20,8 @@ class GeneralParameterPolicy
     {
         if($user->hasPermissionTo('list_general_parameter')){
             return true;
+        }if($user->hasRole('SuperAdmin')){
+            return true;
         }
     }
 
@@ -32,7 +34,9 @@ class GeneralParameterPolicy
      */
     public function view(User $user, GeneralParameter $generalParameter)
     {
-        if($user->hasPermissionTo('edit_general_parameter')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_general_parameter')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class GeneralParameterPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_general_parameter')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_general_parameter')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class GeneralParameterPolicy
      */
     public function update(User $user, GeneralParameter $generalParameter)
     {
-        if($user->hasPermissionTo('update_general_parameter')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_general_parameter')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class GeneralParameterPolicy
      */
     public function delete(User $user, GeneralParameter $generalParameter)
     {
-        if($user->hasPermissionTo('delete_general_parameter')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_general_parameter')){
             return true;
         }
     }

@@ -18,7 +18,9 @@ class GroupPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_group')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_group')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class GroupPolicy
      */
     public function view(User $user, Group $group)
     {
-        if($user->hasPermissionTo('edit_group')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_group')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class GroupPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_group')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_group')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
-        if($user->hasPermissionTo('update_group')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_group')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        if($user->hasPermissionTo('delete_group')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_group')){
             return true;
         }
     }

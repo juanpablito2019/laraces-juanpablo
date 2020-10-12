@@ -18,7 +18,9 @@ class StimulusPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_stimulus')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_stimulus')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class StimulusPolicy
      */
     public function view(User $user, Stimulus $stimulus)
     {
-        if($user->hasPermissionTo('edit_stimulus')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_stimulus')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class StimulusPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_stimulus')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_stimulus')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class StimulusPolicy
      */
     public function update(User $user, Stimulus $stimulus)
     {
-        if($user->hasPermissionTo('update_stimulus')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_stimulus')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class StimulusPolicy
      */
     public function delete(User $user, Stimulus $stimulus)
     {
-        if($user->hasPermissionTo('delete_stimulus')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_stimulus')){
             return true;
         }
     }

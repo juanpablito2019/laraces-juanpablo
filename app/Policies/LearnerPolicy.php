@@ -18,7 +18,9 @@ class LearnerPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_learner')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_learner')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class LearnerPolicy
      */
     public function view(User $user, Learner $learner)
     {
-        if($user->hasPermissionTo('edit_learner')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_learner')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class LearnerPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_learner')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_learner')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class LearnerPolicy
      */
     public function update(User $user, Learner $learner)
     {
-        if($user->hasPermissionTo('update_learner')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_learner')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class LearnerPolicy
      */
     public function delete(User $user, Learner $learner)
     {
-        if($user->hasPermissionTo('delete_learner')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_learner')){
             return true;
         }
     }

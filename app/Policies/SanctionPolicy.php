@@ -18,7 +18,9 @@ class SanctionPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_sanction')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_sanction')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class SanctionPolicy
      */
     public function view(User $user, Sanction $sanction)
     {
-        if($user->hasPermissionTo('edit_sanction')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_sanction')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class SanctionPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_sanction')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_sanction')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class SanctionPolicy
      */
     public function update(User $user, Sanction $sanction)
     {
-        if($user->hasPermissionTo('update_sanction')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_sanction')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class SanctionPolicy
      */
     public function delete(User $user, Sanction $sanction)
     {
-        if($user->hasPermissionTo('delete_sanction')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_sanction')){
             return true;
         }
     }

@@ -18,7 +18,9 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_role') && $user->hasRole('SuperAdmin')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_role') && $user->hasRole('SuperAdmin')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        if($user->hasPermissionTo('edit_role') && $user->hasRole('SuperAdmin')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_role') && $user->hasRole('SuperAdmin')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_role') && $user->hasRole('SuperAdmin')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_role')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        if($user->hasPermissionTo('update_role') && $user->hasRole('SuperAdmin')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_role')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        if($user->hasPermissionTo('delete_role') && $user->hasRole('SuperAdmin')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_role')){
             return true;
         }
     }

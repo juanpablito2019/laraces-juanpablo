@@ -18,7 +18,9 @@ class FormationProgramPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_formation_program')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_formation_program')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class FormationProgramPolicy
      */
     public function view(User $user, FormationProgram $formationProgram)
     {
-        if($user->hasPermissionTo('edit_formation_program')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_formation_program')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class FormationProgramPolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_formation_program')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_formation_program')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class FormationProgramPolicy
      */
     public function update(User $user, FormationProgram $formationProgram)
     {
-        if($user->hasPermissionTo('update_formation_program')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_formation_program')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class FormationProgramPolicy
      */
     public function delete(User $user, FormationProgram $formationProgram)
     {
-        if($user->hasPermissionTo('delete_formation_program')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_formation_program')){
             return true;
         }
     }

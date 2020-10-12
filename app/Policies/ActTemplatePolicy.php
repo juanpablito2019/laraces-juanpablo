@@ -18,7 +18,9 @@ class ActTemplatePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_act_template')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('list_act_template')){
             return true;
         }
     }
@@ -32,7 +34,9 @@ class ActTemplatePolicy
      */
     public function view(User $user, ActTemplate $actTemplate)
     {
-        if($user->hasPermissionTo('edit_act_template')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('edit_act_template')){
             return true;
         }
     }
@@ -45,7 +49,9 @@ class ActTemplatePolicy
      */
     public function create(User $user)
     {
-        if($user->hasPermissionTo('create_act_template')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('create_act_template')){
             return true;
         }
     }
@@ -59,7 +65,9 @@ class ActTemplatePolicy
      */
     public function update(User $user, ActTemplate $actTemplate)
     {
-        if($user->hasPermissionTo('update_act_template')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('update_act_template')){
             return true;
         }
     }
@@ -73,7 +81,9 @@ class ActTemplatePolicy
      */
     public function delete(User $user, ActTemplate $actTemplate)
     {
-        if($user->hasPermissionTo('delete_act_template')){
+        if($user->hasRole('SuperAdmin')){
+            return true;
+        }if($user->hasPermissionTo('delete_act_template')){
             return true;
         }
     }
