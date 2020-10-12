@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Sanction;
 use Illuminate\Http\Request;
 use App\Http\Requests\SanctionRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class SanctionController extends Controller
 {
@@ -15,6 +16,15 @@ class SanctionController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [Sanction::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         return Sanction::all();
     }
 
@@ -26,6 +36,15 @@ class SanctionController extends Controller
      */
     public function store(SanctionRequest $request)
     {
+        try {
+            $this->authorize('create', [Sanction::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         Sanction::create([
             'name' => $request->get('name')
         ]);
@@ -44,6 +63,15 @@ class SanctionController extends Controller
      */
     public function show(Sanction $sanction)
     {
+        try {
+            $this->authorize('view', [Sanction::class, $sanction]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $sanction;
     }
 
@@ -56,6 +84,15 @@ class SanctionController extends Controller
      */
     public function update(SanctionRequest $request, Sanction $sanction)
     {
+        try {
+            $this->authorize('update', [Sanction::class, $sanction]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $sanction->name = $request->get('name');
         $sanction->save();
         return response()->json([
@@ -73,6 +110,15 @@ class SanctionController extends Controller
      */
     public function destroy(Sanction $sanction)
     {
+        try {
+            $this->authorize('delete', [Sanction::class, $sanction]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $sanction->delete();
             return response()->json([

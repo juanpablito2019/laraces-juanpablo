@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CommitteeSessionState;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class CommitteeSessionStateController extends Controller
 {
@@ -14,6 +15,15 @@ class CommitteeSessionStateController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [CommitteeSessionState::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
        return CommitteeSessionState::all();
     }
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InfringementClassificationRequest;
-use App\InfringementClassification;
 use Illuminate\Http\Request;
+use App\InfringementClassification;
+use Illuminate\Auth\Access\AuthorizationException;
+use App\Http\Requests\InfringementClassificationRequest;
 
 class InfringementClassificationController extends Controller
 {
@@ -15,6 +16,15 @@ class InfringementClassificationController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [InfringementClassification::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return InfringementClassification::all();
     }
 
@@ -26,6 +36,15 @@ class InfringementClassificationController extends Controller
      */
     public function store(InfringementClassificationRequest $request)
     {
+        try {
+            $this->authorize('create', [InfringementClassification::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         InfringementClassification::create([
             'name' => $request->get('name')
         ]);
@@ -44,6 +63,15 @@ class InfringementClassificationController extends Controller
      */
     public function show(InfringementClassification $infringementClassification)
     {
+        try {
+            $this->authorize('view', [InfringementClassification::class, $infringementClassification]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $infringementClassification;
     }
 
@@ -56,6 +84,15 @@ class InfringementClassificationController extends Controller
      */
     public function update(InfringementClassificationRequest $request, InfringementClassification $infringementClassification)
     {
+        try {
+            $this->authorize('update', [InfringementClassification::class, $infringementClassification]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $infringementClassification->name = $request->get('name');
         $infringementClassification->save();
         return response()->json([
@@ -73,6 +110,15 @@ class InfringementClassificationController extends Controller
      */
     public function destroy(InfringementClassification $infringementClassification)
     {
+        try {
+            $this->authorize('delete', [InfringementClassification::class, $infringementClassification]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $infringementClassification->delete();
         return response()->json([
             'status'=>200,

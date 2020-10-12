@@ -153,7 +153,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $cordi->givePermissionTo('list_formation_program');
         $cordi->givePermissionTo('list_group');
         $cordi->givePermissionTo('list_learner');
-        $admin->givePermissionTo('list_position');
+        $cordi->givePermissionTo('list_position');
         $cordi->givePermissionTo('list_learner_novelty');
         $cordi->givePermissionTo('list_stimulus');
 
@@ -164,7 +164,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $subdi->givePermissionTo('list_formation_program');
         $subdi->givePermissionTo('list_group');
         $subdi->givePermissionTo('list_learner');
-        $admin->givePermissionTo('list_position');
+        $subdi->givePermissionTo('list_position');
         $subdi->givePermissionTo('list_learner_novelty');
         $subdi->givePermissionTo('list_stimulus');
     }

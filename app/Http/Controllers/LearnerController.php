@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LearnerRequest;
 use App\Learner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Http\Requests\LearnerRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class LearnerController extends Controller
 {
@@ -17,6 +18,15 @@ class LearnerController extends Controller
      */
     public function index(Request $request)
     {
+        try {
+            $this->authorize('viewAny', [Learner::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return Learner::with('group.modality', 'group.formationProgram.formationProgramType')->get();
     }
 
@@ -28,6 +38,15 @@ class LearnerController extends Controller
      */
     public function store(LearnerRequest $request)
     {
+        try {
+            $this->authorize('create', [Learner::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $learner = new Learner();
         $learner->name = $request->get('name');
         $learner->document_type = $request->get('document_type');
@@ -61,6 +80,15 @@ class LearnerController extends Controller
      */
     public function show(Learner $learner)
     {
+        try {
+            $this->authorize('view', [Learner::class, $learner]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $learner->group->formationProgram;
         return $learner;
     }
@@ -74,6 +102,15 @@ class LearnerController extends Controller
      */
     public function update(LearnerRequest $request, Learner $learner)
     {
+        try {
+            $this->authorize('update', [Learner::class, $learner]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $learner->name = $request->get('name');
         $learner->document_type = $request->get('document_type');
         $learner->document = $request->get('document');
@@ -113,6 +150,15 @@ class LearnerController extends Controller
     public function destroy(Learner $learner)
     {
         try {
+            $this->authorize('delete', [Learner::class, $learner]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
+        try {
             if($learner->photo){
                 if(File::exists(public_path("/storage/".$learner->photo))){
                     File::delete(public_path("/storage/".$learner->photo));
@@ -138,6 +184,15 @@ class LearnerController extends Controller
 
     public function import(Request $request)
     {
+        try {
+            $this->authorize('create', [Learner::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         $group_id = $request->get('group_id');
         $file = $request->file('csv');
         $readCsv = array_map('str_getcsv', file($file));
