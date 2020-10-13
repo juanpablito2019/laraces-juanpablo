@@ -183,10 +183,10 @@ class FormationPrograms extends Component {
                                     <div className="card">
                                         <div className="card-body">
                                             <div className="row">
-                                                <div className="col-2 m-auto">
+                                                <div className="col-4">
                                                     <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
                                                 </div>
-                                                <div className="col-9 ml-2">
+                                                <div className="col-7 ml-1">
                                                     <h5>
                                                         {
                                                             (formationProgram.name.split('-')[1]).length > 22 ? (
@@ -200,21 +200,18 @@ class FormationPrograms extends Component {
                                                     <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
 
                                                     <div className="row">
-                                                        <div className="col-3">
+                                                        <div className="col">
                                                             <SetPermissions permis="edit_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
                                                             </SetPermissions>
 
                                                         </div>
-                                                        <div className="col-5">
+                                                        <div className="col">
                                                             <SetPermissions permis="delete_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
                                                             </SetPermissions>
                                                         </div>
                                                     </div>
-
-
-
 
                                                 </div>
                                             </div>
