@@ -4,6 +4,7 @@ import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Ckeditor from '../components/Ckeditor';
 import { findActive } from '../containers/ActTemplate';
+import SetPermissions from '../components/SetPermissions';
 
 class CommitteeParameters extends Component {
     constructor(props) {
@@ -145,7 +146,9 @@ class CommitteeParameters extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Parámetros de acta</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parámetro</a>
+                        <SetPermissions permis="create_committee_parameter">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parámetro</a>
+                        </SetPermissions>
                     </div>
                 </div>
 
@@ -157,8 +160,16 @@ class CommitteeParameters extends Component {
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
                                         <h6>Plantilla: {committeeParameter.act_template.act_type} (V{committeeParameter.act_template.version})</h6>
-                                        <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
-                                        <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+
+                                        <SetPermissions permis="edit_committee_parameter">
+                                            <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
+                                        </SetPermissions>
+
+                                        <SetPermissions permis="delete_committee_parameter">
+                                            <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                        </SetPermissions>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +270,7 @@ class CommitteeParameters extends Component {
                                                 <h6 className="text-muted"><i>No hay actas activas registradas</i></h6>
                                             )}
                                     </div>
-                                    
+
                                     <div className="form-group">
                                         <div className="form-row">
                                             <div className="col">

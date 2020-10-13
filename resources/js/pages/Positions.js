@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules,storeMass } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
+import SetPermissions from '../components/SetPermissions';
 
 class Positions extends Component {
     constructor(props) {
@@ -143,8 +144,11 @@ class Positions extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Cargos</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo cargo</span></a>
-                        <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
+                        <SetPermissions permis="create_position">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo cargo</span></a>
+                            <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
+                        </SetPermissions>
+
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -183,10 +187,25 @@ class Positions extends Component {
                                             </div>
                                             <div className="col">
                                                 <p>{position.type}</p>
-                                                <a href="#" data-id={position.id} onClick={this.handleEdit} >Editar</a>
-                                                <a href="#" data-id={position.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <SetPermissions permis="edit_position">
+                                                            <a href="#" data-id={position.id} onClick={this.handleEdit} >Editar</a>
+                                                        </SetPermissions>
+                                                    </div>
+
+                                                    <div className="col">
+                                                        <SetPermissions permis="delete_position">
+                                                            <a href="#" data-id={position.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                        </SetPermissions>
+                                                    </div>
+
+                                                </div>
                                             </div>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
