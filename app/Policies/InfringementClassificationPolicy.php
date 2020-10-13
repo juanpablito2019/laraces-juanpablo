@@ -36,7 +36,7 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_infringement_classification')){
+        }if($user->hasPermissionTo('list_infringement_classification')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_infringement_classification')){
+        }if($user->hasPermissionTo('edit_infringement_classification')){
             return true;
         }
     }

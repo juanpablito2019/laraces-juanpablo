@@ -36,7 +36,7 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_position')){
+        }if($user->hasPermissionTo('list_position')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_position')){
+        }if($user->hasPermissionTo('edit_position')){
             return true;
         }
     }

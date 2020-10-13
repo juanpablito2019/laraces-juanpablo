@@ -36,7 +36,7 @@ class ContractTypePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_contract_type')){
+        }if($user->hasPermissionTo('list_contract_type')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class ContractTypePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_contract_type')){
+        }if($user->hasPermissionTo('edit_contract_type')){
             return true;
         }
     }

@@ -36,7 +36,7 @@ class CommitteeSessionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_committee_session')){
+        }if($user->hasPermissionTo('list_committee_session')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class CommitteeSessionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_committee_session')){
+        }if($user->hasPermissionTo('edit_committee_session')){
             return true;
         }
     }

@@ -36,7 +36,7 @@ class GeneralParameterPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_general_parameter')){
+        }if($user->hasPermissionTo('list_general_parameter')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class GeneralParameterPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_general_parameter')){
+        }if($user->hasPermissionTo('edit_general_parameter')){
             return true;
         }
     }

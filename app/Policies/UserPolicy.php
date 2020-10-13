@@ -35,7 +35,7 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_user')){
+        }if($user->hasPermissionTo('list_user')){
             return true;
         }
     }
@@ -66,7 +66,7 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_user')){
+        }if($user->hasPermissionTo('edit_user')){
             return true;
         }
     }

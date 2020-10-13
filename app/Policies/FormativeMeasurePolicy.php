@@ -36,7 +36,7 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_formative_measure')){
+        }if($user->hasPermissionTo('list_formative_measure')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_formative_measure')){
+        }if($user->hasPermissionTo('edit_formative_measure')){
             return true;
         }
     }

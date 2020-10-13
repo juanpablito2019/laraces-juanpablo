@@ -36,7 +36,7 @@ class SanctionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_sanction')){
+        }if($user->hasPermissionTo('list_sanction')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class SanctionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_sanction')){
+        }if($user->hasPermissionTo('edit_sanction')){
             return true;
         }
     }

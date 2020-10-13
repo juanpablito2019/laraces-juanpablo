@@ -20,7 +20,7 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_role') && $user->hasRole('SuperAdmin')){
+        }if($user->hasPermissionTo('list_role')){
             return true;
         }
     }
@@ -36,7 +36,7 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_role') && $user->hasRole('SuperAdmin')){
+        }if($user->hasPermissionTo('list_role')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_role')){
+        }if($user->hasPermissionTo('edit_role')){
             return true;
         }
     }

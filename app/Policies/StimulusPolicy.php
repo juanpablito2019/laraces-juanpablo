@@ -36,7 +36,7 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_stimulus')){
+        }if($user->hasPermissionTo('list_stimulus')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_stimulus')){
+        }if($user->hasPermissionTo('edit_stimulus')){
             return true;
         }
     }

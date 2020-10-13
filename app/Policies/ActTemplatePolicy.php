@@ -36,7 +36,7 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_act_template')){
+        }if($user->hasPermissionTo('list_act_template')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_act_template')){
+        }if($user->hasPermissionTo('edit_act_template')){
             return true;
         }
     }

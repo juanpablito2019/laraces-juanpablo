@@ -36,7 +36,7 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_modality')){
+        }if($user->hasPermissionTo('list_modality')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_modality')){
+        }if($user->hasPermissionTo('edit_modality')){
             return true;
         }
     }
