@@ -6,6 +6,7 @@ import { validate, formValid, setRules } from '../containers/Validator';
 import DataTable from '../components/DataTable';
 import Loader from '../components/Loader';
 import Select from 'react-select';
+import SetPermissions from '../components/SetPermissions';
 
 class ResponsiblesFormativeMeasures extends Component {
     constructor(props) {
@@ -261,8 +262,11 @@ class ResponsiblesFormativeMeasures extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Responsables de medidas formativas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo responsable</span></a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+                        <SetPermissions permis="create_formative-measure-responsibles">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo responsable</span></a>
+                            <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+                        </SetPermissions>
+
                     </div>
                 </div>
                 <div className="row mt-3">
@@ -288,9 +292,15 @@ class ResponsiblesFormativeMeasures extends Component {
                                             <td className="hide">{responsible.position.name}</td>
                                             <td>
                                                 <div className="btn-group" role="responsible" aria-label="Basic example">
-                                                    <button data-id={responsible.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={responsible.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={responsible.id} className="d-none d-md-inline">Editar</span></button>
+                                                    <SetPermissions permis="edit_formative-measure-responsibles">
+                                                        <button data-id={responsible.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={responsible.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={responsible.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </SetPermissions>
+
                                                     <button data-id={responsible.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary"><i data-id={responsible.id} className="far fa-eye d-sm-block d-md-none"></i><span data-id={responsible.id} className="d-none d-md-inline">Detalle</span></button>
-                                                    <button data-id={responsible.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={responsible.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={responsible.id} className="d-none d-md-inline">Eliminar</span></button>
+
+                                                    <SetPermissions permis="delete_formative-measure-responsibles">
+                                                        <button data-id={responsible.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={responsible.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={responsible.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </SetPermissions>
                                                 </div>
                                             </td>
                                         </tr>

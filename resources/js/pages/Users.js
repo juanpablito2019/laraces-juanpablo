@@ -3,6 +3,7 @@ import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
 import { get, store, find, update, destroy, rules} from '../containers/User';
 import { get as getRoles } from '../containers/Roles';
+import SetPermissions from '../components/SetPermissions';
 
 class Users extends Component {
     constructor(props) {
@@ -29,6 +30,7 @@ class Users extends Component {
 
     async getRoles() {
         let data = await getRoles();
+        data.rols.shift();
         this.setState({ roles: data.rols });
     }
 
@@ -124,7 +126,9 @@ class Users extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Usuarios</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo usuario</span></a>
+                        <SetPermissions permis="create_user">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo usuario</span></a>
+                        </SetPermissions>
                     </div>
                 </div>
                 <div className="row">
@@ -135,6 +139,19 @@ class Users extends Component {
                                     <div className="card-body">
                                         <h5>{user.name}</h5>
                                         <h6 className="text-muted">{user.email}</h6>
+                                        <div className="row">
+                                            <div className="col-3">
+                                                <SetPermissions permis="edit_user">
+                                                    <a href="#" data-id={user.id} onClick={this.handleEdit} >Editar</a>
+                                                </SetPermissions>
+                                            </div>
+                                            <div className="col-9">
+                                                <SetPermissions permis="delete_user">
+                                                     <a href="#" data-id={user.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                </SetPermissions>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +232,7 @@ class Users extends Component {
                                         {this.state.roles.length > 0 ? (
                                             this.state.roles.map(rol => (
                                                 <div key={rol.id} className="form-check ">
-                                                    <input className="form-check-input" type="radio" id="rol" name="rol" value={rol.id} />
+                                                    <input className="form-check-input" type="radio" name="rol" value={rol.id} />
                                                     <label className="form-check-label">{rol.name}</label>
                                                 </div>
                                             ))

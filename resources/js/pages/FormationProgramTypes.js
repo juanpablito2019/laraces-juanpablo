@@ -143,8 +143,11 @@ class FormationProgramTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de programas</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo tipo de programa</span></a>
-                        <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
+                        <SetPermissions permis="create_formation_program_type">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo tipo de programa</span></a>
+                            <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
+                        </SetPermissions>
+
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -179,8 +182,15 @@ class FormationProgramTypes extends Component {
                                                 </h5>
                                                 <h6 className="text-muted">Mesese electivos: {formationProgramType.elective_months}</h6>
                                                 <h6 className="text-muted">Mesese practicos: {formationProgramType.practice_months}</h6>
+
+                                                <SetPermissions permis="edit_formation_program_type">
                                                 <a href="#" data-id={formationProgramType.id} onClick={this.handleEdit}>Editar</a>
-                                                <a href="#" data-id={formationProgramType.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
+
+                                                </SetPermissions>
+
+                                                <SetPermissions permis="delete_formation_program_type">
+                                                    <a href="#" data-id={formationProgramType.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
+                                                </SetPermissions>
                                             </div>
                                         </div>
                                     </div>

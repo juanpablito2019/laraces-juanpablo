@@ -166,7 +166,7 @@ class Committees extends Component {
 
                     </div>
                 </div>
-                <SetPermissions permis="list_committee">
+
                     <div className="row mt-3">
                         {this.state.committes.length > 0 ? (
                             this.state.committes.map((committe, i) => (
@@ -228,7 +228,6 @@ class Committees extends Component {
                                 </div>
                             )}
                     </div>
-                </SetPermissions>
 
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog modal-lg">

@@ -7,6 +7,7 @@ import { get as getModalities } from '../containers/Modalities';
 import { get as getFormationPrograms } from '../containers/FormationPrograms';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
+import SetPermissions from '../components/SetPermissions';
 import { Link } from "react-router-dom";
 
 class Groups extends Component {
@@ -219,8 +220,12 @@ class Groups extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Grupos</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo grupo</span></a>
-                        <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+
+                        <SetPermissions permis="create_group">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo grupo</span></a>
+                            <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
+                        </SetPermissions>
+
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -246,9 +251,26 @@ class Groups extends Component {
                                             <div className="col-8 ml-3">
                                                 <h5>{group.code_tab}</h5>
                                                 <p>{group.formation_program.name}</p>
-                                                <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-3">
+                                                {/* //vacio// */}
+                                            </div>
+                                            <div classname="col-3">
+                                                <SetPermissions permis="edit_group">
+                                                    <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
+                                                </SetPermissions>
+                                            </div>
+
+                                            <div classname="col-3">
                                                 <a href="#" data-id={group.id} onClick={this.handleDetail} className="mr-2">Detalle</a>
-                                                <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
+                                            </div>
+
+                                            <div classname="col-3">
+                                                <SetPermissions permis="delete_group">
+                                                    <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
+                                                </SetPermissions>
                                             </div>
                                         </div>
                                     </div>
@@ -523,7 +545,7 @@ class Groups extends Component {
                                                             )
                                                         ):(
                                                             <tr>
-                                                                
+
                                                             </tr>
                                                         )}
                                                     </tbody>

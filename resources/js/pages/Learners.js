@@ -5,6 +5,7 @@ import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Select from 'react-select';
 import DataTable from '../components/DataTable';
+import SetPermissions from '../components/SetPermissions';
 
 class Learners extends Component {
     constructor(props) {
@@ -240,8 +241,10 @@ class Learners extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Aprendices</h3>
-                        <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar aprendiz</a>
-                        <a href="#" onClick={this.handleImport} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Importar</a>
+                        <SetPermissions permis="create_learner">
+                            <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar aprendiz</a>
+                            <a href="#" onClick={this.handleImport} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Importar</a>
+                        </SetPermissions>
                     </div>
                 </div>
                 <div className="row mt-3">
@@ -267,9 +270,16 @@ class Learners extends Component {
                                         <td className="hide">{learner.group.formation_program.name.split('-')[1]}</td>
                                         <td>
                                             <div className="btn-group" role="group" aria-label="Basic example">
-                                                <button data-id={learner.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+
+                                                <SetPermissions permis="edit_learner">
+                                                    <button data-id={learner.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
+                                                </SetPermissions>
+
                                                 <button data-id={learner.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary">Detalle</button>
-                                                <button data-id={learner.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+
+                                                <SetPermissions permis="delete_learner">
+                                                    <button data-id={learner.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
+                                                </SetPermissions>
                                             </div>
                                         </td>
                                     </tr>
