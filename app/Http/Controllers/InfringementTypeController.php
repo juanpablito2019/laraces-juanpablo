@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InfringementTypeResquest;
 use App\InfringementType;
 use Illuminate\Http\Request;
+use App\Http\Requests\InfringementTypeResquest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class InfringementTypeController extends Controller
 {
@@ -15,6 +16,15 @@ class InfringementTypeController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [InfringementType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         return InfringementType::all();
     }
 
@@ -26,6 +36,15 @@ class InfringementTypeController extends Controller
      */
     public function store(InfringementTypeResquest $request)
     {
+        try {
+            $this->authorize('create', [InfringementType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         InfringementType::create([
             'name' => $request->get('name')
         ]);
@@ -44,6 +63,15 @@ class InfringementTypeController extends Controller
      */
     public function show(InfringementType $infringementType)
     {
+        try {
+            $this->authorize('view', [InfringementType::class, $infringementType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $infringementType;
     }
 
@@ -56,6 +84,15 @@ class InfringementTypeController extends Controller
      */
     public function update(InfringementTypeResquest $request, InfringementType $infringementType)
     {
+        try {
+            $this->authorize('update', [InfringementType::class, $infringementType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $infringementType->name = $request->get('name');
         $infringementType->save();
         return response()->json([
@@ -73,6 +110,15 @@ class InfringementTypeController extends Controller
      */
     public function destroy(InfringementType $infringementType)
     {
+        try {
+            $this->authorize('delete', [InfringementType::class, $infringementType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $infringementType->delete();
         return response()->json([
             'status'=>200,

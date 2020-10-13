@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 
 
 class RoleController extends Controller
@@ -22,14 +23,23 @@ class RoleController extends Controller
     public function index()
     {
 
-        // $user = Auth::user();
+        try {
+            $this->authorize('viewAny', [Role::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
 
-        // $user->hasAllRoles(Role::all());
+        $user = Auth::user();
 
 
         return response()->json([
             'rols'=>Role::all(),
-            'permissions'=>Permission::all()
+            'permissions'=>Permission::all(),
+            'user'=>$user = Auth::user(),
+            'userPermissions'=>$user->getPermissionsViaRoles()
         ]);
 
 
@@ -43,6 +53,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+
+        try {
+            $this->authorize('create', [Role::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $request->validate([
             'name'=>'required| unique:roles',
             'permissions'=>'required'
@@ -69,6 +89,15 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        try {
+            $this->authorize('view', [Role::class, $role]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $role->users;
         return $role;
     }
@@ -82,6 +111,15 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
+        try {
+            $this->authorize('update', [Role::class, $role]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $role->name = $request->get('name');
         $role->save();
         $role->syncPermissions($request->get('permissions'));
@@ -96,6 +134,15 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        try {
+            $this->authorize('delete', [Role::class, $role]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $role->syncPermissions();
         $role->delete();
         return redirect()->route('roles.index');

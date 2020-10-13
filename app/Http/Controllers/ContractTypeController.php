@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\ContractType;
-use App\Http\Requests\ContractTypeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-
+use App\Http\Requests\ContractTypeRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 
 class ContractTypeController extends Controller
@@ -19,23 +16,18 @@ class ContractTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
-
-
-        $user = Auth::user();
-
-        $user->hasAllRoles(Role::all());
+        try {
+            $this->authorize('viewAny', [ContractType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
 
         return ContractType::all();
-
-
     }
 
     /**
@@ -46,6 +38,15 @@ class ContractTypeController extends Controller
      */
     public function store(ContractTypeRequest $request)
     {
+        try {
+            $this->authorize('create', [ContractType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         ContractType::create([
             'name' => $request->get('name')
         ]);
@@ -64,6 +65,15 @@ class ContractTypeController extends Controller
      */
     public function show(ContractType $contractType)
     {
+        try {
+            $this->authorize('view', [ContractType::class, $contractType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $contractType;
     }
 
@@ -76,6 +86,15 @@ class ContractTypeController extends Controller
      */
     public function update(ContractTypeRequest $request, ContractType $contractType)
     {
+        try {
+            $this->authorize('update', [ContractType::class, $contractType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $contractType->name = $request->get('name');
         $contractType->save();
         return response()->json([
@@ -93,6 +112,16 @@ class ContractTypeController extends Controller
      */
     public function destroy(ContractType $contractType)
     {
+        try {
+            $this->authorize('delete', [ContractType::class, $contractType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
+
         try {
             $contractType->delete();
             return response()->json([

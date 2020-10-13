@@ -30,22 +30,6 @@ class Roles extends Component {
 
     }
 
-    async getPermission() {
-        let data = await fetch('/userPermissions');
-        let res = await data.json();
-
-        let permis =  this.props.permis;
-
-        localStorage.setItem( "permis", JSON.stringify( res ) ) ;
-
-            res.forEach(element => {
-                console.log(element.pivot.role_id)
-            });
-
-        this.setState({ permissions: res });
-        this.setState({ permis: permis });
-
-    }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -102,11 +86,11 @@ class Roles extends Component {
 
                 <div className="row">
                     <div className="col col-sm-12 col-md-12 col-lg-6 m-auto">
-                        <div className="card">
 
-                            <div className="card-header"> Nuevo Rol </div>
 
-                            <div className="card-body">
+                            <h3> Nuevo Rol </h3>
+
+
 
                                 <form id="form" onSubmit={this.handleSubmit}>
                                     {this.state.message ? (
@@ -145,9 +129,9 @@ class Roles extends Component {
 
                                 <button type="submit" form="form" className="btn btn-primary">Guardar</button>
 
-                            </div>
 
-                        </div>
+
+
                     </div>
 
                 </div>

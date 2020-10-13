@@ -26,6 +26,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('app/logout', function() {
+    session()->flush();
+    return redirect('login');
+});
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -107,17 +111,21 @@ Route::get('/userPermissions', function () {
 
     $user = Auth::user();
 
-     return  $user->getPermissionsViaRoles();
+    if ($user->id == 1){
+        $super = true;
+    }else{
+        $super = false;
+    }
+
+    if($user) {
+        return response()->json([
+            'superAdmin'=>$super,
+            'permissions'=>$user->getPermissionsViaRoles()
+        ]);
+    }
 
 
 });
 
-
-Route::get('/userDate', function () {
-    $user = Auth::user();
-
-     return $user;
-
-});
 
 

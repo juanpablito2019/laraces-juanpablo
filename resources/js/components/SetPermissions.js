@@ -1,4 +1,3 @@
-import { forEach } from 'lodash';
 import React, { Component } from 'react';
 
 class SetPermissions extends Component {
@@ -6,50 +5,28 @@ class SetPermissions extends Component {
         super(props);
         this.state = {
             permissions:[],
-            permis:null,
+            permis: null,
             content:[],
+            idRol: null,
             response:Boolean(0)
         }
-
-    }
-
-    async getPermission() {
-        let data = await fetch('/userPermissions');
-        let res = await data.json();
-
-        let permis =  this.props.permis;
-
-        localStorage.setItem( "permis", JSON.stringify( res ) ) ;
-
-
-        let users = await fetch('/userDate');
-        let dat = await users.json();
-
-        localStorage.setItem( "idRol", JSON.stringify( dat.id ) ) ;
-
-
-        this.setState({ permissions: res });
-        this.setState({ permis: permis });
 
     }
 
     Permissions(name) {
 
         var arreglo = JSON.parse(localStorage.getItem( "permis"));
-        var idRol = JSON.parse(localStorage.getItem( "idRol"));
+        var idRol = JSON.parse(localStorage.getItem( "rol_id"));
 
 
         var bool = Boolean(0);
 
 
-
         if(idRol == 1){
-
             bool = true
             this.setState({ response: bool});
 
         }else{
-
             arreglo.map(element => {
                 if(element == name){
                     bool = true
@@ -67,14 +44,11 @@ class SetPermissions extends Component {
     }
 
     componentDidMount() {
-        this.getPermission();
         this.Permissions(this.props.permis);
     }
 
 
     render() {
-        // const { response } = JSON.parse(localStorage.getItem( "bool"));
-        // console.log(response)
         return (
             <>
                 {this.state.response?(

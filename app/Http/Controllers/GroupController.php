@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Http\Requests\GroupRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class GroupController extends Controller
 {
@@ -15,6 +16,15 @@ class GroupController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [Group::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return Group::with('modality', 'formationProgram', 'formationProgram.formationProgramType')->get();
     }
 
@@ -26,6 +36,15 @@ class GroupController extends Controller
      */
     public function store(GroupRequest $request)
     {
+        try {
+            $this->authorize('create', [Group::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         Group::create([
             'code_tab' => $request->get('code_tab'),
             'modality_id' => $request->get('modality_id'),
@@ -52,6 +71,15 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
+        try {
+            $this->authorize('view', [Group::class, $group]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $group->modality;
         $group->formationProgram->formationProgramType;
         $group->learners;
@@ -72,6 +100,15 @@ class GroupController extends Controller
      */
     public function update(GroupRequest $request, Group $group)
     {
+        try {
+            $this->authorize('update', [Group::class, $group]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $group->code_tab = $request->get('code_tab');
         $group->modality_id = $request->get('modality_id');
         $group->formation_program_id = $request->get('formation_program_id');
@@ -99,6 +136,15 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         try {
+            $this->authorize('delete', [Group::class, $group]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
+        try {
             $group->delete();
             return response()->json([
                 'status' => 200,
@@ -119,6 +165,15 @@ class GroupController extends Controller
 
     public function mass()
     {
+        try {
+            $this->authorize('create', [Group::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
                 'misena_email'=>"consulta@misena.edu.co",
