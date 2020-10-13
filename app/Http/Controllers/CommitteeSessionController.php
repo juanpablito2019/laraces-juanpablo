@@ -5,14 +5,9 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Committee;
 use App\Complainer;
-<<<<<<< HEAD
-use App\Http\Requests\CommitteeSessionRequest;
 use App\Http\Requests\SaveSanctionRequest;
-use Exception;
-=======
 use App\ActTemplate;
 use App\CommitteeSession;
->>>>>>> 7daaeb8ff57cede85ed5c2ef31ba4174fcc49e2e
 use HTMLtoOpenXML\Parser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
