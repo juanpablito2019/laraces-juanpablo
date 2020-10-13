@@ -36,7 +36,7 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_group')){
+        }if($user->hasPermissionTo('list_group')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_group')){
+        }if($user->hasPermissionTo('edit_group')){
             return true;
         }
     }

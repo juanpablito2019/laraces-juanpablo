@@ -36,7 +36,7 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_learner_novelty')){
+        }if($user->hasPermissionTo('list_learner_novelty')){
             return true;
         }
     }
@@ -67,7 +67,7 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('update_learner_novelty')){
+        }if($user->hasPermissionTo('edit_learner_novelty')){
             return true;
         }
     }
