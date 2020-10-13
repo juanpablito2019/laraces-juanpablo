@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\FormativeMeasure;
 use Illuminate\Http\Request;
 use App\Http\Requests\FormativeMeasureRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class FormativeMeasureController extends Controller
 {
@@ -15,6 +16,15 @@ class FormativeMeasureController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [FormativeMeasure::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return FormativeMeasure::all();
     }
 
@@ -26,6 +36,15 @@ class FormativeMeasureController extends Controller
      */
     public function store(FormativeMeasureRequest $request)
     {
+        try {
+            $this->authorize('create', [FormativeMeasure::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         FormativeMeasure::create([
             'name' => $request->get('name')
         ]);
@@ -44,6 +63,15 @@ class FormativeMeasureController extends Controller
      */
     public function show(FormativeMeasure $formativeMeasure)
     {
+        try {
+            $this->authorize('view', [FormativeMeasure::class, $formativeMeasure]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $formativeMeasure;
     }
 
@@ -56,6 +84,15 @@ class FormativeMeasureController extends Controller
      */
     public function update(FormativeMeasureRequest $request, FormativeMeasure $formativeMeasure)
     {
+        try {
+            $this->authorize('update', [FormativeMeasure::class, $formativeMeasure]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $formativeMeasure->name = $request->get('name');
         $formativeMeasure->save();
         return response()->json([
@@ -73,6 +110,15 @@ class FormativeMeasureController extends Controller
      */
     public function destroy(FormativeMeasure $formativeMeasure)
     {
+        try {
+            $this->authorize('delete', [FormativeMeasure::class, $formativeMeasure]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $formativeMeasure->delete();
             return response()->json([

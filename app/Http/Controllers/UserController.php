@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class UserController extends Controller
 {
@@ -15,6 +16,15 @@ class UserController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [User::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         return User::all();
     }
 
@@ -26,6 +36,15 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        try {
+            $this->authorize('create', [User::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -49,6 +68,15 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        try {
+            $this->authorize('view', [User::class, $user]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $user;
 
     }
@@ -62,6 +90,15 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        try {
+            $this->authorize('update', [User::class, $user]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         $user->password = $request->get('password');
@@ -81,6 +118,15 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        try {
+            $this->authorize('delete', [User::class, $user]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $user->delete();
             return response()->json([

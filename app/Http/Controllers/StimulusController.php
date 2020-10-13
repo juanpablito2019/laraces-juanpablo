@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Committee;
-use App\Http\Requests\StimulusRequest;
 use App\Stimulus;
+use App\Committee;
 use Illuminate\Http\Request;
+use App\Http\Requests\StimulusRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class StimulusController extends Controller
 {
@@ -16,6 +17,15 @@ class StimulusController extends Controller
      */
     public function index(Committee $committee)
     {
+        try {
+            $this->authorize('viewAny', [Stimulus::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return Stimulus::with('learner', 'committee')->where('committee_id', $committee->id)->get();
     }
 
@@ -27,6 +37,15 @@ class StimulusController extends Controller
      */
     public function store(StimulusRequest $request)
     {
+        try {
+            $this->authorize('create', [Stimulus::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         Stimulus::create([
             'learner_id' => $request->get('learner_id'),
             'committee_id' => $request->get('committee_id'),
@@ -48,6 +67,15 @@ class StimulusController extends Controller
      */
     public function show(Stimulus $stimulus)
     {
+        try {
+            $this->authorize('view', [Stimulus::class, $stimulus]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $stimulus->learner->group->formationProgram;
         return $stimulus;
     }
@@ -61,6 +89,15 @@ class StimulusController extends Controller
      */
     public function update(StimulusRequest $request, Stimulus $stimulus)
     {
+        try {
+            $this->authorize('update', [Stimulus::class, $stimulus]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $stimulus->learner_id = $request->get('learner_id');
         $stimulus->stimulus = $request->get('stimulus');
         $stimulus->justification = $request->get('justification');
@@ -80,6 +117,15 @@ class StimulusController extends Controller
      */
     public function destroy(Stimulus $stimulus)
     {
+        try {
+            $this->authorize('delete', [Stimulus::class, $stimulus]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $stimulus->delete();
             return response()->json([

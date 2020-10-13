@@ -21,7 +21,6 @@ export const store = async (form) => {
             }
         });
         let data = await res.json();
-        console.log(data.errors);
         return data;
     } catch (error) {
         console.log(error);

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\FormationProgramType;
-use App\Http\Requests\FormationProgramTypeRequest;
 use Illuminate\Http\Request;
+use App\FormationProgramType;
 use Illuminate\Support\Facades\Http;
+use App\Http\Requests\FormationProgramTypeRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class FormationProgramTypeController extends Controller
 {
@@ -16,6 +17,15 @@ class FormationProgramTypeController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [FormationProgramType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return FormationProgramType::all();
     }
 
@@ -27,6 +37,15 @@ class FormationProgramTypeController extends Controller
      */
     public function store(FormationProgramTypeRequest $request)
     {
+        try {
+            $this->authorize('create', [FormationProgramType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         FormationProgramType::create([
             'name' => $request->get('name'),
             'elective_months'=>$request->get('elective_months'),
@@ -47,6 +66,15 @@ class FormationProgramTypeController extends Controller
      */
     public function show(FormationProgramType $formationProgramType)
     {
+        try {
+            $this->authorize('view', [FormationProgramType::class, $formationProgramType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $formationProgramType;
     }
 
@@ -59,6 +87,15 @@ class FormationProgramTypeController extends Controller
      */
     public function update(FormationProgramTypeRequest $request, FormationProgramType $formationProgramType)
     {
+        try {
+            $this->authorize('update', [FormationProgramType::class, $formationProgramType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $formationProgramType->name = $request->get('name');
         $formationProgramType->elective_months = $request->get('elective_months');
         $formationProgramType->practice_months = $request->get('practice_months');
@@ -78,6 +115,15 @@ class FormationProgramTypeController extends Controller
      */
     public function destroy(FormationProgramType $formationProgramType)
     {
+        try {
+            $this->authorize('delete', [FormationProgramType::class, $formationProgramType]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $formationProgramType->delete();
             return response()->json([
@@ -99,6 +145,15 @@ class FormationProgramTypeController extends Controller
 
     public function mass()
     {
+        try {
+            $this->authorize('create', [FormationProgramType::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
             'misena_email'=>"consulta@misena.edu.co",
             'password'=> "123456789110",

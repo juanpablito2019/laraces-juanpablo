@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\FormationProgram;
-use App\Http\Requests\FormationProgramRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Requests\FormationProgramRequest;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class FormationProgramController extends Controller
 {
@@ -16,6 +17,15 @@ class FormationProgramController extends Controller
      */
     public function index()
     {
+        try {
+            $this->authorize('viewAny', [FormationProgram::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         return FormationProgram::with('formationProgramType')->get();
     }
 
@@ -27,6 +37,15 @@ class FormationProgramController extends Controller
      */
     public function store(FormationProgramRequest $request)
     {
+        try {
+            $this->authorize('create', [FormationProgram::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         FormationProgram::create([
             'code' => $request->get('code'),
             'name' => $request->get('name'),
@@ -47,6 +66,15 @@ class FormationProgramController extends Controller
      */
     public function show(FormationProgram $formationProgram)
     {
+        try {
+            $this->authorize('view', [FormationProgram::class, $formationProgram]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         return $formationProgram;
     }
 
@@ -59,6 +87,15 @@ class FormationProgramController extends Controller
      */
     public function update(FormationProgramRequest $request, FormationProgram $formationProgram)
     {
+        try {
+            $this->authorize('update', [FormationProgram::class, $formationProgram]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         $formationProgram->code = $request->get('code');
         $formationProgram->name = $request->get('name');
         $formationProgram->formation_program_type_id = $request->get('formation_program_type_id');
@@ -78,6 +115,15 @@ class FormationProgramController extends Controller
      */
     public function destroy(FormationProgram $formationProgram)
     {
+        try {
+            $this->authorize('delete', [FormationProgram::class, $formationProgram]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+
         try {
             $formationProgram->delete();
             return response()->json([
@@ -99,6 +145,15 @@ class FormationProgramController extends Controller
 
     public function mass()
     {
+        try {
+            $this->authorize('create', [FormationProgram::class]);
+        } catch (\Throwable $th) {
+            if ($th instanceof AuthorizationException)
+            {
+                return response()->json(403);
+            }
+        }
+        
         try {
             $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
                 'misena_email'=>"consulta@misena.edu.co",
