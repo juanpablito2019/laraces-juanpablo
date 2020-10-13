@@ -200,17 +200,13 @@ class FormationPrograms extends Component {
                                                     <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
 
                                                     <div className="row">
-                                                        <div className="col">
                                                             <SetPermissions permis="edit_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
                                                             </SetPermissions>
 
-                                                        </div>
-                                                        <div className="col">
                                                             <SetPermissions permis="delete_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
                                                             </SetPermissions>
-                                                        </div>
                                                     </div>
 
                                                 </div>

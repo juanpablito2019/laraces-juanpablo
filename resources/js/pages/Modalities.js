@@ -174,17 +174,14 @@ class Modalities extends Component {
                                                 )
                                             }
                                         </h5>
-                                        <div className="row">
-                                            <div className="col">
+                                        <div className="row ml-1">
                                                 <SetPermissions permis="edit_modality">
                                                     <a href="#" data-id={modality.id} onClick={this.handleEdit}>Editar</a>
                                                 </SetPermissions>
-                                            </div>
-                                            <div className="col">
+
                                                 <SetPermissions permis="delete_modality">
                                                 <a href="#" data-id={modality.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                                 </SetPermissions>
-                                            </div>
                                         </div>
 
 

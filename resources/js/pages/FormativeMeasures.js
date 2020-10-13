@@ -166,13 +166,16 @@ class FormativeMeasures extends Component {
                                                     }
                                                 </h5>
 
-                                                <SetPermissions permis="edit_formative_measure">
-                                                    <a href="#" data-id={formativeMeasure.id} onClick={this.handleEdit}>Editar</a>
-                                                </SetPermissions>
+                                                <div className="row ml-1">
+                                                    <SetPermissions permis="edit_formative_measure">
+                                                        <a href="#" data-id={formativeMeasure.id} onClick={this.handleEdit}>Editar</a>
+                                                    </SetPermissions>
 
-                                                <SetPermissions permis="delete_formative_measure">
-                                                     <a href="#" data-id={formativeMeasure.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                </SetPermissions>
+                                                    <SetPermissions permis="delete_formative_measure">
+                                                        <a href="#" data-id={formativeMeasure.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                    </SetPermissions>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>

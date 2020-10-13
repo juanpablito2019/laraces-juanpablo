@@ -170,7 +170,7 @@ class Committees extends Component {
                     <div className="row mt-3">
                         {this.state.committes.length > 0 ? (
                             this.state.committes.map((committe, i) => (
-                                <div className="col-4" key={i}>
+                                <div className="col-12 col-md-4 col-lg-4" key={i}>
                                     <div className="card">
                                         <div className="card-body">
                                             <div className="row">
@@ -208,13 +208,17 @@ class Committees extends Component {
                                                             </span>
                                                         </h6>
 
-                                                        <SetPermissions permis="edit_committee">
-                                                            <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
-                                                        </SetPermissions>
+                                                        <div className="row ml-1">
+                                                            <SetPermissions permis="edit_committee">
+                                                                <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
+                                                            </SetPermissions>
 
-                                                        <SetPermissions permis="delete_committee">
-                                                            <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
-                                                        </SetPermissions>
+                                                            <SetPermissions permis="delete_committee">
+                                                                <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
+                                                            </SetPermissions>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>

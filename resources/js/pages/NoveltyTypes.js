@@ -162,22 +162,19 @@ class NoveltyTypes extends Component {
                                                         )
                                                     }
                                                 </h5>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-3">
-                                                 <SetPermissions permis="edit_novelty_type">
-                                                    <a  href="#" data-id={noveltyType.id} onClick={this.handleEdit} >Editar</a>
-                                                </SetPermissions>
-                                            </div>
-                                            <div className="col-9">
-                                                 <SetPermissions permis="delete_novelty_type">
-                                                    <a  href="#" data-id={noveltyType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
-                                                </SetPermissions>
-                                            </div>
+                                                <div className="row ml-1">
+                                                    <SetPermissions permis="edit_novelty_type">
+                                                        <a  href="#" data-id={noveltyType.id} onClick={this.handleEdit} >Editar</a>
+                                                    </SetPermissions>
 
 
+                                                    <SetPermissions permis="delete_novelty_type">
+                                                        <a  href="#" data-id={noveltyType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                    </SetPermissions>
+                                                </div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
