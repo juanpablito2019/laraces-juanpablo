@@ -109,20 +109,22 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/userPermissions', function () {
 
     $user = Auth::user();
+
+    if ($user->id == 1){
+        $super = true;
+    }else{
+        $super = false;
+    }
+
     if($user) {
-     return  $user->getPermissionsViaRoles();
+        return response()->json([
+            'superAdmin'=>$super,
+            'permissions'=>$user->getPermissionsViaRoles()
+        ]);
     }
 
 
 });
 
-
-Route::get('/userDate', function () {
-    $user = Auth::user();
-    if($user){
-     return $user;
-    }
-
-});
 
 

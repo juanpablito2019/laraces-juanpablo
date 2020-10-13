@@ -33,26 +33,24 @@ import Rol from "./pages/CreateRoles";
             let data = await fetch('/userPermissions');
             let res = await data.json();
 
-            res.map(permiso =>{
+            res.permissions.map(permiso =>{
                 permis.push(permiso.name)
             })
 
             localStorage.setItem( "permis", JSON.stringify( permis));
+
+            if(res.superAdmin == true){
+                localStorage.setItem( "rol_id", JSON.stringify( 1 ) ) ;
+            }else{
+                localStorage.setItem( "rol_id", JSON.stringify( 2 ) ) ;
+            }
+
 
             arreglo = JSON.parse(localStorage.getItem( "permis"));
 
 
         }
 
-        const getUser = async ()=>{
-            let data = await fetch('/userDate');
-            let res = await data.json();
-
-            localStorage.setItem( "rol_id", JSON.stringify( res.id) ) ;
-
-        }
-
-        getUser();
         getPemissionsByRoles();
 
         arreglo = JSON.parse(localStorage.getItem( "permis"));
