@@ -14,7 +14,7 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         $admin  = Role::find(2);  // Permisos Administrador
 
-        // $admin->givePermissionTo('list_act_template');
+        $admin->givePermissionTo('list_act_template');
         // $admin->givePermissionTo('create_act_template');
         // $admin->givePermissionTo('edit_act_template');
         // $admin->givePermissionTo('delete_act_template');
@@ -59,7 +59,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('edit_formative_measure');
         $admin->givePermissionTo('delete_formative_measure');
 
-        // $admin->givePermissionTo('list_general_parameter');
+        $admin->givePermissionTo('list_general_parameter');
         // $admin->givePermissionTo('create_general_parameter');
         // $admin->givePermissionTo('edit_general_parameter');
         // $admin->givePermissionTo('delete_general_parameter');
@@ -126,6 +126,8 @@ class RolesAndPermissionsSeeder extends Seeder
         
         $cordi  = Role::find(3); // Permisos Coordinador
 
+        $cordi->givePermissionTo('list_act_template');
+        $cordi->givePermissionTo('list_general_parameter');
         $cordi->givePermissionTo('list_committee');
         $cordi->givePermissionTo('list_committee_session');
         $cordi->givePermissionTo('list_formation_program');
@@ -137,6 +139,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $subdi  = Role::find(4); // Permisos Subdirector
 
+        $subdi->givePermissionTo('list_act_template');
+        $subdi->givePermissionTo('list_general_parameter');
         $subdi->givePermissionTo('list_committee');
         $subdi->givePermissionTo('list_committee_session');
         $subdi->givePermissionTo('list_formation_program');
