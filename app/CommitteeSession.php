@@ -69,4 +69,9 @@ class CommitteeSession extends Model
 	{
 		return $this->belongsTo(Complainer::class);
 	}
+
+	public function sanction()
+	{
+		return $this->belongsTo(Sanction::class, 'act_sanction_id');
+	}
 }

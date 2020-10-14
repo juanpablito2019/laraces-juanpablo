@@ -11,6 +11,7 @@ import { get as IndexSanctions } from '../containers/Sanctions';
 import Loader from '../components/Loader';
 import Ckeditor from '../components/Ckeditor';
 import Complainer from '../forms/CommitteeSession/Complainer'
+import { Link } from 'react-router-dom';
 
 class CommitteeSession extends Component {
     constructor(props) {
@@ -272,9 +273,9 @@ class CommitteeSession extends Component {
     async submitSanction(e) {
         e.preventDefault();
         let data = await saveSanction(e.target, this.state.id);
-        if(data.success){
+        if (data.success) {
             toastr.success(data.message);
-        }else{
+        } else {
             toastr.warning(data.date_notification_act_sanction || data.date_expiration_act_sanction || data.date_lifting_act_sanction)
         }
     }
@@ -301,11 +302,11 @@ class CommitteeSession extends Component {
         }
     }
 
-    async submitMeasureDescription(e){
+    async submitMeasureDescription(e) {
         e.preventDefault();
         let responsible = $(e.target).data('responsible');
         let data = await setDescriptionFormativeMeasure(this.state.id, responsible, e.target);
-        if(data.success){
+        if (data.success) {
             toastr.success(data.message);
         }
     }
@@ -639,24 +640,24 @@ class CommitteeSession extends Component {
                                         <div className="col">
                                             <div className="form-group">
                                                 <label>Fecha del acto sancionatorio</label>
-                                                <input 
-                                                    type="date" 
-                                                    name="date_academic_act_sanction" 
-                                                    id="date_academic_act_sanction" 
-                                                    className="form-control" 
-                                                    defaultValue={this.state.committeeSession.date_academic_act_sanction} 
+                                                <input
+                                                    type="date"
+                                                    name="date_academic_act_sanction"
+                                                    id="date_academic_act_sanction"
+                                                    className="form-control"
+                                                    defaultValue={this.state.committeeSession.date_academic_act_sanction}
                                                 />
                                             </div>
                                         </div>
                                         <div className="col">
                                             <div className="form-group">
                                                 <label>Fecha de notificacion del acto sancionatorio</label>
-                                                <input 
-                                                    type="date" 
-                                                    name="date_notification_act_sanction" 
-                                                    id="date_notification_act_sanction" 
-                                                    className="form-control" 
-                                                    defaultValue={this.state.committeeSession.date_notification_act_sanction} 
+                                                <input
+                                                    type="date"
+                                                    name="date_notification_act_sanction"
+                                                    id="date_notification_act_sanction"
+                                                    className="form-control"
+                                                    defaultValue={this.state.committeeSession.date_notification_act_sanction}
                                                 />
                                             </div>
                                         </div>
@@ -665,12 +666,12 @@ class CommitteeSession extends Component {
                                         <div className="col">
                                             <div className="form-group">
                                                 <label>Fecha de expiracion del acto sancionatorio</label>
-                                                <input 
-                                                    type="date" 
-                                                    name="date_expiration_act_sanction" 
-                                                    id="date_expiration_act_sanction" 
-                                                    className="form-control" 
-                                                    defaultValue={this.state.committeeSession.date_expiration_act_sanction} 
+                                                <input
+                                                    type="date"
+                                                    name="date_expiration_act_sanction"
+                                                    id="date_expiration_act_sanction"
+                                                    className="form-control"
+                                                    defaultValue={this.state.committeeSession.date_expiration_act_sanction}
                                                 />
                                             </div>
                                         </div>
@@ -732,14 +733,14 @@ class CommitteeSession extends Component {
 
                                             <div id={"collapse" + responsible.id} className="collapse" aria-labelledby="headingOne" data-parent={"#accordion" + responsible.id}>
                                                 <div className="card-body">
-                                                    <form id={"form"+responsible.id} data-responsible={responsible.id} onSubmit={this.submitMeasureDescription}>
+                                                    <form id={"form" + responsible.id} data-responsible={responsible.id} onSubmit={this.submitMeasureDescription}>
                                                         <label>Descripcion</label>
                                                         <Ckeditor
                                                             id={"responsible[" + responsible.id + "][description]"}
                                                             name="description"
                                                             d={responsible.pivot.description}
                                                         />
-                                                        <button type="submit" form={"form"+responsible.id} className="btn btn-outline-primary mt-2">Guardar</button>
+                                                        <button type="submit" form={"form" + responsible.id} className="btn btn-outline-primary mt-2">Guardar</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -779,7 +780,7 @@ class CommitteeSession extends Component {
                                                     <div className="col-4" key={i}>
                                                         <div className="card">
                                                             <div className="card-body">
-                                                                <h5>{stimulus.stimulus}</h5>
+                                                                <h6>{stimulus.stimulus}</h6>
                                                                 <p>{stimulus.justification}</p>
                                                             </div>
                                                         </div>
@@ -799,7 +800,7 @@ class CommitteeSession extends Component {
                                                     <div className="col-4" key={i}>
                                                         <div className="card">
                                                             <div className="card-body">
-                                                                <h5>{novelty.novelty_type_id}</h5>
+                                                                <h6>{novelty.novelty_type.name}</h6>
                                                                 <p>{novelty.justification}</p>
                                                             </div>
                                                         </div>
@@ -814,22 +815,43 @@ class CommitteeSession extends Component {
                                     </div>
                                     <div className="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="contact-tab">
                                         <div className="row mt-3">
-                                            {this.state.committeeSession.learner.academics.length > 0 ? (
-                                                this.state.committeeSession.learner.academics.map((academic, i) => (
-                                                    <div className="col-4" key={i}>
-                                                        <div className="card">
-                                                            <div className="card-body">
-                                                                <h5>{academic.id}</h5>
-                                                                <p>{academic.learner_id}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                    <div className="col">
-                                                        <p>No tiene novedades registradas</p>
-                                                    </div>
-                                                )}
+                                            <div className="col">
+                                                <table className="table table-sm text-center">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Fecha comité</th>
+                                                            <th>Sancion</th>
+                                                            <th>Medidas formativas</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {this.state.committeeSession.learner.academics.length > 0 ? (
+                                                            this.state.committeeSession.learner.academics.map((academic, i) => (
+                                                                <tr key={i}>
+                                                                    <td>
+                                                                        <a href="#" onClick={()=>{
+                                                                            $('#learner-history').modal('toggle');
+                                                                            this.props.history.push(`/app/committees/${academic.committee.id}`);
+                                                                        }}>
+                                                                            {academic.committee.date}
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>{academic.act_sanction_id ? academic.sanction.name : (<h6 className="text-primary">Aun no se ha asignado una sancion para este comité</h6>)}</td>
+                                                                    <td>{academic.responsibles.length > 0 ? (
+                                                                        academic.responsibles.map(responsible => (
+                                                                            `${responsible.pivot.formative_measure.name},`
+                                                                        ))
+                                                                    ) : (<h6 className="text-primary">Aun no se han asignado medidas formativas para este comité</h6>)}</td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                                <tr>
+                                                                    <td colSpan="3" className="text-center">No ha estado en comités</td>
+                                                                </tr>
+                                                            )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -94,7 +94,7 @@ export default [
     {
         name: 'Parámetros comité',
         type: 'menu',
-        visible:  true,
+        visible: permission('list_committee_parameter'),
         routes: [
             {
                 name: 'Plantillas de actas',

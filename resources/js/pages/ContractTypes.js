@@ -175,10 +175,10 @@ class ContractTypes extends Component {
                                     <div className="card">
                                         <div className="card-body">
                                             <div className="row">
-                                                <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
-                                                    <i className="fa fa-list-alt fa-5x text-secondary mt-2"></i>
+                                                <div className="col-4 col-md-3 col-lg-3 mr-1">
+                                                    <i className="fa fa-list-alt fa-5x text-secondary mt-2 mr-2"></i>
                                                 </div>
-                                                <div className="col">
+                                                <div className="col ml-4">
                                                     <h5>
                                                         {
                                                             (contractType.name).length > 16 ? (
@@ -188,15 +188,22 @@ class ContractTypes extends Component {
                                                             )
                                                         }
                                                     </h5>
-                                                    <SetPermissions permis="edit_contract_type">
-                                                         <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
-                                                    </SetPermissions>
 
-                                                    <SetPermissions permis="delete_contract_type">
-                                                         <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
-                                                    </SetPermissions>
+                                                    <div className="row ml-1">
+
+                                                        <SetPermissions permis="edit_contract_type">
+                                                            <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
+                                                        </SetPermissions>
+
+                                                        <SetPermissions permis="delete_contract_type">
+                                                            <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
+                                                        </SetPermissions>
+
+                                                    </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </div>

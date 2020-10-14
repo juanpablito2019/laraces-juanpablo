@@ -182,25 +182,20 @@ class Positions extends Component {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                            <div className="col-4 col-md-3 col-lg-3">
                                                 <i className="fa fa-address-card fa-5x text-secondary mt-2"></i>
                                             </div>
-                                            <div className="col">
-                                                <p>{position.type}</p>
+                                            <div className="col ml-4">
+                                                <p className="ml-2">{position.type}</p>
 
-                                                <div className="row">
-                                                    <div className="col">
+                                                <div className="row ml-2">
                                                         <SetPermissions permis="edit_position">
                                                             <a href="#" data-id={position.id} onClick={this.handleEdit} >Editar</a>
                                                         </SetPermissions>
-                                                    </div>
 
-                                                    <div className="col">
                                                         <SetPermissions permis="delete_position">
                                                             <a href="#" data-id={position.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                                         </SetPermissions>
-                                                    </div>
-
                                                 </div>
                                             </div>
 

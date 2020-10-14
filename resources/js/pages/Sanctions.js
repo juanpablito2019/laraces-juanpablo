@@ -163,23 +163,16 @@ class Sanctions extends Component {
                                                         )
                                                     }
                                                 </h5>
-                                                <div className="row">
+                                                <div className="row ml-1">
+                                                    <SetPermissions permis="edit_sanction">
+                                                        <a href="#" data-id={sanction.id} onClick={this.handleEdit}>Editar</a>
+                                                    </SetPermissions>
 
-                                                    <div className="col">
-                                                        <SetPermissions permis="edit_sanction">
-                                                            <a href="#" data-id={sanction.id} onClick={this.handleEdit}>Editar</a>
-                                                        </SetPermissions>
-                                                    </div>
 
-                                                    <div className="col">
-                                                        <SetPermissions permis="delete_sanction">
-                                                            <a href="#" data-id={sanction.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                        </SetPermissions>
-                                                    </div>
-
+                                                    <SetPermissions permis="delete_sanction">
+                                                        <a href="#" data-id={sanction.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                    </SetPermissions>
                                                 </div>
-
-
 
                                             </div>
                                         </div>

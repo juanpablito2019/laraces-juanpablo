@@ -82,8 +82,10 @@ class CommitteeSessionController extends Controller
         $committeeSession = CommitteeSession::with(
             'learner.group.formationProgram',
             'learner.stimuli',
-            'learner.novelties',
-            'learner.academics',
+            'learner.novelties.noveltyType',
+            'learner.academics.committee',
+            'learner.academics.responsibles',
+            'learner.academics.sanction',
             'infringementType',
             'committeeSessionParameters',
             'committeeSessionState',
@@ -91,6 +93,12 @@ class CommitteeSessionController extends Controller
             'responsibles',
             'complainer'
         )->findOrFail($id);
+        foreach ($committeeSession->learner->academics as $academic) {
+            foreach ($academic->responsibles as $responsible) {
+                $formative_measure = $responsible->pivot->formativeMeasure;
+                $responsible->pivot->formative_measure = $formative_measure;
+            }
+        }
         foreach ($committeeSession->responsibles as $responsible) {
             $formative_measure = $responsible->pivot->formativeMeasure;
             $responsible->pivot->formative_measure = $formative_measure;
@@ -292,6 +300,7 @@ class CommitteeSessionController extends Controller
         $templateProcessor->setValue('committee_hour', $committee->start_hour);
         $templateProcessor->setValue('committee_place', $committee->committee->formation_center);
         $templateProcessor->setValue('subdirector_name', $committee->committee->subdirector_name);
+        $templateProcessor->setValue('coordinador_name', $committee->committee->coordinador_name);
         $filename = 'Comunicacion - Learner';
         $templateProcessor->saveAs($filename . ".docx");
         return response()->download($filename . ".docx")->deleteFileAfterSend(true);
@@ -518,6 +527,9 @@ class CommitteeSessionController extends Controller
         $templateProcessor->setValue('infringement_type', $committeeSession->infringementType->name);
         $templateProcessor->setValue('infringement_classification', $committeeSession->infringementClassification ? $committeeSession->infringementClassification->name : "");
         $templateProcessor->setValue('record_number', $committeeSession->committee->record_number);
+        $templateProcessor->setValue('subdirector_name', $committeeSession->committee->subdirector_name);
+        $templateProcessor->setValue('date_academic_act_sanction', $committeeSession->date_academic_act_sanction);
+        $templateProcessor->setValue('sanction', $committeeSession->sanction->name);
 
         foreach ($parameters as $parameter) {
             $templateProcessor->setValue($parameter['name'], $parser->fromHTML($parameter['value']));

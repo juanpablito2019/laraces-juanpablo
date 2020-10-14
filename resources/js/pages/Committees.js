@@ -36,7 +36,7 @@ class Committees extends Component {
     }
 
     async getSubdirectors() {
-        let data = await getByRol(3);
+        let data = await getByRol(4);
         for (let i = 0; i < data.users.length; i++) {
             if (data.users[i].is_active === 1) {
                 this.setState({ subdirector: data.users[i] });
@@ -44,7 +44,8 @@ class Committees extends Component {
         }
     }
     async getCoordinadores() {
-        let data = await getByRol(2);
+        let data = await getByRol(3);
+
         for (let i = 0; i < data.users.length; i++) {
             if (data.users[i].is_active === 1) {
                 this.setState({ coordinador: data.users[i] });
@@ -170,7 +171,7 @@ class Committees extends Component {
                     <div className="row mt-3">
                         {this.state.committes.length > 0 ? (
                             this.state.committes.map((committe, i) => (
-                                <div className="col-4" key={i}>
+                                <div className="col-12 col-md-4 col-lg-4" key={i}>
                                     <div className="card">
                                         <div className="card-body">
                                             <div className="row">
@@ -208,13 +209,17 @@ class Committees extends Component {
                                                             </span>
                                                         </h6>
 
-                                                        <SetPermissions permis="edit_committee">
-                                                            <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
-                                                        </SetPermissions>
+                                                        <div className="row ml-1">
+                                                            <SetPermissions permis="edit_committee">
+                                                                <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
+                                                            </SetPermissions>
 
-                                                        <SetPermissions permis="delete_committee">
-                                                            <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
-                                                        </SetPermissions>
+                                                            <SetPermissions permis="delete_committee">
+                                                                <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
+                                                            </SetPermissions>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>

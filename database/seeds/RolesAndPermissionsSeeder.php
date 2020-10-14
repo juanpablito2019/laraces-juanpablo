@@ -18,7 +18,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // $admin->givePermissionTo('create_act_template');
         // $admin->givePermissionTo('edit_act_template');
         // $admin->givePermissionTo('delete_act_template');
-        
+
         $admin->givePermissionTo('list_committee');
         $admin->givePermissionTo('create_committee');
         $admin->givePermissionTo('edit_committee');
@@ -103,7 +103,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('create_position');
         $admin->givePermissionTo('edit_position');
         $admin->givePermissionTo('delete_position');
-        
+
         $admin->givePermissionTo('list_role');
         $admin->givePermissionTo('create_role');
         $admin->givePermissionTo('edit_role');
@@ -123,7 +123,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('create_user');
         $admin->givePermissionTo('edit_user');
         $admin->givePermissionTo('delete_user');
-        
+
         $cordi  = Role::find(3); // Permisos Coordinador
 
         $cordi->givePermissionTo('list_act_template');
