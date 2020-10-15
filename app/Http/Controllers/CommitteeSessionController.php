@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CommitteeSessionRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class CommitteeSessionController extends Controller
 {
@@ -26,15 +25,7 @@ class CommitteeSessionController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [CommitteeSession::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [CommitteeSession::class]);
         return CommitteeSession::all();
     }
 
@@ -46,15 +37,7 @@ class CommitteeSessionController extends Controller
      */
     public function store(CommitteeSessionRequest $request)
     {
-        try {
-            $this->authorize('create', [CommitteeSession::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [CommitteeSession::class]);
         $learners = $request->get('learners');
         for ($i = 0; $i < count($learners); $i++) {
             CommitteeSession::create([
@@ -115,15 +98,7 @@ class CommitteeSessionController extends Controller
      */
     public function update(CommitteeSessionRequest $request, CommitteeSession $committeeSession)
     {
-        try {
-            $this->authorize('update', [CommitteeSession::class, $committeeSession]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [CommitteeSession::class, $committeeSession]);
         $committeeSession->infringement_type_id = $request->get('infringement_type_id');
         $committeeSession->learner_id = $request->get('learners')[0];
         $committeeSession->save();
@@ -142,14 +117,7 @@ class CommitteeSessionController extends Controller
      */
     public function destroy(CommitteeSession $committeeSession)
     {
-        try {
-            $this->authorize('delete', [CommitteeSession::class, $committeeSession]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [CommitteeSession::class, $committeeSession]);
 
         $committeeSession->delete();
         return response()->json([

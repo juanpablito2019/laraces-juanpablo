@@ -6,7 +6,6 @@ use App\Committee;
 use App\LearnerNovelty;
 use Illuminate\Http\Request;
 use App\Http\Requests\LearnerNoveltyRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class LearnerNoveltyController extends Controller
 {
@@ -17,15 +16,7 @@ class LearnerNoveltyController extends Controller
      */
     public function index(Committee $committee)
     {
-        try {
-            $this->authorize('viewAny', [LearnerNovelty::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [LearnerNovelty::class]);
         return LearnerNovelty::with('learner', 'committee', 'noveltyType')->where('committee_id', $committee->id)->get();
     }
 
@@ -36,15 +27,7 @@ class LearnerNoveltyController extends Controller
      */
     public function indexAll()
     {
-        try {
-            $this->authorize('viewAny', [LearnerNovelty::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [LearnerNovelty::class]);
         return LearnerNovelty::with('learner', 'committee', 'noveltyType')->get();
         // return LearnerNovelty::all();
     }
@@ -57,14 +40,7 @@ class LearnerNoveltyController extends Controller
      */
     public function store(LearnerNoveltyRequest $request)
     {
-        try {
-            $this->authorize('create', [LearnerNovelty::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [LearnerNovelty::class]);
 
         LearnerNovelty::create([
             'committee_id'    => $request->get('committee_id'),
@@ -88,14 +64,7 @@ class LearnerNoveltyController extends Controller
      */
     public function show(LearnerNovelty $learnerNovelty)
     {
-        try {
-            $this->authorize('view', [LearnerNovelty::class, $learnerNovelty]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('view', [LearnerNovelty::class, $learnerNovelty]);
 
         $learnerNovelty->learner->group->formationProgram;
         $learnerNovelty->noveltyType;
@@ -111,15 +80,7 @@ class LearnerNoveltyController extends Controller
      */
     public function update(LearnerNoveltyRequest $request, LearnerNovelty $learnerNovelty)
     {
-        try {
-            $this->authorize('update', [LearnerNovelty::class, $learnerNovelty]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [LearnerNovelty::class, $learnerNovelty]);
         $learnerNovelty->learner_id = $request->get('learner_id');
         $learnerNovelty->novelty_type_id = $request->get('novelty_type_id');
         $learnerNovelty->justification = $request->get('justification');
@@ -139,14 +100,7 @@ class LearnerNoveltyController extends Controller
      */
     public function destroy(LearnerNovelty $learnerNovelty)
     {
-        try {
-            $this->authorize('delete', [LearnerNovelty::class, $learnerNovelty]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [LearnerNovelty::class, $learnerNovelty]);
 
         try {
             $learnerNovelty->delete();

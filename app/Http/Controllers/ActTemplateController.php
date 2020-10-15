@@ -8,7 +8,6 @@ use App\CommitteeSessionState;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ActTemplateRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class ActTemplateController extends Controller
 {
@@ -19,15 +18,7 @@ class ActTemplateController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [ActTemplate::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-        
+        $this->authorize('viewAny', [ActTemplate::class]);
         return ActTemplate::all();
     }
 
@@ -49,14 +40,7 @@ class ActTemplateController extends Controller
      */
     public function store(ActTemplateRequest $request)
     {
-        try {
-            $this->authorize('create', [ActTemplate::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [ActTemplate::class]);
 
         $act_template = ActTemplate::where([
             ['act_type','=', $request->get('act_type')],
@@ -113,15 +97,7 @@ class ActTemplateController extends Controller
      */
     public function show(ActTemplate $actTemplate)
     {
-        try {
-            $this->authorize('view', [ActTemplate::class, $actTemplate]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [ActTemplate::class, $actTemplate]);
         return $actTemplate;
     }
 
@@ -145,15 +121,7 @@ class ActTemplateController extends Controller
      */
     public function update(ActTemplateRequest $request, ActTemplate $actTemplate)
     {
-        try {
-            $this->authorize('update', [ActTemplate::class, $actTemplate]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [ActTemplate::class, $actTemplate]);
         $act_template = ActTemplate::where([
             ['act_type','=', $request->get('act_type')],
             ['version','=', $request->get('version')],
@@ -210,14 +178,7 @@ class ActTemplateController extends Controller
      */
     public function destroy(ActTemplate $actTemplate)
     {
-        try {
-            $this->authorize('delete', [ActTemplate::class, $actTemplate]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [ActTemplate::class, $actTemplate]);
 
         if($actTemplate->path){
             if(File::exists(public_path("/storage/".$actTemplate->path))){
