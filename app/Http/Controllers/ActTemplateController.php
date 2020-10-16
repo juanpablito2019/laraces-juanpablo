@@ -249,4 +249,9 @@ class ActTemplateController extends Controller
             abort(404);
         }
     }
+
+    public function view($file)
+    {
+        return $file;
+    }
 }
