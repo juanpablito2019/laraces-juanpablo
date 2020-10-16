@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('login-app');
 
 Route::get('login', function(){
     return redirect()->route('login-app');
@@ -56,6 +53,13 @@ Route::get('app/logout', function () {
     session()->flush();
     return redirect('/');
 });
+
+Route::get('/', function () {
+    if(auth()->user()){
+        return redirect('/app');
+    }
+    return view('welcome');
+})->name('login-app');
 
 Route::group(['middleware' => ['auth']], function () {
 

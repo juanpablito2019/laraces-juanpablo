@@ -10,10 +10,17 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+        <style>
+            .center{
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+
     </head>
     <body>
-        <div class="container" style="margin: 200px auto">
-            <div class="row">
+        <div class="container" style="margin: 150px auto">
+            <div class="row center">
                 <div class="col-12 col-md-8 col-lg-4 mx-auto">
                     <div class="card border">
                         <div class="card-body">
