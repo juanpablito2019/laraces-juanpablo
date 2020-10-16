@@ -56,19 +56,32 @@ class ActTemplates extends Component {
         $('#filename').html(`<a href="/storage/${data.path}">Archivo actual</a>`);
         $('.modal').modal('toggle');
     }
-
-    async handleDelete(e) {
+    
+    handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Seguro desea eliminar este item?');
-        if (res) {
-            let data = await destroy(id);
-            if (data.success) {
-                await this.getActTemplates();
-                toastr.success('', data.message, {
-                    closeButton: true
-                });
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroy(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getActTemplates();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
             }
-        }
+        })
     }
 
     handleInput(e) {

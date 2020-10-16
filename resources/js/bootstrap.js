@@ -8,6 +8,7 @@ window._ = require('lodash');
  */
 
 try {
+    swal = require('sweetalert2');
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
     window.toastr = require('toastr');

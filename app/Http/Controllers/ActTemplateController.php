@@ -185,12 +185,24 @@ class ActTemplateController extends Controller
                 File::delete(public_path("/storage/".$actTemplate->path));
             }
         }
-        $actTemplate->delete();
-        return response()->json([
-            'success'=>true,
-            'status'=>200,
-            'message'=>'Plantilla de acta eliminada con exito'
-        ]);
+
+        try {
+            $actTemplate->delete();
+            return response()->json([
+                'success'=>true,
+                'status'=>200,
+                'message'=>'Plantilla de acta eliminada con exito'
+            ]);
+        } catch (\Throwable $th) {
+            $error = $th->errorInfo;
+            if($error[1] == "1451"){
+                return response()->json([
+                    'status'=>500,
+                    'success'=>false,
+                    'message'=>'No se puede eliminar el registro porque está vinculado a un proceso de comité'
+                ]);
+            }
+        }
     }
 
     public function findActive()

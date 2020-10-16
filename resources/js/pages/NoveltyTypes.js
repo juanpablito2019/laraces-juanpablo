@@ -53,21 +53,29 @@ class NoveltyTypes extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este tipo de novedad?');
-        if (res) {
-            destroy(id).then(data => {
-                if (data.success) {
-                    this.getNoveltyTypes();
-                    toastr.success('', data.message, {
-                        closeButton: true
-                    });
-                }else {
-                    toastr.error('', data.message, {
-                        closeButton: true
-                    });
-                }
-            })
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroy(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getNoveltyTypes();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
 
     search(e) {

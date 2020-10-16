@@ -96,21 +96,29 @@ class CommitteeParameters extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este parámetro de acta?');
-        if (res) {
-            destroy(id).then(data => {
-                if (data.success) {
-                    this.getCommitteeParameters();
-                    toastr.success('', data.message, {
-                        closeButton: true
-                    });
-                } else {
-                    toastr.error('', data.message, {
-                        closeButton: true
-                    });
-                }
-            })
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroy(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getCommitteeParameters();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
 
     handleInput(e) {
