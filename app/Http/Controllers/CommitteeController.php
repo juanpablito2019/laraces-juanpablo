@@ -53,9 +53,11 @@ class CommitteeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Committee $committee)
     {   
-        return Committee::with('committeeSessions.learner', 'committeeSessions.committeeSessionState')->find($id);
+        $this->authorize('view', [Committee::class, $committee]);
+        $committee->load(['committeeSessions.learner', 'committeeSessions.committeeSessionState']);
+        return $committee;
     }
 
     /**
