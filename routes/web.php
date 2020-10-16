@@ -26,15 +26,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('app/logout', function() {
+Route::get('app/logout', function () {
     session()->flush();
-    return redirect('login');
+    return redirect('/');
 });
 
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/app/{path?}', [
-        'uses' => function(){
+        'uses' => function () {
             return view('react');
         },
         'as' => 'react',
@@ -78,6 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sanctions', 'SanctionController');
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');
+    Route::get('act-templates/view/{file}', 'ActTemplateController@view');
     Route::get('act-templates/active', 'ActTemplateController@findActive');
     Route::get('act-templates/type/{act_type}', 'ActTemplateController@findByType');
     Route::resource('act-templates', 'ActTemplateController');
@@ -103,29 +104,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::put('/save-sanction/{id}', 'CommitteeSessionController@saveSanction');
     Route::get('/export-sanction/{id}', 'CommitteeSessionController@exportSanction');
-
-
 });
 
 Route::get('/userPermissions', function () {
 
     $user = Auth::user();
 
-    if ($user->id == 1){
-        $super = true;
-    }else{
-        $super = false;
-    }
-
-    if($user) {
-        return response()->json([
-            'superAdmin'=>$super,
-            'permissions'=>$user->getPermissionsViaRoles()
-        ]);
-    }
-
-
+    return response()->json([
+        'superAdmin' => $user->id == 1,
+        'permissions' => $user->getPermissionsViaRoles()
+    ]);
 });
-
-
-

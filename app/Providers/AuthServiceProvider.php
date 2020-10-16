@@ -57,7 +57,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
         ActTemplate::class => ActTemplatePolicy::class,
         Committee::class => CommitteePolicy::class,
         CommitteeParameter::class => CommitteeParameterPolicy::class,
