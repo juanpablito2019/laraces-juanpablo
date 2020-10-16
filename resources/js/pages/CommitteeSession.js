@@ -108,15 +108,33 @@ class CommitteeSession extends Component {
 
     }
 
-    async deleteComplainer(e) {
+    deleteComplainer(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Esta seguro?');
-        if (res) {
-            let data = await deleteComplainer(this.state.id);
-            toastr.success(data.message);
-            this.getCommitteeSession();
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteComplainer(this.state.id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getCommitteeSession();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
+
     async detachResponsible(e) {
         let id = $(e.target).data('id');
         let res = confirm('¿Esta seguro?');
