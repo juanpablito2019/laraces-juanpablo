@@ -139,21 +139,29 @@ class Groups extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este grupo?');
-        if (res) {
-            destroy(id).then(data => {
-                if (data.success) {
-                    this.getGroups();
-                    toastr.success('', data.message, {
-                        closeButton: true
-                    });
-                }else{
-                    toastr.error('', data.message, {
-                        closeButton: true
-                    });
-                }
-            })
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroy(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getGroups();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
 
     handleChange(value) {

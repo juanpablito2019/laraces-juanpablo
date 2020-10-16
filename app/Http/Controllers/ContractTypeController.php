@@ -96,7 +96,7 @@ class ContractTypeController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a responsables de medida formativa'
                 ]);
             }
         }
