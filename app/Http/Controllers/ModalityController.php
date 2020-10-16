@@ -6,7 +6,6 @@ use App\Modality;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\ModalityRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class ModalityController extends Controller
 {
@@ -17,14 +16,7 @@ class ModalityController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [Modality::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('viewAny', [Modality::class]);
 
         return Modality::all();
     }
@@ -37,14 +29,7 @@ class ModalityController extends Controller
      */
     public function store(ModalityRequest $request)
     {
-        try {
-            $this->authorize('create', [Modality::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [Modality::class]);
 
         Modality::create([
             'name' => $request->get('name')
@@ -64,14 +49,7 @@ class ModalityController extends Controller
      */
     public function show(Modality $modality)
     {
-        try {
-            $this->authorize('view', [Modality::class, $modality]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('view', [Modality::class, $modality]);
 
         return $modality;
     }
@@ -85,14 +63,7 @@ class ModalityController extends Controller
      */
     public function update(ModalityRequest $request, Modality $modality)
     {
-        try {
-            $this->authorize('update', [Modality::class, $modality]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('update', [Modality::class, $modality]);
 
         // dd($request->all());
         $modality->name = $request->get('name');
@@ -112,14 +83,7 @@ class ModalityController extends Controller
      */
     public function destroy(Modality $modality)
     {
-        try {
-            $this->authorize('delete', [Modality::class, $modality]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [Modality::class, $modality]);
 
         try {
             $modality->delete();
@@ -142,14 +106,7 @@ class ModalityController extends Controller
 
     public function mass()
     {
-        try {
-            $this->authorize('create', [Modality::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [Modality::class]);
         
         $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
             'misena_email'=>"consulta@misena.edu.co",

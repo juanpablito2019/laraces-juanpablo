@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\NoveltyType;
 use Illuminate\Http\Request;
 use App\Http\Requests\NoveltyTypeRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class NoveltyTypeController extends Controller
 {
@@ -16,14 +15,7 @@ class NoveltyTypeController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [NoveltyType::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('viewAny', [NoveltyType::class]);
 
         return NoveltyType::all();
     }
@@ -36,14 +28,7 @@ class NoveltyTypeController extends Controller
      */
     public function store(NoveltyTypeRequest $request)
     {
-        try {
-            $this->authorize('create', [NoveltyType::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [NoveltyType::class]);
 
         NoveltyType::create([
             'name' => $request->get('name')
@@ -63,15 +48,7 @@ class NoveltyTypeController extends Controller
      */
     public function show(NoveltyType $noveltyType)
     {
-        try {
-            $this->authorize('view', [NoveltyType::class, $noveltyType]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [NoveltyType::class, $noveltyType]);
         return $noveltyType;
     }
 
@@ -84,15 +61,7 @@ class NoveltyTypeController extends Controller
      */
     public function update(NoveltyTypeRequest $request, NoveltyType $noveltyType)
     {
-        try {
-            $this->authorize('update', [NoveltyType::class, $noveltyType]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [NoveltyType::class, $noveltyType]);
         $noveltyType->name = $request->get('name');
         $noveltyType->save();
         return response()->json([
@@ -110,15 +79,7 @@ class NoveltyTypeController extends Controller
      */
     public function destroy(NoveltyType $noveltyType)
     {
-        try {
-            $this->authorize('delete', [NoveltyType::class, $noveltyType]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('delete', [NoveltyType::class, $noveltyType]);
         try {
             $noveltyType->delete();
             return response()->json([
