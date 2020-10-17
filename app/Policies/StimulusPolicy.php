@@ -20,7 +20,8 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_stimulus')){
+        }
+        if($user->hasPermissionTo('list_stimulus')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_stimulus')){
+        }
+        if($user->hasPermissionTo('list_stimulus')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_stimulus')){
+        }
+        if($user->hasPermissionTo('create_stimulus')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_stimulus')){
+        }
+        if($user->hasPermissionTo('edit_stimulus')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class StimulusPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_stimulus')){
+        }
+        if($user->hasPermissionTo('delete_stimulus')){
             return true;
         }
     }

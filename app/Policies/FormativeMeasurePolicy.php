@@ -20,7 +20,8 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_formative_measure')){
+        }
+        if($user->hasPermissionTo('list_formative_measure')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_formative_measure')){
+        }
+        if($user->hasPermissionTo('list_formative_measure')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_formative_measure')){
+        }
+        if($user->hasPermissionTo('create_formative_measure')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_formative_measure')){
+        }
+        if($user->hasPermissionTo('edit_formative_measure')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class FormativeMeasurePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_formative_measure')){
+        }
+        if($user->hasPermissionTo('delete_formative_measure')){
             return true;
         }
     }

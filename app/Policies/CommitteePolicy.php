@@ -20,7 +20,8 @@ class CommitteePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_committee')){
+        }
+        if($user->hasPermissionTo('list_committee')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class CommitteePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_committee')){
+        }
+        if($user->hasPermissionTo('list_committee')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class CommitteePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_committee')){
+        }
+        if($user->hasPermissionTo('create_committee')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class CommitteePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_committee')){
+        }
+        if($user->hasPermissionTo('edit_committee')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class CommitteePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_committee')){
+        }
+        if($user->hasPermissionTo('delete_committee')){
             return true;
         }
     }

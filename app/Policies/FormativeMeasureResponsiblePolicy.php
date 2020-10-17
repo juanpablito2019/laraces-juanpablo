@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Learner;
+use App\FormativeMeasureResponsible;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class LearnerPolicy
+class FormativeMeasureResponsiblePolicy
 {
     use HandlesAuthorization;
 
@@ -21,7 +21,7 @@ class LearnerPolicy
         if($user->hasRole('SuperAdmin')){
             return true;
         }
-        if($user->hasPermissionTo('list_learner')){
+        if($user->hasPermissionTo('list_formative-measure-responsibles')){
             return true;
         }
     }
@@ -30,15 +30,15 @@ class LearnerPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Learner  $learner
+     * @param  \App\FormativeMeasureResponsible  $formativeMeasureResponsible
      * @return mixed
      */
-    public function view(User $user, Learner $learner)
+    public function view(User $user, FormativeMeasureResponsible $formativeMeasureResponsible)
     {
         if($user->hasRole('SuperAdmin')){
             return true;
         }
-        if($user->hasPermissionTo('list_learner')){
+        if($user->hasPermissionTo('list_formative-measure-responsibles')){
             return true;
         }
     }
@@ -54,7 +54,7 @@ class LearnerPolicy
         if($user->hasRole('SuperAdmin')){
             return true;
         }
-        if($user->hasPermissionTo('create_learner')){
+        if($user->hasPermissionTo('create_formative-measure-responsibles')){
             return true;
         }
     }
@@ -63,15 +63,15 @@ class LearnerPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Learner  $learner
+     * @param  \App\FormativeMeasureResponsible  $formativeMeasureResponsible
      * @return mixed
      */
-    public function update(User $user, Learner $learner)
+    public function update(User $user, FormativeMeasureResponsible $formativeMeasureResponsible)
     {
         if($user->hasRole('SuperAdmin')){
             return true;
         }
-        if($user->hasPermissionTo('edit_learner')){
+        if($user->hasPermissionTo('edit_formative-measure-responsibles')){
             return true;
         }
     }
@@ -80,15 +80,15 @@ class LearnerPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Learner  $learner
+     * @param  \App\FormativeMeasureResponsible  $formativeMeasureResponsible
      * @return mixed
      */
-    public function delete(User $user, Learner $learner)
+    public function delete(User $user, FormativeMeasureResponsible $formativeMeasureResponsible)
     {
         if($user->hasRole('SuperAdmin')){
             return true;
         }
-        if($user->hasPermissionTo('delete_learner')){
+        if($user->hasPermissionTo('delete_formative-measure-responsibles')){
             return true;
         }
     }
@@ -97,10 +97,10 @@ class LearnerPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Learner  $learner
+     * @param  \App\FormativeMeasureResponsible  $formativeMeasureResponsible
      * @return mixed
      */
-    public function restore(User $user, Learner $learner)
+    public function restore(User $user, FormativeMeasureResponsible $formativeMeasureResponsible)
     {
         //
     }
@@ -109,10 +109,10 @@ class LearnerPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Learner  $learner
+     * @param  \App\FormativeMeasureResponsible  $formativeMeasureResponsible
      * @return mixed
      */
-    public function forceDelete(User $user, Learner $learner)
+    public function forceDelete(User $user, FormativeMeasureResponsible $formativeMeasureResponsible)
     {
         //
     }

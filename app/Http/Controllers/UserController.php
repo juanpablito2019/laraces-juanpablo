@@ -89,22 +89,11 @@ class UserController extends Controller
     {
         $this->authorize('delete', [User::class, $user]);
 
-        try {
-            $user->delete();
+        $user->delete();
             return response()->json([
                 'status'=>200,
                 'success'=>true,
                 'message'=>'Usuario eliminado exitosamente'
-            ]);
-        } catch (\Throwable $th) {
-            $error = $th->errorInfo;
-            if($error[1] == "1451"){
-                return response()->json([
-                    'status'=>500,
-                    'success'=>false,
-                    'message'=>'No se puede eliminar el registro porque está vinculado con la sesion actual'
-                ]);
-            }
-        }
+        ]);
     }
 }

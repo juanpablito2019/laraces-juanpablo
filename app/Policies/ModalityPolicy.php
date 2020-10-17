@@ -20,7 +20,8 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_modality')){
+        }
+        if($user->hasPermissionTo('list_modality')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_modality')){
+        }
+        if($user->hasPermissionTo('list_modality')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_modality')){
+        }
+        if($user->hasPermissionTo('create_modality')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_modality')){
+        }
+        if($user->hasPermissionTo('edit_modality')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class ModalityPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_modality')){
+        }
+        if($user->hasPermissionTo('delete_modality')){
             return true;
         }
     }

@@ -18,9 +18,10 @@ class GeneralParameterPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->hasPermissionTo('list_general_parameter')){
+        if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasRole('SuperAdmin')){
+        }
+        if($user->hasPermissionTo('list_general_parameter')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class GeneralParameterPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_general_parameter')){
+        }
+        if($user->hasPermissionTo('list_general_parameter')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class GeneralParameterPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_general_parameter')){
+        }
+        if($user->hasPermissionTo('create_general_parameter')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class GeneralParameterPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_general_parameter')){
+        }
+        if($user->hasPermissionTo('edit_general_parameter')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class GeneralParameterPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_general_parameter')){
+        }
+        if($user->hasPermissionTo('delete_general_parameter')){
             return true;
         }
     }

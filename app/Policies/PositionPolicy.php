@@ -20,7 +20,8 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_position')){
+        }
+        if($user->hasPermissionTo('list_position')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_position')){
+        }
+        if($user->hasPermissionTo('list_position')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_position')){
+        }
+        if($user->hasPermissionTo('create_position')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_position')){
+        }
+        if($user->hasPermissionTo('edit_position')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class PositionPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_position')){
+        }
+        if($user->hasPermissionTo('delete_position')){
             return true;
         }
     }

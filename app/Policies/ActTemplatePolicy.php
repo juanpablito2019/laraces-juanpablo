@@ -20,7 +20,8 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_act_template')){
+        }
+        if($user->hasPermissionTo('list_act_template')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_act_template')){
+        }
+        if($user->hasPermissionTo('list_act_template')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_act_template')){
+        }
+        if($user->hasPermissionTo('create_act_template')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_act_template')){
+        }
+        if($user->hasPermissionTo('edit_act_template')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class ActTemplatePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_act_template')){
+        }
+        if($user->hasPermissionTo('delete_act_template')){
             return true;
         }
     }
