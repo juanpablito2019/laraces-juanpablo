@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
+
+use function PHPSTORM_META\map;
 
 class UserController extends Controller
 {
@@ -53,6 +56,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $this->authorize('view', [User::class, $user]);
+        $user->load('roles');
         return $user;
 
     }
@@ -68,14 +72,36 @@ class UserController extends Controller
     {
         $this->authorize('update', [User::class, $user]);
         
+        
+    }
+
+    public function updatePersonalInformation(Request $request, User $user)
+    {
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        $user->password = $request->get('password');
         $user->save();
         return response()->json([
             'status'=>200,
             'success'=>true,
-            'message'=>'Cargo actualizado exitosamente'
+            'message'=>'Informacion personal actualizada con exito'
+        ]);
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        if($request->get('password') != $request->get('password_confirm')){
+            return response()->json([
+                'status'=>400,
+                'success'=>false,
+                'message'=>'Las contraseñas no coinciden'
+            ]);
+        }
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Contraseña actualizada con exito'
         ]);
     }
 

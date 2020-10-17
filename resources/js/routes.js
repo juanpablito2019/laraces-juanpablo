@@ -20,64 +20,63 @@ import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
 import Rol from "./pages/CreateRoles";
+import Profile from "./pages/Profile";
 
 
+function permission(name) {
+    var arreglo = new Array;
+    var permis = new Array;
 
 
-    function permission(name) {
-        var arreglo = new Array;
-        var permis = new Array;
+    const getPemissionsByRoles = async () => {
+        let data = await fetch('/userPermissions');
+        let res = await data.json();
 
+        res.permissions.map(permiso => {
+            permis.push(permiso.name)
+        })
 
-        const getPemissionsByRoles = async ()=>{
-            let data = await fetch('/userPermissions');
-            let res = await data.json();
+        localStorage.setItem("permis", JSON.stringify(permis));
 
-            res.permissions.map(permiso =>{
-                permis.push(permiso.name)
-            })
-
-            localStorage.setItem( "permis", JSON.stringify( permis));
-
-            if(res.superAdmin == true){
-                localStorage.setItem( "rol_id", JSON.stringify( 1 ) ) ;
-            }else{
-                localStorage.setItem( "rol_id", JSON.stringify( 2 ) ) ;
-            }
-
-
-            arreglo = JSON.parse(localStorage.getItem( "permis"));
-
-
-        }
-
-        getPemissionsByRoles();
-
-        arreglo = JSON.parse(localStorage.getItem( "permis"));
-        var rol_id = JSON.parse(localStorage.getItem( "rol_id"));
-        var bool;
-
-        if(rol_id == 1){
-            bool = true
+        if (res.superAdmin == true) {
+            localStorage.setItem("rol_id", JSON.stringify(1));
+        } else {
+            localStorage.setItem("rol_id", JSON.stringify(2));
         }
 
 
-        if(arreglo){
+        arreglo = JSON.parse(localStorage.getItem("permis"));
 
-            arreglo.map(element => {
-
-                if(name == element){
-                    bool = true
-                }
-            });
-
-        }
-
-        return bool
 
     }
 
-    permission('name');
+    getPemissionsByRoles();
+
+    arreglo = JSON.parse(localStorage.getItem("permis"));
+    var rol_id = JSON.parse(localStorage.getItem("rol_id"));
+    var bool;
+
+    if (rol_id == 1) {
+        bool = true
+    }
+
+
+    if (arreglo) {
+
+        arreglo.map(element => {
+
+            if (name == element) {
+                bool = true
+            }
+        });
+
+    }
+
+    return bool
+
+}
+
+permission('name');
 
 
 
@@ -129,7 +128,7 @@ export default [
             {
                 name: 'Clasificacion de las faltas',
                 path: '/infringement-classifications',
-                visible:  permission('list_infringement_classification'),
+                visible: permission('list_infringement_classification'),
                 component: InfringementClassifications
             },
             {
@@ -230,6 +229,12 @@ export default [
         path: '/roles/create',
         visible: false,
         component: Rol
+    },
+    {
+        name: 'Profile',
+        path: '/profile/:id',
+        visible: false,
+        component: Profile
     },
 
 ]
