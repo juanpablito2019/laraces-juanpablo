@@ -20,7 +20,8 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_group')){
+        }
+        if($user->hasPermissionTo('list_group')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_group')){
+        }
+        if($user->hasPermissionTo('list_group')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_group')){
+        }
+        if($user->hasPermissionTo('create_group')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_group')){
+        }
+        if($user->hasPermissionTo('edit_group')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class GroupPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_group')){
+        }
+        if($user->hasPermissionTo('delete_group')){
             return true;
         }
     }

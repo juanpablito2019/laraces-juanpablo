@@ -35,6 +35,7 @@ use Spatie\Permission\Models\Role;
 use App\InfringementClassification;
 use App\Policies\ActTemplatePolicy;
 use App\Policies\NoveltyTypePolicy;
+use App\FormativeMeasureResponsible;
 use App\Policies\ContractTypePolicy;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\LearnerNoveltyPolicy;
@@ -47,6 +48,7 @@ use App\Policies\CommitteeParameterPolicy;
 use App\Policies\FormationProgramTypePolicy;
 use App\Policies\CommitteeSessionStatePolicy;
 use App\Policies\InfringementClassificationPolicy;
+use App\Policies\FormativeMeasureResponsiblePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -79,6 +81,7 @@ class AuthServiceProvider extends ServiceProvider
         Role::class => RolePolicy::class,
         Sanction::class => SanctionPolicy::class,
         User::class => UserPolicy::class,
+        FormativeMeasureResponsible::class => FormativeMeasureResponsiblePolicy::class,
     ];
 
     /**

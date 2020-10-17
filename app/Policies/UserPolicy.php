@@ -55,7 +55,8 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_user')){
+        }
+        if($user->hasPermissionTo('create_user')){
             return true;
         }
     }
@@ -91,7 +92,8 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_user')){
+        }
+        if($user->hasPermissionTo('delete_user')){
             return true;
         }
     }

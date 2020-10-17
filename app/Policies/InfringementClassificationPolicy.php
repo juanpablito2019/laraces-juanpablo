@@ -20,7 +20,8 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_infringement_classification')){
+        }
+        if($user->hasPermissionTo('list_infringement_classification')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_infringement_classification')){
+        }
+        if($user->hasPermissionTo('list_infringement_classification')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_infringement_classification')){
+        }
+        if($user->hasPermissionTo('create_infringement_classification')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_infringement_classification')){
+        }
+        if($user->hasPermissionTo('edit_infringement_classification')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class InfringementClassificationPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_infringement_classification')){
+        }
+        if($user->hasPermissionTo('delete_infringement_classification')){
             return true;
         }
     }

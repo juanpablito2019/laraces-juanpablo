@@ -20,7 +20,8 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_learner_novelty')){
+        }
+        if($user->hasPermissionTo('list_learner_novelty')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_learner_novelty')){
+        }
+        if($user->hasPermissionTo('list_learner_novelty')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_learner_novelty')){
+        }
+        if($user->hasPermissionTo('create_learner_novelty')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_learner_novelty')){
+        }
+        if($user->hasPermissionTo('edit_learner_novelty')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class LearnerNoveltyPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_learner_novelty')){
+        }
+        if($user->hasPermissionTo('delete_learner_novelty')){
             return true;
         }
     }
