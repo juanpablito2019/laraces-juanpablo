@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -24,7 +25,7 @@ class UserController extends Controller
                 return response()->json(403);
             }
         }
-        
+
         return User::all();
     }
 
@@ -44,11 +45,21 @@ class UserController extends Controller
                 return response()->json(403);
             }
         }
+        if (isset($request)) {
+            //Carácteres para la contraseña
+            $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+            $password = "";
+            //Reconstruimos la contraseña segun la longitud que se quiera
+            for($i=0;$i<8;$i++) {
+               //obtenemos un caracter aleatorio escogido de la cadena de caracteres
+               $password .= substr($str,rand(0,62),1);
+            }
+        }
 
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => $request->get('password'),
+            'password' =>Hash::make($password)
         ]);
 
         $user->assignRole($request->get('rol'));

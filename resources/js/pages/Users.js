@@ -24,6 +24,11 @@ class Users extends Component {
     }
     async getUsers() {
         let data = await get();
+        console.log(data);
+
+        if (data == 403) {
+            return <Redirect to='/app' />
+          }
         this.setState({ users: data });
 
     }
@@ -49,7 +54,7 @@ class Users extends Component {
         $('.modal').find('.modal-title').text('Editar usuario');
         $('.modal').find('#name').val(data.name);
         $('.modal').find('#email').val(data.email);
-        $('.modal').find('#password').val(data.password);
+        // $('.modal').find('#password').val(data.password);
         $('.modal').modal('toggle');
     }
 
@@ -208,7 +213,7 @@ class Users extends Component {
                                             {rules.email.isInvalid && rules.email.message != '' ? rules.email.message : ''}
                                         </div>
                                     </div>
-                                    <div className="form-group">
+                                    {/* <div className="form-group">
                                         <label htmlFor="">Contraseña</label>
                                         <input
                                             type="password"
@@ -225,7 +230,7 @@ class Users extends Component {
                                     <div className="form-group">
                                         <label htmlFor="password-confirm">Confirmar contraseña</label>
                                         <input id="password-confirm" type="password" className="form-control" name="password_confirmation" required />
-                                    </div>
+                                    </div> */}
 
                                     <div className="form-group">
                                         <label>Asigne un rol</label>

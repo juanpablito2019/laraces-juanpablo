@@ -161,13 +161,16 @@ class CommitteeParameters extends Component {
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
                                         <h6>Plantilla: {committeeParameter.act_template.act_type} (V{committeeParameter.act_template.version})</h6>
 
-                                        <SetPermissions permis="edit_committee_parameter">
-                                            <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
-                                        </SetPermissions>
+                                        <div className="row ml-1">
+                                            <SetPermissions permis="edit_committee_parameter">
+                                                <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
+                                            </SetPermissions>
 
-                                        <SetPermissions permis="delete_committee_parameter">
-                                            <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                        </SetPermissions>
+                                            <SetPermissions permis="delete_committee_parameter">
+                                                <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                            </SetPermissions>
+                                        </div>
+
 
 
                                     </div>

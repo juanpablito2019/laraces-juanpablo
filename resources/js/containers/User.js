@@ -107,13 +107,5 @@ export const rules = {
         required:true,
         isEmpty: true,
         isInvalid:true
-    },
-    password:{
-        name:'contraseña',
-        type:'text',
-        message:'',
-        required:true,
-        isEmpty: true,
-        isInvalid:true
     }
 };
