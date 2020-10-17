@@ -1,12 +1,8 @@
 <?php
 session_start();
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +16,50 @@ use Spatie\Permission\Models\Role;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('login', function(){
+    return redirect()->route('login-app');
 });
 
-Auth::routes();
+Route::post('login', [
+    'as' => '',
+    'uses' => 'Auth\LoginController@login'
+])->name('login');
+
+Route::post('logout', [
+    'as' => 'logout',
+    'uses' => 'Auth\LoginController@logout'
+]);
+
+// Password Reset Routes...
+Route::post('password/email', [
+    'as' => 'password.email',
+    'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
+]);
+Route::get('password/reset', [
+    'as' => 'password.request',
+    'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
+]);
+Route::post('password/reset', [
+    'as' => 'password.update',
+    'uses' => 'Auth\ResetPasswordController@reset'
+]);
+Route::get('password/reset/{token}', [
+    'as' => 'password.reset',
+    'uses' => 'Auth\ResetPasswordController@showResetForm'
+]);
 
 Route::get('app/logout', function () {
     session()->flush();
     return redirect('/');
 });
+
+Route::get('/', function () {
+    if(auth()->user()){
+        return redirect('/app');
+    }
+    return view('welcome');
+})->name('login-app');
 
 Route::group(['middleware' => ['auth']], function () {
 
