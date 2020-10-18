@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/FormationPrograms';
 import {get as getFormationProgramTypes} from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 import { formValid, validate, setRules } from '../containers/Validator';
 
 class FormationPrograms extends Component {
@@ -167,10 +167,10 @@ class FormationPrograms extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Programas</h3>
-                        <SetPermissions permis="create_formation_program">
+                        <VerifyPermission permission="create_formation_program">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo programa de formacion</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </SetPermissions>
+                        </VerifyPermission>
 
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
@@ -207,14 +207,15 @@ class FormationPrograms extends Component {
                                                     <h6 className="text-muted">{formationProgram.code}</h6>
                                                     <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
 
-                                                    <div className="row ml-1">
-                                                            <SetPermissions permis="edit_formation_program">
-                                                                <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
-                                                            </SetPermissions>
 
-                                                            <SetPermissions permis="delete_formation_program">
+                                                    <div className="row">
+                                                            <VerifyPermission permission="edit_formation_program">
+                                                                <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
+                                                            </VerifyPermission>
+
+                                                            <VerifyPermission permission="delete_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
-                                                            </SetPermissions>
+                                                            </VerifyPermission>
                                                     </div>
 
                                                 </div>

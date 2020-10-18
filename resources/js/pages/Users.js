@@ -3,18 +3,7 @@ import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
 import { get, store, find, update, destroy, rules} from '../containers/User';
 import { get as getRoles } from '../containers/Roles';
-import SetPermissions from '../components/SetPermissions';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useHistory,
-    useLocation
-  } from "react-router-dom";
-
-  import ReactDOM from 'react-dom';
+import VerifyPermission from '../components/VerifyPermission';
 
 class Users extends Component {
     constructor(props) {
@@ -198,9 +187,9 @@ class Users extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Usuarios</h3>
-                        <SetPermissions permis="create_user">
+                        <VerifyPermission permission="create_user">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo usuario</span></a>
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                 </div>
                 <div className="row">
@@ -213,14 +202,14 @@ class Users extends Component {
                                         <h6 className="text-muted">{user.email}</h6>
                                         <div className="row">
                                             <div className="col-3">
-                                                <SetPermissions permis="edit_user">
+                                                <VerifyPermission permission="edit_user">
                                                     <a href="#" data-id={user.id} onClick={this.handleEdit} >Editar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
                                             </div>
                                             <div className="col-9">
-                                                <SetPermissions permis="delete_user">
+                                                <VerifyPermission permission="delete_user">
                                                      <a href="#" data-id={user.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
                                             </div>
 
                                         </div>

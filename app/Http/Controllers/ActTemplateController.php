@@ -14,7 +14,8 @@ class ActTemplateController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return ActTemplate[]|\Illuminate\Database\Eloquent\Collection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -22,21 +23,13 @@ class ActTemplateController extends Controller
         return ActTemplate::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(ActTemplateRequest $request)
     {
@@ -81,7 +74,7 @@ class ActTemplateController extends Controller
             'is_active'=>$request->get('is_active'),
             'path'=>$path
         ]);
-        
+
         return response()->json([
             'status'=>201,
             'success'=>true,
@@ -93,7 +86,7 @@ class ActTemplateController extends Controller
      * Display the specified resource.
      *
      * @param  \App\ActTemplate  $actTemplate
-     * @return \Illuminate\Http\Response
+     * @return ActTemplate
      */
     public function show(ActTemplate $actTemplate)
     {
@@ -101,23 +94,14 @@ class ActTemplateController extends Controller
         return $actTemplate;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ActTemplate  $actTemplate
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ActTemplate $actTemplate)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\ActTemplate  $actTemplate
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(ActTemplateRequest $request, ActTemplate $actTemplate)
     {
@@ -174,7 +158,7 @@ class ActTemplateController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\ActTemplate  $actTemplate
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(ActTemplate $actTemplate)
     {
@@ -221,10 +205,5 @@ class ActTemplateController extends Controller
         }else{
             abort(404);
         }
-    }
-
-    public function view($file)
-    {
-        return $file;
     }
 }

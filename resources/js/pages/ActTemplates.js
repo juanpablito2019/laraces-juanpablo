@@ -4,8 +4,9 @@ import Loader from '../components/Loader';
 import { index, store, rules, find, update, destroy } from '../containers/ActTemplate';
 import { get as indexStates } from '../containers/CommitteeSessionStates';
 import { validate, formValid, setRules } from '../containers/Validator';
-import SetPermissions from '../components/SetPermissions';
+
 import moment from 'moment';
+import VerifyPermission from "../components/VerifyPermission";
 
 class ActTemplates extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ class ActTemplates extends Component {
         $('#filename').html(`<a href="/storage/${data.path}">Archivo actual</a>`);
         $('.modal').modal('toggle');
     }
-    
+
     handleDelete(e) {
         let id = $(e.target).data('id');
         swal.fire({
@@ -128,7 +129,6 @@ class ActTemplates extends Component {
             this.setState({ message: 'Por favor complete el formulario' });
         }
     }
-
     componentDidMount() {
         this.getActTemplates();
     }
@@ -143,9 +143,9 @@ class ActTemplates extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Plantillas de actas</h3>
-                        <SetPermissions permis="create_act_template">
+                        <VerifyPermission permission="create_act_template">
                              <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva plantilla</a>
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                 </div>
                     <div className="row mt-3">
@@ -169,13 +169,12 @@ class ActTemplates extends Component {
                                             <td>{actTemplate.is_active == 1 ? (<span className="badge badge-success">Activa</span>) : <span className="badge badge-secondary">Inactiva</span>}</td>
                                             <td>
                                                 <div className="btn-group" role="group" aria-label="Basic example">
-                                                    <SetPermissions permis="edit_act_template">
+                                                    <VerifyPermission permission="edit_act_template">
                                                         <button data-id={actTemplate.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary">Editar</button>
-                                                    </SetPermissions>
-
-                                                    <SetPermissions permis="delete_act_template">
+                                                    </VerifyPermission>
+                                                    <VerifyPermission permission="delete_act_template">
                                                       <button data-id={actTemplate.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger">Eliminar</button>
-                                                    </SetPermissions>
+                                                    </VerifyPermission>
                                                 </div>
                                             </td>
                                         </tr>

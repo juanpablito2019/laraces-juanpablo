@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use function PHPSTORM_META\map;
+use App\Committee;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return User[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
@@ -25,7 +27,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserRequest $request)
     {
@@ -42,6 +44,10 @@ class UserController extends Controller
 
 
         $this->authorize('create', [User::class]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7c24049e1dfc25f0037caafdb2238e4bf9add1fe
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -61,7 +67,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return User
      */
     public function show(User $user)
     {
@@ -118,8 +124,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
@@ -131,5 +139,10 @@ class UserController extends Controller
                 'success'=>true,
                 'message'=>'Usuario eliminado exitosamente'
         ]);
+    }
+
+    public function GetLatestCommittee()
+    {
+        return Committee::all();
     }
 }

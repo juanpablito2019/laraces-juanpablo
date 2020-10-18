@@ -121,6 +121,16 @@ export const updatePassword = async function (id, form) {
     }
 }
 
+export const getReports = async () => {
+    try {
+        let res = await fetch('/users/reports');
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const rules = {
     name: {
         // Properties

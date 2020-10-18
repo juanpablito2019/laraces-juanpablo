@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules,storeMass } from '../containers/ContractTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 
 class ContractTypes extends Component {
@@ -159,10 +159,10 @@ class ContractTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
-                        <SetPermissions permis="create_contract_type">
+                        <VerifyPermission permission="create_contract_type">
                              <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
                             <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
-                        </SetPermissions>
+                        </VerifyPermission>
 
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
@@ -199,13 +199,13 @@ class ContractTypes extends Component {
 
                                                     <div className="row ml-1">
 
-                                                        <SetPermissions permis="edit_contract_type">
+                                                        <VerifyPermission permission="edit_contract_type">
                                                             <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
-                                                        </SetPermissions>
+                                                        </VerifyPermission>
 
-                                                        <SetPermissions permis="delete_contract_type">
+                                                        <VerifyPermission permission="delete_contract_type">
                                                             <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
-                                                        </SetPermissions>
+                                                        </VerifyPermission>
 
                                                     </div>
                                                 </div>

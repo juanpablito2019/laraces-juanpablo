@@ -7,7 +7,7 @@ import { get as getModalities } from '../containers/Modalities';
 import { get as getFormationPrograms } from '../containers/FormationPrograms';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 import { Link } from "react-router-dom";
 
 class Groups extends Component {
@@ -229,10 +229,10 @@ class Groups extends Component {
                     <div className="col">
                         <h3>Grupos</h3>
 
-                        <SetPermissions permis="create_group">
+                        <VerifyPermission permission="create_group">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo grupo</span></a>
                             <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
-                        </SetPermissions>
+                        </VerifyPermission>
 
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
@@ -262,13 +262,10 @@ class Groups extends Component {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-3">
-                                                {/* //vacio// */}
-                                            </div>
                                             <div classname="col-3">
-                                                <SetPermissions permis="edit_group">
+                                                <VerifyPermission permission="edit_group">
                                                     <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
                                             </div>
 
                                             <div classname="col-3">
@@ -276,9 +273,9 @@ class Groups extends Component {
                                             </div>
 
                                             <div classname="col-3">
-                                                <SetPermissions permis="delete_group">
+                                                <VerifyPermission permission="delete_group">
                                                     <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
                                             </div>
                                         </div>
                                     </div>

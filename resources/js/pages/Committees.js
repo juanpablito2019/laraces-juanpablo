@@ -5,7 +5,7 @@ import { getByRol } from "../containers/User";
 import {find as findGeneralParameter} from '../containers/GeneralParameters';
 import Loader from "../components/Loader";
 import { formValid, validate, setRules } from "../containers/Validator";
-import SetPermissions from '../components/SetPermissions'
+import VerifyPermission from '../components/VerifyPermission'
 import moment from 'moment';
 
 class Committees extends Component {
@@ -166,12 +166,12 @@ class Committees extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Comités</h3>
-                        <SetPermissions permis="create_committee">
+                        <VerifyPermission permission="create_committee">
                             <a href="#" onClick={this.handleModal}>
                                 <i className="fa fa-plus" aria-hidden="true"></i>{" "}
                                 Nuevo comité
                             </a>
-                        </SetPermissions>
+                        </VerifyPermission>
 
                     </div>
                 </div>
@@ -218,13 +218,13 @@ class Committees extends Component {
                                                         </h6>
 
                                                         <div className="row ml-1">
-                                                            <SetPermissions permis="edit_committee">
+                                                            <VerifyPermission permission="edit_committee">
                                                                 <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
-                                                            </SetPermissions>
+                                                            </VerifyPermission>
 
-                                                            <SetPermissions permis="delete_committee">
+                                                            <VerifyPermission permission="delete_committee">
                                                                 <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
-                                                            </SetPermissions>
+                                                            </VerifyPermission>
                                                         </div>
 
 

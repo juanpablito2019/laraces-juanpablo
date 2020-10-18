@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-import {get as getCommites} from '../containers/Reports';
 import Loader from "../components/Loader";
 import moment from 'moment';
 
@@ -16,17 +15,8 @@ class Home extends Component{
         }
     }
 
-
-
-    getCommites() {
-        getCommites().then(data => {
-            this.setState({ committes: data });
-            console.log(data);
-        })
-    }
-
     componentDidMount() {
-        this.getCommites();
+        // this.getCommites();
     }
 
     render(){

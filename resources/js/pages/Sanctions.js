@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/Sanctions';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 class Sanctions extends Component {
     constructor(props) {
@@ -136,9 +136,9 @@ class Sanctions extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Sanciones</h3>
-                        <SetPermissions permis="create_sanction">
+                        <VerifyPermission permission="create_sanction">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva sanción</a>
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -172,14 +172,14 @@ class Sanctions extends Component {
                                                     }
                                                 </h5>
                                                 <div className="row ml-1">
-                                                    <SetPermissions permis="edit_sanction">
+                                                    <VerifyPermission permission="edit_sanction">
                                                         <a href="#" data-id={sanction.id} onClick={this.handleEdit}>Editar</a>
-                                                    </SetPermissions>
+                                                    </VerifyPermission>
 
 
-                                                    <SetPermissions permis="delete_sanction">
+                                                    <VerifyPermission permission="delete_sanction">
                                                         <a href="#" data-id={sanction.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                    </SetPermissions>
+                                                    </VerifyPermission>
                                                 </div>
 
                                             </div>

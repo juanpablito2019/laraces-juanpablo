@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/NoveltyTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 class NoveltyTypes extends Component {
     constructor(props) {
@@ -138,9 +138,9 @@ class NoveltyTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de novedades</h3>
-                        <SetPermissions permis="create_novelty_type">
+                        <VerifyPermission permission="create_novelty_type">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de novedad</a>
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -171,14 +171,14 @@ class NoveltyTypes extends Component {
                                                     }
                                                 </h5>
                                                 <div className="row ml-1">
-                                                    <SetPermissions permis="edit_novelty_type">
+                                                    <VerifyPermission permission="edit_novelty_type">
                                                         <a  href="#" data-id={noveltyType.id} onClick={this.handleEdit} >Editar</a>
-                                                    </SetPermissions>
+                                                    </VerifyPermission>
 
 
-                                                    <SetPermissions permis="delete_novelty_type">
+                                                    <VerifyPermission permission="delete_novelty_type">
                                                         <a  href="#" data-id={noveltyType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
-                                                    </SetPermissions>
+                                                    </VerifyPermission>
                                                 </div>
                                             </div>
                                         </div>
