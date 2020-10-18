@@ -4,6 +4,8 @@
  * building robust, powerful web applications using React + Laravel.
  */
 
+import Loader from "./components/Loader";
+
 require('./bootstrap');
 
 import React, { useEffect, useState } from 'react';
@@ -20,6 +22,8 @@ import NotFound from './pages/NotFound';
  */
 
 function App() {
+    const [permissions, setPermissions] = useState(localStorage.getItem('permissions'));
+    const [superAdmin, setSuperAdmin] = useState(null);
     const prefix = '/app';
     const authUsername = document.getElementById('auth-username').content.split('-')[0];
     const authId = document.getElementById('auth-username').content.split('-')[1];
@@ -35,8 +39,43 @@ function App() {
         $(e.target).parent().addClass('active');
     }
 
-    let path = location.pathname.split('/')[2];
+    const getPermissions = async () => {
+        try {
+            let res = await fetch('/userPermissions');
+            let data = await res.json();
+            let permissions = data.permissions.map(permission => permission.name);
+            localStorage.setItem('permissions', permissions);
+            localStorage.setItem('super', data.superAdmin ? 1 : 2);
+            setPermissions(permissions);
+            setSuperAdmin(data.superAdmin);
+        }catch (err) {
+            console.log(err)
+        }
+    }
 
+    const clear = () => {
+        localStorage.clear();
+    }
+
+
+    useEffect(() => {
+        getPermissions();
+    }, []);
+
+    let path = location.pathname.split('/')[2];
+    if(!permissions && !superAdmin){
+        return (
+            <>
+                <div className="container" style={{margin: '200px auto'}}>
+                    <div className="row">
+                        <div className="col">
+                            <Loader />
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
+    }
     return (
         <Router>
             <div className="wrapper">
@@ -106,7 +145,7 @@ function App() {
                                             <div className="dropdown-divider"></div>
                                             <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
                                             <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
-                                            <a className="dropdown-item" href={prefix + "/logout"}>Cerrar session</a>
+                                            <a className="dropdown-item" onClick={clear} href={prefix + "/logout"}>Cerrar session</a>
                                         </div>
                                     </li>
                                 </ul>

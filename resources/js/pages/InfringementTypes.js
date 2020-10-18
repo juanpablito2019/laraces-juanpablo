@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/InfringementTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 class InfringementTypes extends Component {
     constructor(props) {
@@ -118,9 +118,9 @@ class InfringementTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de faltas</h3>
-                        <SetPermissions permis="create_infringement_type">
+                        <VerifyPermission permission="create_infringement_type">
                              {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de infracción</a> */}
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -153,13 +153,13 @@ class InfringementTypes extends Component {
                                                         )
                                                     }
                                                 </h5>
-                                                <SetPermissions permis="edit_infringement_type">
+                                                <VerifyPermission permission="edit_infringement_type">
                                                     <a  href="#" data-id={infringementType.id} onClick={this.handleEdit} >Editar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
 
-                                                <SetPermissions permis="delete_infringement_type">
+                                                <VerifyPermission permission="delete_infringement_type">
                                                  {/* <a  href="#" data-id={infringementType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
-                                                </SetPermissions>
+                                                </VerifyPermission>
                                             </div>
                                         </div>
                                     </div>

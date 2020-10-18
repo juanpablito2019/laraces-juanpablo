@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules,storeMass } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 class Positions extends Component {
     constructor(props) {
@@ -152,10 +152,10 @@ class Positions extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Cargos</h3>
-                        <SetPermissions permis="create_position">
+                        <VerifyPermission permission="create_position">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo cargo</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </SetPermissions>
+                        </VerifyPermission>
 
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
@@ -197,13 +197,13 @@ class Positions extends Component {
                                                 <p className="ml-2">{position.type}</p>
 
                                                 <div className="row ml-2">
-                                                        <SetPermissions permis="edit_position">
+                                                        <VerifyPermission permission="edit_position">
                                                             <a href="#" data-id={position.id} onClick={this.handleEdit} >Editar</a>
-                                                        </SetPermissions>
+                                                        </VerifyPermission>
 
-                                                        <SetPermissions permis="delete_position">
+                                                        <VerifyPermission permission="delete_position">
                                                             <a href="#" data-id={position.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                        </SetPermissions>
+                                                        </VerifyPermission>
                                                 </div>
                                             </div>
 

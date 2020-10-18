@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/FormativeMeasures';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermissions from '../components/VerifyPermission';
 
 class FormativeMeasures extends Component {
     constructor(props) {
@@ -138,9 +138,9 @@ class FormativeMeasures extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Medida formativa</h3>
-                        <SetPermissions permis="create_formative_measure">
+                        <VerifyPermissions permission="create_formative_measure">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nueva medida formativa</a>
-                        </SetPermissions>
+                        </VerifyPermissions>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -175,13 +175,13 @@ class FormativeMeasures extends Component {
                                                 </h5>
 
                                                 <div className="row ml-1">
-                                                    <SetPermissions permis="edit_formative_measure">
+                                                    <VerifyPermissions permission="edit_formative_measure">
                                                         <a href="#" data-id={formativeMeasure.id} onClick={this.handleEdit}>Editar</a>
-                                                    </SetPermissions>
+                                                    </VerifyPermissions>
 
-                                                    <SetPermissions permis="delete_formative_measure">
+                                                    <VerifyPermissions permission="delete_formative_measure">
                                                         <a href="#" data-id={formativeMeasure.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                    </SetPermissions>
+                                                    </VerifyPermissions>
                                                 </div>
 
                                             </div>

@@ -17,4 +17,5 @@ class ActTemplate extends Model
     {
         return $this->hasMany(CommitteeParameter::class);
     }
+
 }

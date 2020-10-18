@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use function PHPSTORM_META\map;
@@ -14,11 +15,11 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return User[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
-        $this->authorize('viewAny', [User::class]);        
+        $this->authorize('viewAny', [User::class]);
         return User::all();
     }
 
@@ -26,12 +27,12 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserRequest $request)
     {
         $this->authorize('create', [User::class]);
-       
+
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -51,7 +52,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return User
      */
     public function show(User $user)
     {
@@ -71,8 +72,8 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $this->authorize('update', [User::class, $user]);
-        
-        
+
+
     }
 
     public function updatePersonalInformation(Request $request, User $user)
@@ -108,8 +109,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
     public function destroy(User $user)
     {

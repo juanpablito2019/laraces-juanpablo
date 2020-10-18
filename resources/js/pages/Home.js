@@ -21,7 +21,7 @@ class Home extends Component{
     getCommites() {
         getCommites().then(data => {
             this.setState({ committes: data });
-            console.log(data);
+
         })
     }
 

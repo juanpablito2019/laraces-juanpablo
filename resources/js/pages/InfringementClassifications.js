@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/InfringementClassifications';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 class InfringementClassifications extends Component {
     constructor(props) {
@@ -117,9 +117,9 @@ class InfringementClassifications extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Clasificación de las faltas</h3>
-                        <SetPermissions permis="create_infringement_classificatio">
+                        <VerifyPermission permission="create_infringement_classificatio">
                             {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar clasificación de infracción</a> */}
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -153,13 +153,13 @@ class InfringementClassifications extends Component {
                                                     }
                                                 </h5>
 
-                                                <SetPermissions permis="edit_infringement_classification">
+                                                <VerifyPermission permission="edit_infringement_classification">
                                                     <a  href="#" data-id={infringementClassification.id} onClick={this.handleEdit} >Editar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
 
-                                                <SetPermissions permis="delete_infringement_classificatio">
+                                                <VerifyPermission permission="delete_infringement_classificatio">
                                                     {/* <a  href="#" data-id={infringementClassification.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
-                                                </SetPermissions>
+                                                </VerifyPermission>
 
                                             </div>
                                         </div>

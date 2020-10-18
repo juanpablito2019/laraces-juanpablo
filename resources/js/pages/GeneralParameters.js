@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, find, update, rules } from '../containers/GeneralParameters';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermissions from '../components/VerifyPermission';
 
 class GeneralParameters extends Component {
     constructor(props) {
@@ -137,9 +137,9 @@ class GeneralParameters extends Component {
 
                                         <div className="row">
                                             <div className="col">
-                                                <SetPermissions permis="edit_general_parameter">
+                                                <VerifyPermissions permission="edit_general_parameter">
                                                     <a href="#" data-id={generalParameter.id} onClick={this.handleEdit} >Editar</a>
-                                                </SetPermissions>
+                                                </VerifyPermissions>
                                             </div>
                                         </div>
 

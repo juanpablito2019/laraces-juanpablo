@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 import {get} from '../containers/Roles';
 
@@ -30,9 +30,9 @@ class Roles extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Roles</h3>
-                        <SetPermissions permis="create_role">
+                        <VerifyPermission permission="create_role">
                          <a href="./roles/create"><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo rol</span></a>
-                        </SetPermissions>
+                        </VerifyPermission>
                     </div>
                 </div>
                 <div className="row">

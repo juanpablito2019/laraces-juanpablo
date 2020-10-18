@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/Modalities';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
-import SetPermissions from '../components/SetPermissions';
+import VerifyPermission from '../components/VerifyPermission';
 
 class Modalities extends Component {
     constructor(props) {
@@ -150,10 +150,10 @@ class Modalities extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Modalidades</h3>
-                        <SetPermissions permis="create_modality">
+                        <VerifyPermission permission="create_modality">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nueva modalidad</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </SetPermissions>
+                        </VerifyPermission>
 
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
@@ -183,20 +183,14 @@ class Modalities extends Component {
                                             }
                                         </h5>
                                         <div className="row ml-1">
-                                                <SetPermissions permis="edit_modality">
+                                                <VerifyPermission permission="edit_modality">
                                                     <a href="#" data-id={modality.id} onClick={this.handleEdit}>Editar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
 
-                                                <SetPermissions permis="delete_modality">
+                                                <VerifyPermission permission="delete_modality">
                                                 <a href="#" data-id={modality.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                </SetPermissions>
+                                                </VerifyPermission>
                                         </div>
-
-
-
-
-
-
                                     </div>
                                 </div>
                             </div>
