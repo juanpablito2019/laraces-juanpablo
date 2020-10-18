@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use function PHPSTORM_META\map;
+use App\Committee;
 
 class UserController extends Controller
 {
@@ -124,5 +125,10 @@ class UserController extends Controller
                 'success'=>true,
                 'message'=>'Usuario eliminado exitosamente'
         ]);
+    }
+
+    public function GetLatestCommittee()
+    {
+        return Committee::all();
     }
 }

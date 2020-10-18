@@ -103,11 +103,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('novelty-types', 'NoveltyTypeController');
     Route::resource('positions', 'PositionController');
     Route::post('/positions/mass', 'PositionController@mass');
-    Route::resource('Reports', 'ReportsController');
     Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
     Route::put('/users/{user}/personalInformation', 'UserController@updatePersonalInformation');
     Route::put('/users/{user}/updatePassword', 'UserController@updatePassword');
+    Route::get('users/reports', 'UserController@GetLatestCommittee');
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');
     Route::get('act-templates/view/{file}', 'ActTemplateController@view');

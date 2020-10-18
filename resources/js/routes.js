@@ -21,6 +21,7 @@ import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
 import Rol from "./pages/CreateRoles";
 import Profile from "./pages/Profile";
+import Reports from './pages/Reports';
 
 export default [
     {
@@ -175,6 +176,12 @@ export default [
         path: '/profile/:id',
         visible: false,
         component: Profile
+    },
+    {
+        name: 'Reports',
+        path: '/users/reports',
+        visible: false,
+        component: Reports
     },
 
 ]
