@@ -36,7 +36,7 @@ class Committees extends Component {
     }
 
     async getSubdirectors() {
-        let data = await getByRol(3);
+        let data = await getByRol(4);
         for (let i = 0; i < data.users.length; i++) {
             if (data.users[i].is_active === 1) {
                 this.setState({ subdirector: data.users[i] });
@@ -44,7 +44,8 @@ class Committees extends Component {
         }
     }
     async getCoordinadores() {
-        let data = await getByRol(2);
+        let data = await getByRol(3);
+
         for (let i = 0; i < data.users.length; i++) {
             if (data.users[i].is_active === 1) {
                 this.setState({ coordinador: data.users[i] });
@@ -60,21 +61,29 @@ class Committees extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este comite?');
-        if (res) {
-            destroy(id).then(data => {
-                if (data.success) {
-                    this.getCommittees();
-                    toastr.success('', data.message, {
-                        closeButton: true
-                    });
-                }else {
-                    toastr.error('', data.message, {
-                        closeButton: true
-                    });
-                }
-            })
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroy(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getCommittees();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
 
     async handleModal() {

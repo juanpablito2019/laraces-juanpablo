@@ -19,7 +19,8 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_user')){
+        }
+        if($user->hasPermissionTo('list_user')){
             return true;
         }
     }
@@ -35,7 +36,11 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_user')){
+        }
+        if($user->id != $model->id && !$user->hasRole('SuperAdmin')){
+            return false;
+        }
+        if($user->hasPermissionTo('list_user')){
             return true;
         }
     }
@@ -50,7 +55,8 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_user')){
+        }
+        if($user->hasPermissionTo('create_user')){
             return true;
         }
     }
@@ -66,7 +72,11 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_user')){
+        }
+        if($user->id != $model->id && !$user->hasRole('SuperAdmin')){
+            return false;
+        }
+        if($user->hasPermissionTo('edit_user')){
             return true;
         }
     }
@@ -82,7 +92,8 @@ class UserPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_user')){
+        }
+        if($user->hasPermissionTo('delete_user')){
             return true;
         }
     }

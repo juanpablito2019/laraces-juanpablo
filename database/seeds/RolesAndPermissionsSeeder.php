@@ -24,6 +24,11 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('edit_committee');
         $admin->givePermissionTo('delete_committee');
 
+        $admin->givePermissionTo('list_formative-measure-responsibles');
+        $admin->givePermissionTo('create_formative-measure-responsibles');
+        $admin->givePermissionTo('edit_formative-measure-responsibles');
+        $admin->givePermissionTo('delete_formative-measure-responsibles');
+        
         $admin->givePermissionTo('list_committee_parameter');
         $admin->givePermissionTo('create_committee_parameter');
         $admin->givePermissionTo('edit_committee_parameter');

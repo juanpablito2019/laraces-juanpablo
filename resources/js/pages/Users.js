@@ -4,9 +4,21 @@ import { validate, formValid, setRules } from '../containers/Validator';
 import { get, store, find, update, destroy, rules} from '../containers/User';
 import { get as getRoles } from '../containers/Roles';
 import SetPermissions from '../components/SetPermissions';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+    useHistory,
+    useLocation
+  } from "react-router-dom";
+
+  import ReactDOM from 'react-dom';
 
 class Users extends Component {
     constructor(props) {
+
         super(props);
         this.state = {
             users: null,
@@ -14,6 +26,7 @@ class Users extends Component {
             roles: [],
             id: null,
             message: null,
+            redirect: null,
             rules: rules
         }
         this.handleEdit = this.handleEdit.bind(this);
@@ -22,20 +35,33 @@ class Users extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleInput = this.handleInput.bind(this);
     }
+
+
+
     async getUsers() {
         let data = await get();
-        console.log(data);
 
-        if (data == 403) {
-            return <Redirect to='/app' />
-          }
+        if(this.state.redirect){
+            data.shift();
+        }
+
+        if (data[0] == 403) {
+            // this.props.history.replace('/app');
+            this.setState({ redirect: '/app' });
+        }
+
         this.setState({ users: data });
 
     }
 
     async getRoles() {
         let data = await getRoles();
-        data.rols.shift();
+
+
+        if(!this.state.redirect){
+            data.rols.shift();
+        }
+
         this.setState({ roles: data.rols });
     }
 
@@ -60,21 +86,29 @@ class Users extends Component {
 
     handleDelete(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿¿Estas seguro de eliminar este usuario?');
-        if (res) {
-            destroy(id).then(data => {
-                if (data.success) {
-                    this.getUsers();
-                    toastr.success('', data.message, {
-                        closeButton: true
-                    });
-                }else {
-                    toastr.error('', data.message, {
-                        closeButton: true
-                    });
-                }
-            })
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroy(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getUsers();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
 
     handleModal() {
@@ -118,14 +152,47 @@ class Users extends Component {
 
     }
 
+
     componentDidMount() {
-        this.getUsers();
-        this.getRoles();
+
+        this.interval = setInterval(() => {
+            this.getUsers();
+             this.getRoles();
+          }, 1000);
+
+        // this.getUsers();
+        // this.getRoles();
     }
+
+    componentWillUnmount(){
+        if (this.state.redirect) {
+            // ReactDOM.unmountComponentAtNode(Users);
+            // ReactDOM.findDOMNode(Users);
+            this.setState({ users: null,
+                edit: false,
+                roles: null,
+                id: null,
+                message: null,
+                redirect: null,
+                rules: null });
+            // ReactDOM.unmountComponentAtNode(Users);
+            //  console.log('cerrando');
+             clearInterval(this.interval);
+        }
+    }
+
     render() {
+
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+          }
+
         if (!this.state.users) {
             return <Loader />
         }
+
+
+
         return (
             <>
                 <div className="row">

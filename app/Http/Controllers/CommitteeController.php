@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Committee;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommitteeRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class CommitteeController extends Controller
 {
@@ -16,15 +15,7 @@ class CommitteeController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [Committee::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [Committee::class]);
         return Committee::all();
     }
 
@@ -36,14 +27,7 @@ class CommitteeController extends Controller
      */
     public function store(CommitteeRequest $request)
     {
-        try {
-            $this->authorize('create', [Committee::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [Committee::class]);
 
         Committee::create([
             'record_number' => $request->get('record_number'),
@@ -69,9 +53,11 @@ class CommitteeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Committee $committee)
     {   
-        return Committee::with('committeeSessions.learner', 'committeeSessions.committeeSessionState')->find($id);
+        $this->authorize('view', [Committee::class, $committee]);
+        $committee->load(['committeeSessions.learner', 'committeeSessions.committeeSessionState']);
+        return $committee;
     }
 
     /**
@@ -83,14 +69,7 @@ class CommitteeController extends Controller
      */
     public function update(CommitteeRequest $request, Committee $committee)
     {
-        try {
-            $this->authorize('update', [Committee::class, $committee]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('update', [Committee::class, $committee]);
 
         $committee->record_number = $request->get('record_number');
         $committee->date = $request->get('date');
@@ -116,14 +95,7 @@ class CommitteeController extends Controller
      */
     public function destroy(Committee $committee)
     {
-        try {
-            $this->authorize('delete', [Committee::class, $committee]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [Committee::class, $committee]);
 
         try {
             $committee->delete();

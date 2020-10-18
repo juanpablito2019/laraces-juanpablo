@@ -1,12 +1,8 @@
 <?php
 session_start();
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,21 +16,55 @@ use Spatie\Permission\Models\Role;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('login', function(){
+    return redirect()->route('login-app');
 });
 
-Auth::routes();
+Route::post('login', [
+    'as' => '',
+    'uses' => 'Auth\LoginController@login'
+])->name('login');
 
-Route::get('app/logout', function() {
+Route::post('logout', [
+    'as' => 'logout',
+    'uses' => 'Auth\LoginController@logout'
+]);
+
+// Password Reset Routes...
+Route::post('password/email', [
+    'as' => 'password.email',
+    'uses' => 'Auth\ForgotPasswordController@sendResetLinkEmail'
+]);
+Route::get('password/reset', [
+    'as' => 'password.request',
+    'uses' => 'Auth\ForgotPasswordController@showLinkRequestForm'
+]);
+Route::post('password/reset', [
+    'as' => 'password.update',
+    'uses' => 'Auth\ResetPasswordController@reset'
+]);
+Route::get('password/reset/{token}', [
+    'as' => 'password.reset',
+    'uses' => 'Auth\ResetPasswordController@showResetForm'
+]);
+
+Route::get('app/logout', function () {
     session()->flush();
-    return redirect('login');
+    return redirect('/');
 });
+
+Route::get('/', function () {
+    if(auth()->user()){
+        return redirect('/app');
+    }
+    return view('welcome');
+})->name('login-app');
 
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/app/{path?}', [
-        'uses' => function(){
+        'uses' => function () {
             return view('react');
         },
         'as' => 'react',
@@ -48,6 +78,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('committee-sessions/{id}/delete-complainer', 'CommitteeSessionController@deleteComplainer');
     Route::put('committee-sessions/{id}/detach-responsible', 'CommitteeSessionController@detachResponsible');
     Route::put('committee-sessions/{id}/set-state', 'CommitteeSessionController@setState');
+    Route::put('committee-sessions/{id}/set-description', 'CommitteeSessionController@setDescription');
     Route::resource('committee-sessions', 'CommitteeSessionController');
     Route::resource('committee-session-states', 'CommitteeSessionStateController');
     Route::resource('complainers', 'ComplainerController');
@@ -75,8 +106,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('Reports', 'ReportsController');
     Route::resource('roles', 'RoleController');
     Route::resource('sanctions', 'SanctionController');
+    Route::put('/users/{user}/personalInformation', 'UserController@updatePersonalInformation');
+    Route::put('/users/{user}/updatePassword', 'UserController@updatePassword');
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');
+    Route::get('act-templates/view/{file}', 'ActTemplateController@view');
     Route::get('act-templates/active', 'ActTemplateController@findActive');
     Route::get('act-templates/type/{act_type}', 'ActTemplateController@findByType');
     Route::resource('act-templates', 'ActTemplateController');
@@ -102,29 +136,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::put('/save-sanction/{id}', 'CommitteeSessionController@saveSanction');
     Route::get('/export-sanction/{id}', 'CommitteeSessionController@exportSanction');
-
-
 });
 
 Route::get('/userPermissions', function () {
 
     $user = Auth::user();
 
-    if ($user->id == 1){
-        $super = true;
-    }else{
-        $super = false;
-    }
-
-    if($user) {
-        return response()->json([
-            'superAdmin'=>$super,
-            'permissions'=>$user->getPermissionsViaRoles()
-        ]);
-    }
-
-
+    return response()->json([
+        'superAdmin' => $user->id == 1,
+        'permissions' => $user->getPermissionsViaRoles()
+    ]);
 });
-
-
-

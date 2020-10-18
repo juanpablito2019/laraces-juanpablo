@@ -128,6 +128,23 @@ export const updateStateFormativeMeasure = async (id, responsibleId, state) => {
 	}
 }
 
+export const setDescriptionFormativeMeasure = async(id, responsibleId, form) => {
+	try {
+		let fd = new FormData(form);
+		fd.append('_method', 'PUT');
+		fd.append('_token', token);
+		fd.append('responsible_id', responsibleId);
+		let res = await fetch(`/committee-sessions/${id}/set-description`, {
+			method: 'POST',
+			body: fd
+		});
+		let data = await res.json();
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const rules = {
 	learner_id: {
 		name: "aprendiz",

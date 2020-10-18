@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Role;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Spatie\Permission\Models\Role;
 
 class RolePolicy
 {
@@ -20,7 +20,8 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_role')){
+        }
+        if($user->hasPermissionTo('list_role')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_role')){
+        }
+        if($user->hasPermissionTo('list_role')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_role')){
+        }
+        if($user->hasPermissionTo('create_role')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_role')){
+        }
+        if($user->hasPermissionTo('edit_role')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class RolePolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_role')){
+        }
+        if($user->hasPermissionTo('delete_role')){
             return true;
         }
     }

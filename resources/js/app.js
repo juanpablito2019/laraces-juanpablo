@@ -21,7 +21,8 @@ import NotFound from './pages/NotFound';
 
 function App() {
     const prefix = '/app';
-    const authUsername = document.getElementById('auth-username').content;
+    const authUsername = document.getElementById('auth-username').content.split('-')[0];
+    const authId = document.getElementById('auth-username').content.split('-')[1];
     const handleToggle = () => {
         $('#sidebar').toggleClass('active');
         $('#content').toggleClass('active');
@@ -101,6 +102,8 @@ function App() {
                                             {authUsername} <i className="fa fa-angle-down" aria-hidden="true"></i>
                                         </a>
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                            <Link className="dropdown-item" to={prefix + "/profile/" + authId}>Perfil</Link>
+                                            <div className="dropdown-divider"></div>
                                             <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
                                             <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
                                             <a className="dropdown-item" href={prefix + "/logout"}>Cerrar session</a>

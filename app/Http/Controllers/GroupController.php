@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Http\Requests\GroupRequest;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class GroupController extends Controller
 {
@@ -16,15 +15,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [Group::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [Group::class]);
         return Group::with('modality', 'formationProgram', 'formationProgram.formationProgramType')->get();
     }
 
@@ -36,15 +27,7 @@ class GroupController extends Controller
      */
     public function store(GroupRequest $request)
     {
-        try {
-            $this->authorize('create', [Group::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [Group::class]);
         Group::create([
             'code_tab' => $request->get('code_tab'),
             'modality_id' => $request->get('modality_id'),
@@ -71,15 +54,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        try {
-            $this->authorize('view', [Group::class, $group]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [Group::class, $group]);
         $group->modality;
         $group->formationProgram->formationProgramType;
         $group->learners;
@@ -100,14 +75,7 @@ class GroupController extends Controller
      */
     public function update(GroupRequest $request, Group $group)
     {
-        try {
-            $this->authorize('update', [Group::class, $group]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('update', [Group::class, $group]);
 
         $group->code_tab = $request->get('code_tab');
         $group->modality_id = $request->get('modality_id');
@@ -135,15 +103,7 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        try {
-            $this->authorize('delete', [Group::class, $group]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('delete', [Group::class, $group]);
         try {
             $group->delete();
             return response()->json([
@@ -157,7 +117,7 @@ class GroupController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a un proceso de comité'
                 ]);
             }
         }
@@ -165,14 +125,7 @@ class GroupController extends Controller
 
     public function mass()
     {
-        try {
-            $this->authorize('create', [Group::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [Group::class]);
 
         try {
             $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [

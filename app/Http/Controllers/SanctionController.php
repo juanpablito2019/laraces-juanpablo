@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Sanction;
 use Illuminate\Http\Request;
 use App\Http\Requests\SanctionRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class SanctionController extends Controller
 {
@@ -16,15 +15,7 @@ class SanctionController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [Sanction::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-        
+        $this->authorize('viewAny', [Sanction::class]);
         return Sanction::all();
     }
 
@@ -36,15 +27,7 @@ class SanctionController extends Controller
      */
     public function store(SanctionRequest $request)
     {
-        try {
-            $this->authorize('create', [Sanction::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [Sanction::class]);
         Sanction::create([
             'name' => $request->get('name')
         ]);
@@ -63,15 +46,7 @@ class SanctionController extends Controller
      */
     public function show(Sanction $sanction)
     {
-        try {
-            $this->authorize('view', [Sanction::class, $sanction]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [Sanction::class, $sanction]);
         return $sanction;
     }
 
@@ -84,15 +59,7 @@ class SanctionController extends Controller
      */
     public function update(SanctionRequest $request, Sanction $sanction)
     {
-        try {
-            $this->authorize('update', [Sanction::class, $sanction]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [Sanction::class, $sanction]);
         $sanction->name = $request->get('name');
         $sanction->save();
         return response()->json([
@@ -110,15 +77,7 @@ class SanctionController extends Controller
      */
     public function destroy(Sanction $sanction)
     {
-        try {
-            $this->authorize('delete', [Sanction::class, $sanction]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('delete', [Sanction::class, $sanction]);
         try {
             $sanction->delete();
             return response()->json([
@@ -132,7 +91,7 @@ class SanctionController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar porque está relacionado con otro registro'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a un proceso de comité'
                 ]);
             }
         }

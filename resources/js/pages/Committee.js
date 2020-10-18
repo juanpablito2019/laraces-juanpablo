@@ -120,15 +120,31 @@ class Committee extends Component {
         $('#modal-stimuli-novelty').find('#justification').text(data.justification);
         $('#modal-stimuli-novelty').modal('toggle');
     }
-    async handleDeleteStimulus(e) {
+    handleDeleteStimulus(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
-        if (res) {
-            let data = await destroyStimulus(id);
-            if (data.success) {
-                await this.getStimuli();
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroyStimulus(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getStimuli();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
             }
-        }
+        })
     }
 
     async handleEditStimulus(e) {
@@ -171,15 +187,32 @@ class Committee extends Component {
         $('#modal-stimuli-novelty').find('#justification').text(data.justification);
         $('#modal-stimuli-novelty').modal('toggle');
     }
-    async handleDeleteLearnerNovelty(e) {
+
+    handleDeleteLearnerNovelty(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
-        if (res) {
-            let data = await destroyLearnerNovelty(id);
-            if (data.success) {
-                await this.getLearnerNovelties();
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    destroyLearnerNovelty(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getLearnerNovelties();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
             }
-        }
+        })
     }
 
     async handleEditLearnerNovelty(e) {
@@ -205,15 +238,31 @@ class Committee extends Component {
         }
     }
 
-    async handleDeleteAcademic(e) {
+    handleDeleteAcademic(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Estas seguro que deseas eliminar este elemento?');
-        if (res) {
-            let data = await destroyAcademic(id);
-            if (data.success) {
-                await this.getCommittee();
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroyAcademic(id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getCommittee();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
             }
-        }
+        })
     }
     async handleEditAcademic(e) {
         this.setState({academic: null});

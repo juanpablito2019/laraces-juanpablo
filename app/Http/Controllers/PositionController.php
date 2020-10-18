@@ -6,7 +6,6 @@ use App\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\PositionRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class PositionController extends Controller
 {
@@ -17,15 +16,7 @@ class PositionController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [Position::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [Position::class]);
         return Position::all();
     }
 
@@ -37,14 +28,7 @@ class PositionController extends Controller
      */
     public function store(PositionRequest $request)
     {
-        try {
-            $this->authorize('create', [Position::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('create', [Position::class]);
 
         Position::create([
             'name' => $request->get('name'),
@@ -65,15 +49,7 @@ class PositionController extends Controller
      */
     public function show(Position $position)
     {
-        try {
-            $this->authorize('view', [Position::class, $position]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [Position::class, $position]);
         return $position;
     }
 
@@ -86,15 +62,7 @@ class PositionController extends Controller
      */
     public function update(PositionRequest $request, Position $position)
     {
-        try {
-            $this->authorize('update', [Position::class, $position]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [Position::class, $position]);
         $position->name = $request->get('name');
         $position->type = $request->get('type');
         $position->save();
@@ -113,15 +81,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        try {
-            $this->authorize('delete', [Position::class, $position]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('delete', [Position::class, $position]);
         try {
             $position->delete();
             return response()->json([
@@ -135,7 +95,7 @@ class PositionController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a responsables de medida formativa'
                 ]);
             }
         }
@@ -143,15 +103,7 @@ class PositionController extends Controller
 
     public function mass()
     {
-        try {
-            $this->authorize('create', [Position::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [Position::class]);
         $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
             'misena_email'=>"consulta@misena.edu.co",
             'password'=> "123456789110",

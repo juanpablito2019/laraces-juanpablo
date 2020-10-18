@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Hash;
+use function PHPSTORM_META\map;
 
 class UserController extends Controller
 {
@@ -17,15 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [User::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [User::class]);
         return User::all();
     }
 
@@ -37,14 +29,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        try {
-            $this->authorize('create', [User::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
         if (isset($request)) {
             //Carácteres para la contraseña
             $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
@@ -56,6 +40,8 @@ class UserController extends Controller
             }
         }
 
+
+        $this->authorize('create', [User::class]);
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -79,15 +65,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        try {
-            $this->authorize('view', [User::class, $user]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [User::class, $user]);
+        $user->load('roles');
         return $user;
 
     }
@@ -101,23 +80,38 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        try {
-            $this->authorize('update', [User::class, $user]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('update', [User::class, $user]);
 
+
+    }
+
+    public function updatePersonalInformation(Request $request, User $user)
+    {
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        $user->password = $request->get('password');
         $user->save();
         return response()->json([
             'status'=>200,
             'success'=>true,
-            'message'=>'Cargo actualizado exitosamente'
+            'message'=>'Informacion personal actualizada con exito'
+        ]);
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        if($request->get('password') != $request->get('password_confirm')){
+            return response()->json([
+                'status'=>400,
+                'success'=>false,
+                'message'=>'Las contraseñas no coinciden'
+            ]);
+        }
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Contraseña actualizada con exito'
         ]);
     }
 
@@ -129,31 +123,13 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        try {
-            $this->authorize('delete', [User::class, $user]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [User::class, $user]);
 
-        try {
-            $user->delete();
+        $user->delete();
             return response()->json([
                 'status'=>200,
                 'success'=>true,
                 'message'=>'Usuario eliminado exitosamente'
-            ]);
-        } catch (\Throwable $th) {
-            $error = $th->errorInfo;
-            if($error[1] == "1451"){
-                return response()->json([
-                    'status'=>500,
-                    'success'=>false,
-                    'message'=>'No se puede eliminar'
-                ]);
-            }
-        }
+        ]);
     }
 }

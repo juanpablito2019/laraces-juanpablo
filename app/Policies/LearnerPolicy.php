@@ -20,7 +20,8 @@ class LearnerPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_learner')){
+        }
+        if($user->hasPermissionTo('list_learner')){
             return true;
         }
     }
@@ -36,7 +37,8 @@ class LearnerPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('list_learner')){
+        }
+        if($user->hasPermissionTo('list_learner')){
             return true;
         }
     }
@@ -51,7 +53,8 @@ class LearnerPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('create_learner')){
+        }
+        if($user->hasPermissionTo('create_learner')){
             return true;
         }
     }
@@ -67,7 +70,8 @@ class LearnerPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('edit_learner')){
+        }
+        if($user->hasPermissionTo('edit_learner')){
             return true;
         }
     }
@@ -83,7 +87,8 @@ class LearnerPolicy
     {
         if($user->hasRole('SuperAdmin')){
             return true;
-        }if($user->hasPermissionTo('delete_learner')){
+        }
+        if($user->hasPermissionTo('delete_learner')){
             return true;
         }
     }

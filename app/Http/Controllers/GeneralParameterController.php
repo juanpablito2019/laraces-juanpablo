@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\GeneralParameter;
 use Illuminate\Http\Request;
 use App\Http\Requests\GeneralParameterRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class GeneralParameterController extends Controller
 {
@@ -16,15 +15,7 @@ class GeneralParameterController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [GeneralParameter::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-        
+        $this->authorize('viewAny', [GeneralParameter::class]);
         return GeneralParameter::all();
     }
 
@@ -36,15 +27,7 @@ class GeneralParameterController extends Controller
      */
     public function show(GeneralParameter $generalParameter)
     {
-        try {
-            $this->authorize('view', [GeneralParameter::class, $generalParameter]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [GeneralParameter::class, $generalParameter]);
         return $generalParameter;
     }
 
@@ -57,15 +40,7 @@ class GeneralParameterController extends Controller
      */
     public function update(GeneralParameterRequest $request, GeneralParameter $generalParameter)
     {
-        try {
-            $this->authorize('update', [GeneralParameter::class, $generalParameter]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [GeneralParameter::class, $generalParameter]);
         $generalParameter->name = $request->get('name');
         $generalParameter->content = $request->get('content');
         $generalParameter->save();

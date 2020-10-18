@@ -18,6 +18,7 @@ class FormativeMeasureResponsibleController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', [FormativeMeasureResponsible::class]);
         return FormativeMeasureResponsible::with('position','contractType')->get();
     }
 
@@ -29,6 +30,7 @@ class FormativeMeasureResponsibleController extends Controller
      */
     public function store(FormativeMeasureResponsibleRequest $request)
     {
+        $this->authorize('create', [FormativeMeasureResponsible::class]);
         $formativeMeasureResponsible = new FormativeMeasureResponsible();
         $formativeMeasureResponsible->username = $request->get('username');
         $formativeMeasureResponsible->misena_email = $request->get('misena_email');
@@ -68,6 +70,7 @@ class FormativeMeasureResponsibleController extends Controller
      */
     public function show(FormativeMeasureResponsible $formativeMeasureResponsible)
     {
+        $this->authorize('view', [FormativeMeasureResponsible::class, $formativeMeasureResponsible]);
         return $formativeMeasureResponsible;
     }
 
@@ -80,6 +83,7 @@ class FormativeMeasureResponsibleController extends Controller
      */
     public function update(FormativeMeasureResponsibleRequest $request,FormativeMeasureResponsible $formativeMeasureResponsible)
     {
+        $this->authorize('update', [FormativeMeasureResponsible::class, $formativeMeasureResponsible]);
         $formativeMeasureResponsible->username = $request->get('username');
         $formativeMeasureResponsible->misena_email = $request->get('misena_email');
         $formativeMeasureResponsible->institutional_email = $request->get('institutional_email');
@@ -124,6 +128,7 @@ class FormativeMeasureResponsibleController extends Controller
      */
     public function destroy(FormativeMeasureResponsible $formativeMeasureResponsible)
     {
+        $this->authorize('delete', [FormativeMeasureResponsible::class, $formativeMeasureResponsible]);
         try {
             if($formativeMeasureResponsible->photo){
                 if(File::exists(public_path("/storage/".$formativeMeasureResponsible->photo))){
@@ -142,7 +147,7 @@ class FormativeMeasureResponsibleController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a un proceso de comité'
                 ]);
             }
         }
@@ -150,6 +155,8 @@ class FormativeMeasureResponsibleController extends Controller
 
     public function mass()
     {
+        $this->authorize('create', [FormativeMeasureResponsible::class]);
+
         try {
             $response = Http::post('https://cronode.herokuapp.com/api/authenticate', [
                 'misena_email'=>"consulta@misena.edu.co",

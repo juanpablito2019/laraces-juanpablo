@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Committee;
 use App\Complainer;
+use App\Http\Requests\SaveSanctionRequest;
 use App\ActTemplate;
 use App\CommitteeSession;
 use HTMLtoOpenXML\Parser;
@@ -14,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CommitteeSessionRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class CommitteeSessionController extends Controller
 {
@@ -25,15 +25,7 @@ class CommitteeSessionController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [CommitteeSession::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [CommitteeSession::class]);
         return CommitteeSession::all();
     }
 
@@ -45,15 +37,7 @@ class CommitteeSessionController extends Controller
      */
     public function store(CommitteeSessionRequest $request)
     {
-        try {
-            $this->authorize('create', [CommitteeSession::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [CommitteeSession::class]);
         $learners = $request->get('learners');
         for ($i = 0; $i < count($learners); $i++) {
             CommitteeSession::create([
@@ -81,8 +65,10 @@ class CommitteeSessionController extends Controller
         $committeeSession = CommitteeSession::with(
             'learner.group.formationProgram',
             'learner.stimuli',
-            'learner.novelties',
-            'learner.academics',
+            'learner.novelties.noveltyType',
+            'learner.academics.committee',
+            'learner.academics.responsibles',
+            'learner.academics.sanction',
             'infringementType',
             'committeeSessionParameters',
             'committeeSessionState',
@@ -90,6 +76,12 @@ class CommitteeSessionController extends Controller
             'responsibles',
             'complainer'
         )->findOrFail($id);
+        foreach ($committeeSession->learner->academics as $academic) {
+            foreach ($academic->responsibles as $responsible) {
+                $formative_measure = $responsible->pivot->formativeMeasure;
+                $responsible->pivot->formative_measure = $formative_measure;
+            }
+        }
         foreach ($committeeSession->responsibles as $responsible) {
             $formative_measure = $responsible->pivot->formativeMeasure;
             $responsible->pivot->formative_measure = $formative_measure;
@@ -106,15 +98,7 @@ class CommitteeSessionController extends Controller
      */
     public function update(CommitteeSessionRequest $request, CommitteeSession $committeeSession)
     {
-        try {
-            $this->authorize('update', [CommitteeSession::class, $committeeSession]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('update', [CommitteeSession::class, $committeeSession]);
         $committeeSession->infringement_type_id = $request->get('infringement_type_id');
         $committeeSession->learner_id = $request->get('learners')[0];
         $committeeSession->save();
@@ -133,14 +117,7 @@ class CommitteeSessionController extends Controller
      */
     public function destroy(CommitteeSession $committeeSession)
     {
-        try {
-            $this->authorize('delete', [CommitteeSession::class, $committeeSession]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [CommitteeSession::class, $committeeSession]);
 
         $committeeSession->delete();
         return response()->json([
@@ -198,6 +175,21 @@ class CommitteeSessionController extends Controller
             'status' => 200,
             'success' => true,
             'message' => 'Estado de la medida formativa actualizado con exito'
+        ]);
+    }
+
+    public function setDescription(Request $request, $id)
+    {
+        $committeeSession = CommitteeSession::findOrFail($id);
+        DB::update('UPDATE committee_session_formative_measures SET description = :description WHERE session_id = :session_id AND responsible_id = :responsible_id', [
+            'description' => $request->get('description'),
+            'session_id' => $committeeSession->id,
+            'responsible_id' => $request->get('responsible_id')
+        ]);
+        return response()->json([
+            'status' => 200,
+            'success' => true,
+            'message' => 'Descripcion de la medida formativa actualizado con exito'
         ]);
     }
 
@@ -276,6 +268,7 @@ class CommitteeSessionController extends Controller
         $templateProcessor->setValue('committee_hour', $committee->start_hour);
         $templateProcessor->setValue('committee_place', $committee->committee->formation_center);
         $templateProcessor->setValue('subdirector_name', $committee->committee->subdirector_name);
+        $templateProcessor->setValue('coordinador_name', $committee->committee->coordinador_name);
         $filename = 'Comunicacion - Learner';
         $templateProcessor->saveAs($filename . ".docx");
         return response()->download($filename . ".docx")->deleteFileAfterSend(true);
@@ -418,6 +411,19 @@ class CommitteeSessionController extends Controller
 
     public function saveSanction(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'date_academic_act_sanction' => ['nullable', 'date'],
+            'date_notification_act_sanction' => ['nullable', 'date', 'after:date_academic_act_sanction'],
+            'date_expiration_act_sanction' => ['nullable', 'date', 'after:date_notification_act_sanction'],
+            'date_lifting_act_sanction' => ['nullable', 'date', 'after:date_notification_act_sanction'],
+        ], [
+            'date_notification_act_sanction.after' => 'El campo de fecha de notificacion debe ser una fecha posterior a la fecha de acto sancionatorio',
+            'date_expiration_act_sanction.after' => 'El campo de fecha de expiracion debe ser una fecha posterior a la fecha de notificacion del acto sancionatorio',
+            'date_lifting_act_sanction.after' => 'El campo de fecha de levantamiento debe ser una fecha posterior a la fecha de notificacion del acto sancionatorio',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
         $committeeSession = CommitteeSession::with('learner.group.formationProgram', 'committee', 'committeeSessionParameters')->findOrFail($id);
         $keys = array_keys($request->all());
         $parameters = [];
@@ -489,6 +495,9 @@ class CommitteeSessionController extends Controller
         $templateProcessor->setValue('infringement_type', $committeeSession->infringementType->name);
         $templateProcessor->setValue('infringement_classification', $committeeSession->infringementClassification ? $committeeSession->infringementClassification->name : "");
         $templateProcessor->setValue('record_number', $committeeSession->committee->record_number);
+        $templateProcessor->setValue('subdirector_name', $committeeSession->committee->subdirector_name);
+        $templateProcessor->setValue('date_academic_act_sanction', $committeeSession->date_academic_act_sanction);
+        $templateProcessor->setValue('sanction', $committeeSession->sanction->name);
 
         foreach ($parameters as $parameter) {
             $templateProcessor->setValue($parameter['name'], $parser->fromHTML($parameter['value']));

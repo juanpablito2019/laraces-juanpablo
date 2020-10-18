@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\CommitteeParameter;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommitteeParameterRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class CommitteeParameterController extends Controller
 {
@@ -16,15 +15,7 @@ class CommitteeParameterController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [CommitteeParameter::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-        
+        $this->authorize('viewAny', [CommitteeParameter::class]);
         return CommitteeParameter::with('actTemplate')->get();
     }
 
@@ -36,15 +27,7 @@ class CommitteeParameterController extends Controller
      */
     public function store(CommitteeParameterRequest $request)
     {
-        try {
-            $this->authorize('create', [CommitteeParameter::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [CommitteeParameter::class]);
         CommitteeParameter::create([
             'name' => $request->get('name'),
             'content' => $request->get('content'),
@@ -66,15 +49,7 @@ class CommitteeParameterController extends Controller
      */
     public function show(CommitteeParameter $committeeParameter)
     {
-        try {
-            $this->authorize('view', [CommitteeParameter::class, $committeeParameter]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('view', [CommitteeParameter::class, $committeeParameter]);
         return $committeeParameter;
     }
 
@@ -87,14 +62,7 @@ class CommitteeParameterController extends Controller
      */
     public function update(CommitteeParameterRequest $request, CommitteeParameter $committeeParameter)
     {
-        try {
-            $this->authorize('update', [CommitteeParameter::class, $committeeParameter]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('update', [CommitteeParameter::class, $committeeParameter]);
 
         $committeeParameter->name = $request->get('name');
         $committeeParameter->content = $request->get('content');
@@ -116,14 +84,7 @@ class CommitteeParameterController extends Controller
      */
     public function destroy(CommitteeParameter $committeeParameter)
     {
-        try {
-            $this->authorize('delete', [CommitteeParameter::class, $committeeParameter]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [CommitteeParameter::class, $committeeParameter]);
 
         try {
             $committeeParameter->delete();
@@ -138,7 +99,7 @@ class CommitteeParameterController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a un proceso de comité'
                 ]);
             }
         }  

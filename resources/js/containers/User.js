@@ -89,6 +89,38 @@ export const find = async function(id) {
     }
 };
 
+export const updatePersonalInformation = async function (id, form) {
+    try {
+        const fd = new FormData(form);
+        fd.append('_method', 'PUT');
+        fd.append('_token', token);
+        let res = await fetch(`/users/${id}/personalInformation`, {
+            method: 'POST',
+            body: fd
+        });
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updatePassword = async function (id, form) {
+    try {
+        const fd = new FormData(form);
+        fd.append('_method', 'PUT');
+        fd.append('_token', token);
+        let res = await fetch(`/users/${id}/updatePassword`, {
+            method: 'POST',
+            body: fd
+        });
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const rules = {
     name: {
         // Properties

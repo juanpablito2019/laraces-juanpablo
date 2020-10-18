@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\FormativeMeasure;
 use Illuminate\Http\Request;
 use App\Http\Requests\FormativeMeasureRequest;
-use Illuminate\Auth\Access\AuthorizationException;
 
 class FormativeMeasureController extends Controller
 {
@@ -16,15 +15,7 @@ class FormativeMeasureController extends Controller
      */
     public function index()
     {
-        try {
-            $this->authorize('viewAny', [FormativeMeasure::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('viewAny', [FormativeMeasure::class]);
         return FormativeMeasure::all();
     }
 
@@ -36,15 +27,7 @@ class FormativeMeasureController extends Controller
      */
     public function store(FormativeMeasureRequest $request)
     {
-        try {
-            $this->authorize('create', [FormativeMeasure::class]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
-
+        $this->authorize('create', [FormativeMeasure::class]);
         FormativeMeasure::create([
             'name' => $request->get('name')
         ]);
@@ -63,14 +46,7 @@ class FormativeMeasureController extends Controller
      */
     public function show(FormativeMeasure $formativeMeasure)
     {
-        try {
-            $this->authorize('view', [FormativeMeasure::class, $formativeMeasure]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('view', [FormativeMeasure::class, $formativeMeasure]);
 
         return $formativeMeasure;
     }
@@ -84,14 +60,7 @@ class FormativeMeasureController extends Controller
      */
     public function update(FormativeMeasureRequest $request, FormativeMeasure $formativeMeasure)
     {
-        try {
-            $this->authorize('update', [FormativeMeasure::class, $formativeMeasure]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('update', [FormativeMeasure::class, $formativeMeasure]);
 
         $formativeMeasure->name = $request->get('name');
         $formativeMeasure->save();
@@ -110,14 +79,7 @@ class FormativeMeasureController extends Controller
      */
     public function destroy(FormativeMeasure $formativeMeasure)
     {
-        try {
-            $this->authorize('delete', [FormativeMeasure::class, $formativeMeasure]);
-        } catch (\Throwable $th) {
-            if ($th instanceof AuthorizationException)
-            {
-                return response()->json(403);
-            }
-        }
+        $this->authorize('delete', [FormativeMeasure::class, $formativeMeasure]);
 
         try {
             $formativeMeasure->delete();
@@ -132,7 +94,7 @@ class FormativeMeasureController extends Controller
                 return response()->json([
                     'status'=>500,
                     'success'=>false,
-                    'message'=>'No se puede eliminar'
+                    'message'=>'No se puede eliminar el registro porque está vinculado a un proceso de comité'
                 ]);
             }
         }
