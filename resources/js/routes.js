@@ -22,14 +22,7 @@ import ActTemplates from "./pages/ActTemplates";
 import Rol from "./pages/CreateRoles";
 import Profile from "./pages/Profile";
 
-function hasPermission(permission){
-    const permissions = localStorage.getItem('permissions');
-
-    return true;
-}
-
 export default [
-
     {
         name: 'Home',
         path: '/',
@@ -39,54 +32,54 @@ export default [
     {
         name: 'Parámetros comité',
         type: 'menu',
-        visible: hasPermission('list_committee_parameter'),
+        visible: true,
         routes: [
             {
                 name: 'Plantillas de actas',
                 path: '/act-templates',
-                visible: hasPermission('list_act_template'),
+                visible: true,
                 component: ActTemplates
             },
             {
                 name: 'Parámetros de acta',
                 path: '/committee-parameters',
-                visible: hasPermission('list_committee_parameter'),
+                visible: true,
                 component: CommitteeParameters
             },
             {
                 name: 'Parámetros generales',
                 path: '/general-parameters',
-                visible: hasPermission('list_general_parameter'),
+                visible: true,
                 component: GeneralParameters
             },
             {
                 name: 'Sanciones',
                 path: '/sanctions',
-                visible: hasPermission('list_sanction'),
+                visible: true,
                 component: Sanctions
             },
             {
                 name: 'Medidas formativas',
                 path: '/formative-measures',
-                visible: hasPermission('list_formative_measure'),
+                visible: true,
                 component: FormativeMeasures
             },
             {
                 name: 'Clasificacion de las faltas',
                 path: '/infringement-classifications',
-                visible: hasPermission('list_infringement_classification'),
+                visible: true,
                 component: InfringementClassifications
             },
             {
                 name: 'Tipos de faltas',
                 path: '/infringement-types',
-                visible: hasPermission('list_infringement_type'),
+                visible: true,
                 component: InfringementTypes
             },
             {
                 name: 'Tipos de novedades',
                 path: '/novelty-types',
-                visible: hasPermission('list_novelty_type'),
+                visible: true,
                 component: NoveltyTypes
             },
         ]
@@ -99,31 +92,31 @@ export default [
             {
                 name: 'Cargos',
                 path: '/positions',
-                visible: hasPermission('list_position'),
+                visible: true,
                 component: Positions
             },
             {
                 name: 'Tipos de contratos',
                 path: '/contract-types',
-                visible: hasPermission('list_contract_type'),
+                visible: true,
                 component: ContractTypes
             },
             {
                 name: 'Modalidades',
                 path: '/modalities',
-                visible: hasPermission('list_modality'),
+                visible: true,
                 component: Modalities
             },
             {
                 name: 'Programas de formacion',
                 path: '/formation-programs',
-                visible: hasPermission('list_formation_program'),
+                visible: true,
                 component: FormationPrograms
             },
             {
                 name: 'Tipos de programas de formacion',
                 path: '/formation-program-types',
-                visible: hasPermission('list_formation_program_type'),
+                visible: true,
                 component: FormationProgramTypes
             },
         ]
@@ -131,19 +124,20 @@ export default [
     {
         name: 'Aprendices',
         path: '/learners',
-        visible: hasPermission('list_learner'),
-        component: Learners
+        visible: true,
+        component: Learners,
+        permission: 'list_learner'
     },
     {
         name: 'Grupos',
         path: '/groups',
-        visible: hasPermission('list_group'),
+        visible: true,
         component: Groups
     },
     {
         name: 'Comités',
         path: '/committees',
-        visible: hasPermission('list_committee'),
+        visible: true,
         component: Committees
     },
     {
@@ -161,13 +155,13 @@ export default [
     {
         name: 'Novedades del aprendiz',
         path: '/learner-novelties',
-        visible: hasPermission('list_learner_novelty'),
+        visible: true,
         component: LearnerNovelties
     },
     {
         name: 'Responsables de medida formativa',
         path: '/formative-measure-responsibles',
-        visible: hasPermission('list_formative-measure-responsibles'),
+        visible: true,
         component: ResponsiblesFormativeMeasures
     },
     {
