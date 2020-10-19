@@ -14,7 +14,7 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         $admin  = Role::find(2);  // Permisos Administrador
 
-        $admin->givePermissionTo('list_act_template');
+        // $admin->givePermissionTo('list_act_template');
         // $admin->givePermissionTo('create_act_template');
         // $admin->givePermissionTo('edit_act_template');
         // $admin->givePermissionTo('delete_act_template');
@@ -24,10 +24,10 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('edit_committee');
         $admin->givePermissionTo('delete_committee');
 
-        $admin->givePermissionTo('list_formative-measure-responsibles');
-        $admin->givePermissionTo('create_formative-measure-responsibles');
-        $admin->givePermissionTo('edit_formative-measure-responsibles');
-        $admin->givePermissionTo('delete_formative-measure-responsibles');
+        $admin->givePermissionTo('list_formative_measure_responsible');
+        $admin->givePermissionTo('create_formative_measure_responsible');
+        $admin->givePermissionTo('edit_formative_measure_responsible');
+        $admin->givePermissionTo('delete_formative_measure_responsible');
         
         $admin->givePermissionTo('list_committee_parameter');
         $admin->givePermissionTo('create_committee_parameter');

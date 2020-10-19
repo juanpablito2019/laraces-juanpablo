@@ -10,10 +10,12 @@ require('./bootstrap');
 
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import routes from './routes';
 import Roles from './pages/Roles';
 import Users from './pages/Users';
+import VerifyPermission from "./components/VerifyPermission";
+import Home from "./pages/Home";
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -47,21 +49,9 @@ function App() {
             localStorage.setItem('super', data.superAdmin ? 1 : 2);
             setPermissions(permissions);
             setSuperAdmin(data.superAdmin);
-        }catch (err) {
+        } catch (err) {
             console.log(err)
         }
-    }
-
-    const verifyRoutes = () => {
-        routes.map(route => {
-            if(route.type=='menu'){
-
-            }else{
-                if(route.visible){
-                    /* Verificar por permisos */
-                }
-            }
-        })
     }
 
     const clear = () => {
@@ -69,15 +59,14 @@ function App() {
     }
 
     useEffect(() => {
-        verifyRoutes();
         getPermissions();
     }, []);
 
     let path = location.pathname.split('/')[2];
-    if(!permissions && !superAdmin){
+    if (!permissions && !superAdmin) {
         return (
             <>
-                <div className="container" style={{margin: '200px auto'}}>
+                <div className="container" style={{ margin: '200px auto' }}>
                     <div className="row">
                         <div className="col">
                             <Loader />
@@ -94,7 +83,7 @@ function App() {
                     <div className="sidebar-header text-center">
                         <div className="row">
                             <div className="col-2 p-2 ml-5">
-                                <img src="/img/logo.svg" className="d-block" style={{width: '50px'}} alt=""/>
+                                <img src="/img/logo.svg" className="d-block" style={{ width: '50px' }} alt="" />
                             </div>
                             <div className="col p-3 mr-3 text-left">
                                 <h3 className="d-inline">CES</h3>
@@ -103,32 +92,42 @@ function App() {
                     </div>
 
                     <ul className="list-unstyled components">
-
+                        < li onClick={handleActive} >
+                            <Link to={prefix + "/"}>- Home</Link>
+                        </li>
                         {routes.map((route, index) => (
                             route.type == 'menu' && route.visible ? (
                                 <li key={index}>
                                     <a href={"#submenu" + index} data-toggle="collapse" aria-expanded="false">+ {route.name}</a>
                                     <ul className="collapse list-unstyled" id={"submenu" + index}>
                                         {route.routes.map((subroute, index) => (
-                                            subroute.visible ? (
-                                                <li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''}>
-                                                    <Link to={prefix + subroute.path}>- {subroute.name}</Link>
-                                                </li>
-                                            ):(
-                                                <div key={index} className=""></div>
-                                            )
+                                            <VerifyPermission permission={subroute.permission} key={index}>
+                                                {
+                                                    subroute.visible ? (
+                                                        <li onClick={handleActive} className={route.path === '/' + path ? 'active' : ''}>
+                                                            <Link to={prefix + subroute.path}>- {subroute.name}</Link>
+                                                        </li>
+                                                    ) : (
+                                                            <div key={index} className=""></div>
+                                                        )
+                                                }
+                                            </VerifyPermission>
                                         ))}
 
                                     </ul>
                                 </li>
                             ) : (
-                                    route.visible ? (
-                                        < li key={index} onClick={handleActive} className={route.path === '/' + path ? 'active' : ''} >
-                                            <Link to={prefix + route.path}>- {route.name}</Link>
-                                        </li>
-                                    ):(
-                                        <div key={index} className=""></div>
-                                    )
+                                    <VerifyPermission permission={route.permission} key={index}>
+                                        {
+                                            route.visible ? (
+                                                < li onClick={handleActive} className={route.path === '/' + path ? 'active' : ''} >
+                                                    <Link to={prefix + route.path}>- {route.name}</Link>
+                                                </li>
+                                            ) : (
+                                                    <div key={index} className=""></div>
+                                                )
+                                        }
+                                    </VerifyPermission>
                                 )
                         ))}
                     </ul>
@@ -162,6 +161,15 @@ function App() {
                             </div>
                         </div>
                     </nav>
+                    <Route 
+                        path="*"
+                    />
+                        <Redirect to="/app" />
+                    <Route
+                        path={prefix + "/"}
+                        exact
+                        component={Home}
+                    />
                     <Route
                         path={prefix + "/roles"}
                         exact
@@ -175,22 +183,24 @@ function App() {
                     {routes.map((route, index) => (
                         route.type == 'menu' ? (
                             route.routes.map((subroute, index) => (
-                                <Route
-                                    key={index}
-                                    path={prefix + subroute.path}
-                                    exact
-                                    component={subroute.component}
-                                />
+                                <VerifyPermission permission={subroute.permission} key={index}>
+                                    <Route
+                                        path={prefix + subroute.path}
+                                        exact
+                                        component={subroute.component}
+                                    />
+                                </VerifyPermission>
                             ))
 
                         ) :
                             (
-                                <Route
-                                    key={index}
-                                    path={prefix + route.path}
-                                    exact
-                                    component={route.component}
-                                />
+                                <VerifyPermission permission={route.permission} key={index}>
+                                    <Route
+                                        path={prefix + route.path}
+                                        exact
+                                        component={route.component}
+                                    />
+                                </VerifyPermission>
                             )
                     ))}
                 </div>
