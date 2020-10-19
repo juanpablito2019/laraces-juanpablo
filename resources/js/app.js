@@ -152,6 +152,7 @@ function App() {
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                             <Link className="dropdown-item" to={prefix + "/profile/" + authId}>Perfil</Link>
                                             <div className="dropdown-divider"></div>
+                                            <Link className="dropdown-item" to={prefix + "/users/reports"}>Reportes</Link>
                                             <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
                                             <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
                                             <a className="dropdown-item" onClick={clear} href={prefix + "/logout"}>Cerrar session</a>
@@ -164,7 +165,7 @@ function App() {
                     <Route 
                         path="*"
                     />
-                        <Redirect to="/app" />
+                        <Redirect to="/app/" />
                     <Route
                         path={prefix + "/"}
                         exact

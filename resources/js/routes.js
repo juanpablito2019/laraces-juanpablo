@@ -21,6 +21,7 @@ import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
 import Rol from "./pages/CreateRoles";
 import Profile from "./pages/Profile";
+import Reports from './pages/Reports';
 
 export default [
     {
@@ -110,7 +111,7 @@ export default [
                 path: '/modalities',
                 visible: true,
                 component: Modalities,
-                permission: 'list_modalities'
+                permission: 'list_modality'
             },
             {
                 name: 'Programas de formacion',
@@ -153,13 +154,15 @@ export default [
         name: 'Committee',
         path: '/committees/:id',
         visible: false,
-        component: Committee
+        component: Committee,
+        permission: 'list_committee'
     },
     {
         name: 'Committee',
         path: '/committees/:id/committee-session/:id',
         visible: false,
-        component: CommitteeSession
+        component: CommitteeSession,
+        permission: 'list_committee'
     },
     {
         name: 'Novedades del aprendiz',
@@ -180,6 +183,12 @@ export default [
         path: '/profile/:id',
         visible: false,
         component: Profile
+    },
+    {
+        name: 'Reports',
+        path: '/users/reports',
+        visible: false,
+        component: Reports
     },
 
 ]

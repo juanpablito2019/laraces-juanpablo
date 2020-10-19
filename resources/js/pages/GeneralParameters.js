@@ -132,6 +132,7 @@ class GeneralParameters extends Component {
                                                         )
                                                     }
                                                 </h5>
+                                                <small>{generalParameter.content}</small>
                                             </div>
                                         </div>
 
