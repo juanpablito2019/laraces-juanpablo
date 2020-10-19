@@ -184,11 +184,4 @@ export default [
         visible: false,
         component: Profile
     },
-    {
-        name: 'Reports',
-        path: '/users/reports',
-        visible: false,
-        component: Reports
-    },
-
 ]

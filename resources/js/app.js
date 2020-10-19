@@ -16,6 +16,7 @@ import Roles from './pages/Roles';
 import Users from './pages/Users';
 import VerifyPermission from "./components/VerifyPermission";
 import Home from "./pages/Home";
+import Reports from "./pages/Reports";
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -152,9 +153,15 @@ function App() {
                                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                             <Link className="dropdown-item" to={prefix + "/profile/" + authId}>Perfil</Link>
                                             <div className="dropdown-divider"></div>
-                                            <Link className="dropdown-item" to={prefix + "/users/reports"}>Reportes</Link>
-                                            <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
-                                            <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
+                                            <VerifyPermission permission="list_report">
+                                                <Link className="dropdown-item" to={prefix + "/reports"}>Reportes</Link>
+                                            </VerifyPermission>
+                                            <VerifyPermission permission="list_role">
+                                                <Link className="dropdown-item" to={prefix + "/roles"}>Roles</Link>
+                                            </VerifyPermission>
+                                            <VerifyPermission permission="list_user">
+                                                <Link className="dropdown-item" to={prefix + "/users"}>Usuarios</Link>
+                                            </VerifyPermission>
                                             <a className="dropdown-item" onClick={clear} href={prefix + "/logout"}>Cerrar session</a>
                                         </div>
                                     </li>
@@ -181,6 +188,13 @@ function App() {
                         exact
                         component={Users}
                     />
+                    <VerifyPermission permission="list_report">
+                        <Route
+                            path={prefix + "/reports"}
+                            exact
+                            component={Reports}
+                        />
+                    </VerifyPermission>
                     {routes.map((route, index) => (
                         route.type == 'menu' ? (
                             route.routes.map((subroute, index) => (
