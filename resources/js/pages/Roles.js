@@ -3,7 +3,7 @@ import Loader from '../components/Loader';
 import VerifyPermission from '../components/VerifyPermission';
 import { Link} from 'react-router-dom';
 
-import {get} from '../containers/Roles';
+import {get, destroy} from '../containers/Roles';
 
 class Roles extends Component {
     constructor(props){

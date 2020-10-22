@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
-import { get, rules, store, find } from '../containers/Roles';
+import { get, rules, store, find, update } from '../containers/Roles';
 
 class Roles extends Component {
     constructor(props){
@@ -44,7 +44,6 @@ class Roles extends Component {
     handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
-            if (this.state.edit) {
                 update(e.target, this.state.id).then(data => {
                     if (data.success) {
                         this.getData();
@@ -55,20 +54,6 @@ class Roles extends Component {
                         this.setState({ message: data.errors.name })
                     }
                 })
-            } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getData();
-                        toastr.success('', data.message, {
-                            closeButton: true
-                        });
-                        // this.props.history.push(`/app/roles`);
-                        location.href = '/app/roles';
-                    }else{
-                        this.setState({ message: data.errors.name  ||  data.errors.permissions })
-                    }
-                });
-            }
         } else {
             this.setState({ message: 'Por favor completa el formulario' })
         }
