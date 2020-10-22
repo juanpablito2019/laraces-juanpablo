@@ -187,7 +187,7 @@ export default [
         permission: 'create_role'
     },
     {
-        name: 'Edit Rol',
+        name: 'Edit Role',
         path: '/roles/edit/:id',
         visible: false,
         component: EditRole,

@@ -8,12 +8,12 @@ class Roles extends Component {
         super(props);
         this.state = {
             id: this.props.match.params.id,
-            rols: [],
-            name:'',
+            role: null,
             rules: rules,
-            permissions: [],
+            permissions: null,
             rolPermissions:null,
-            message: null
+            message: null,
+            keys: null
         }
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,17 +23,22 @@ class Roles extends Component {
 
     async getData(){
         // Data Roles
-        this.setState({ rols: [] });
         let data = await find(this.state.id);
-        this.setState({rols: data})
-        this.setState({name: data.name})
+        this.setState({role: data})
 
-        // console.log(data)
 
         // Data Permisos
         let dataPermission = await get();
-        this.setState({permissions: dataPermission.permissions})
+        const permissions = {};
+        dataPermission.permissions.forEach(permission => {
+            permissions[permission.model] = []
+        });
+        dataPermission.permissions.forEach(permission => {
+            permissions[permission.model].push(permission)
+        });
 
+        this.setState({ keys: Object.keys(permissions) })
+        this.setState({permissions: permissions})
         this.setState({rolPermissions: dataPermission.userPermissions})
 
 
