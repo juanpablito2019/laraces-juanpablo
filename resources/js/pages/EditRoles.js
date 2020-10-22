@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
-import { get, rules, store, find } from '../containers/Roles';
+import { rules, find } from '../containers/Roles';
+import { get } from '../containers/Permissions';
 
 class Roles extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             id: this.props.match.params.id,
-            rols: [],
-            name:'',
+            role: null,
             rules: rules,
-            permissions: [],
-            rolPermissions:null,
+            permissions: null,
+            keys: null,
             message: null
         }
         this.handleInput = this.handleInput.bind(this);
@@ -21,54 +21,36 @@ class Roles extends Component {
 
 
 
-    async getData(){
-        // Data Roles
-        this.setState({ rols: [] });
+    async getData() {
         let data = await find(this.state.id);
-        this.setState({rols: data})
-        this.setState({name: data.name})
-
-        // console.log(data)
+        this.setState({ role: data })
 
         // Data Permisos
-        let dataPermission = await get();
-        this.setState({permissions: dataPermission.permissions})
-
-        this.setState({rolPermissions: dataPermission.userPermissions})
-
-
-
+        const data_permissions = await get();
+        const permissions = {};
+        data_permissions.forEach(permission => {
+            permissions[permission.model] = []
+        });
+        data_permissions.forEach(permission => {
+            permissions[permission.model].push(permission)
+        });
+        this.setState({ keys: Object.keys(permissions) })
+        this.setState({ permissions: permissions })
     }
-
 
     handleSubmit(e) {
         e.preventDefault();
         if (formValid(rules)) {
-            if (this.state.edit) {
-                update(e.target, this.state.id).then(data => {
-                    if (data.success) {
-                        this.getData();
-                        toastr.success('', data.message, {
-                            closeButton: true
-                        });
-                    }else{
-                        this.setState({ message: data.errors.name })
-                    }
-                })
-            } else {
-                store(e.target).then(data => {
-                    if (data.success) {
-                        this.getData();
-                        toastr.success('', data.message, {
-                            closeButton: true
-                        });
-                        // this.props.history.push(`/app/roles`);
-                        location.href = '/app/roles';
-                    }else{
-                        this.setState({ message: data.errors.name  ||  data.errors.permissions })
-                    }
-                });
-            }
+            update(e.target, this.state.id).then(data => {
+                if (data.success) {
+                    this.getData();
+                    toastr.success('', data.message, {
+                        closeButton: true
+                    });
+                } else {
+                    this.setState({ message: data.errors.name })
+                }
+            })
         } else {
             this.setState({ message: 'Por favor completa el formulario' })
         }
@@ -81,78 +63,83 @@ class Roles extends Component {
         this.setState({ rules: newRules });
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getData();
     }
 
 
     render() {
         const { rules } = this.state;
-        if(!this.state.rols && !this.state.permissions){
+        if (!this.state.role || !this.state.permissions || !this.state.keys) {
             return <Loader />
         }
         return (
             <>
 
                 <div className="row">
-                    <div className="col col-sm-12 col-md-12 col-lg-6 m-auto">
+                    <div className="col">
+                        <h3>Editar Rol</h3>
+                        <form id="form" onSubmit={this.handleSubmit}>
+                            {this.state.message ? (
+                                <div className="alert alert-info" role="alert">
+                                    <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
+                                </div>
+                            ) : (
+                                    <div className=""></div>
+                                )}
 
-
-                            <h3> Nuevo Rol </h3>
-
-
-
-                                <form id="form" onSubmit={this.handleSubmit}>
-                                    {this.state.message ? (
-                                        <div className="alert alert-info" role="alert">
-                                            <span><i className="fa fa-info-circle" aria-hidden="true"></i> {this.state.message}</span>
-                                        </div>
-                                    ) : (
-                                            <div className=""></div>
-                                        )}
-
-                                    <div className="form-group">
-                                        <label>Nombre</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            id="name"
-                                            defaultValue={this.state.name}
-                                            className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
-                                            onInput={this.handleInput}
-                                        />
-                                        <div className="invalid-feedback">
-                                            {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
-                                        </div>
-                                    </div>
-
-
-
-                                    <div className="form-group">
-                                        <label>Permisos</label>
-                                        {this.state.permissions.map(permission => (
-                                            <div key={permission.id} className="form-check ">
-                                                <input className="form-check-input" type="checkbox" id="permissions[]" name="permissions[]" value={permission.id} />
-                                                <label className="form-check-label">{permission.spanish_name}</label>
+                            <div className="form-group">
+                                <label>Nombre</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    defaultValue={this.state.role.name}
+                                    className={rules.name.isInvalid && rules.name.message != '' ? 'form-control is-invalid' : 'form-control'}
+                                    onInput={this.handleInput}
+                                />
+                                <div className="invalid-feedback">
+                                    {rules.name.isInvalid && rules.name.message != '' ? rules.name.message : ''}
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Permisos</label>
+                                {this.state.keys.map((key) => {
+                                    return (
+                                        <div key={key}>
+                                            <div className="card mb-2">
+                                                <div className="card-body">
+                                                    <h5>{key}</h5>
+                                                    <Permissions permissions={this.state.permissions[key]} userPermissions={this.state.role.permissions} />
+                                                </div>
                                             </div>
-                                        ))}
-
-                                    </div>
-
-                                </form>
-
-                                <button type="submit" form="form" className="btn btn-primary">Guardar</button>
-
-
-
-
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </form>
+                        <button type="submit" form="form" className="btn btn-primary">Guardar</button>
                     </div>
-
                 </div>
-
             </>
         )
     }
+}
+
+const Permissions = ({ permissions, userPermissions }) => {
+    const user_permissions_ids = userPermissions.map(userPermission => userPermission.id);
+    return (
+        <>
+            {permissions.map((permission, i) => (
+                <div className="form-check" key={i}>
+                    <input className="form-check-input" type="checkbox" name="permissions[]" value={permission.id} id={"permission" + permission.id} defaultChecked={user_permissions_ids.includes(permission.id)} />
+                    <label className="form-check-label" htmlFor={"permission" + permission.id}>
+                        {permission.spanish_name}
+                    </label>
+                </div>
+            ))}
+        </>
+    )
 }
 
 export default Roles;

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
-import { get, rules, store } from '../containers/Roles';
+import { rules, store } from '../containers/Roles';
 import { get as getPermission} from '../containers/Permissions';
 
 class Roles extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rols: null,
             rules: rules,
             permissions: null,
             message: null,
@@ -21,9 +20,6 @@ class Roles extends Component {
 
 
     async getData() {
-        // Data Roles
-        let data = await get();
-        this.setState({ rols: data });
         const data_permissions = await getPermission();
         const permissions = {};
         data_permissions.forEach(permission => {

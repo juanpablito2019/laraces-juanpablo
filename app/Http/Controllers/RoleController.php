@@ -63,7 +63,7 @@ class RoleController extends Controller
     {
         $this->authorize('view', [Role::class, $role]);
 
-        $role->users;
+        $role->permissions;
         return $role;
     }
 
