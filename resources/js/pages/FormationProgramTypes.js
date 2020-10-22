@@ -178,7 +178,7 @@ class FormationProgramTypes extends Component {
                                             <div className="col-3">
                                                 <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-7 ml-2">
                                                 <h5>
                                                     {
                                                         (formationProgramType.name).length > 20 ? (
@@ -191,14 +191,17 @@ class FormationProgramTypes extends Component {
                                                 <h6 className="text-muted">Mesese electivos: {formationProgramType.elective_months}</h6>
                                                 <h6 className="text-muted">Mesese practicos: {formationProgramType.practice_months}</h6>
 
-                                                <VerifyPermission permission="edit_formation_program_type">
-                                                <a href="#" data-id={formationProgramType.id} onClick={this.handleEdit}>Editar</a>
+                                                <div className="row ml-1">
+                                                    <VerifyPermission permission="edit_formation_program_type">
+                                                    <a href="#" data-id={formationProgramType.id} onClick={this.handleEdit}>Editar</a>
 
-                                                </VerifyPermission>
+                                                    </VerifyPermission>
 
-                                                <VerifyPermission permission="delete_formation_program_type">
-                                                    <a href="#" data-id={formationProgramType.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
-                                                </VerifyPermission>
+                                                    <VerifyPermission permission="delete_formation_program_type">
+                                                        <a href="#" data-id={formationProgramType.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
+                                                    </VerifyPermission>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>

@@ -194,7 +194,7 @@ class FormationPrograms extends Component {
                                                 <div className="col-3">
                                                     <i className="fas fa-shapes fa-4x text-secondary mt-3"></i>
                                                 </div>
-                                                <div className="col-7 ml-1">
+                                                <div className="col-8 ml-1">
                                                     <h5>
                                                         {
                                                             (formationProgram.name.split('-')[1]).length > 22 ? (
@@ -208,7 +208,8 @@ class FormationPrograms extends Component {
                                                     <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
 
 
-                                                    <div className="row">
+                                                    <div className="row ml-1">
+
                                                             <VerifyPermission permission="edit_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
                                                             </VerifyPermission>
@@ -216,6 +217,7 @@ class FormationPrograms extends Component {
                                                             <VerifyPermission permission="delete_formation_program">
                                                                 <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
                                                             </VerifyPermission>
+
                                                     </div>
 
                                                 </div>
