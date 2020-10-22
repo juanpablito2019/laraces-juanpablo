@@ -48,10 +48,9 @@ class Users extends Component {
     async getRoles() {
         let data = await getRoles();
         if (!this.state.redirect) {
-            data.rols.shift();
+            data.shift();
         }
-
-        this.setState({ roles: data.rols });
+        this.setState({ roles: data});
     }
 
     handleInput(e) {

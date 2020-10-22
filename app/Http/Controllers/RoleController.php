@@ -82,7 +82,13 @@ class RoleController extends Controller
         $role->name = $request->get('name');
         $role->save();
         $role->syncPermissions($request->get('permissions'));
-        return redirect()->route('roles.index');
+
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Rol actualizado exitosamente'
+        ]);
+
     }
 
     /**

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
-import { get, rules, store } from '../containers/Roles';
+import { rules, store } from '../containers/Roles';
 import { get as getPermission} from '../containers/Permissions';
 
 class Roles extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rols: null,
             rules: rules,
             permissions: null,
             message: null,
+            redirect:null,
             keys: null
         }
         this.handleInput = this.handleInput.bind(this);
@@ -21,9 +21,6 @@ class Roles extends Component {
 
 
     async getData() {
-        // Data Roles
-        let data = await get();
-        this.setState({ rols: data });
         const data_permissions = await getPermission();
         const permissions = {};
         data_permissions.forEach(permission => {
@@ -58,8 +55,7 @@ class Roles extends Component {
                         toastr.success('', data.message, {
                             closeButton: true
                         });
-                        // this.props.history.push(`/app/roles`);
-                        location.href = '/app/roles';
+                        this.setState({ redirect: true})
                     } else {
                         this.setState({ message: data.errors.name || data.errors.permissions })
                     }
@@ -84,8 +80,11 @@ class Roles extends Component {
 
     render() {
         const { rules } = this.state;
-        if (!this.state.rols || !this.state.permissions || !this.state.keys) {
+        if (!this.state.permissions || !this.state.keys) {
             return <Loader />
+        }
+        if(this.state.redirect){
+            return<Redirect to="/app/roles"/>
         }
         return (
             <>
