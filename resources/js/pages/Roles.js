@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
 import VerifyPermission from '../components/VerifyPermission';
 
@@ -32,7 +33,9 @@ class Roles extends Component {
                     <div className="col">
                         <h3>Roles</h3>
                         <VerifyPermission permission="create_role">
-                         <a href="./roles/create"><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo rol</span></a>
+                            <Link to="/app/roles/create">
+                                <i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo rol</span>
+                            </Link>
                         </VerifyPermission>
                     </div>
                 </div>
