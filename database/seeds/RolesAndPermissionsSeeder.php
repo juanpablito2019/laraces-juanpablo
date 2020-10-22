@@ -31,9 +31,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('delete_formative_measure_responsible');
         
         $admin->givePermissionTo('list_committee_parameter');
-        $admin->givePermissionTo('create_committee_parameter');
-        $admin->givePermissionTo('edit_committee_parameter');
-        $admin->givePermissionTo('delete_committee_parameter');
+        // $admin->givePermissionTo('create_committee_parameter');
+        // $admin->givePermissionTo('edit_committee_parameter');
+        // $admin->givePermissionTo('delete_committee_parameter');
 
         $admin->givePermissionTo('list_committee_session');
         $admin->givePermissionTo('create_committee_session');
@@ -110,7 +110,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('edit_position');
         $admin->givePermissionTo('delete_position');
 
-        // $admin->givePermissionTo('list_role');
+        $admin->givePermissionTo('list_role');
         // $admin->givePermissionTo('create_role');
         // $admin->givePermissionTo('edit_role');
         // $admin->givePermissionTo('delete_role');

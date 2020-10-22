@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Stimulus;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Committee;
 use App\CommitteeSession;

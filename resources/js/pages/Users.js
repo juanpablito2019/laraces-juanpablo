@@ -29,6 +29,7 @@ class Users extends Component {
 
     async getUsers() {
         let data = await get();
+
         if(!this.state.redirect){
             data.shift();
         }

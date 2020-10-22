@@ -259,23 +259,23 @@ class Groups extends Component {
                                             <div className="col-8 ml-3">
                                                 <h5>{group.code_tab}</h5>
                                                 <p>{group.formation_program.name}</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div classname="col-3">
-                                                <VerifyPermission permission="edit_group">
-                                                    <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
-                                                </VerifyPermission>
-                                            </div>
+                                                <div className="row ml-1">
 
-                                            <div classname="col-3">
-                                                <a href="#" data-id={group.id} onClick={this.handleDetail} className="mr-2">Detalle</a>
-                                            </div>
+                                                    <VerifyPermission permission="edit_group">
+                                                        <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
+                                                    </VerifyPermission>
 
-                                            <div classname="col-3">
-                                                <VerifyPermission permission="delete_group">
-                                                    <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
-                                                </VerifyPermission>
+
+
+                                                    <a href="#" data-id={group.id} onClick={this.handleDetail} className="mr-2">Detalle</a>
+
+
+
+                                                    <VerifyPermission permission="delete_group">
+                                                        <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
+                                                    </VerifyPermission>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
