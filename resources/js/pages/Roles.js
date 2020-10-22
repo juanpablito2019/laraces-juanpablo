@@ -11,12 +11,40 @@ class Roles extends Component {
         this.state = {
             rols: null
         }
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     async getRols(){
         let data = await get();
         data.rols.shift();
         this.setState({rols: data.rols})
+    }
+
+    handleDelete(e) {
+        let id = $(e.target).data('id');
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                destroy(id).then(data => {
+                    if (data.success == false) {
+                        toastr.error('', data.message, {
+                            closeButton: true
+                        });
+                    } if (data.success == true) {
+                        this.getUsers();
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
+                    }
+                })
+            }
+        })
     }
 
     componentDidMount(){
@@ -44,6 +72,17 @@ class Roles extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{rol.name}</h5>
+                                        <div className="row ml-1">
+                                                <VerifyPermission permission="edit_role">
+                                                    <Link to={"/app/roles/edit/" + rol.id}>
+                                                            Editar
+                                                        </Link>
+                                                </VerifyPermission>
+
+                                                <VerifyPermission permission="delete_role">
+                                                    <a href="#" data-id={rol.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                </VerifyPermission>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

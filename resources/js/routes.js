@@ -20,6 +20,7 @@ import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
 import CreateRol from "./pages/CreateRoles";
+import EditRol from "./pages/EditRoles";
 import Profile from "./pages/Profile";
 import Reports from './pages/Reports';
 
@@ -184,6 +185,13 @@ export default [
         visible: false,
         component: CreateRol,
         permission: 'create_role'
+    },
+    {
+        name: 'Edit Rol',
+        path: '/roles/edit/:id',
+        visible: false,
+        component: EditRol,
+        permission: 'edit_role'
     },
 
 ]
