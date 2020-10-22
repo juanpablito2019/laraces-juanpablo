@@ -95,6 +95,16 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $this->authorize('update', [User::class, $user]);
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->save();
+        $user->syncRoles($request->get('rol'));
+
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Usuario actualizado exitosamente'
+        ]);
 
 
     }

@@ -4,6 +4,8 @@ import { validate, formValid, setRules } from '../containers/Validator';
 import { get, store, find, update, destroy, rules } from '../containers/User';
 import { get as getRoles } from '../containers/Roles';
 import VerifyPermission from '../components/VerifyPermission';
+import { Link, Redirect } from 'react-router-dom';
+
 
 class Users extends Component {
     constructor(props) {
@@ -60,7 +62,7 @@ class Users extends Component {
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ edit: true });
+        this.setState({ edit: true, id });
 
         setRules(rules, false);
 
@@ -194,18 +196,15 @@ class Users extends Component {
                                     <div className="card-body">
                                         <h5>{user.name}</h5>
                                         <h6 className="text-muted">{user.email}</h6>
-                                        <div className="row">
-                                            <div className="col-3">
+                                        <div className="row ml-1">
                                                 <VerifyPermission permission="edit_user">
                                                     <a href="#" data-id={user.id} onClick={this.handleEdit} >Editar</a>
                                                 </VerifyPermission>
-                                            </div>
-                                            <div className="col-9">
+
+
                                                 <VerifyPermission permission="delete_user">
                                                     <a href="#" data-id={user.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                                 </VerifyPermission>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>

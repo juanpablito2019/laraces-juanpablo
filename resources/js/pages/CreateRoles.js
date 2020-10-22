@@ -10,7 +10,8 @@ class Roles extends Component {
             rols: null,
             rules: rules,
             permissions: null,
-            message: null
+            message: null,
+            keys: null
         }
         this.handleInput = this.handleInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,10 +23,14 @@ class Roles extends Component {
         // Data Roles
         let data = await get();
         this.setState({ rols: data.rols })
-        const permissions = [];
+        const permissions = {};
         data.permissions.forEach(permission => {
-            
+            permissions[permission.model] = []
         });
+        data.permissions.forEach(permission => {
+            permissions[permission.model].push(permission)
+        });
+        this.setState({ keys: Object.keys(permissions) })
         this.setState({ permissions: permissions })
     }
 
@@ -77,14 +82,14 @@ class Roles extends Component {
 
     render() {
         const { rules } = this.state;
-        if (!this.state.rols || !this.state.permissions) {
+        if (!this.state.rols || !this.state.permissions || !this.state.keys) {
             return <Loader />
         }
         return (
             <>
                 <div className="row">
                     <div className="col">
-                        <h3> Nuevo Rol </h3>
+                        <h3> Agregar Rol </h3>
                         <form id="form" onSubmit={this.handleSubmit}>
                             {this.state.message ? (
                                 <div className="alert alert-info" role="alert">
@@ -109,13 +114,18 @@ class Roles extends Component {
 
                             <div className="form-group">
                                 <label>Permisos</label>
-                                {this.state.permissions.map(permission => (
-                                    permission.model == 'reports' ? (
-                                        <p>{permission.name}</p>
-                                    ):(
-                                        <p>{permission.name}</p>
+                                {this.state.keys.map(key => {
+                                    return (
+                                        <>
+                                            <div className="card mb-2">
+                                                <div className="card-body">
+                                                    <h5>{key}</h5>
+                                                    <Permissions permissions={this.state.permissions[key]} />
+                                                </div>
+                                            </div>
+                                        </>
                                     )
-                                ))}
+                                })}
                             </div>
                         </form>
                         <button type="submit" form="form" className="btn btn-primary">Guardar</button>
@@ -125,6 +135,21 @@ class Roles extends Component {
             </>
         )
     }
+}
+
+const Permissions = ({ permissions }) => {
+    return (
+        <>
+            {permissions.map(permission => (
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="permissions[]" value={permission.id} id={"permission" + permission.id} />
+                    <label class="form-check-label" for={"permission" + permission.id}>
+                        {permission.spanish_name}
+                    </label>
+                </div>
+            ))}
+        </>
+    )
 }
 
 export default Roles;
