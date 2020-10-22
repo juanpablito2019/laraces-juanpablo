@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getAllCommittes, getAllStimulus, getAllSanction } from '../containers/User';
+import Loader from '../components/Loader';
 import DataTable from '../components/DataTable';
 
 class Reports extends Component {
@@ -57,6 +58,9 @@ class Reports extends Component {
     }
 
     render() {
+        if (!this.state.allStimulus || !this.state.allCommittes || !this.state.allSanctions) {
+            return <Loader />
+        }
         return (
             <>
                 <div className="row">
@@ -106,7 +110,7 @@ class Reports extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <table class="table table-hover">
+                                <table className="table table-hover">
                                     <thead>
                                         <tr>
                                             <th className="hide">Aprendiz</th>
@@ -120,13 +124,18 @@ class Reports extends Component {
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                        {this.state.allStimulus.map(allstimulu => (
+                                        {this.state.allStimulus.length > 0 ? (
+                                        this.state.allStimulus.map(allstimulu => (
                                             <tr key={allstimulu.id}>
                                                 <td>{allstimulu.learner.name}</td>
                                                 <td>{allstimulu.learner.group.code_tab}</td>
                                                 <td>{allstimulu.learner.group.formation_program.name}</td>
                                             </tr>
-                                        ))}
+                                        )) ) : (
+                                            <tr className="col">
+                                                <td>No hay datos disponibles</td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
@@ -147,7 +156,7 @@ class Reports extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <table class="table table-hover">
+                                <table className="table table-hover">
                                     <thead>
                                         <tr>
                                             <th className="hide">Aprendiz</th>
@@ -163,16 +172,21 @@ class Reports extends Component {
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                        {this.state.allSanctions.map(allSanction => (
+                                        {this.state.allSanctions.length > 0 ? (
+                                        this.state.allSanctions.map(allSanction => (
                                             <tr key={allSanction.id}>
                                                 <td>{allSanction.learner.name}</td>
                                                 <td>{allSanction.learner.group.code_tab}</td>
                                                 <td>{allSanction.learner.group.formation_program.name}</td>
                                                 <td>{allSanction.sanction.name}</td>
                                             </tr>
-                                        ))}
+                                        ))) : (
+                                            <tr className="col">
+                                                <td>No hay datos disponibles</td>
+                                            </tr>
+                                        )}
                                     </tbody>
-                                </table>    
+                                </table>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -191,7 +205,7 @@ class Reports extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                               
+
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
