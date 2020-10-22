@@ -3,14 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Stimulus;
+use App\Committee;
 use Illuminate\Http\Request;
+
+use function PHPSTORM_META\map;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+<<<<<<< HEAD
 use function PHPSTORM_META\map;
 use App\Committee;
 use App\Mail\MessageSend;
 use Illuminate\Support\Facades\Mail;
+=======
+use App\CommitteeSession;
+>>>>>>> 1933fc25f94361933beeb1317a362f4c4665457f
 
 class UserController extends Controller
 {
@@ -149,8 +157,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function GetLatestCommittee()
+    public function getAllCommittee()
     {
         return Committee::all();
+    }
+
+    public function getAllStimulus()
+    {
+        return Stimulus::with('learner.group.formationProgram')->get();
+    }
+
+    public function getAllSanction()
+    {
+        return CommitteeSession::with('sanction', 'learner.group.formationProgram')->get();
     }
 }

@@ -12,6 +12,8 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        /* Reports */
+        Permission::create(['name'=>'list_report', 'spanish_name' => 'Listar reportes']);
         /* Act Templates */
         Permission::create(['name'=>'list_act_template', 'spanish_name' => 'Listar plantilla actas']);
         Permission::create(['name'=>'create_act_template', 'spanish_name' => 'Crear plantilla actas']);
@@ -123,9 +125,9 @@ class PermissionSeeder extends Seeder
         Permission::create(['name'=>'edit_user','spanish_name' => 'Editar usuarios']);
         Permission::create(['name'=>'delete_user','spanish_name' => 'Eliminar usuarios']);
         /* Formative measure responsibles */
-        Permission::create(['name'=>'list_formative-measure-responsibles','spanish_name' => 'Listar responsables de medidas formativas']);
-        Permission::create(['name'=>'create_formative-measure-responsibles','spanish_name' => 'Crear responsables de medidas formativas']);
-        Permission::create(['name'=>'edit_formative-measure-responsibles','spanish_name' => 'Editar responsables de medidas formativas']);
-        Permission::create(['name'=>'delete_formative-measure-responsibles','spanish_name' => 'Eliminar responsables de medidas formativas']);
+        Permission::create(['name'=>'list_formative_measure_responsible','spanish_name' => 'Listar responsables de medidas formativas']);
+        Permission::create(['name'=>'create_formative_measure_responsible','spanish_name' => 'Crear responsables de medidas formativas']);
+        Permission::create(['name'=>'edit_formative_measure_responsible','spanish_name' => 'Editar responsables de medidas formativas']);
+        Permission::create(['name'=>'delete_formative_measure_responsible','spanish_name' => 'Eliminar responsables de medidas formativas']);
     }
 }
