@@ -17,6 +17,7 @@ import Users from './pages/Users';
 import VerifyPermission from "./components/VerifyPermission";
 import Home from "./pages/Home";
 import Reports from "./pages/Reports";
+import Profile from "./pages/Profile";
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -178,15 +179,24 @@ function App() {
                         exact
                         component={Home}
                     />
+                    <VerifyPermission permission="list_role">
                     <Route
                         path={prefix + "/roles"}
                         exact
                         component={Roles}
                     />
+                    </VerifyPermission>
+                    <VerifyPermission permission="list_user">
                     <Route
                         path={prefix + "/users"}
                         exact
                         component={Users}
+                    />
+                    </VerifyPermission>
+                    <Route
+                        path={prefix + "/profile/:id"}
+                        exact
+                        component={Profile}
                     />
                     <VerifyPermission permission="list_report">
                         <Route

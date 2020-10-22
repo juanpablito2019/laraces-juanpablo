@@ -178,10 +178,5 @@ export default [
         component: ResponsiblesFormativeMeasures,
         permission: 'list_formative_measure_responsible'
     },
-    {
-        name: 'Profile',
-        path: '/profile/:id',
-        visible: false,
-        component: Profile
-    },
+    
 ]
