@@ -43,7 +43,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="row mt-2">
-                    <div className="col-6">
+                    <div className="col-12 col-lg-6 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h5>Aprendices en comité</h5>
@@ -54,7 +54,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-lg-6">
                         <div className="card">
                             <div className="card-body">
                                 <h5>Comites por tipo de falta</h5>
@@ -67,7 +67,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <div className="row mt-3">
-                    <div className="col-6">
+                    <div className="col-12 col-lg-6 mb-2">
                         <div className="card">
                             <div className="card-body">
                                 <h5>Comites por tipo de falta</h5>
@@ -78,7 +78,7 @@ class Home extends Component {
                         </div>
 
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-lg-6">
                         <div className="card">
                             <div className="card-body">
                                 <h5>Aprendices por sus estimulos</h5>

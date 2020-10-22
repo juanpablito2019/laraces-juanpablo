@@ -163,7 +163,7 @@ class CommitteeParameters extends Component {
                 <div className="row mt-3">
                     {this.state.committeeParameters.length > 0 ? (
                         this.state.committeeParameters.map((committeeParameter, i) => (
-                            <div className="col-4 mb-2" key={i}>
+                            <div className="col-12 col-md-6 mb-2" key={i}>
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>

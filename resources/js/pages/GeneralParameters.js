@@ -117,7 +117,7 @@ class GeneralParameters extends Component {
                 <div className="row mt-3">
                     {this.state.generalParameters.length > 0 ? (
                         this.state.generalParameters.map(generalParameter => (
-                            <div key={generalParameter.id} className="col-12 col-md-4 col-lg-4 mb-2" key={generalParameter.id}>
+                            <div key={generalParameter.id} className="col-12 col-lg-6 col-xl-4 mb-2" key={generalParameter.id}>
                                 <div className="card">
                                     <div className="card-body">
 
