@@ -31,9 +31,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('delete_formative_measure_responsible');
         
         $admin->givePermissionTo('list_committee_parameter');
-        $admin->givePermissionTo('create_committee_parameter');
-        $admin->givePermissionTo('edit_committee_parameter');
-        $admin->givePermissionTo('delete_committee_parameter');
+        // $admin->givePermissionTo('create_committee_parameter');
+        // $admin->givePermissionTo('edit_committee_parameter');
+        // $admin->givePermissionTo('delete_committee_parameter');
 
         $admin->givePermissionTo('list_committee_session');
         $admin->givePermissionTo('create_committee_session');
@@ -111,9 +111,9 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('delete_position');
 
         $admin->givePermissionTo('list_role');
-        $admin->givePermissionTo('create_role');
-        $admin->givePermissionTo('edit_role');
-        $admin->givePermissionTo('delete_role');
+        // $admin->givePermissionTo('create_role');
+        // $admin->givePermissionTo('edit_role');
+        // $admin->givePermissionTo('delete_role');
 
         $admin->givePermissionTo('list_sanction');
         $admin->givePermissionTo('create_sanction');
@@ -125,10 +125,10 @@ class RolesAndPermissionsSeeder extends Seeder
         $admin->givePermissionTo('edit_stimulus');
         $admin->givePermissionTo('delete_stimulus');
 
-        $admin->givePermissionTo('list_user');
-        $admin->givePermissionTo('create_user');
-        $admin->givePermissionTo('edit_user');
-        $admin->givePermissionTo('delete_user');
+        // $admin->givePermissionTo('list_user');
+        // $admin->givePermissionTo('create_user');
+        // $admin->givePermissionTo('edit_user');
+        // $admin->givePermissionTo('delete_user');
 
         $cordi  = Role::find(3); // Permisos Coordinador
 

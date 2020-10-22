@@ -17,6 +17,7 @@ import Users from './pages/Users';
 import VerifyPermission from "./components/VerifyPermission";
 import Home from "./pages/Home";
 import Reports from "./pages/Reports";
+import Profile from "./pages/Profile";
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -84,7 +85,7 @@ function App() {
                     <div className="sidebar-header text-center">
                         <div className="row">
                             <div className="col-2 p-2 ml-5">
-                                <img src="/img/logo.svg" className="d-block" style={{ width: '50px' }} alt="" />
+                                <img src="/img/LOGOCES.svg" className="d-block" style={{ width: '50px' }} alt="" />
                             </div>
                             <div className="col p-3 mr-3 text-left">
                                 <h3 className="d-inline">CES</h3>
@@ -178,15 +179,24 @@ function App() {
                         exact
                         component={Home}
                     />
+                    <VerifyPermission permission="list_role">
                     <Route
                         path={prefix + "/roles"}
                         exact
                         component={Roles}
                     />
+                    </VerifyPermission>
+                    <VerifyPermission permission="list_user">
                     <Route
                         path={prefix + "/users"}
                         exact
                         component={Users}
+                    />
+                    </VerifyPermission>
+                    <Route
+                        path={prefix + "/profile/:id"}
+                        exact
+                        component={Profile}
                     />
                     <VerifyPermission permission="list_report">
                         <Route

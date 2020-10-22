@@ -40,6 +40,9 @@ class UserPolicy
         if($user->id != $model->id && !$user->hasRole('SuperAdmin')){
             return false;
         }
+        if($user->id === $model->id){
+            return true;
+        }
         if($user->hasPermissionTo('list_user')){
             return true;
         }

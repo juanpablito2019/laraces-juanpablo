@@ -8,17 +8,17 @@ const VerifyPermission = ({permission, children}) => {
 
     if(isSuper){
         return (
-            <div>
+            <>
                 {children}
-            </div>
+            </>
         )
     }
 
     if(permissions.includes(permission)){
         return (
-            <div>
+            <>
                 {children}
-            </div>
+            </>
         )
     }else{
         return (
