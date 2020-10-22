@@ -19,7 +19,7 @@ import CommitteeSession from "./pages/CommitteeSession";
 import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
-import Rol from "./pages/CreateRoles";
+import CreateRole from "./pages/CreateRoles";
 import Profile from "./pages/Profile";
 import Reports from './pages/Reports';
 
@@ -177,6 +177,13 @@ export default [
         visible: true,
         component: ResponsiblesFormativeMeasures,
         permission: 'list_formative_measure_responsible'
+    },
+    {
+        name: 'Crear role',
+        path: '/roles/create',
+        visible: false,
+        component: CreateRole,
+        permission: 'create_role'
     },
     
 ]

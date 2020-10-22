@@ -23,15 +23,10 @@ class RoleController extends Controller
     {
 
         $this->authorize('viewAny', [Role::class]);
-
-        $user = Auth::user();
-
-
+        $permissions = Permission::all();
         return response()->json([
             'rols'=>Role::all(),
-            'permissions'=>Permission::all(),
-            'user'=>$user = Auth::user(),
-            'userPermissions'=>$user->getPermissionsViaRoles()
+            'permissions'=>$permissions,
         ]);
 
 
