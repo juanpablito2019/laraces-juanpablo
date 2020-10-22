@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
-import { get, store, find, update, destroy, rules} from '../containers/User';
+import { get, store, find, update, destroy, rules } from '../containers/User';
 import { get as getRoles } from '../containers/Roles';
 import VerifyPermission from '../components/VerifyPermission';
 
@@ -30,7 +30,7 @@ class Users extends Component {
     async getUsers() {
         let data = await get();
 
-        if(!this.state.redirect){
+        if (!this.state.redirect) {
             data.shift();
         }
 
@@ -45,7 +45,7 @@ class Users extends Component {
 
     async getRoles() {
         let data = await getRoles();
-        if(!this.state.redirect){
+        if (!this.state.redirect) {
             data.rols.shift();
         }
 
@@ -60,16 +60,16 @@ class Users extends Component {
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ edit: true});
+        this.setState({ edit: true });
 
-        setRules(rules,false);
+        setRules(rules, false);
 
         let data = await find(id);
-        this.setState({ id: data.roles[0].id });
 
         $('.modal').find('.modal-title').text('Editar usuario');
         $('.modal').find('#name').val(data.name);
         $('.modal').find('#email').val(data.email);
+        $('.modal').find(`#rol${data.roles[0].id}`).attr('checked', true);
         // $('.modal').find('#rol').val(data.roles[0].id);
 
         $('.modal').modal('toggle');
@@ -86,23 +86,24 @@ class Users extends Component {
             cancelButtonColor: "#d33",
         }).then((result) => {
             if (result.isConfirmed) {
-                    destroy(id).then(data => {
-                        if(data.success == false){
-                            toastr.error('', data.message, {
-                                closeButton: true
-                            });
-                        }if (data.success == true) {
-                            this.getUsers();
-                            toastr.success('', data.message, {
-                                closeButton: true
-                            });
-                        }
-                    })
+                destroy(id).then(data => {
+                    if (data.success == false) {
+                        toastr.error('', data.message, {
+                            closeButton: true
+                        });
+                    } if (data.success == true) {
+                        this.getUsers();
+                        toastr.success('', data.message, {
+                            closeButton: true
+                        });
+                    }
+                })
             }
         })
     }
 
     handleModal() {
+        this.setState({ edit: false });
         $('#form').trigger('reset');
         setRules(rules);
 
@@ -121,8 +122,8 @@ class Users extends Component {
                     toastr.success('', data.message, {
                         closeButton: true
                     });
-                }else{
-                    this.setState({message: data.errors.name})
+                } else {
+                    this.setState({ message: data.errors.name })
                 }
             } else {
                 store(e.target).then(data => {
@@ -132,13 +133,13 @@ class Users extends Component {
                         toastr.success('', data.message, {
                             closeButton: true
                         });
-                    }else{
-                        this.setState({message: data.errors.name})
+                    } else {
+                        this.setState({ message: data.errors.name })
                     }
                 });
             }
-        }else{
-            this.setState({message:'Por favor completa el formulario'});
+        } else {
+            this.setState({ message: 'Por favor completa el formulario' });
         }
 
     }
@@ -149,15 +150,17 @@ class Users extends Component {
         this.getRoles();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         if (this.state.redirect) {
-            this.setState({ users: null,
+            this.setState({
+                users: null,
                 edit: false,
                 roles: null,
                 id: null,
                 message: null,
                 redirect: null,
-                rules: null });
+                rules: null
+            });
         }
     }
 
@@ -165,7 +168,7 @@ class Users extends Component {
 
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
-          }
+        }
 
         if (!this.state.users) {
             return <Loader />
@@ -199,7 +202,7 @@ class Users extends Component {
                                             </div>
                                             <div className="col-9">
                                                 <VerifyPermission permission="delete_user">
-                                                     <a href="#" data-id={user.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                    <a href="#" data-id={user.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                                 </VerifyPermission>
                                             </div>
 
@@ -226,12 +229,12 @@ class Users extends Component {
                             </div>
                             <div className="modal-body">
                                 <form id="form" onSubmit={this.handleSubmit}>
-                                        {this.state.message ? (
+                                    {this.state.message ? (
 
                                         <div className="alert alert-info" role="alert">
                                             <span><i className="fa fa-info-circle" aria-hidden="true"></i>{this.state.message}</span>
                                         </div>
-                                        ):(
+                                    ) : (
                                             <div></div>
                                         )}
                                     <div className="form-group">
@@ -260,22 +263,21 @@ class Users extends Component {
                                             {rules.email.isInvalid && rules.email.message != '' ? rules.email.message : ''}
                                         </div>
                                     </div>
-
-                                    <div className="col">
-                                            <label htmlFor="">Asigne un rol</label>
-                                            {this.state.roles.length > 0 ? (
-                                                this.state.roles.map((rol, i) => (
-                                                    <div className="form-check" key={i}>
-                                                        <input className="form-check-input" type="radio" name="rol" id={"rol" + rol.id} value={rol.id} defaultChecked={this.state.id == rol.id ? true : false} />
-                                                        <label className="form-check-label" htmlFor={"rol" + rol.id}>
-                                                            {rol.name}
-                                                        </label>
-                                                    </div>
-                                                ))
-                                            ) : (
-                                                    <p>No hay clasificacion de faltas disponibles</p>
-                                                )}
-                                        </div>
+                                    <div className="form-group">
+                                        <label htmlFor="">Rol</label>
+                                        {this.state.roles.length > 0 ? (
+                                            this.state.roles.map((rol, i) => (
+                                                <div className="form-check" key={i}>
+                                                    <input className="form-check-input" type="radio" name="rol" id={"rol" + rol.id} value={rol.id} />
+                                                    <label className="form-check-label" htmlFor={"rol" + rol.id}>
+                                                        {rol.name}
+                                                    </label>
+                                                </div>
+                                            ))
+                                        ) : (
+                                                <p>No hay clasificacion de faltas disponibles</p>
+                                            )}
+                                    </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
