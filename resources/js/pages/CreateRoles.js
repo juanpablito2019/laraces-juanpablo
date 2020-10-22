@@ -114,16 +114,16 @@ class Roles extends Component {
 
                             <div className="form-group">
                                 <label>Permisos</label>
-                                {this.state.keys.map(key => {
+                                {this.state.keys.map((key) => {
                                     return (
-                                        <>
+                                        <div key={key}>
                                             <div className="card mb-2">
                                                 <div className="card-body">
                                                     <h5>{key}</h5>
                                                     <Permissions permissions={this.state.permissions[key]} />
                                                 </div>
                                             </div>
-                                        </>
+                                        </div>
                                     )
                                 })}
                             </div>
@@ -140,10 +140,10 @@ class Roles extends Component {
 const Permissions = ({ permissions }) => {
     return (
         <>
-            {permissions.map(permission => (
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="permissions[]" value={permission.id} id={"permission" + permission.id} />
-                    <label class="form-check-label" for={"permission" + permission.id}>
+            {permissions.map((permission, i) => (
+                <div className="form-check" key={i}>
+                    <input className="form-check-input" type="checkbox" name="permissions[]" value={permission.id} id={"permission" + permission.id} />
+                    <label className="form-check-label" htmlFor={"permission" + permission.id}>
                         {permission.spanish_name}
                     </label>
                 </div>
