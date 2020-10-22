@@ -21,15 +21,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-
         $this->authorize('viewAny', [Role::class]);
-        $permissions = Permission::all();
-        return response()->json([
-            'rols'=>Role::all(),
-            'permissions'=>$permissions,
-        ]);
-
-
+        return Role::all();
     }
 
     /**

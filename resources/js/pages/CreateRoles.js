@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
 import { get, rules, store } from '../containers/Roles';
+import { get as getPermission} from '../containers/Permissions';
 
 class Roles extends Component {
     constructor(props) {
@@ -22,12 +23,13 @@ class Roles extends Component {
     async getData() {
         // Data Roles
         let data = await get();
-        this.setState({ rols: data.rols })
+        this.setState({ rols: data });
+        const data_permissions = await getPermission();
         const permissions = {};
-        data.permissions.forEach(permission => {
+        data_permissions.forEach(permission => {
             permissions[permission.model] = []
         });
-        data.permissions.forEach(permission => {
+        data_permissions.forEach(permission => {
             permissions[permission.model].push(permission)
         });
         this.setState({ keys: Object.keys(permissions) })

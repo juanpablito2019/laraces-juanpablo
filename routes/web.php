@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,7 +70,9 @@ Route::group(['middleware' => ['auth']], function () {
         'where' => ['path' => '.*']
     ]);
 
-
+    Route::get('permissions', function(){
+        return Permission::all();
+    });
     Route::resource('committees', 'CommitteeController');
     Route::resource('committee-parameters', 'CommitteeParameterController');
     Route::put('committee-sessions/{id}/update-state', 'CommitteeSessionController@updateState');
