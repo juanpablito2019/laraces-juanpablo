@@ -12,6 +12,8 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        /* Reports */
+        Permission::create(['name'=>'list_report', 'spanish_name' => 'Listar reportes']);
         /* Act Templates */
         Permission::create(['name'=>'list_act_template', 'spanish_name' => 'Listar plantilla actas']);
         Permission::create(['name'=>'create_act_template', 'spanish_name' => 'Crear plantilla actas']);

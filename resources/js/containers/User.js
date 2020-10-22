@@ -121,15 +121,36 @@ export const updatePassword = async function (id, form) {
     }
 }
 
-export const getReports = async () => {
+export const getAllCommittes = async () => {
     try {
-        let res = await fetch('/users/reports');
+        let res = await fetch('/users/get-all-committee');
         let data = await res.json();
         return data;
     } catch (error) {
         console.log(error);
     }
 }
+
+export const getAllStimulus = async () => {
+    try {
+        let res = await fetch('/users/get-all-stimulus');
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getAllSanction = async () => {
+    try {
+        let res = await fetch('/users/get-all-sanction');
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 export const rules = {
     name: {
@@ -145,14 +166,6 @@ export const rules = {
     email:{
         name:'correo',
         type:'email',
-        message:'',
-        required:true,
-        isEmpty: true,
-        isInvalid:true
-    },
-    password:{
-        name:'contraseña',
-        type:'text',
         message:'',
         required:true,
         isEmpty: true,

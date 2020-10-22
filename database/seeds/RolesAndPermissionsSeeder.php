@@ -18,7 +18,8 @@ class RolesAndPermissionsSeeder extends Seeder
         // $admin->givePermissionTo('create_act_template');
         // $admin->givePermissionTo('edit_act_template');
         // $admin->givePermissionTo('delete_act_template');
-
+        $admin->givePermissionTo('list_report');
+        
         $admin->givePermissionTo('list_committee');
         $admin->givePermissionTo('create_committee');
         $admin->givePermissionTo('edit_committee');
@@ -131,6 +132,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $cordi  = Role::find(3); // Permisos Coordinador
 
+        $cordi->givePermissionTo('list_report');
         $cordi->givePermissionTo('list_act_template');
         $cordi->givePermissionTo('list_general_parameter');
         $cordi->givePermissionTo('list_committee');
@@ -144,6 +146,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $subdi  = Role::find(4); // Permisos Subdirector
 
+        $subdi->givePermissionTo('list_report');
         $subdi->givePermissionTo('list_act_template');
         $subdi->givePermissionTo('list_general_parameter');
         $subdi->givePermissionTo('list_committee');

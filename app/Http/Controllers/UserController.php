@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Stimulus;
+
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
-use function PHPSTORM_META\map;
 use App\Committee;
+use App\CommitteeSession;
+use App\Mail\MessageSend;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -32,15 +35,36 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $this->authorize('create', [User::class]);
+        if (isset($request)) {
+            //Carácteres para la contraseña
+            $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+            $password = "";
+            //Reconstruimos la contraseña segun la longitud que se quiera
+            for($i=0;$i<8;$i++) {
+               //obtenemos un caracter aleatorio escogido de la cadena de caracteres
+               $password .= substr($str,rand(0,62),1);
+            }
 
+            $email = [
+                'name' =>ucwords($request->get('name')),
+                'email' =>$request->get('email'),
+                'password' =>$password
+            ];
+
+
+        }
+
+
+        $this->authorize('create', [User::class]);
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => $request->get('password'),
+            'password' =>Hash::make($password)
         ]);
 
         $user->assignRole($request->get('rol'));
+
+        Mail::to($request->get('email'))->send(new MessageSend($email));
 
         return response()->json([
             'status'=>201,
@@ -127,8 +151,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function GetLatestCommittee()
+    public function getAllCommittee()
     {
         return Committee::all();
+    }
+
+    public function getAllStimulus()
+    {
+        return Stimulus::with('learner.group.formationProgram')->get();
+    }
+
+    public function getAllSanction()
+    {
+        return CommitteeSession::with('sanction', 'learner.group.formationProgram')->get();
     }
 }

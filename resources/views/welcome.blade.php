@@ -19,9 +19,10 @@
 
     </head>
     <body>
-        <div class="container" style="margin: 150px auto">
+        <div class="container" style="margin: 40px auto">
             <div class="row center">
                 <div class="col-12 col-md-8 col-lg-4 mx-auto">
+                    <img src="/img/LOGOCES.svg" alt="logo" class="card-img-top w-50 d-block mx-auto">
                     <div class="card border">
                         <div class="card-body">
                             <h3>Iniciar sesión</h3>

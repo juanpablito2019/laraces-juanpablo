@@ -191,8 +191,8 @@ class FormationPrograms extends Component {
                                     <div className="card">
                                         <div className="card-body">
                                             <div className="row">
-                                                <div className="col-4">
-                                                    <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
+                                                <div className="col-3">
+                                                    <i className="fas fa-shapes fa-4x text-secondary mt-3"></i>
                                                 </div>
                                                 <div className="col-7 ml-1">
                                                     <h5>
@@ -206,6 +206,7 @@ class FormationPrograms extends Component {
                                                     </h5>
                                                     <h6 className="text-muted">{formationProgram.code}</h6>
                                                     <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
+
 
                                                     <div className="row">
                                                             <VerifyPermission permission="edit_formation_program">

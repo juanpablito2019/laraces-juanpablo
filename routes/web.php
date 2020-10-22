@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -107,7 +105,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sanctions', 'SanctionController');
     Route::put('/users/{user}/personalInformation', 'UserController@updatePersonalInformation');
     Route::put('/users/{user}/updatePassword', 'UserController@updatePassword');
-    Route::get('users/reports', 'UserController@GetLatestCommittee');
+
+    Route::get('users/get-all-committee', 'UserController@getAllCommittee');
+    Route::get('users/get-all-stimulus', 'UserController@getAllStimulus');
+    Route::get('users/get-all-sanction', 'UserController@getAllSanction');
+
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');
     Route::get('act-templates/view/{file}', 'ActTemplateController@view');

@@ -85,7 +85,7 @@ function App() {
                     <div className="sidebar-header text-center">
                         <div className="row">
                             <div className="col-2 p-2 ml-5">
-                                <img src="/img/logo.svg" className="d-block" style={{ width: '50px' }} alt="" />
+                                <img src="/img/LOGOCES.svg" className="d-block" style={{ width: '50px' }} alt="" />
                             </div>
                             <div className="col p-3 mr-3 text-left">
                                 <h3 className="d-inline">CES</h3>

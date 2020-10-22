@@ -168,7 +168,6 @@ class CommitteeParameters extends Component {
                                     <div className="card-body">
                                         <h5 className="text-primary">{committeeParameter.name}</h5>
                                         <h6>Plantilla: {committeeParameter.act_template.act_type} (V{committeeParameter.act_template.version})</h6>
-
                                         <VerifyPermission permisssion="edit_committee_parameter">
                                             <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
                                         </VerifyPermission>
@@ -176,8 +175,6 @@ class CommitteeParameters extends Component {
                                         <VerifyPermission permission="delete_committee_parameter">
                                             <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
                                         </VerifyPermission>
-
-
                                     </div>
                                 </div>
                             </div>
