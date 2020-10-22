@@ -62,7 +62,7 @@ class Users extends Component {
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ edit: true });
+        this.setState({ edit: true, id });
 
         setRules(rules, false);
 

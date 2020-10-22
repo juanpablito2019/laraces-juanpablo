@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['string', 'min:8', 'confirmed'],
@@ -39,6 +39,13 @@ class UserRequest extends FormRequest
                 'required',
                 'string',
                 'min:5',
+                Rule::unique('users')->ignore($user)
+            ];
+            $rules['email'] = [
+                'required',
+                'string',
+                'email',
+                'max:255',
                 Rule::unique('users')->ignore($user)
             ];
         }
