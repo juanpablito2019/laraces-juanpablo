@@ -274,7 +274,7 @@ class Users extends Component {
                                                 </div>
                                             ))
                                         ) : (
-                                                <p>No hay clasificacion de faltas disponibles</p>
+                                                <p>No hay roles disponibles</p>
                                             )}
                                     </div>
                                 </form>
