@@ -158,10 +158,10 @@ class Sanctions extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                            <div className="col-4 col-md-3">
                                                 <i className="fas fa-gavel fa-5x text-secondary mt-2 mb-2"></i>
                                             </div>
-                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
+                                            <div className="col-7 ml-sm-3 ml-md-4">
                                                 <h5 className="mb-4">
                                                     {
                                                         (sanction.name).length > 16 ? (

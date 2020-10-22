@@ -160,7 +160,7 @@ class FormativeMeasures extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="row">
-                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
+                                            <div className="col-5 col-md-3  col-lg-3">
                                                 <i className="fas fa-calendar-check fa-5x text-secondary mt-2"></i>
                                             </div>
                                             <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
