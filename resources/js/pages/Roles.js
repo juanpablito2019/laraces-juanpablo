@@ -37,7 +37,7 @@ class Roles extends Component {
                             closeButton: true
                         });
                     } if (data.success == true) {
-                        this.getUsers();
+                        this.getRols();
                         toastr.success('', data.message, {
                             closeButton: true
                         });

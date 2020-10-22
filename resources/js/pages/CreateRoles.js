@@ -3,6 +3,7 @@ import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
 import { rules, store } from '../containers/Roles';
 import { get as getPermission} from '../containers/Permissions';
+import { Redirect } from 'react-router-dom';
 
 class Roles extends Component {
     constructor(props) {

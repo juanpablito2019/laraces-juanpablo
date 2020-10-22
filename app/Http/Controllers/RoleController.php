@@ -102,6 +102,10 @@ class RoleController extends Controller
         $this->authorize('delete', [Role::class, $role]);
         $role->syncPermissions();
         $role->delete();
-        return redirect()->route('roles.index');
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Rol eliminado exitosamente'
+         ]);
     }
 }
