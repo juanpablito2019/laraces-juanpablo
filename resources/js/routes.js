@@ -19,8 +19,8 @@ import CommitteeSession from "./pages/CommitteeSession";
 import LearnerNovelties from "./pages/LearnerNovelties";
 import GeneralParameters from "./pages/GeneralParameters";
 import ActTemplates from "./pages/ActTemplates";
-import CreateRol from "./pages/CreateRoles";
-import EditRol from "./pages/EditRoles";
+import CreateRole from "./pages/CreateRoles";
+import EditRole from "./pages/EditRoles";
 import Profile from "./pages/Profile";
 import Reports from './pages/Reports';
 
@@ -180,17 +180,17 @@ export default [
         permission: 'list_formative_measure_responsible'
     },
     {
-        name: 'Create Rol',
+        name: 'Crear role',
         path: '/roles/create',
         visible: false,
-        component: CreateRol,
+        component: CreateRole,
         permission: 'create_role'
     },
     {
         name: 'Edit Rol',
         path: '/roles/edit/:id',
         visible: false,
-        component: EditRol,
+        component: EditRole,
         permission: 'edit_role'
     },
 
