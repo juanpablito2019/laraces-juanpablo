@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

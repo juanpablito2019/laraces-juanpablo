@@ -29,8 +29,7 @@ class Users extends Component {
 
     async getUsers() {
         let data = await get();
-
-        if(this.state.redirect){
+        if(!this.state.redirect){
             data.shift();
         }
 
@@ -45,8 +44,6 @@ class Users extends Component {
 
     async getRoles() {
         let data = await getRoles();
-
-
         if(!this.state.redirect){
             data.rols.shift();
         }
@@ -62,14 +59,18 @@ class Users extends Component {
 
     async handleEdit(e) {
         let id = $(e.target).data('id');
-        this.setState({ edit: true, id });
+        this.setState({ edit: true});
+
         setRules(rules,false);
 
         let data = await find(id);
+        this.setState({ id: data.roles[0].id });
+
         $('.modal').find('.modal-title').text('Editar usuario');
         $('.modal').find('#name').val(data.name);
         $('.modal').find('#email').val(data.email);
-        // $('.modal').find('#password').val(data.password);
+        // $('.modal').find('#rol').val(data.roles[0].id);
+
         $('.modal').modal('toggle');
     }
 
@@ -143,20 +144,12 @@ class Users extends Component {
 
 
     componentDidMount() {
-
-        this.interval = setInterval(() => {
-            this.getUsers();
-             this.getRoles();
-          }, 1000);
-
-        // this.getUsers();
-        // this.getRoles();
+        this.getUsers();
+        this.getRoles();
     }
 
     componentWillUnmount(){
         if (this.state.redirect) {
-            // ReactDOM.unmountComponentAtNode(Users);
-            // ReactDOM.findDOMNode(Users);
             this.setState({ users: null,
                 edit: false,
                 roles: null,
@@ -164,9 +157,6 @@ class Users extends Component {
                 message: null,
                 redirect: null,
                 rules: null });
-            // ReactDOM.unmountComponentAtNode(Users);
-            //  console.log('cerrando');
-             clearInterval(this.interval);
         }
     }
 
@@ -269,40 +259,22 @@ class Users extends Component {
                                             {rules.email.isInvalid && rules.email.message != '' ? rules.email.message : ''}
                                         </div>
                                     </div>
-                                    {/* <div className="form-group">
-                                        <label htmlFor="">Contraseña</label>
-                                        <input
-                                            type="password"
-                                            name="password"
-                                            id="password"
-                                            className={rules.password.isInvalid && rules.password.message != '' ? 'form-control is-invalid' : 'form-control'}
-                                            onInput={this.handleInput}
-                                        />
-                                        <div className="invalid-feedback">
-                                            {rules.password.isInvalid && rules.password.message != '' ? rules.password.message : ''}
+
+                                    <div className="col">
+                                            <label htmlFor="">Asigne un rol</label>
+                                            {this.state.roles.length > 0 ? (
+                                                this.state.roles.map((rol, i) => (
+                                                    <div className="form-check" key={i}>
+                                                        <input className="form-check-input" type="radio" name="rol" id={"rol" + rol.id} value={rol.id} defaultChecked={this.state.id == rol.id ? true : false} />
+                                                        <label className="form-check-label" htmlFor={"rol" + rol.id}>
+                                                            {rol.name}
+                                                        </label>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                    <p>No hay clasificacion de faltas disponibles</p>
+                                                )}
                                         </div>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="password-confirm">Confirmar contraseña</label>
-                                        <input id="password-confirm" type="password" className="form-control" name="password_confirmation" required />
-                                    </div> */}
-
-                                    <div className="form-group">
-                                        <label>Asigne un rol</label>
-                                        {this.state.roles.length > 0 ? (
-                                            this.state.roles.map(rol => (
-                                                <div key={rol.id} className="form-check ">
-                                                    <input className="form-check-input" type="radio" name="rol" value={rol.id} />
-                                                    <label className="form-check-label">{rol.name}</label>
-                                                </div>
-                                            ))
-                                        ) : (
-                                                <div className="col">
-                                                    <p>No hay datos disponibles</p>
-                                                </div>
-                                            )}
-                                    </div>
                                 </form>
                             </div>
                             <div className="modal-footer">

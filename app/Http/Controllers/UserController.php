@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use function PHPSTORM_META\map;
 use App\Committee;
+use App\Mail\MessageSend;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -40,14 +42,18 @@ class UserController extends Controller
                //obtenemos un caracter aleatorio escogido de la cadena de caracteres
                $password .= substr($str,rand(0,62),1);
             }
+
+            $email = [
+                'name' =>ucwords($request->get('name')),
+                'email' =>$request->get('email'),
+                'password' =>$password
+            ];
+
+
         }
 
 
         $this->authorize('create', [User::class]);
-<<<<<<< HEAD
-=======
-
->>>>>>> 7c24049e1dfc25f0037caafdb2238e4bf9add1fe
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
@@ -55,6 +61,8 @@ class UserController extends Controller
         ]);
 
         $user->assignRole($request->get('rol'));
+
+        Mail::to($request->get('email'))->send(new MessageSend($email));
 
         return response()->json([
             'status'=>201,

@@ -14,6 +14,7 @@ class Roles extends Component {
 
     async getRols(){
         let data = await get();
+        data.rols.shift();
         this.setState({rols: data.rols})
     }
 
