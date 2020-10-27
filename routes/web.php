@@ -97,8 +97,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('groups/get-by-formation-program/{id}', 'GroupController@getByFormationProgram');
     Route::resource('infringement-classifications', 'InfringementClassificationController');
     Route::resource('infringement-types', 'InfringementTypeController');
-    Route::resource('learners', 'LearnerController');
     Route::post('learners/import', 'LearnerController@import');
+    Route::resource('learners', 'LearnerController');
     Route::resource('modalities', 'ModalityController');
     Route::post('modalities/mass', 'ModalityController@mass');
     Route::resource('novelty-types', 'NoveltyTypeController');
