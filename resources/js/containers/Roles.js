@@ -37,9 +37,12 @@ export const update = async function(form, id){
         let fd = new FormData(form)
         fd.append('_token', token);
         fd.append('_method', 'PUT');
-        let res = await fetch('/roles/'+id, {
-            method:'POST',
-            body: fd
+        let res = await fetch(`/roles/${id}`, {
+            method: "POST",
+            body: fd,
+            headers: {
+                accept: "application/json"
+            }
         });
         let data = await res.json();
         return data;
@@ -84,5 +87,5 @@ export const rules = {
         required: true,
         isEmpty: true,
         isInvalid: true
-    },
+    }
 };

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
-import { rules, find } from '../containers/Roles';
+import { rules, find, update } from '../containers/Roles';
 import { get } from '../containers/Permissions';
+import { Redirect } from 'react-router-dom';
+
 
 class Roles extends Component {
     constructor(props) {
@@ -13,6 +15,7 @@ class Roles extends Component {
             rules: rules,
             permissions: null,
             keys: null,
+            redirect:null,
             message: null
         }
         this.handleInput = this.handleInput.bind(this);
@@ -47,6 +50,8 @@ class Roles extends Component {
                     toastr.success('', data.message, {
                         closeButton: true
                     });
+                    this.setState({ redirect: true})
+                    // location.href = '/app/roles';
                 } else {
                     this.setState({ message: data.errors.name })
                 }
@@ -72,6 +77,9 @@ class Roles extends Component {
         const { rules } = this.state;
         if (!this.state.role || !this.state.permissions || !this.state.keys) {
             return <Loader />
+        }
+        if(this.state.redirect){
+            return<Redirect to="/app/roles"/>
         }
         return (
             <>

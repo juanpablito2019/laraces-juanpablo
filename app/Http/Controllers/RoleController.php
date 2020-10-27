@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
 
         $this->authorize('create', [Role::class]);
@@ -75,14 +76,20 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
         $this->authorize('update', [Role::class, $role]);
 
         $role->name = $request->get('name');
         $role->save();
         $role->syncPermissions($request->get('permissions'));
-        return redirect()->route('roles.index');
+
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Rol actualizado exitosamente'
+        ]);
+
     }
 
     /**
@@ -96,6 +103,10 @@ class RoleController extends Controller
         $this->authorize('delete', [Role::class, $role]);
         $role->syncPermissions();
         $role->delete();
-        return redirect()->route('roles.index');
+        return response()->json([
+            'status'=>200,
+            'success'=>true,
+            'message'=>'Rol eliminado exitosamente'
+         ]);
     }
 }

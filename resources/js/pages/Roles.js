@@ -3,7 +3,7 @@ import Loader from '../components/Loader';
 import VerifyPermission from '../components/VerifyPermission';
 import { Link} from 'react-router-dom';
 
-import {get} from '../containers/Roles';
+import {get, destroy} from '../containers/Roles';
 
 class Roles extends Component {
     constructor(props){
@@ -16,6 +16,7 @@ class Roles extends Component {
 
     async getRols(){
         let data = await get();
+        data.shift();
         this.setState({rols: data})
     }
 
@@ -36,7 +37,7 @@ class Roles extends Component {
                             closeButton: true
                         });
                     } if (data.success == true) {
-                        this.getUsers();
+                        this.getRols();
                         toastr.success('', data.message, {
                             closeButton: true
                         });
