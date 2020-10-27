@@ -66,6 +66,9 @@ class LearnerController extends Controller
     {
         $this->authorize('view', [Learner::class, $learner]);
         $learner->group->formationProgram;
+        $learner->stimuli;
+        $learner->novelties;
+        $learner->academics;
         return $learner;
     }
 
