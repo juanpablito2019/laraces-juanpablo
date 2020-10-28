@@ -20,6 +20,8 @@ class Learners extends Component {
             optionsGroups: null,
             formationProgramId: null,
             groupId: null,
+            stimulies: [],
+            noveltiess: [],
         }
 
         this.handleInput = this.handleInput.bind(this);
@@ -29,6 +31,7 @@ class Learners extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.selectProgram = this.selectProgram.bind(this);
         this.handleImport = this.handleImport.bind(this);
+        this.handleDetail = this.handleDetail.bind(this);
         this.handleImportSubmit = this.handleImportSubmit.bind(this);
         this.getFormationPrograms = this.getFormationPrograms.bind(this);
     }
@@ -194,6 +197,8 @@ class Learners extends Component {
     async handleDetail(e) {
         let id = $(e.target).data('id');
         let data = await find(id);
+        this.setState({stimulies: data.stimuli});
+        this.setState({noveltiess: data.novelties});
         $('#detail').find('.modal-title').text(`Informacion de ${data.name}`);
         $('#detail').find('#name').text(data.name);
         $('#detail').find('#document').text(`${data.document_type} ${data.document}`);
@@ -349,6 +354,7 @@ class Learners extends Component {
                         </div>
                     </div>
                 </div>
+                {/* Modal Detail */}
                 <div className="modal" id="detail" tabIndex="-1">
                     <div className="modal-dialog modal-xl">
                         <div className="modal-content">
@@ -384,7 +390,7 @@ class Learners extends Component {
                                                 <a className="nav-link" id="profile-tab" data-toggle="tab" href="#stimuli" role="tab" aria-controls="profile" aria-selected="false">Estimulos</a>
                                             </li>
                                             <li className="nav-item" role="presentation">
-                                                <a className="nav-link" id="contact-tab" data-toggle="tab" href="#history" role="tab" aria-controls="contact" aria-selected="false">Historial</a>
+                                                <a className="nav-link" id="contact-tab" data-toggle="tab" href="#novelti" role="tab" aria-controls="contact" aria-selected="false">Novedades</a>
                                             </li>
                                         </ul>
                                         <div className="tab-content" id="myTabContent">
@@ -411,28 +417,68 @@ class Learners extends Component {
                                             <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="profile-tab">
                                                 <div className="row mt-3">
                                                     <div className="col">
-                                                        <h6>Estímulo</h6>
-                                                        <h6 className="text-muted" id="estimulo"></h6>
-                                                    </div>
-                                                </div>
-                                                <div className="row mt-3">
-                                                    <div className="col">
-                                                        <h6>Justificación</h6>
-                                                        <h6 className="text-muted" id="justification"></h6>
+                                                        <table className="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Estimulo</th>
+                                                                    <th>Justifiación del estimulo</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.state.stimulies?(
+                                                                    this.state.stimulies.length>0?(
+                                                                        this.state.stimulies.map(stimuli => (
+                                                                            <tr key={stimuli.id}>
+                                                                                <td>{stimuli.stimulus}</td>
+                                                                                <td>{stimuli.justification}</td>
+                                                                            </tr>
+                                                                        ))
+                                                                    ):(
+                                                                        <tr>
+                                                                            <td>No hay datos disponibles</td>
+                                                                        </tr>
+                                                                    )
+                                                                ):(
+                                                                    <tr>
+
+                                                                    </tr>
+                                                                )}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="tab-pane fade" id="history" role="tabpanel" aria-labelledby="contact-tab">
-                                            <div className="row mt-3">
-                                                    <div className="col">
-                                                        <h6>Comité Asociado</h6>
-                                                        <h6 className="text-muted" id="associated_committee"></h6>
-                                                    </div>
-                                                </div>
+                                            <div className="tab-pane fade" id="novelti" role="tabpanel" aria-labelledby="contact-tab">
                                                 <div className="row mt-3">
                                                     <div className="col">
-                                                        <h6>Fecha de Comité</h6>
-                                                        <h6 className="text-muted" id="date_committee"></h6>
+                                                        <table className="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Novedad</th>
+                                                                    <th>Justifiación de la novedad</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.state.noveltiess?(
+                                                                    this.state.noveltiess.length>0?(
+                                                                        this.state.noveltiess.map(novelties => (
+                                                                            <tr key={novelties.id}>
+                                                                                <td>{novelties.novelty_type.name}</td>
+                                                                                <td>{novelties.justification}</td>
+                                                                            </tr>
+                                                                        ))
+                                                                    ):(
+                                                                        <tr>
+                                                                            <td>No hay datos disponibles</td>
+                                                                        </tr>
+                                                                    )
+                                                                ):(
+                                                                    <tr>
+
+                                                                    </tr>
+                                                                )}
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
