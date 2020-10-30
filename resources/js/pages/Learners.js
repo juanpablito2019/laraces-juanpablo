@@ -21,7 +21,8 @@ class Learners extends Component {
             formationProgramId: null,
             groupId: null,
             stimulies: [],
-            noveltiess: [],
+            novelties: [],
+            academics: [],
         }
 
         this.handleInput = this.handleInput.bind(this);
@@ -198,7 +199,8 @@ class Learners extends Component {
         let id = $(e.target).data('id');
         let data = await find(id);
         this.setState({stimulies: data.stimuli});
-        this.setState({noveltiess: data.novelties});
+        this.setState({novelties: data.novelties});
+        this.setState({academics: data.academics});
         $('#detail').find('.modal-title').text(`Informacion de ${data.name}`);
         $('#detail').find('#name').text(data.name);
         $('#detail').find('#document').text(`${data.document_type} ${data.document}`);
@@ -207,10 +209,6 @@ class Learners extends Component {
         $('#detail').find('#email').text(`${data.email}`);
         $('#detail').find('#phone').text(`${data.phone}`);
         $('#detail').find('#learner-photo').attr('src', data.photo ? "/storage/" + data.photo : '/img/no-photo.png');
-        $('#detail').find('#estimulo').text(`${data}`);
-        $('#detail').find('#justification').text(`${data}`);
-        $('#detail').find('#associated_committee').text(`${data}`);
-        $('#detail').find('#date_committee').text(`${data}`);
         $('#detail').modal('toggle');
     }
 
@@ -387,10 +385,13 @@ class Learners extends Component {
                                                 <a className="nav-link active" id="home-tab" data-toggle="tab" href="#information" role="tab" aria-controls="home" aria-selected="true">Informacion</a>
                                             </li>
                                             <li className="nav-item" role="presentation">
-                                                <a className="nav-link" id="profile-tab" data-toggle="tab" href="#stimuli" role="tab" aria-controls="profile" aria-selected="false">Estimulos</a>
+                                                <a className="nav-link" id="stimulus-tab" data-toggle="tab" href="#stimuli" role="tab" aria-controls="stimulus" aria-selected="false">Estimulos</a>
                                             </li>
                                             <li className="nav-item" role="presentation">
-                                                <a className="nav-link" id="contact-tab" data-toggle="tab" href="#novelti" role="tab" aria-controls="contact" aria-selected="false">Novedades</a>
+                                                <a className="nav-link" id="novelties-tab" data-toggle="tab" href="#novelty" role="tab" aria-controls="novelties" aria-selected="false">Novedades</a>
+                                            </li>
+                                            <li className="nav-item" role="presentation">
+                                                <a className="nav-link" id="academics-tab" data-toggle="tab" href="#academic" role="tab" aria-controls="academics" aria-selected="false">Casos academicos</a>
                                             </li>
                                         </ul>
                                         <div className="tab-content" id="myTabContent">
@@ -414,7 +415,7 @@ class Learners extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="profile-tab">
+                                            <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="stimulus-tab">
                                                 <div className="row mt-3">
                                                     <div className="col">
                                                         <table className="table">
@@ -448,7 +449,7 @@ class Learners extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="tab-pane fade" id="novelti" role="tabpanel" aria-labelledby="contact-tab">
+                                            <div className="tab-pane fade" id="novelty" role="tabpanel" aria-labelledby="novelties-tab">
                                                 <div className="row mt-3">
                                                     <div className="col">
                                                         <table className="table">
@@ -459,12 +460,61 @@ class Learners extends Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {this.state.noveltiess?(
-                                                                    this.state.noveltiess.length>0?(
-                                                                        this.state.noveltiess.map(novelties => (
-                                                                            <tr key={novelties.id}>
-                                                                                <td>{novelties.novelty_type.name}</td>
-                                                                                <td>{novelties.justification}</td>
+                                                                {this.state.novelties?(
+                                                                    this.state.novelties.length>0?(
+                                                                        this.state.novelties.map(novelty => (
+                                                                            <tr key={novelty.id}>
+                                                                                <td>{novelty.novelty_type.name}</td>
+                                                                                <td>{novelty.justification}</td>
+                                                                            </tr>
+                                                                        ))
+                                                                    ):(
+                                                                        <tr>
+                                                                            <td>No hay datos disponibles</td>
+                                                                        </tr>
+                                                                    )
+                                                                ):(
+                                                                    <tr>
+
+                                                                    </tr>
+                                                                )}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="tab-pane fade" id="academic" role="tabpanel" aria-labelledby="academics-tab">
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <table className="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Fecha comité</th>
+                                                                    <th>Sanción</th>
+                                                                    <th>Medidas formativas</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {this.state.academics?(
+                                                                    this.state.academics.length>0?(
+                                                                        this.state.academics.map(academic => (
+                                                                            <tr key={academic.id}>
+                                                                                <td>
+                                                                                    <a href="#" onClick={()=>{
+                                                                                        $('#detail').modal('toggle');
+                                                                                        this.props.history.push(`/app/committees/${academic.committee.id}`);
+                                                                                    }}>
+                                                                                        {academic.committee.date}
+                                                                                    </a>
+                                                                                </td>
+                                                                                <td>{academic.act_sanction_id ? academic.sanction.name : (<h6 className="text-primary">Aun no se ha asignado una sancion para este comité</h6>)}</td>
+                                                                                <td>
+                                                                                    {academic.responsibles.length > 0 ? (
+                                                                                        academic.responsibles.map(responsible => (
+                                                                                            `${responsible.pivot.formative_measure.name},`
+                                                                                        ))
+                                                                                    ) : (<h6 className="text-primary">Aun no se han asignado medidas formativas para este comité</h6>)}
+                                                                                </td>
                                                                             </tr>
                                                                         ))
                                                                     ):(

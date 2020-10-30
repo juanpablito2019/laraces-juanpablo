@@ -65,7 +65,15 @@ class LearnerController extends Controller
     public function show(Learner $learner)
     {
         $this->authorize('view', [Learner::class, $learner]);
-        $learner->load(['group.formationProgram', 'stimuli','novelties.noveltyType', 'academics']);
+        $learner->load([
+            'group.formationProgram',
+            'stimuli' ,
+            'novelties.noveltyType',
+            'academics.infringementType',
+            'academics.sanction',
+            'academics.committee',
+            'academics.responsibles',
+        ]);
         return $learner;
     }
 
