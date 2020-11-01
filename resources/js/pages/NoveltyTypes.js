@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/NoveltyTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class NoveltyTypes extends Component {
     constructor(props) {
@@ -138,9 +139,9 @@ class NoveltyTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de novedades</h3>
-                        <VerifyPermission permission="create_novelty_type">
+                        <VerifyPermissions permission="create_novelty_type">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de novedad</a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -153,46 +154,44 @@ class NoveltyTypes extends Component {
                         </div>
                     </div>
                 </div>
+
                 <div className="row mt-3">
-                    {this.state.noveltyTypes.length > 0 ? (
-                        this.state.noveltyTypes.map(noveltyType => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={noveltyType.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col">
-                                                <h5>
-                                                    {
-                                                        (noveltyType.name).length > 16 ? (
-                                                            ((noveltyType.name).substring(0,16)+'...')
-                                                        ) : (
-                                                            noveltyType.name
-                                                        )
-                                                    }
-                                                </h5>
-                                                <div className="row ml-1">
-                                                    <VerifyPermission permission="edit_novelty_type">
-                                                        <a  href="#" data-id={noveltyType.id} onClick={this.handleEdit} >Editar</a>
-                                                    </VerifyPermission>
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.noveltyTypes.length > 0 ? (
+                                    this.state.noveltyTypes.map((noveltyType ) => (
+                                        <tr key={noveltyType.id}>
+                                            <td className="hide">{noveltyType.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="noveltyType" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_novelty_type">
+                                                        <button data-id={noveltyType.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={noveltyType.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={noveltyType.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-
-                                                    <VerifyPermission permission="delete_novelty_type">
-                                                        <a  href="#" data-id={noveltyType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
-                                                    </VerifyPermission>
+                                                    <VerifyPermissions permission="delete_novelty_type">
+                                                        <button data-id={noveltyType.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={noveltyType.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={noveltyType.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 {/* Modal Create */}
                 <div className="modal fade" tabIndex="-1" role="dialog" data-backdrop="static">
                     <div className="modal-dialog">

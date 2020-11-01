@@ -3,8 +3,9 @@ import Loader from '../components/Loader';
 import { validate, formValid, setRules } from '../containers/Validator';
 import { get, store, find, update, destroy, rules } from '../containers/User';
 import { get as getRoles } from '../containers/Roles';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
 import { Link, Redirect } from 'react-router-dom';
+import DataTable from '../components/DataTable';
 
 
 class Users extends Component {
@@ -182,40 +183,51 @@ class Users extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Usuarios</h3>
-                        <VerifyPermission permission="create_user">
+                        <VerifyPermissions permission="create_user">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo usuario</span></a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
                     </div>
                 </div>
-                <div className="row">
-                    {this.state.users.length > 0 ? (
-                        this.state.users.map(user => (
-                            <div className="col-12 col-lg-4 mt-3" key={user.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5>{user.name}</h5>
-                                        <h6 className="text-muted">{user.email}</h6>
-                                        <div className="row ml-1">
-                                                <VerifyPermission permission="edit_user">
-                                                    <a href="#" data-id={user.id} onClick={this.handleEdit} >Editar</a>
-                                                </VerifyPermission>
 
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th className="hide">Correo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.users.length > 0 ? (
+                                    this.state.users.map((user ) => (
+                                        <tr key={user.id}>
+                                            <td >{user.name}</td>
+                                            <td className="hide">{user.email}</td>
+                                            <td>
+                                                <div className="btn-group" role="user" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_committee_parameter">
+                                                        <button data-id={user.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={user.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={user.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-                                                <VerifyPermission permission="delete_user">
-                                                    <a href="#" data-id={user.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                </VerifyPermission>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                                                    <VerifyPermissions permission="delete_committee_parameter">
+                                                        <button data-id={user.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={user.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={user.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">

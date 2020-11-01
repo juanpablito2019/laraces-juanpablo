@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
 import { formValid, validate, setRules } from '../containers/Validator';
+import DataTable from '../components/DataTable';
 
 class FormationProgramTypes extends Component {
     constructor(props) {
@@ -151,69 +152,55 @@ class FormationProgramTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de programas</h3>
-                        <VerifyPermission permission="create_formation_program_type">
+                        <VerifyPermissions permission="create_formation_program_type">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo tipo de programa</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
                     </div>
-                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
-                        </div>
-                    </div>
                 </div>
+
                 <div className="row mt-3">
-                    {this.state.formationProgramTypes.length > 0 ? (
-                        this.state.formationProgramTypes.map(formationProgramType => (
-                            <div className="col-12 col-md-6 mb-2" key={formationProgramType.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-3">
-                                                <i className="fas fa-shapes fa-5x text-secondary mt-2"></i>
-                                            </div>
-                                            <div className="col-7 ml-2">
-                                                <h5>
-                                                    {
-                                                        (formationProgramType.name).length > 20 ? (
-                                                            ((formationProgramType.name).substring(0,20)+'...')
-                                                        ) : (
-                                                            formationProgramType.name
-                                                        )
-                                                    }
-                                                </h5>
-                                                <h6 className="text-muted">Mesese electivos: {formationProgramType.elective_months}</h6>
-                                                <h6 className="text-muted">Mesese practicos: {formationProgramType.practice_months}</h6>
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th className="hide">Meses ekectivos</th>
+                                    <th className="hide">Meses practicos</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.formationProgramTypes.length > 0 ? (
+                                    this.state.formationProgramTypes.map((formationProgramType ) => (
+                                        <tr key={formationProgramType.id}>
+                                            <td >{formationProgramType.name}</td>
+                                            <td className="hide">{formationProgramType.elective_months}</td>
+                                            <td className="hide">{formationProgramType.practice_months}</td>
+                                            <td>
+                                                <div className="btn-group" role="formationProgramType" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_formation_program_type">
+                                                        <button data-id={formationProgramType.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={formationProgramType.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={formationProgramType.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-                                                <div className="row ml-1">
-                                                    <VerifyPermission permission="edit_formation_program_type">
-                                                    <a href="#" data-id={formationProgramType.id} onClick={this.handleEdit}>Editar</a>
-
-                                                    </VerifyPermission>
-
-                                                    <VerifyPermission permission="delete_formation_program_type">
-                                                        <a href="#" data-id={formationProgramType.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
-                                                    </VerifyPermission>
+                                                    <VerifyPermissions permission="delete_formation_program_type">
+                                                        <button data-id={formationProgramType.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={formationProgramType.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={formationProgramType.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">

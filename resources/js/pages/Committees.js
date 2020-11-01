@@ -5,8 +5,9 @@ import { getByRol } from "../containers/User";
 import {find as findGeneralParameter} from '../containers/GeneralParameters';
 import Loader from "../components/Loader";
 import { formValid, validate, setRules } from "../containers/Validator";
-import VerifyPermission from '../components/VerifyPermission'
+import VerifyPermissions from '../components/VerifyPermission'
 import moment from 'moment';
+import DataTable from '../components/DataTable';
 
 class Committees extends Component {
     constructor(props) {
@@ -166,81 +167,68 @@ class Committees extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Comités</h3>
-                        <VerifyPermission permission="create_committee">
+                        <VerifyPermissions permission="create_committee">
                             <a href="#" onClick={this.handleModal}>
                                 <i className="fa fa-plus" aria-hidden="true"></i>{" "}
                                 Nuevo comité
                             </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
                     </div>
                 </div>
 
-                    <div className="row mt-3">
-                        {this.state.committes.length > 0 ? (
-                            this.state.committes.map((committe, i) => (
-                                <div className="col-12 col-md-4 col-lg-4" key={i}>
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <div className="row">
-                                                <div className="col">
-                                                    <div className="card-title border-bottom">
-                                                        <Link to={"/app/committees/" + committe.id}>
-                                                            <h5>
-                                                                {moment(committe.date).format('LL')}
-                                                            </h5>
-                                                        </Link>
-                                                    </div>
-                                                    <div className="card-text">
-                                                        <h6>
-                                                            Numero de acta:{" "}
-                                                            <span className="text-muted">
-                                                                {committe.record_number}
-                                                            </span>
-                                                        </h6>
-                                                        <h6>
-                                                            Hora:{" "}
-                                                            <span className="text-muted">
-                                                                {moment(committe.start_hour, 'HH:mm').format('hh:mm A')} a {moment(committe.end_hour, 'HH:mm').format('hh:mm A')}
-                                                            </span>
-                                                        </h6>
-                                                        <h6>
-                                                            Lugar:{" "}
-                                                            <span className="text-muted">
-                                                                {committe.place}
-                                                            </span>
-                                                        </h6>
-                                                        <h6 className="mb-3">
-                                                            Centro de formacion:{" "}
-                                                            <span className="text-muted">
-                                                                {committe.formation_center}
-                                                            </span>
-                                                        </h6>
-
-                                                        <div className="row ml-1">
-                                                            <VerifyPermission permission="edit_committee">
-                                                                <a href="#" data-id={committe.id} onClick={this.handleEdit}>Editar</a>
-                                                            </VerifyPermission>
-
-                                                            <VerifyPermission permission="delete_committee">
-                                                                <a href="#" data-id={committe.id} onClick={this.handleDelete} className="ml-3 text-danger">Eliminar</a>
-                                                            </VerifyPermission>
-                                                        </div>
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th>Fecha comité</th>
+                                    <th className="hide">Numero acta</th>
+                                    <th className="hide">Hora</th>
+                                    <th className="hide-md">Lugar</th>
+                                    <th className="hide">Centro de Formacion</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.committes.length > 0 ? (
+                                    this.state.committes.map((committe, i) => (
+                                        <tr key={i}>
+                                            <td>
+                                                <Link to={"/app/committees/" + committe.id}>
+                                                            {moment(committe.date).format('LL')}
+                                                </Link></td>
+                                            <td className="hide">{committe.record_number}</td>
+                                            <td className="hide">
+                                                {moment(committe.start_hour, 'HH:mm').format('hh:mm A')}
+                                                a
+                                                {moment(committe.end_hour, 'HH:mm').format('hh:mm A')}
+                                                </td>
+                                            <td className="hide-md">{committe.place}</td>
+                                            <td className="hide">{committe.formation_center}</td>
+                                            <td>
+                                                <div className="btn-group" role="committe" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_committee">
+                                                        <button data-id={committe.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={committe.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={committe.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
 
-                                                    </div>
+                                                    <VerifyPermissions permission="delete_committee">
+                                                        <button data-id={committe.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={committe.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={committe.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                                <div className="col">
-                                    <p>No hay datos disponibles</p>
-                                </div>
-                            )}
+                                            </td>
+                                        </tr>
+                                    )) ) : (
+                                        <td className="col">
+                                            No hay datos disponibles
+                                        </td>
+                                    )}
+
+                            </tbody>
+                        </DataTable>
                     </div>
+                </div>
 
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog modal-lg">

@@ -3,6 +3,7 @@ import { get, store, find, update, destroy, rules } from '../containers/Sanction
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
 import VerifyPermission from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class Sanctions extends Component {
     constructor(props) {
@@ -152,47 +153,40 @@ class Sanctions extends Component {
                     </div>
                 </div>
                 <div className="row mt-3">
-                    {this.state.sanctions.length > 0 ? (
-                        this.state.sanctions.map(sanction => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={sanction.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-4 col-md-4">
-                                                <i className="fas fa-gavel fa-4x text-secondary mt-2 mb-2"></i>
-                                            </div>
-                                            <div className="col-7 ml-2">
-                                                <h5 className="mb-4">
-                                                    {
-                                                        (sanction.name).length > 16 ? (
-                                                            ((sanction.name).substring(0,16)+'...')
-                                                        ) : (
-                                                            sanction.name
-                                                        )
-                                                    }
-                                                </h5>
-                                                <div className="row ml-1">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.sanctions.length > 0 ? (
+                                    this.state.sanctions.map((sanction ) => (
+                                        <tr key={sanction.id}>
+                                            <td className="hide">{sanction.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="sanction" aria-label="Basic example">
                                                     <VerifyPermission permission="edit_sanction">
-                                                        <a href="#" data-id={sanction.id} onClick={this.handleEdit}>Editar</a>
+                                                        <button data-id={sanction.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={sanction.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={sanction.id} className="d-none d-md-inline">Editar</span></button>
                                                     </VerifyPermission>
-
 
                                                     <VerifyPermission permission="delete_sanction">
-                                                        <a href="#" data-id={sanction.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                        <button data-id={sanction.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={sanction.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={sanction.id} className="d-none d-md-inline">Eliminar</span></button>
                                                     </VerifyPermission>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay sanciones disponibles</p>
+                                        </td>
+                                    )}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
 
                 <div className="modal fade" tabIndex="-1" data-backdrop="static">

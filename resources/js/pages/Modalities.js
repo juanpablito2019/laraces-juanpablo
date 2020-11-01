@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/Modalities';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class Modalities extends Component {
     constructor(props) {
@@ -150,57 +151,51 @@ class Modalities extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Modalidades</h3>
-                        <VerifyPermission permission="create_modality">
+                        <VerifyPermissions permission="create_modality">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nueva modalidad</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
                     </div>
-                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
-                        </div>
-                    </div>
                 </div>
+
                 <div className="row mt-3">
-                    {this.state.modalities.length>0?(
-                        this.state.modalities.map(modality => (
-                            <div className="col-12 col-md-4 mb-2" key={modality.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5>
-                                            {
-                                                (modality.name).length > 16 ? (
-                                                    ((modality.name).substring(0,16)+'...')
-                                                ) : (
-                                                    modality.name
-                                                )
-                                            }
-                                        </h5>
-                                        <div className="row ml-1">
-                                                <VerifyPermission permission="edit_modality">
-                                                    <a href="#" data-id={modality.id} onClick={this.handleEdit}>Editar</a>
-                                                </VerifyPermission>
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.modalities.length > 0 ? (
+                                    this.state.modalities.map((modality, i) => (
+                                        <tr key={i}>
+                                            <td className="hide">{modality.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="modality" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_modality">
+                                                        <button data-id={modality.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={modality.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={modality.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-                                                <VerifyPermission permission="delete_modality">
-                                                <a href="#" data-id={modality.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                </VerifyPermission>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ):(
-                        <div className="col">
-                            <p>No hay datos disponibles</p>
-                        </div>
-                    )}
+                                                    <VerifyPermissions permission="delete_modality">
+                                                        <button data-id={modality.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={modality.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={modality.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
+
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">

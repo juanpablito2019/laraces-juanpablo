@@ -7,8 +7,9 @@ import { get as getModalities } from '../containers/Modalities';
 import { get as getFormationPrograms } from '../containers/FormationPrograms';
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
-import VerifyPermission from '../components/VerifyPermission';
-import { Link } from "react-router-dom";
+import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
+
 
 class Groups extends Component {
     constructor(props) {
@@ -229,65 +230,55 @@ class Groups extends Component {
                     <div className="col">
                         <h3>Grupos</h3>
 
-                        <VerifyPermission permission="create_group">
+                        <VerifyPermissions permission="create_group">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo grupo</span></a>
                             <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
                     </div>
-                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
-                        </div>
-                    </div>
                 </div>
+
                 <div className="row mt-3">
-                    {this.state.groups.length > 0 ? (
-                        this.state.groups.map(group => (
-                            <div className="col-12 col-lg-6 col-md-6 mb-2" key={group.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-3 col-lg-3">
-                                                <i className="fa fa-users fa-4x mt-3" aria-hidden="true"></i>
-                                            </div>
-                                            <div className="col-8 ml-3">
-                                                <h5>{group.code_tab}</h5>
-                                                <p>{group.formation_program.name}</p>
-                                                <div className="row ml-1">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.groups.length > 0 ? (
+                                    this.state.groups.map((group) => (
+                                        <tr key={group.id}>
+                                            <td>{group.code_tab}</td>
+                                            <td className="hide">{group.formation_program.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="group" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_group">
+                                                        <button data-id={group.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={group.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={group.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-                                                    <VerifyPermission permission="edit_group">
-                                                        <a href="#" data-id={group.id} onClick={this.handleEdit} className="mr-2">Editar</a>
-                                                    </VerifyPermission>
+                                                    <button href="#" data-id={group.id} onClick={this.handleDetail} className="btn btn-sm btn-outline-primary"><i data-id={group.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={group.id} className="d-none d-md-inline">Detalle</span></button>
 
-
-
-                                                    <a href="#" data-id={group.id} onClick={this.handleDetail} className="mr-2">Detalle</a>
-
-
-
-                                                    <VerifyPermission permission="delete_group">
-                                                        <a href="#" data-id={group.id} onClick={this.handleDelete} className="text-danger">Eliminar</a>
-                                                    </VerifyPermission>
-
+                                                    <VerifyPermissions permission="delete_group">
+                                                        <button data-id={group.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={group.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={group.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
+
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal" id="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">

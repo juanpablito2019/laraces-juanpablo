@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { get, rules, store, find, update, destroy, storeMass } from '../containers/FormationPrograms';
 import {get as getFormationProgramTypes} from '../containers/FormationProgramTypes';
 import Loader from '../components/Loader';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
 import { formValid, validate, setRules } from '../containers/Validator';
+import DataTable from '../components/DataTable';
 
 class FormationPrograms extends Component {
     constructor(props) {
@@ -167,71 +168,54 @@ class FormationPrograms extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Programas</h3>
-                        <VerifyPermission permission="create_formation_program">
+                        <VerifyPermissions permission="create_formation_program">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo programa de formacion</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
-                    </div>
-                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
-                        </div>
                     </div>
                 </div>
-                    <div className="row mt-3">
-                        {this.state.formationPrograms.length > 0 ? (
-                            this.state.formationPrograms.map(formationProgram => (
-                                <div className="col-12 col-lg-4 mb-2" key={formationProgram.id}>
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <div className="row">
-                                                <div className="col-3">
-                                                    <i className="fas fa-shapes fa-4x text-secondary mt-3"></i>
+
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Codigo</th>
+                                    <th className="hide">Tipo de programa</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.formationPrograms.length > 0 ? (
+                                    this.state.formationPrograms.map((formationProgram) => (
+                                        <tr key={formationProgram.id}>
+                                            <td className="hide">{formationProgram.name.split('-')[1]}</td>
+                                            <td>{formationProgram.code}</td>
+                                            <td className="hide">{formationProgram.formation_program_type.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="formationProgram" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_formation_program">
+                                                        <button data-id={formationProgram.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={formationProgram.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={formationProgram.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
+
+                                                    <VerifyPermissions permission="delete_formation_program">
+                                                        <button data-id={formationProgram.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={formationProgram.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={formationProgram.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
-                                                <div className="col-8 ml-1">
-                                                    <h5>
-                                                        {
-                                                            (formationProgram.name.split('-')[1]).length > 22 ? (
-                                                                ((formationProgram.name.split('-')[1]).substring(0,22)+'...')
-                                                            ) : (
-                                                                formationProgram.name.split('-')[1]
-                                                            )
-                                                        }
-                                                    </h5>
-                                                    <h6 className="text-muted">{formationProgram.code}</h6>
-                                                    <h6 className="text-muted">{formationProgram.formation_program_type.name}</h6>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-
-                                                    <div className="row ml-1">
-
-                                                            <VerifyPermission permission="edit_formation_program">
-                                                                <a href="#" data-id={formationProgram.id} onClick={this.handleEdit}>Editar</a>
-                                                            </VerifyPermission>
-
-                                                            <VerifyPermission permission="delete_formation_program">
-                                                                <a href="#" data-id={formationProgram.id} onClick={this.handleDelete} className="ml-4 text-danger">Eliminar</a>
-                                                            </VerifyPermission>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                                <div className="col">
-                                    <p>No hay datos disponibles</p>
-                                </div>
-                            )}
+                            </tbody>
+                        </DataTable>
                     </div>
+                </div>
 
                 <div className="modal" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules,storeMass } from '../containers/Positions';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class Positions extends Component {
     constructor(props) {
@@ -152,73 +153,53 @@ class Positions extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Cargos</h3>
-                        <VerifyPermission permission="create_position">
+                        <VerifyPermissions permission="create_position">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo cargo</span></a>
                             <a href="#" onClick={this.handleUpdate} className=""><i className="fa fa-download ml-1" aria-hidden="true"></i> Actualizar </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
-                    </div>
-                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
-                        </div>
                     </div>
                 </div>
 
                 <div className="row mt-3">
-                    {this.state.positions.length > 0 ? (
-                        this.state.positions.map(position => (
-                            <div key={position.id} className="col-12 col-md-6 col-lg-4 mb-2" key={position.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col">
-                                                <h5>
-                                                    {
-                                                        (position.name).length > 30 ? (
-                                                            ((position.name).substring(0,30)+'...')
-                                                        ) : (
-                                                            position.name
-                                                        )
-                                                    }
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-4 col-md-3 col-lg-3">
-                                                <i className="fa fa-address-card fa-5x text-secondary mt-2"></i>
-                                            </div>
-                                            <div className="col ml-4">
-                                                <p className="ml-2">{position.type}</p>
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th className="hide">Tipo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.positions.length > 0 ? (
+                                    this.state.positions.map((position) => (
+                                        <tr key={position.id}>
+                                            <td className="hide">{position.name}</td>
+                                            <td className="hide">{position.type}</td>
+                                            <td>
+                                                <div className="btn-group" role="position" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_position">
+                                                        <button data-id={position.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={position.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={position.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-                                                <div className="row ml-2">
-                                                        <VerifyPermission permission="edit_position">
-                                                            <a href="#" data-id={position.id} onClick={this.handleEdit} >Editar</a>
-                                                        </VerifyPermission>
-
-                                                        <VerifyPermission permission="delete_position">
-                                                            <a href="#" data-id={position.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                                        </VerifyPermission>
+                                                    <VerifyPermissions permission="delete_position">
+                                                        <button data-id={position.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={position.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={position.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
-                                            </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">

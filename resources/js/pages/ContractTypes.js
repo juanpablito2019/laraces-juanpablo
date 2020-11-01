@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules,storeMass } from '../containers/ContractTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 
 class ContractTypes extends Component {
@@ -159,69 +160,50 @@ class ContractTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de contratos</h3>
-                        <VerifyPermission permission="create_contract_type">
+                        <VerifyPermissions permission="create_contract_type">
                              <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar <span className="d-none d-md-inline ">nuevo contrato</span></a>
                             <a href="#" onClick={this.handleUpdate} className="ml-3"><i className="fa fa-download" aria-hidden="true"></i> Actualizar </a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
 
-                    </div>
-                    <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
-                        <div className="input-group mb-3">
-                            <div className="input-group-prepend">
-                                <button className="btn btn-outline-primary" type="button" id="button-addon1">
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <input type="text" className="form-control" onInput={this.search} placeholder="Buscar..." />
-                        </div>
                     </div>
                 </div>
-                    <div className="row mt-3">
-                        {this.state.contractTypes.length > 0 ? (
-                            this.state.contractTypes.map(contractType => (
-                                <div className="col-12 col-md-6 col-lg-4 mb-2" key={contractType.id}>
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <div className="row">
-                                                <div className="col-4 col-md-3 col-lg-3 mr-1">
-                                                    <i className="fa fa-list-alt fa-5x text-secondary mt-2 mr-2"></i>
+
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.contractTypes.length > 0 ? (
+                                    this.state.contractTypes.map((contractType ) => (
+                                        <tr key={contractType.id}>
+                                            <td className="hide">{contractType.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="contractType" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_contract_type">
+                                                        <button data-id={contractType.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={contractType.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={contractType.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
+
+                                                    <VerifyPermissions permission="delete_contract_type">
+                                                        <button data-id={contractType.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={contractType.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={contractType.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
                                                 </div>
-                                                <div className="col ml-4">
-                                                    <h5>
-                                                        {
-                                                            (contractType.name).length > 16 ? (
-                                                                ((contractType.name).substring(0,16)+'...')
-                                                            ) : (
-                                                                contractType.name
-                                                            )
-                                                        }
-                                                    </h5>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-                                                    <div className="row ml-1">
-
-                                                        <VerifyPermission permission="edit_contract_type">
-                                                            <a  href="#" data-id={contractType.id} onClick={this.handleEdit} >Editar</a>
-                                                        </VerifyPermission>
-
-                                                        <VerifyPermission permission="delete_contract_type">
-                                                            <a  href="#" data-id={contractType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a>
-                                                        </VerifyPermission>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                                <div className="col">
-                                    <p>No hay datos disponibles</p>
-                                </div>
-                            )}
+                            </tbody>
+                        </DataTable>
                     </div>
+                </div>
 
                 <div className="modal fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">

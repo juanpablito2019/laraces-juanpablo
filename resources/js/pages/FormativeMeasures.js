@@ -3,6 +3,7 @@ import { get, store, find, update, destroy, rules } from '../containers/Formativ
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
 import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class FormativeMeasures extends Component {
     constructor(props) {
@@ -153,49 +154,44 @@ class FormativeMeasures extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row mt-3">
-                    {this.state.formativeMeasures.length > 0 ? (
-                        this.state.formativeMeasures.map(formativeMeasure => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={formativeMeasure.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-5 col-md-3  col-lg-3">
-                                                <i className="fas fa-calendar-check fa-5x text-secondary mt-2"></i>
-                                            </div>
-                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
-                                                <h5 className="mb-4">
-                                                    {
-                                                        (formativeMeasure.name).length > 16 ? (
-                                                            ((formativeMeasure.name).substring(0,16)+'...')
-                                                        ) : (
-                                                            formativeMeasure.name
-                                                        )
-                                                    }
-                                                </h5>
 
-                                                <div className="row ml-1">
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.formativeMeasures.length > 0 ? (
+                                    this.state.formativeMeasures.map((formativeMeasure ) => (
+                                        <tr key={formativeMeasure.id}>
+                                            <td className="hide">{formativeMeasure.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="formativeMeasure" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_formative_measure">
-                                                        <a href="#" data-id={formativeMeasure.id} onClick={this.handleEdit}>Editar</a>
+                                                        <button data-id={formativeMeasure.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={formativeMeasure.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={formativeMeasure.id} className="d-none d-md-inline">Editar</span></button>
                                                     </VerifyPermissions>
 
                                                     <VerifyPermissions permission="delete_formative_measure">
-                                                        <a href="#" data-id={formativeMeasure.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
+                                                        <button data-id={formativeMeasure.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={formativeMeasure.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={formativeMeasure.id} className="d-none d-md-inline">Eliminar</span></button>
                                                     </VerifyPermissions>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal" tabIndex="-1" data-backdrop="static">
                     <div className="modal-dialog">
                         <div className="modal-content">

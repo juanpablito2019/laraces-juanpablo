@@ -3,8 +3,9 @@ import { get, store, find, update, destroy, rules } from '../containers/Committe
 import Loader from '../components/Loader';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Ckeditor from '../components/Ckeditor';
+import DataTable from '../components/DataTable';
 import { findActive } from '../containers/ActTemplate';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
 
 class CommitteeParameters extends Component {
     constructor(props) {
@@ -154,37 +155,51 @@ class CommitteeParameters extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Parámetros de acta</h3>
-                        <VerifyPermission permission="create_committee_parameter">
+                        <VerifyPermissions permission="create_committee_parameter">
                             <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar nuevo parámetro</a>
-                        </VerifyPermission>
+                        </VerifyPermissions>
                     </div>
                 </div>
 
                 <div className="row mt-3">
-                    {this.state.committeeParameters.length > 0 ? (
-                        this.state.committeeParameters.map((committeeParameter, i) => (
-                            <div className="col-12 col-md-6 mb-2" key={i}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5 className="text-primary">{committeeParameter.name}</h5>
-                                        <h6>Plantilla: {committeeParameter.act_template.act_type} (V{committeeParameter.act_template.version})</h6>
-                                        <VerifyPermission permisssion="edit_committee_parameter">
-                                            <a href="#" data-id={committeeParameter.id} onClick={this.handleEdit}>Editar</a>
-                                        </VerifyPermission>
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Plantilla</th>
+                                    <th className="hide">Version</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.committeeParameters.length > 0 ? (
+                                    this.state.committeeParameters.map((committeeParameter, i) => (
+                                        <tr key={i}>
+                                            <td className="hide">{committeeParameter.name}</td>
+                                            <td>{committeeParameter.act_template.act_type}</td>
+                                            <td className="hide">{committeeParameter.act_template.version}</td>
+                                            <td>
+                                                <div className="btn-group" role="committeeParameter" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_committee_parameter">
+                                                        <button data-id={committeeParameter.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={committeeParameter.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={committeeParameter.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
 
-                                        <VerifyPermission permission="delete_committee_parameter">
-                                            <a href="#" data-id={committeeParameter.id} onClick={this.handleDelete} className="text-danger ml-3">Eliminar</a>
-                                        </VerifyPermission>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay parametros de actas disponibles</p>
-                            </div>
-                        )}
+                                                    <VerifyPermissions permission="delete_committee_parameter">
+                                                        <button data-id={committeeParameter.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={committeeParameter.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={committeeParameter.id} className="d-none d-md-inline">Eliminar</span></button>
+                                                    </VerifyPermissions>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
 
                 <div className="modal" id="modal" tabIndex="-1" role="dialog">

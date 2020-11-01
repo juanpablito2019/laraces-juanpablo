@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { get, store, find, update, destroy, rules } from '../containers/InfringementTypes';
 import { validate, formValid, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
-import VerifyPermission from '../components/VerifyPermission';
+import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class InfringementTypes extends Component {
     constructor(props) {
@@ -118,9 +119,9 @@ class InfringementTypes extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Tipos de faltas</h3>
-                        <VerifyPermission permission="create_infringement_type">
+                        <VerifyPermissions permission="create_infringement_type">
                              {/* <a href="#" onClick={this.handleModal}><i className="fa fa-plus" aria-hidden="true"></i> Agregar tipo de infracción</a> */}
-                        </VerifyPermission>
+                        </VerifyPermissions>
                     </div>
                     <div className="col-12 col-md-3 col-lg-3 mt-2 mt-lg-0">
                         <div className="input-group mb-3">
@@ -133,45 +134,44 @@ class InfringementTypes extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    {this.state.infringementTypes.length > 0 ? (
-                        this.state.infringementTypes.map(infringementType => (
-                            <div className="col-12 col-md-6 col-lg-4 mb-2" key={infringementType.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-5 col-md-3 mr-md-3 col-lg-3 ml-lg-3">
-                                                <i className="fas fa-balance-scale fa-5x text-secondary mt-1"></i>
-                                            </div>
-                                            <div className="col-7 ml-sm-3 col-lg-7 mr-lg-1">
-                                                <h5 className="mb-4">
-                                                    {
-                                                        (infringementType.name).length > 13 ? (
-                                                            ((infringementType.name).substring(0,13)+'...')
-                                                        ) : (
-                                                            infringementType.name
-                                                        )
-                                                    }
-                                                </h5>
-                                                <VerifyPermission permission="edit_infringement_type">
-                                                    <a  href="#" data-id={infringementType.id} onClick={this.handleEdit} >Editar</a>
-                                                </VerifyPermission>
 
-                                                <VerifyPermission permission="delete_infringement_type">
-                                                 {/* <a  href="#" data-id={infringementType.id} onClick={this.handleDelete} className="text-danger ml-3" >Eliminar</a> */}
-                                                </VerifyPermission>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                <div className="row mt-3">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.infringementTypes.length > 0 ? (
+                                    this.state.infringementTypes.map((infringementType ) => (
+                                        <tr key={infringementType.id}>
+                                            <td className="hide">{infringementType.name}</td>
+                                            <td>
+                                                <div className="btn-group" role="infringementType" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_infringement_type">
+                                                        <button data-id={infringementType.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={infringementType.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={infringementType.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
+
+                                                    <VerifyPermissions permission="delete_infringement_type">
+                                                        {/* <button data-id={infringementType.id} onClick={this.handleDelete} className="btn btn-sm btn-outline-danger"><i data-id={infringementType.id} className="far fa-trash-alt d-sm-block d-md-none"></i><span data-id={infringementType.id} className="d-none d-md-inline">Eliminar</span></button> */}
+                                                    </VerifyPermissions>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
+
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 {/* Modal Create */}
                 <div className="modal fade" tabIndex="-1" role="dialog" data-backdrop="static">
                     <div className="modal-dialog">

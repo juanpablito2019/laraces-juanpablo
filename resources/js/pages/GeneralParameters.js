@@ -3,6 +3,7 @@ import { get, find, update, rules } from '../containers/GeneralParameters';
 import { formValid, validate, setRules } from '../containers/Validator';
 import Loader from '../components/Loader';
 import VerifyPermissions from '../components/VerifyPermission';
+import DataTable from '../components/DataTable';
 
 class GeneralParameters extends Component {
     constructor(props) {
@@ -115,45 +116,40 @@ class GeneralParameters extends Component {
                 </div>
 
                 <div className="row mt-3">
-                    {this.state.generalParameters.length > 0 ? (
-                        this.state.generalParameters.map(generalParameter => (
-                            <div key={generalParameter.id} className="col-12 col-lg-6 col-xl-4 mb-2" key={generalParameter.id}>
-                                <div className="card">
-                                    <div className="card-body">
+                    <div className="col">
+                        <DataTable>
+                            <thead>
+                                <tr>
+                                    <th className="hide">Nombre</th>
+                                    <th>Contenido</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {this.state.generalParameters.length > 0 ? (
+                                    this.state.generalParameters.map((generalParameter ) => (
+                                        <tr key={generalParameter.id}>
+                                            <td className="hide">{generalParameter.name}</td>
+                                            <td>{generalParameter.content}</td>
+                                            <td>
+                                                <div className="btn-group" role="generalParameter" aria-label="Basic example">
+                                                    <VerifyPermissions permission="edit_general_parameter">
+                                                        <button data-id={generalParameter.id} onClick={this.handleEdit} className="btn btn-sm btn-outline-primary"><i  data-id={generalParameter.id} className="far fa-edit d-sm-block d-md-none"></i><span data-id={generalParameter.id} className="d-none d-md-inline">Editar</span></button>
+                                                    </VerifyPermissions>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))): (
+                                        <td className="col">
+                                            <p>No hay parametros de actas disponibles</p>
+                                        </td>
+                                    )}
 
-                                        <div className="row">
-                                            <div className="col">
-                                                <h5>
-                                                    {
-                                                        (generalParameter.name).length > 30 ? (
-                                                            ((generalParameter.name).substring(0,30)+'...')
-                                                        ) : (
-                                                            generalParameter.name
-                                                        )
-                                                    }
-                                                </h5>
-                                                <small>{generalParameter.content}</small>
-                                            </div>
-                                        </div>
-
-                                        <div className="row">
-                                            <div className="col">
-                                                <VerifyPermissions permission="edit_general_parameter">
-                                                    <a href="#" data-id={generalParameter.id} onClick={this.handleEdit} >Editar</a>
-                                                </VerifyPermissions>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                            <div className="col">
-                                <p>No hay datos disponibles</p>
-                            </div>
-                        )}
+                            </tbody>
+                        </DataTable>
+                    </div>
                 </div>
+
                 <div className="modal fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
