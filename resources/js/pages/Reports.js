@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { getAllCommittes, getAllStimulus, getAllSanction } from '../containers/User';
+import { getAllCommittes, getAllStimulus } from '../containers/User';
 import Loader from '../components/Loader';
-import DataTable from '../components/DataTable';
 
 class Reports extends Component {
     constructor(props) {
@@ -11,33 +10,34 @@ class Reports extends Component {
             allCommittes: [],
             allStimulus: [],
             allSanctions: [],
+            allFormativeMeasures: [],
         }
         this.handleModalstimuli = this.handleModalstimuli.bind(this);
         this.handleModalsanction = this.handleModalsanction.bind(this);
-        this.handleModalgroup = this.handleModalgroup.bind(this);
+        this.handleModalFormativeMeasure = this.handleModalFormativeMeasure.bind(this);
     }
 
     async getCommittes() {
-        this.setState({ allCommittes: [] });
         let data = await getAllCommittes();
-        this.setState({ allCommittes: data });
+        let sanctions = data.filter(session => session.sanction != null);
+        this.setState({ allSanctions: sanctions });
+        let formativeMeasure = data.filter(session => session.responsibles.length > 0);
+        this.setState({ allFormativeMeasures: formativeMeasure });
     }
 
     async getStimulus() {
-        this.setState({ allStimulus: [] });
         let data = await getAllStimulus();
         this.setState({ allStimulus: data });
-    }
-
-    async getSanction() {
-        this.setState({ allSanctions: [] });
-        let data = await getAllSanction();
-        console.log(data);
-        this.setState({ allSanctions: data });
+        $('table.display').DataTable({
+            language:{
+                url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json'
+            },
+            info: false,
+        });
     }
 
     handleModalstimuli() {
-        $('.modal.stimuli').find('.modal-title').text('Aprendices recomendados para Estimulos');
+        $('.modal.stimuli').find('.modal-title').text('Estimulos');
         $('.modal.stimuli').modal('toggle');
     }
 
@@ -46,15 +46,14 @@ class Reports extends Component {
         $('.modal.sanction').modal('toggle');
     }
 
-    handleModalgroup() {
-        $('.modal.group').find('.modal-title').text('Grupos asociados a comité');
-        $('.modal.group').modal('toggle');
+    handleModalFormativeMeasure() {
+        $('.modal.formativeMeasure').find('.modal-title').text('Planes de mejoramiento');
+        $('.modal.formativeMeasure').modal('toggle');
     }
 
     componentDidMount() {
         this.getCommittes();
         this.getStimulus();
-        this.getSanction();
     }
 
     render() {
@@ -69,16 +68,16 @@ class Reports extends Component {
                     </div>
                 </div>
                 <div className="row mt-3">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6 col-lg-6">
                         <div className="card">
                             <div className="card-body">
-                                <h4>Recomendados para estimulos</h4>
+                                <h4>Estimulos</h4>
                                 <p>Aprendices que destacaron por su buen comportamiento</p>
                                 <a onClick={this.handleModalstimuli} className="btn btn-outline-primary">Detalle</a>
                             </div>
                         </div>
                     </div>
-                    <div className="col-6">
+                    <div className="col-12 col-md-6 col-lg-6 mt-3 mt-md-0 mt-lg-0">
                         <div className="card">
                             <div className="card-body">
                                 <h4>Sanciones</h4>
@@ -89,12 +88,21 @@ class Reports extends Component {
                     </div>
                 </div>
                 <div className="row mt-3">
-                    <div className="col-6">
+                    <div className="col-12 col-md-6 col-lg-6">
                         <div className="card">
                             <div className="card-body">
-                                <h4>Grupos</h4>
-                                <p>Grupos mas candidatos a comité</p>
-                                <a onClick={this.handleModalgroup} className="btn btn-outline-primary">Detalle</a>
+                                <h4>Planes de mejoramiento</h4>
+                                <p>Aprendices con plan de mejoramiento en proceso</p>
+                                <a onClick={this.handleModalFormativeMeasure} className="btn btn-outline-primary">Detalle</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6 col-lg-6 mt-3 mt-md-0 mt-lg-0">
+                        <div className="card">
+                            <div className="card-body">
+                                <h4>Cuarto</h4>
+                                <p>Cuarto reporte</p>
+                                <a className="btn btn-outline-primary">Detalle</a>
                             </div>
                         </div>
                     </div>
@@ -110,26 +118,21 @@ class Reports extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <table className="table table-hover">
+                                <table className="display table table-hover">
                                     <thead>
                                         <tr>
-                                            <th className="hide">Aprendiz</th>
+                                            <th>Aprendiz</th>
                                             <th>Grupo</th>
                                             <th className="hide">Programa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
                                         {this.state.allStimulus.length > 0 ? (
                                         this.state.allStimulus.map(allstimulu => (
                                             <tr key={allstimulu.id}>
                                                 <td>{allstimulu.learner.name}</td>
                                                 <td>{allstimulu.learner.group.code_tab}</td>
-                                                <td>{allstimulu.learner.group.formation_program.name}</td>
+                                                <td className="hide">{allstimulu.learner.group.formation_program.name}</td>
                                             </tr>
                                         )) ) : (
                                             <tr className="col">
@@ -156,28 +159,22 @@ class Reports extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <table className="table table-hover">
+                                <table className="display table table-hover">
                                     <thead>
                                         <tr>
-                                            <th className="hide">Aprendiz</th>
-                                            <th>Grupo</th>
+                                            <th>Aprendiz</th>
+                                            <th className="hide">Grupo</th>
                                             <th className="hide">Programa</th>
                                             <th>Sanción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
                                         {this.state.allSanctions.length > 0 ? (
                                         this.state.allSanctions.map(allSanction => (
                                             <tr key={allSanction.id}>
                                                 <td>{allSanction.learner.name}</td>
-                                                <td>{allSanction.learner.group.code_tab}</td>
-                                                <td>{allSanction.learner.group.formation_program.name}</td>
+                                                <td className="hide">{allSanction.learner.group.code_tab}</td>
+                                                <td className="hide">{allSanction.learner.group.formation_program.name}</td>
                                                 <td>{allSanction.sanction.name}</td>
                                             </tr>
                                         ))) : (
@@ -194,8 +191,8 @@ class Reports extends Component {
                         </div>
                     </div>
                 </div>
-                {/* Modal Groups */}
-                <div className="modal group fade" data-backdrop="static" tabIndex="-1" role="dialog">
+                {/* Modal Formative Measures */}
+                <div className="modal formativeMeasure fade" data-backdrop="static" tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-lg">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -205,7 +202,41 @@ class Reports extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-
+                                <table className="display table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th className="hide">Fecha comité</th>
+                                            <th>Aprendiz</th>
+                                            <th>Medida formativa</th>
+                                            <th className="hide">Responsable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.allFormativeMeasures.length > 0 ? (
+                                        this.state.allFormativeMeasures.map(allFormativeMeasure => (
+                                            <tr key={allFormativeMeasure.id}>
+                                                <td className="hide">{allFormativeMeasure.committee.date}</td>
+                                                <td>{allFormativeMeasure.learner.name}</td>
+                                                <td>{allFormativeMeasure.responsibles.length > 0 ? (
+                                                        allFormativeMeasure.responsibles.map(responsible => (
+                                                            `${responsible.pivot.formative_measure.name}`
+                                                        ))
+                                                    ) : (<h6 className="text-primary">Aun no se han asignado medidas formativas para este aprendiz</h6>)}
+                                                </td>
+                                                <td className="hide">{allFormativeMeasure.responsibles.length > 0 ? (
+                                                        allFormativeMeasure.responsibles.map(responsible => (
+                                                            `${responsible.username}`
+                                                        ))
+                                                    ) : (<h6 className="text-primary">Aun no se han asignado medidas formativas para este aprendiz</h6>)}
+                                                </td>
+                                            </tr>
+                                        ))) : (
+                                            <tr className="col">
+                                                <td>No hay datos disponibles</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>

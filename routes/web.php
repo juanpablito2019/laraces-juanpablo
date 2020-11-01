@@ -111,7 +111,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('users/get-all-committee', 'UserController@getAllCommittee');
     Route::get('users/get-all-stimulus', 'UserController@getAllStimulus');
-    Route::get('users/get-all-sanction', 'UserController@getAllSanction');
 
     Route::resource('users', 'UserController');
     Route::resource('general-parameters', 'GeneralParameterController');

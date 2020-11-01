@@ -161,16 +161,24 @@ class UserController extends Controller
 
     public function getAllCommittee()
     {
-        return Committee::all();
+        $committeeSessions = CommitteeSession::with(
+            'sanction',
+            'learner.group.formationProgram',
+            'learner.stimuli',
+            'responsibles',
+            'committee',
+        )->get();
+        foreach ($committeeSessions as $committeeSession) {
+            foreach($committeeSession->responsibles as $responsible){
+                $formative_measure = $responsible->pivot->formativeMeasure;
+                $responsible->pivot->formative_measure = $formative_measure;
+            }
+        }
+        return $committeeSessions;
     }
 
     public function getAllStimulus()
     {
         return Stimulus::with('learner.group.formationProgram')->get();
-    }
-
-    public function getAllSanction()
-    {
-        return CommitteeSession::with('sanction', 'learner.group.formationProgram')->get();
     }
 }

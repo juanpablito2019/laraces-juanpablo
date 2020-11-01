@@ -147,16 +147,6 @@ export const getAllStimulus = async () => {
     }
 }
 
-export const getAllSanction = async () => {
-    try {
-        let res = await fetch('/users/get-all-sanction');
-        let data = await res.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 
 export const rules = {
     name: {

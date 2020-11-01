@@ -181,32 +181,6 @@ function App() {
                     <Route path="*" />
                     <Redirect to="/app/" />
                     <Route path={prefix + "/"} exact component={Home} />
-                    <VerifyPermission permission="list_role">
-                        <Route
-                            path={prefix + "/roles"}
-                            exact
-                            component={Roles}
-                        />
-                    </VerifyPermission>
-                    <VerifyPermission permission="list_user">
-                        <Route
-                            path={prefix + "/users"}
-                            exact
-                            component={Users}
-                        />
-                    </VerifyPermission>
-                    <Route
-                        path={prefix + "/profile/:id"}
-                        exact
-                        component={Profile}
-                    />
-                    <VerifyPermission permission="list_report">
-                        <Route
-                            path={prefix + "/reports"}
-                            exact
-                            component={Reports}
-                        />
-                    </VerifyPermission>
                     {routes.map((route, index) =>
                         route.type == "menu" ? (
                             route.routes.map((subroute, index) => (

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAllCommittes, getAllStimulus, getAllSanction } from '../containers/User';
+import { getAllCommittes, getAllStimulus } from '../containers/User';
 import LineChart from '../components/LineChart';
 import DoughnutChart from '../components/DoughnutChart';
 
@@ -9,7 +9,6 @@ class Home extends Component {
         this.state = {
             allCommittes: [],
             allStimulus: [],
-            allSanctions: [],
         }
     }
 
@@ -23,15 +22,9 @@ class Home extends Component {
         this.setState({ allStimulus: data });
     }
 
-    async getSanction() {
-        let data = await getAllSanction();
-        this.setState({ allSanctions: data });
-    }
-
     componentDidMount() {
         this.getCommittes();
         this.getStimulus();
-        this.getSanction();
     }
 
     render() {
