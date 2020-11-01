@@ -23,6 +23,8 @@ import CreateRole from "./pages/CreateRoles";
 import EditRole from "./pages/EditRoles";
 import Profile from "./pages/Profile";
 import Reports from './pages/Reports';
+import Roles from "./pages/CreateRoles";
+import Users from "./pages/Users";
 
 export default [
     {
@@ -136,6 +138,27 @@ export default [
         visible: true,
         component: Learners,
         permission: 'list_learner'
+    },
+    {
+        name: 'Reportes',
+        path: '/reports',
+        visible: true,
+        component: Reports,
+        permission: 'list_report'
+    },
+    {
+        name: 'Roles',
+        path: '/roles',
+        visible: true,
+        component: Roles,
+        permission: 'list_role'
+    },
+    {
+        name: 'Usuarios',
+        path: '/users',
+        visible: true,
+        component: Users,
+        permission: 'list_user'
     },
     {
         name: 'Grupos',

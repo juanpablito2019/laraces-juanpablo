@@ -11,166 +11,72 @@
 // Toastr
 @import '~toastr/toastr';
 
+#react-app{
+    display: flex;
+    position: relative;
+}
+
 body {
     font-family: 'Nunito', sans-serif;
     background: white;
 }
 
-p {
-    font-family: 'Nunito', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
+$sidebar-bg-color: white!default;
+$sidebar-color: black !default;
+$sidebar-width: 270px !default;
+$sidebar-collapsed-width: 80px !default;
+$highlight-color: dodgerblue !default;
+$submenu-bg-color: white !default;
+$submenu-bg-color-collapsed: #2b2b2b !default;
+$icon-bg-color: #2b2b2b !default;
+$icon-size: 35px !default;
+$breakpoint-xs: 480px !default;
+$breakpoint-sm: 576px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 992px !default;
+$breakpoint-xl: 1200px !default;
+
+.pro-sidebar{
+    height: 100vh !important;
+    box-shadow: 0px 0px 10px gray;
 }
 
-a,
-a:hover,
-a:focus {
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.navbar {
-    padding: 10px 5px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 20px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
-}
-
-.line {
+main{
+    display: inline-block;
+    flex-direction: column;
+    overflow-y: auto;
     width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
-}
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
-
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
-
-#sidebar {
-    height: 100%;
-    min-width: 250px;
-    max-width: 250px;
-    position: fixed;
-    z-index: 1;
-    top: 0px;
-    left: 0px;
-    box-shadow: 0px 0px 10px rgb(228, 224, 224);
-    color: gray;
-    transition: all 0.3s;
-}
-
-#sidebar.active {
-    margin-left: -250px;
-}
-
-#sidebar .sidebar-header {
-    padding: 0px;
-}
-
-// #sidebar ul.components {
-//     padding: 20px 0;
-// }
-
-#sidebar ul p {
-    color: #fff;
     padding: 10px;
 }
 
-#sidebar ul li a {
-    padding: 6px;
-    font-size: 1.1em;
-    display: block;
-    color: gray;
+.btn-toggle{
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    background-color: #353535;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    display: none;
 }
 
-#sidebar ul li a:hover {
-    color: dodgerblue;
-    box-shadow: 0px 0px 5px rgb(228, 224, 224);
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: dodgerblue;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-}
-
-
-a.article,
-a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
-}
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
-div#content {
-    width: 100%;
-    margin-left: 250px;
-    padding: 10px 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-}
-div#content.active {
-    width: 100%;
-    margin-left: 0px;
-    padding: 10px 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-}
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
-
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
+@media (max-width: 768px){
+    .btn-toggle{
+        display: flex;
     }
-    div#content{
-        margin-left: 0px;
-    }
-    div#content.active{
-        margin-left: 250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
+    .close-menu{
+        display: list-item !important;
     }
 }
+
+.close-menu{
+    display: none;
+}
+
+
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';
