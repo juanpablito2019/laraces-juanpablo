@@ -61,7 +61,7 @@ class CommitteeSession extends Model
 			)
 			->using(CommitteeSessionFormativeMeasure::class)
 			->withPivot(
-				['description', 'state', 'measure_id']
+				['description', 'learning_result', 'report_date', 'state', 'measure_id']
 			);
 	}
 

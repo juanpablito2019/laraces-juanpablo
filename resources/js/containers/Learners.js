@@ -9,6 +9,17 @@ export const get = async ()=>{
     }
 }
 
+export const getLearnersCommittee = async ()=>{
+    try {
+        let res = await fetch('/learners/exist-learner');
+        let data = await res.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 export const importLearners = async (form) => {
     try {
         let fd = new FormData(form);

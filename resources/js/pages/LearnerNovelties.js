@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getAll, find } from '../containers/LearnerNovelties';
 import Loader from '../components/Loader';
 import DataTable from '../components/DataTable';
-
+import { exportExcel } from '../containers/LearnerNovelties';
 
 class LearnerNovelties extends Component {
     constructor(props) {
@@ -11,6 +11,7 @@ class LearnerNovelties extends Component {
             learnerNovelties: null,
             id: null,
         }
+        this.exportNovelties = this.exportNovelties.bind(this);
     }
 
     async getLearnerNovelties () {
@@ -38,6 +39,18 @@ class LearnerNovelties extends Component {
         $('#modal-detail').modal('toggle');
     }
 
+    async exportNovelties() {
+        let res = await exportExcel();
+        let blob = await res.blob();
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = `Novedades.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
     componentDidMount() {
         this.getLearnerNovelties();
     }
@@ -53,6 +66,9 @@ class LearnerNovelties extends Component {
                 <div className="row">
                     <div className="col">
                         <h3>Novedades Aprendices</h3>
+                    </div>
+                    <div className="col text-right">
+                        <button type="button" className="btn btn-outline-primary" onClick={this.exportNovelties}><i className="far fa-file-excel"></i> Exportar</button>
                     </div>
                 </div>
                 <div className="row mt-3">

@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('infringement-classifications', 'InfringementClassificationController');
     Route::resource('infringement-types', 'InfringementTypeController');
     Route::post('learners/import', 'LearnerController@import');
+    Route::get('learners/exist-learner', 'LearnerController@existLearner');
     Route::resource('learners', 'LearnerController');
     Route::resource('modalities', 'ModalityController');
     Route::post('modalities/mass', 'ModalityController@mass');
@@ -131,6 +132,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/learner-novelties/show/{learner_novelty}', 'LearnerNoveltyController@show');
     Route::delete('/learner-novelties/delete/{learner_novelty}', 'LearnerNoveltyController@destroy');
     Route::put('/learner-novelties/update/{learner_novelty}', 'LearnerNoveltyController@update');
+    Route::get('/export-novelties', 'LearnerNoveltyController@exportNovelties');
 
     Route::put('/save-communication/{id}', 'CommitteeSessionController@saveCommunication');
     Route::get('/export-communication/{id}', 'CommitteeSessionController@exportCommunication');

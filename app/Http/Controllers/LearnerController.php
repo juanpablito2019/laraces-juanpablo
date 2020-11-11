@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Learner;
+use App\Stimulus;
+use App\LearnerNovelty;
+use App\CommitteeSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\LearnerRequest;
@@ -185,5 +188,11 @@ class LearnerController extends Controller
             'status'=>200,
             'message'=>'Aprendices importados con exito'
         ]);
+    }
+
+    public function existLearner()
+    {
+        $this->authorize('viewAny', [Learner::class]);
+        return Learner::with('group.modality', 'group.formationProgram.formationProgramType')->get();
     }
 }

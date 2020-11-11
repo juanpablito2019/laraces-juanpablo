@@ -19,6 +19,8 @@ class CreateCommitteeSessionFormativeMeasuresTable extends Migration
             $table->foreignId('measure_id')->nullable()->references('id')->on('formative_measures');
             $table->foreignId('responsible_id')->references('id')->on('formative_measure_responsibles');
             $table->longText('description')->nullable();
+            $table->date('report_date')->nullable();
+            $table->longText('learning_result')->nullable();
             $table->string('state')->nullable();
             $table->timestamps();
         });
