@@ -216,5 +216,11 @@ export default [
         component: EditRole,
         permission: 'edit_role'
     },
+    {
+        name: 'Profile',
+        path: '/profile/:id',
+        visible: false,
+        component: Profile
+    }
 
 ]

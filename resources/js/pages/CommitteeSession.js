@@ -137,12 +137,29 @@ class CommitteeSession extends Component {
 
     async detachResponsible(e) {
         let id = $(e.target).data('id');
-        let res = confirm('¿Esta seguro?');
-        if (res) {
-            let data = await detachResponsible(this.state.id, id);
-            toastr.success(data.message);
-            await this.getCommitteeSession();
-        }
+        swal.fire({
+            title: '¿Estas seguro?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: `Si, eliminar`,
+            cancelButtonText: `Cancelar`,
+            cancelButtonColor: "#d33",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                detachResponsible(this.state.id, id).then(data => {
+                        if(data.success == false){
+                            toastr.error('', data.message, {
+                                closeButton: true
+                            });
+                        }if (data.success == true) {
+                            this.getCommitteeSession();
+                            toastr.success('', data.message, {
+                                closeButton: true
+                            });
+                        }
+                    })
+            }
+        })
     }
 
     async getCommitteeSession() {
@@ -752,12 +769,41 @@ class CommitteeSession extends Component {
                                             <div id={"collapse" + responsible.id} className="collapse" aria-labelledby="headingOne" data-parent={"#accordion" + responsible.id}>
                                                 <div className="card-body">
                                                     <form id={"form" + responsible.id} data-responsible={responsible.id} onSubmit={this.submitMeasureDescription}>
-                                                        <label>Descripcion</label>
-                                                        <Ckeditor
-                                                            id={"responsible[" + responsible.id + "][description]"}
-                                                            name="description"
-                                                            d={responsible.pivot.description}
-                                                        />
+                                                    <div className="row">
+                                                            <div className="col-4">
+                                                                <label>Fecha del reporte</label>
+                                                                <input 
+                                                                    type="date" 
+                                                                    name="report_date" 
+                                                                    id={"responsible[" + responsible.id + "][report_date]"}
+                                                                    className="form-control"
+                                                                    defaultValue={responsible.pivot.report_date}
+                                                                />
+                                                            </div>
+                                                            <div className="col-12 mt-3">
+                                                                <label>Descripcion</label>
+                                                                <Ckeditor
+                                                                    id={"responsible[" + responsible.id + "][description]"}
+                                                                    name="description"
+                                                                    d={responsible.pivot.description}
+                                                                />
+                                                            </div>
+                                                            <div className="col-12 mt-3">
+                                                                <label>Resultados de aprendizaje</label>
+                                                                <Ckeditor
+                                                                    id={"responsible[" + responsible.id + "][learning_result]"}
+                                                                    name="learning_result"
+                                                                    d={responsible.pivot.learning_result}
+                                                                    options={[
+                                                                        'heading',
+                                                                        'bold',
+                                                                        'italic',
+                                                                        'numberedList',
+                                                                        'bulletedList'
+                                                                    ]}
+                                                                />
+                                                            </div>
+                                                        </div>
                                                         <button type="submit" form={"form" + responsible.id} className="btn btn-outline-primary mt-2">Guardar</button>
                                                     </form>
                                                 </div>

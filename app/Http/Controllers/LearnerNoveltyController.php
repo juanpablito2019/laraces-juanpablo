@@ -6,6 +6,7 @@ use App\Committee;
 use App\LearnerNovelty;
 use Illuminate\Http\Request;
 use App\Http\Requests\LearnerNoveltyRequest;
+use App\Exports\LearnerNoveltyExport;
 
 class LearnerNoveltyController extends Controller
 {
@@ -28,7 +29,7 @@ class LearnerNoveltyController extends Controller
     public function indexAll()
     {
         $this->authorize('viewAny', [LearnerNovelty::class]);
-        return LearnerNovelty::with('learner', 'committee', 'noveltyType')->get();
+        return LearnerNovelty::with('learner.group.formationProgram', 'committee', 'noveltyType')->get();
         // return LearnerNovelty::all();
     }
 
@@ -119,5 +120,11 @@ class LearnerNoveltyController extends Controller
                 ]);
             }
         }
+    }
+
+    public function exportNovelties()
+    {
+        $noveltiesExport = new LearnerNoveltyExport;
+        return $noveltiesExport->download('prueba.xlsx');
     }
 }

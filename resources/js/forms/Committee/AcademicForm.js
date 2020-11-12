@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { get } from "../../containers/Learners";
+import { getLearnersCommittee } from "../../containers/Learners";
 import { get as fetchInfringementTypes } from '../../containers/InfringementTypes'
 import Loader from "../../components/Loader";
 
-function AcademicForm({ onSubmit, committee, rules, handleInput, handleSelect, data = null }) {
+function AcademicForm({ onSubmit, committee, rules, handleInput, handleSelect, data = null, committeeSession = null }) {
     const [learners, setLearners] = useState(null);
     const [infringementTypes, setInfringementTypes] = useState(null);
     const [qtyLearners, setQtyLearners] = useState(0);
     const [elements, setElements] = useState([]);
     const getLearners = async () => {
-        let data = await get();
+        let data = await getLearnersCommittee();
+        console.log(data);
         let d = [];
         for (let i = 0; i < data.length; i++) {
             d.push({

@@ -67,6 +67,15 @@ export const find = async (id) => {
     }
 }
 
+export const exportExcel = async () => {
+    try {
+        let res = await fetch('/export-novelties');
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const destroy = async (id) => {
     try {
         let fd = new FormData();

@@ -147,11 +147,18 @@ function App() {
                         <SubMenu title={authUsername}>
                             <MenuItem>
                                 Perfil
-                                <Link to={prefix + "/profile/" + authId} />
+                                <Link 
+                                    to={
+                                        prefix +
+                                        "/profile/"
+                                        + authId
+                                        } 
+                                />
                             </MenuItem>
-                            <a href={prefix + "/logout"} onClick={clear}>
-                                <MenuItem>Cerrar sesion</MenuItem>
-                            </a>
+                            <MenuItem>
+                                Cerrar sesion
+                                <a href={prefix + "/logout"} onClick={clear}></a>
+                            </MenuItem>
                         </SubMenu>
                         <MenuItem onClick={() => setToggle(false)} className="close-menu">
                             Cerrar menu

@@ -56,6 +56,7 @@ class CommitteeController extends Controller
     public function show(Committee $committee)
     {   
         $this->authorize('view', [Committee::class, $committee]);
+        // $aprendiz = $committee->load(['committeeSessions.learner']);
         $committee->load(['committeeSessions.learner', 'committeeSessions.committeeSessionState']);
         return $committee;
     }

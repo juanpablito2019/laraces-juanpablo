@@ -181,8 +181,10 @@ class CommitteeSessionController extends Controller
     public function setDescription(Request $request, $id)
     {
         $committeeSession = CommitteeSession::findOrFail($id);
-        DB::update('UPDATE committee_session_formative_measures SET description = :description WHERE session_id = :session_id AND responsible_id = :responsible_id', [
+        DB::update('UPDATE committee_session_formative_measures SET description = :description, report_date = :report_date, learning_result = :learning_result WHERE session_id = :session_id AND responsible_id = :responsible_id', [
             'description' => $request->get('description'),
+            'report_date' => $request->get('report_date'),
+            'learning_result' => $request->get('learning_result'),
             'session_id' => $committeeSession->id,
             'responsible_id' => $request->get('responsible_id')
         ]);
@@ -336,8 +338,13 @@ class CommitteeSessionController extends Controller
 
                 foreach ($responsibles_formative_measures as $row) {
                     if ($committeeSession->responsibles->pluck('id')->contains($row['responsible'])) {
-                        $committeeSession->responsibles()->detach($row['responsible']);
-                        $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure'], 'state' => 'En proceso']);
+                        $committeeSession = CommitteeSession::findOrFail($id);
+                        DB::update('UPDATE committee_session_formative_measures SET measure_id = :measure_id, state =:state  WHERE session_id = :session_id AND responsible_id = :responsible_id', [
+                            'responsible_id' => $row['responsible'],
+                            'session_id' => $committeeSession->id,
+                            'measure_id' => $row['formative_measure'],
+                            'state' => 'En proceso',
+                        ]);
                     } else {
                         $committeeSession->responsibles()->attach($row['responsible'], ['measure_id' => $row['formative_measure'], 'state' => 'En proceso']);
                     }
