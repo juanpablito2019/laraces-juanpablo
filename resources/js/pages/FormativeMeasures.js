@@ -150,7 +150,7 @@ class FormativeMeasures extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th >Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -158,7 +158,7 @@ class FormativeMeasures extends Component {
                             {this.state.formativeMeasures.length > 0 ? (
                                     this.state.formativeMeasures.map((formativeMeasure ) => (
                                         <tr key={formativeMeasure.id}>
-                                            <td className="hide">{formativeMeasure.name}</td>
+                                            <td >{formativeMeasure.name}</td>
                                             <td>
                                                 <div className="btn-group" role="formativeMeasure" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_formative_measure">

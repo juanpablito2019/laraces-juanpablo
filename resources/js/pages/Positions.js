@@ -166,7 +166,7 @@ class Positions extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th>Nombre</th>
                                     <th className="hide">Tipo</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -175,7 +175,7 @@ class Positions extends Component {
                             {this.state.positions.length > 0 ? (
                                     this.state.positions.map((position) => (
                                         <tr key={position.id}>
-                                            <td className="hide">{position.name}</td>
+                                            <td >{position.name}</td>
                                             <td className="hide">{position.type}</td>
                                             <td>
                                                 <div className="btn-group" role="position" aria-label="Basic example">

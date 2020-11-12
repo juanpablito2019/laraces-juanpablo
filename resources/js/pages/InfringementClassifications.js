@@ -129,7 +129,7 @@ class InfringementClassifications extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th>Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -137,7 +137,7 @@ class InfringementClassifications extends Component {
                             {this.state.infringementClassifications.length > 0 ? (
                                     this.state.infringementClassifications.map((infringementClassification ) => (
                                         <tr key={infringementClassification.id}>
-                                            <td className="hide">{infringementClassification.name}</td>
+                                            <td >{infringementClassification.name}</td>
                                             <td>
                                                 <div className="btn-group" role="infringementClassification" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_infringement_classification">

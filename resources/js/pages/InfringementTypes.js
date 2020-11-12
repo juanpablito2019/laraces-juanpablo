@@ -130,7 +130,7 @@ class InfringementTypes extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th >Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -138,7 +138,7 @@ class InfringementTypes extends Component {
                             {this.state.infringementTypes.length > 0 ? (
                                     this.state.infringementTypes.map((infringementType ) => (
                                         <tr key={infringementType.id}>
-                                            <td className="hide">{infringementType.name}</td>
+                                            <td >{infringementType.name}</td>
                                             <td>
                                                 <div className="btn-group" role="infringementType" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_infringement_type">

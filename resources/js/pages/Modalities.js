@@ -164,7 +164,7 @@ class Modalities extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th>Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -172,7 +172,7 @@ class Modalities extends Component {
                             {this.state.modalities.length > 0 ? (
                                     this.state.modalities.map((modality, i) => (
                                         <tr key={i}>
-                                            <td className="hide">{modality.name}</td>
+                                            <td>{modality.name}</td>
                                             <td>
                                                 <div className="btn-group" role="modality" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_modality">

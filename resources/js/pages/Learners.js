@@ -414,6 +414,12 @@ class Learners extends Component {
                                                         <h6 className="text-muted" id="formationProgram"></h6>
                                                     </div>
                                                 </div>
+                                                <div className="row mt-3">
+                                                    <div className="col">
+                                                        <h6>Telefono</h6>
+                                                        <h6 className="text-muted" id="phone"></h6>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="tab-pane fade" id="stimuli" role="tabpanel" aria-labelledby="stimulus-tab">
                                                 <div className="row mt-3">
