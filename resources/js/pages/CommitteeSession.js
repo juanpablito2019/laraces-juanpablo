@@ -69,7 +69,6 @@ class CommitteeSession extends Component {
     }
     handleTypeComplainer(type, index) {
         let d = this.state.nComplainers;
-        console.log(d);
         let rec = d.find(r => {
             if (r) {
                 if (r.type == "0") {

@@ -28,6 +28,7 @@ class GroupController extends Controller
     public function store(GroupRequest $request)
     {
         $this->authorize('create', [Group::class]);
+        
         Group::create([
             'code_tab' => $request->get('code_tab'),
             'modality_id' => $request->get('modality_id'),
@@ -42,7 +43,7 @@ class GroupController extends Controller
         return response()->json([
             'status' => 201,
             'success' => true,
-            'messsage' => 'Grupo agregado con exito'
+            'message' => 'Grupo agregado con exito'
         ]);
     }
 

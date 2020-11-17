@@ -53,8 +53,8 @@ class LearnerController extends Controller
         }
         $learner->save();
         return response()->json([
+            'status'=>201,
             'success'=>true,
-            'status'=>200,
             'message'=>'Aprendiz agregado con exito'
         ]);
     }
@@ -190,9 +190,44 @@ class LearnerController extends Controller
         ]);
     }
 
-    public function existLearner()
+    public function existLearner($committee)
     {
         $this->authorize('viewAny', [Learner::class]);
-        return Learner::with('group.modality', 'group.formationProgram.formationProgramType')->get();
+        $aprendices = Learner::with('group.modality', 'group.formationProgram.formationProgramType')->get();
+        $committeeSessions = CommitteeSession::with('learner', 'committee')->where('committee_id', $committee)->get();
+        $stimulus = Stimulus::with('learner', 'committee')->where('committee_id', $committee)->get();
+        $novelties = LearnerNovelty::with('learner', 'committee')->where('committee_id', $committee)->get();
+        $AprendicesComite = [];
+        $aprendicesEstimulo = [];
+        $aprendicesNovedad = [];
+        $AprendicesSinComite = [];
+
+        if(count($committeeSessions) > 0){            
+            foreach($committeeSessions as $committeeSession){
+                array_push($AprendicesComite, $committeeSession->learner->id);
+            }
+        }
+
+        if(count($stimulus) > 0){
+            foreach($stimulus as $stimulu){
+                array_push($aprendicesEstimulo, $stimulu->learner->id);
+            }
+        }
+
+        if(count($novelties) > 0){
+            foreach($novelties as $noveltie){
+                array_push($aprendicesNovedad, $noveltie->learner->id);
+            }
+        }
+
+        if(count($aprendices)){
+            foreach($aprendices as $aprendiz){
+                if( !in_array($aprendiz->id, $AprendicesComite) && !in_array($aprendiz->id, $aprendicesEstimulo) && !in_array($aprendiz->id, $aprendicesNovedad) ){
+                    array_push($AprendicesSinComite, $aprendiz);
+                }
+            }
+        }
+
+        return $AprendicesSinComite;
     }
 }

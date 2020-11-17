@@ -395,6 +395,8 @@ class CommitteeSessionController extends Controller
         $templateProcessor->setValue('learner_name', $committeeSession->learner->name);
         $templateProcessor->setValue('learner_document', $committeeSession->learner->document_type . " " . $committeeSession->learner->document);
         $templateProcessor->setValue('learner_group', $committeeSession->learner->group->code_tab);
+        $templateProcessor->setValue('learner_phone', $committeeSession->learner->phone);
+        $templateProcessor->setValue('learner_email', $committeeSession->learner->email);
         $templateProcessor->setValue('learner_formation_program', $committeeSession->learner->group->formationProgram->name);
         $templateProcessor->setValue('formation_center', $committeeSession->committee->formation_center);
         $templateProcessor->setValue('assistants', $parser->fromHTML($committeeSession->committee->assistants));

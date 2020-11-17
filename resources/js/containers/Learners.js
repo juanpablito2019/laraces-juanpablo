@@ -9,9 +9,9 @@ export const get = async ()=>{
     }
 }
 
-export const getLearnersCommittee = async ()=>{
+export const getLearnersCommittee = async (committee)=>{
     try {
-        let res = await fetch('/learners/exist-learner');
+        let res = await fetch(`/learners/exist-learner/${committee}`);
         let data = await res.json();
         return data;
     } catch (error) {

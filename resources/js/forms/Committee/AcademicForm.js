@@ -10,8 +10,7 @@ function AcademicForm({ onSubmit, committee, rules, handleInput, handleSelect, d
     const [qtyLearners, setQtyLearners] = useState(0);
     const [elements, setElements] = useState([]);
     const getLearners = async () => {
-        let data = await getLearnersCommittee();
-        console.log(data);
+        let data = await getLearnersCommittee(committee);
         let d = [];
         for (let i = 0; i < data.length; i++) {
             d.push({

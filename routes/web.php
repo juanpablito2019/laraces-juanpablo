@@ -25,11 +25,6 @@ Route::post('login', [
     'uses' => 'Auth\LoginController@login'
 ])->name('login');
 
-Route::post('logout', [
-    'as' => 'logout',
-    'uses' => 'Auth\LoginController@logout'
-]);
-
 // Password Reset Routes...
 Route::post('password/email', [
     'as' => 'password.email',
@@ -98,7 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('infringement-classifications', 'InfringementClassificationController');
     Route::resource('infringement-types', 'InfringementTypeController');
     Route::post('learners/import', 'LearnerController@import');
-    Route::get('learners/exist-learner', 'LearnerController@existLearner');
+    Route::get('learners/exist-learner/{committee}', 'LearnerController@existLearner');
     Route::resource('learners', 'LearnerController');
     Route::resource('modalities', 'ModalityController');
     Route::post('modalities/mass', 'ModalityController@mass');

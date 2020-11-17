@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { get } from '../../containers/Learners';
+import { getLearnersCommittee } from '../../containers/Learners';
 import Loader from '../../components/Loader';
 
 class StimuliForm extends Component {
@@ -13,7 +13,8 @@ class StimuliForm extends Component {
     }
 
     async getLearners() {
-        let data = await get();
+        let committeeID = this.props.committee;
+        let data = await getLearnersCommittee(committeeID);
         let d = [];
         for (let i = 0; i < data.length; i++) {
             d.push({ label: `${data[i].name}(${data[i].document})`, value: data[i].id });

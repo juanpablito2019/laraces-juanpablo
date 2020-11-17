@@ -511,7 +511,7 @@ class Learners extends Component {
                                                                                 <td>
                                                                                     {academic.responsibles.length > 0 ? (
                                                                                         academic.responsibles.map(responsible => (
-                                                                                            `${responsible.pivot.formative_measure.name},`
+                                                                                            `${responsible.pivot.formative_measure ? responsible.pivot.formative_measure.name : ''}`
                                                                                         ))
                                                                                     ) : (<h6 className="text-primary">Aun no se han asignado medidas formativas para este comité</h6>)}
                                                                                 </td>
