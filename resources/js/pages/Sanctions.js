@@ -147,7 +147,7 @@ class Sanctions extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th >Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -155,7 +155,7 @@ class Sanctions extends Component {
                             {this.state.sanctions.length > 0 ? (
                                     this.state.sanctions.map((sanction ) => (
                                         <tr key={sanction.id}>
-                                            <td className="hide">{sanction.name}</td>
+                                            <td >{sanction.name}</td>
                                             <td>
                                                 <div className="btn-group" role="sanction" aria-label="Basic example">
                                                     <VerifyPermission permission="edit_sanction">

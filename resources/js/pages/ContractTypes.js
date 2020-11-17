@@ -173,7 +173,7 @@ class ContractTypes extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th>Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -181,7 +181,7 @@ class ContractTypes extends Component {
                             {this.state.contractTypes.length > 0 ? (
                                     this.state.contractTypes.map((contractType ) => (
                                         <tr key={contractType.id}>
-                                            <td className="hide">{contractType.name}</td>
+                                            <td>{contractType.name}</td>
                                             <td>
                                                 <div className="btn-group" role="contractType" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_contract_type">

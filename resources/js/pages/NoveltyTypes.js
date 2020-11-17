@@ -150,7 +150,7 @@ class NoveltyTypes extends Component {
                         <DataTable>
                             <thead>
                                 <tr>
-                                    <th className="hide">Nombre</th>
+                                    <th >Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -158,7 +158,7 @@ class NoveltyTypes extends Component {
                             {this.state.noveltyTypes.length > 0 ? (
                                     this.state.noveltyTypes.map((noveltyType ) => (
                                         <tr key={noveltyType.id}>
-                                            <td className="hide">{noveltyType.name}</td>
+                                            <td >{noveltyType.name}</td>
                                             <td>
                                                 <div className="btn-group" role="noveltyType" aria-label="Basic example">
                                                     <VerifyPermissions permission="edit_novelty_type">

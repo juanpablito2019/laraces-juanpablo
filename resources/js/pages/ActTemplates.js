@@ -154,8 +154,8 @@ class ActTemplates extends Component {
                                 <thead>
                                     <tr>
                                         <th>Tipo de acta</th>
-                                        <th>Version</th>
-                                        <th>Fecha</th>
+                                        <th className="hide">Version</th>
+                                        <th className="hide">Fecha</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -164,8 +164,8 @@ class ActTemplates extends Component {
                                     {this.state.actTemplates.map((actTemplate, i) => (
                                         <tr key={i}>
                                             <td>{actTemplate.act_type}</td>
-                                            <td>{actTemplate.version}</td>
-                                            <td>{moment(actTemplate.date).format('LL')}</td>
+                                            <td className="hide">{actTemplate.version}</td>
+                                            <td className="hide">{moment(actTemplate.date).format('LL')}</td>
                                             <td>{actTemplate.is_active == 1 ? (<span className="badge badge-success">Activa</span>) : <span className="badge badge-secondary">Inactiva</span>}</td>
                                             <td>
                                                 <div className="btn-group" role="group" aria-label="Basic example">
